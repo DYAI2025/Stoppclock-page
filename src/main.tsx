@@ -24,30 +24,33 @@ function useHashRoute() {
 }
 
 function Home() {
-  // Border colors match the icon colors from images
-  const items: Array<[string, string, string, string]> = [
-    ["#/stopwatch", "Stopwatch", "/icons/STOPWATCH_IMAGE_01.png", "#4a6955"],
-    ["#/countdown", "Countdown", "/icons/DIGITAL_.png", "#36454f"],
-    ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_IMAGE_02.png", "#d4a574"],
-    ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_IMAGE_08.png", "#6b7546"],
-    ["#/world", "World Clock", "/icons/WORLD_CLOCK_IMAGE_06.png", "#5a7c99"],
-    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_IMAGE_03.png", "#6b4f4a"],
-    ["#/metronome", "Metronome", "/icons/METRONOM_IMAGE.png", "#7a5c8f"],
-    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_IMAGE_05.png", "#8b6f47"]
+  // Each timer has: route, label, iconPath, buttonPath, borderColor
+  const items: Array<[string, string, string, string, string]> = [
+    ["#/stopwatch", "Stopwatch", "/icons/STOPWATCH_IMAGE_01.png", "/icons/STOPWATCH_IMAGE_01.png", "#4a6955"],
+    ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_ICON.png", "/icons/DIGITAL_BUTTON.png", "#36454f"],
+    ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_ICON.png", "/icons/ANALOG_COUNTDOWN_BUTTON.png", "#d4a574"],
+    ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_ICON.png", "/icons/CYCLE_TIME_BUTTON.png", "#6b7546"],
+    ["#/world", "World Clock", "/icons/WORLD_TIME_ICON.png", "/icons/WORLD_TIME_BUTTON.png", "#5a7c99"],
+    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_ICON.png", "/icons/ALARM_CLOCK_BUTTON.png", "#6b4f4a"],
+    ["#/metronome", "Metronome", "/icons/METRONOM_ICON.png", "/icons/METRONOM_BUTTON.png", "#7a5c8f"],
+    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_ICON.png", "/icons/CHESS_CLOCK_BUTTON.png", "#8b6f47"]
   ];
-  // Icons that should be twice as large
-  const largeIcons = new Set(["Stopwatch", "Countdown", "Alarm", "Cycle Timer", "Chess Clock"]);
 
   return (
     <>
       <h1 className="home-title">Stoppclock</h1>
       <div className="home-grid">
-        {items.map(([href, label, iconPath, borderColor]) => (
+        {items.map(([href, label, iconPath, buttonPath, borderColor]) => (
           <a key={href} className="timer-card" href={href} style={{borderColor}}>
             <img
               src={iconPath}
+              alt={`${label} icon`}
+              className="timer-icon-top"
+            />
+            <img
+              src={buttonPath}
               alt={label}
-              className={largeIcons.has(label) ? "timer-icon timer-icon-large" : "timer-icon"}
+              className="timer-button"
             />
             <div className="timer-label" style={{color: borderColor}}>{label}</div>
           </a>
