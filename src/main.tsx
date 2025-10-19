@@ -26,7 +26,7 @@ function useHashRoute() {
 function Home() {
   // Each timer has: route, label, iconPath, buttonPath, borderColor
   const items: Array<[string, string, string, string, string]> = [
-    ["#/stopwatch", "Stopwatch", "/icons/STOPWATCH_IMAGE_01.png", "/icons/STOPWATCH_IMAGE_01.png", "#4a6955"],
+    ["#/stopwatch", "Stopwatch", "/icons/STOP_WATCH_ICON.png", "/icons/STOP_WATCH_BUTTON.png", "#4a6955"],
     ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_ICON.png", "/icons/DIGITAL_BUTTON.png", "#36454f"],
     ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_ICON.png", "/icons/ANALOG_COUNTDOWN_BUTTON.png", "#d4a574"],
     ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_ICON.png", "/icons/CYCLE_TIME_BUTTON.png", "#6b7546"],
