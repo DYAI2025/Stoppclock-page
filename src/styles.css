@@ -52,9 +52,9 @@ body{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
   grid-template-rows:repeat(2, auto);
-  gap:20px;
+  gap:8%;
   padding:0 32px 80px;
-  max-width:1100px;
+  max-width:1400px;
   margin:0 auto;
   justify-items:center;
 }
@@ -97,15 +97,15 @@ body{
 }
 
 .timer-icon-top{
-  width:60px;
-  height:60px;
+  width:105px;
+  height:105px;
   object-fit:contain;
   flex-shrink:0;
 }
 
 .timer-button{
   width:100%;
-  max-width:140px;
+  max-width:245px;
   height:auto;
   object-fit:contain;
   flex-shrink:0;
@@ -220,6 +220,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   height:100%;
   display:flex;
   flex-direction:column;
+  background:rgba(212, 165, 116, 0.7);
 }
 
 .analog-topbar{
@@ -349,6 +350,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:40px 20px;
   align-items:center;
   justify-content:center;
+  background:rgba(54, 69, 79, 0.7);
 }
 
 .countdown-input{
@@ -416,6 +418,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:40px 20px;
   align-items:center;
   justify-content:center;
+  background:rgba(74, 105, 85, 0.7);
 }
 
 .stopwatch-display{
@@ -485,6 +488,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:40px 20px;
   align-items:center;
   justify-content:center;
+  background:rgba(54, 69, 79, 0.7);
 }
 
 .clock-time{
@@ -518,6 +522,8 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   max-width:800px;
   margin:0 auto;
   padding:40px 20px;
+  min-height:100vh;
+  background:rgba(90, 124, 153, 0.7);
 }
 
 .world-wrap h2{
@@ -595,6 +601,8 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   max-width:600px;
   margin:0 auto;
   padding:40px 20px;
+  min-height:100vh;
+  background:rgba(107, 79, 74, 0.7);
 }
 
 .alarm-wrap h2{
@@ -702,6 +710,8 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   margin:0 auto;
   padding:40px 20px;
   text-align:center;
+  min-height:100vh;
+  background:rgba(122, 92, 143, 0.7);
 }
 
 .metronome-wrap h2{
@@ -771,6 +781,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   height:100%;
   display:flex;
   flex-direction:column;
+  background:rgba(139, 111, 71, 0.7);
 }
 
 .player{
@@ -820,4 +831,16 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .chess-piece-black{
   color:#1a1a1a;
   text-shadow:0 2px 4px rgba(255,255,255,.2);
+}
+
+/* Cycle Timer styles - uses same layout as countdown but with different background */
+.cycle-wrap{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:40px 20px;
+  align-items:center;
+  justify-content:center;
+  background:rgba(107, 117, 70, 0.7);
 }

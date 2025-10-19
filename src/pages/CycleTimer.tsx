@@ -152,7 +152,7 @@ export default function CycleTimer() {
   const s = totalSec % 60;
 
   return (
-    <div className="countdown-wrap" ref={wrapRef}>
+    <div className="cycle-wrap" ref={wrapRef}>
       <a href="#/" className="btn-home">Home</a>
 
       <h2>Cycle Timer</h2>
