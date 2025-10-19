@@ -98,7 +98,7 @@ test.describe('Digital Countdown', () => {
 
     // Navigate away
     await page.goto('/#/');
-    await expect(page.locator('.grid')).toBeVisible();
+    await expect(page.locator('.home-grid')).toBeVisible();
 
     // Navigate back
     await page.goto('/#/countdown');

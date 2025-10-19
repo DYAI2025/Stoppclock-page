@@ -33,7 +33,8 @@ function Home() {
     ["#/world", "World Clock", "/icons/WORLD_TIME_ICON.png", "/icons/WORLD_TIME_BUTTON.png", "#5a7c99"],
     ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_ICON.png", "/icons/ALARM_CLOCK_BUTTON.png", "#6b4f4a"],
     ["#/metronome", "Metronome", "/icons/METRONOM_ICON.png", "/icons/METRONOM_BUTTON.png", "#7a5c8f"],
-    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_ICON.png", "/icons/CHESS_CLOCK_BUTTON.png", "#8b6f47"]
+    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_ICON.png", "/icons/CHESS_CLOCK_BUTTON.png", "#8b6f47"],
+    ["#/", "Coming Soon", "/icons/icon-512.png", "/icons/icon-512.png", "#888888"]
   ];
 
   return (

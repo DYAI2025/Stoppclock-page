@@ -67,7 +67,7 @@ test.describe('Stopwatch', () => {
 
     // Navigate away
     await page.goto('/#/');
-    await expect(page.locator('.grid')).toBeVisible();
+    await expect(page.locator('.home-grid')).toBeVisible();
 
     // Navigate back
     await page.goto('/#/stopwatch');

@@ -49,7 +49,7 @@ test.describe('Analog Countdown', () => {
 
     // Navigate away while timer is running
     await page.goto('/#/');
-    await expect(page.locator('.grid')).toBeVisible();
+    await expect(page.locator('.home-grid')).toBeVisible();
 
     // Navigate back
     await page.goto('/#/analog');
