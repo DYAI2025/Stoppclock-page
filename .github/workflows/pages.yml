@@ -1,0 +1,135 @@
+name: Deploy Stoppclock to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22
+  CUSTOM_DOMAIN: www.stoppclock.com
+  CANONICAL_URL: https://www.stoppclock.com/
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Setup Node (pinned)
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Doctor guard (forbidden tokens)
+        run: node scripts/doctor.mjs
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium firefox webkit
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Add CNAME & .nojekyll
+        run: |
+          mkdir -p dist
+          echo "${{ env.CUSTOM_DOMAIN }}" > dist/CNAME
+          touch dist/.nojekyll
+
+      - name: Upload Pages artifact (pinned)
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        name: Deploy to GitHub Pages (pinned)
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+
+  postcheck:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (pinned)
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Setup Node (pinned)
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Write tiny smoke (no browser)
+        run: |
+          cat > smoke.mjs <<'EOF'
+          import https from 'node:https';
+          import http from 'node:http';
+          import { URL } from 'node:url';
+
+          const targets = [
+            (process.env.PAGES_URL || '').trim(),
+            (process.env.CANONICAL_URL || '').trim()
+          ].filter(Boolean).map(u => u.replace(/\/+$/,''));
+
+          const paths = ['/', '/manifest.webmanifest', '/sw.js'];
+
+          function get(u) {
+            return new Promise((res) => {
+              const H = u.startsWith('https') ? https : http;
+              const req = H.get(u, { timeout: 12000, headers: { 'User-Agent': 'stoppclock-smoke' } }, (r) => {
+                res({ status: r.statusCode ?? 0, url: u });
+              });
+              req.on('error', () => res({ status: 0, url: u }));
+              req.setTimeout(12000, () => { req.destroy(); res({ status: 0, url: u }); });
+            });
+          }
+
+          (async () => {
+            let allOk = true;
+            for (const base of targets) {
+              const host = new URL(base).host;
+              console.log(`[SMOKE] Base: ${base}`);
+              for (const p of paths) {
+                const url = base + p;
+                const { status } = await get(url);
+                console.log(`  ${status} ${url}`);
+                if (status !== 200) allOk = false;
+              }
+            }
+            if (!allOk) {
+              console.error('[SMOKE] Fail: non-200 responses detected.');
+              process.exit(2);
+            }
+            console.log('[SMOKE] OK');
+          })();
+          EOF
+
+      - name: Run smoke
+        env:
+          PAGES_URL: ${{ needs.deploy.outputs.page_url }}
+          CANONICAL_URL: ${{ env.CANONICAL_URL }}
+        run: node smoke.mjs
