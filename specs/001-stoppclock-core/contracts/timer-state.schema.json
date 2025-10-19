@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://www.stoppclock.com/schemas/timer-state.json",
+  "title": "TimerState",
+  "description": "Complete state of a countdown/stopwatch timer tool, persisted to localStorage",
+  "type": "object",
+  "required": ["version", "durationMs", "remainingMs", "running", "endAt", "warnAtMs", "signal"],
+  "properties": {
+    "version": {
+      "type": "number",
+      "const": 1,
+      "description": "Schema version for future migrations"
+    },
+    "durationMs": {
+      "type": "number",
+      "minimum": 1000,
+      "maximum": 43200000,
+      "description": "Configured duration in milliseconds (1s to 12h)"
+    },
+    "remainingMs": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Current remaining time in milliseconds (0 to durationMs)"
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Is timer actively counting"
+    },
+    "endAt": {
+      "type": ["number", "null"],
+      "description": "Unix timestamp (ms) when timer completes, or null if paused/stopped"
+    },
+    "warnAtMs": {
+      "type": ["number", "null"],
+      "enum": [null, 60000, 300000, 600000],
+      "description": "Warning threshold: null (off), 60000 (1min), 300000 (5min), 600000 (10min)"
+    },
+    "signal": {
+      "type": "object",
+      "required": ["sound", "flash"],
+      "properties": {
+        "sound": {
+          "type": "boolean",
+          "description": "Enable audio beep alerts"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Enable visual flash alerts"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

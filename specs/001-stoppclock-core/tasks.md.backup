@@ -1,0 +1,441 @@
+# Tasks: Stoppclock Core Application
+
+**Branch**: `001-stoppclock-core` | **Date**: 2025-10-18
+**Input**: Design documents from `/specs/001-stoppclock-core/`
+**Prerequisites**: plan.md ✅, spec.md ✅, research.md ✅, data-model.md ✅, contracts/ ✅
+
+**Tests**: Playwright E2E tests REQUIRED for release-readiness - one positive test per feature to ensure production quality
+
+**Organization**: Tasks are grouped by user story (6 total) to enable independent implementation and testing. Each user story is a complete, shippable increment.
+
+## Format: `- [ ] [ID] [P?] [Story?] Description`
+- **[P]**: Can run in parallel (different files, no dependencies)
+- **[Story]**: Which user story this task belongs to (US1, US2, US3, US4, US5, US6)
+- All tasks include exact file paths
+
+## Path Conventions
+- **Project type**: Single-page web application (SPA)
+- **Root**: `/home/dyai/Dokumente/DYAI_home/Web/stoppclock-page/`
+- **Source**: `src/`, `public/`, `scripts/`
+- **Build output**: `dist/` (generated, gitignored)
+- **CI/CD**: `.github/workflows/`
+
+---
+
+## Phase 1: Setup (Project Initialization)
+
+**Purpose**: Initialize project structure, dependencies, and build tools
+
+- [ ] T001 Create project structure: `src/`, `public/`, `scripts/`, `.github/workflows/`, `tests/e2e/`
+- [ ] T002 Initialize package.json with Vite 5.4.10, React 18.3.1, TypeScript 5.6.3, @playwright/test (devDependency)
+- [ ] T003 [P] Create vite.config.ts with base URL and build config
+- [ ] T004 [P] Create tsconfig.json with ES2022 target, strict mode, DOM libs
+- [ ] T005 [P] Create .gitignore (node_modules, dist, .env, DS_Store, test-results, playwright-report)
+- [ ] T006 Install dependencies: `npm ci` (verifies package-lock.json consistency)
+- [ ] T007 Install Playwright browsers: `npx playwright install chromium firefox webkit`
+- [ ] T008 [P] Create playwright.config.ts with projects for chromium, firefox, webkit, base URL localhost:4173
+
+---
+
+## Phase 2: Foundational (Blocking Prerequisites)
+
+**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+
+**⚠️ CRITICAL**: No user story work can begin until this phase is complete
+
+- [ ] T009 Create index.html with SEO meta tags, JSON-LD schemas (WebApplication + FAQPage), canonical URL, Open Graph tags
+- [ ] T010 [P] Add consent banner HTML/CSS/JS (inline) for privacy-first ad loading in index.html
+- [ ] T011 [P] Create src/styles.css with dark theme CSS variables (--bg, --fg, --muted), global resets, responsive grid, button styles
+- [ ] T012 [P] Create src/main.tsx with React root, StrictMode, and placeholder App component
+- [ ] T013 Implement hash-based routing hook `useHashRoute()` in src/main.tsx (listens to hashchange event)
+- [ ] T014 [P] Create Home component in src/main.tsx with 8 tool navigation cards (grid layout)
+- [ ] T015 [P] Create Placeholder component in src/main.tsx for unimplemented tools ("Coming soon" message)
+- [ ] T016 [P] Create public/manifest.webmanifest with PWA metadata (name, icons, display: standalone, theme color)
+- [ ] T017 [P] Create public/sw.js Service Worker with app shell caching (CACHE_VER, install, activate, fetch events)
+- [ ] T018 [P] Create public/robots.txt allowing crawlers, referencing sitemap.xml
+- [ ] T019 [P] Create public/404.html SPA fallback redirecting to hash routes for GitHub Pages
+- [ ] T020 [P] Create public/ads.txt with AdSense Publisher ID placeholder (pub-REPLACE_ME)
+- [ ] T021 [P] Create scripts/doctor.mjs forbidden token guard (scans for lovable, dev-agent, tagger, "Loading app")
+- [ ] T022 [P] Create scripts/gen-sitemap.mjs to generate dist/sitemap.xml with all routes during build
+- [ ] T023 [P] Add npm scripts to package.json: dev (vite), build (vite build && gen-sitemap), preview (vite preview), doctor (node doctor.mjs), test:e2e (playwright test)
+- [ ] T024 Create .github/workflows/pages.yml GitHub Actions workflow (checkout, setup-node, npm ci, doctor, build, test:e2e, CNAME, upload, deploy, smoke test)
+- [ ] T025 Add placeholder brand assets: public/icons/icon-192.png, icon-512.png, icon-180.png, public/og/cover-1200x630.png (temporary placeholders)
+
+**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+
+---
+
+## Phase 3: User Story 1 - Analog Countdown for Exam/Seminar Projection (Priority: P1) 🎯 MVP
+
+**Goal**: Deliver a fully functional analog countdown timer with 12-hour clock face, fullscreen mode, warning/completion signals, and state persistence - the core differentiator and primary use case
+
+**Independent Test**: Open app → navigate to #/analog → set 30-second timer → start → enter fullscreen → verify hands move smoothly, warning beep at configured threshold, completion signal at zero, state persists on navigation away and back
+
+### E2E Test for User Story 1 (WRITE FIRST - TDD) ✅
+
+**⚠️ CRITICAL**: Write this test FIRST, verify it FAILS, then implement feature until test PASSES
+
+- [ ] T026 [US1] Create tests/e2e/analog-countdown.spec.ts with Playwright test: navigate to #/analog, click 5m preset, click Start, verify timer running (HH:MM:SS decrements), press Space (pause), verify paused, press R (reset), verify 05:00:00, navigate to Home, return to #/analog, verify state persisted
+
+### Implementation for User Story 1
+
+- [ ] T027 [P] [US1] Create TimerState TypeScript interface in src/pages/AnalogCountdown.tsx (version, durationMs, remainingMs, running, endAt, warnAtMs, signal)
+- [ ] T025 [P] [US1] Implement loadTimerState() persistence utility in src/pages/AnalogCountdown.tsx (localStorage.getItem with try-catch)
+- [ ] T026 [P] [US1] Implement saveTimerState() persistence utility in src/pages/AnalogCountdown.tsx (localStorage.setItem with debounced write, 150ms)
+- [ ] T027 [P] [US1] Implement beep() audio function in src/pages/AnalogCountdown.tsx (Web Audio API: OscillatorNode + GainNode with volume envelope)
+- [ ] T028 [P] [US1] Implement flash() visual alert function in src/pages/AnalogCountdown.tsx (adds/removes .flash CSS class)
+- [ ] T029 [P] [US1] Create useRaf() React hook in src/pages/AnalogCountdown.tsx (requestAnimationFrame loop with cleanup)
+- [ ] T030 [P] [US1] Add flash animation keyframes to src/styles.css (@keyframes flash with rgba fade, @media prefers-reduced-motion to disable)
+- [ ] T031 [US1] Implement Canvas drawing function draw(canvas, state) in src/pages/AnalogCountdown.tsx (clock face, ticks, progress arc, hour/minute/second hands)
+- [ ] T032 [US1] Implement hand() helper function in src/pages/AnalogCountdown.tsx (draws single clock hand with rotation)
+- [ ] T033 [US1] Create AnalogCountdown React component in src/pages/AnalogCountdown.tsx with useState for TimerState (loads from localStorage on mount)
+- [ ] T034 [US1] Add Canvas element with ref and ResizeObserver for DPI scaling in src/pages/AnalogCountdown.tsx
+- [ ] T035 [US1] Implement sync() callback in AnalogCountdown component (calculates remainingMs from endAt - Date.now(), updates state)
+- [ ] T036 [US1] Add useEffect for debounced state persistence (saves to localStorage after 150ms delay)
+- [ ] T037 [US1] Add useEffect for warning/completion signal detection (checks remainingMs thresholds, triggers beep/flash)
+- [ ] T038 [US1] Implement start() callback in AnalogCountdown component (sets running=true, endAt=Date.now()+remainingMs)
+- [ ] T039 [US1] Implement pause() callback in AnalogCountdown component (sets running=false, endAt=null)
+- [ ] T040 [US1] Implement reset() callback in AnalogCountdown component (resets remainingMs to durationMs, running=false)
+- [ ] T041 [US1] Implement plus(ms) callback for +/- time adjustments (updates remainingMs or endAt if running)
+- [ ] T042 [US1] Implement setDur(ms) callback for preset selection (updates durationMs and remainingMs, resets running state)
+- [ ] T043 [US1] Implement full() callback for fullscreen toggle (calls requestFullscreen or exitFullscreen with error handling)
+- [ ] T044 [US1] Add keyboard event listener in AnalogCountdown component (Space=start/pause, R=reset, F=fullscreen, ArrowUp/Down=±10s)
+- [ ] T045 [US1] Render topbar UI in AnalogCountdown component (HH:MM:SS digital display, Start/Pause/Reset/+1m/-1m/Fullscreen buttons)
+- [ ] T046 [US1] Render canvas container in AnalogCountdown component (centered, responsive sizing)
+- [ ] T047 [US1] Render preset buttons in AnalogCountdown component (5m, 10m, 15m, 30m, 45m, 1h, 90m, 2h, 3h, 4h, 6h, 8h, 12h chips)
+- [ ] T048 [US1] Render signal toggles in AnalogCountdown component (Sound checkbox, Flash checkbox)
+- [ ] T049 [US1] Render warning threshold dropdown in AnalogCountdown component (off, 1m, 5m, 10m options)
+- [ ] T050 [US1] Add CSS styles for AnalogCountdown layout to src/styles.css (.analog-wrap, .analog-topbar, .analog-canvas, .analog-presets, .hms, .controls, .chip, .warn, .sig)
+- [ ] T051 [US1] Register AnalogCountdown route in src/main.tsx App component (if route === '/analog' return AnalogCountdown)
+- [ ] T052 [US1] Update Home component to link to #/analog route
+
+**Checkpoint**: At this point, User Story 1 (Analog Countdown) should be fully functional and testable independently - THIS IS THE MVP!
+
+---
+
+## Phase 4: User Story 2 - Offline PWA Installation and Usage (Priority: P2)
+
+**Goal**: Enable offline capability via Service Worker app shell caching and PWA installability for reliable use in low-connectivity venues
+
+**Independent Test**: Load app once with internet → install as PWA (if supported) → disconnect internet → verify app still loads, analog countdown works fully offline, navigation between tools persists state
+
+### Implementation for User Story 2
+
+- [ ] T053 [P] [US2] Register Service Worker in src/main.tsx (navigator.serviceWorker.register('/sw.js') with error handling)
+- [ ] T054 [P] [US2] Update public/sw.js to cache src/main.tsx and src/styles.css in APP_SHELL array
+- [ ] T055 [P] [US2] Add runtime caching strategy for /assets/* in public/sw.js fetch handler (network-first with cache fallback)
+- [ ] T056 [P] [US2] Test Service Worker registration in browser DevTools → Application → Service Workers (verify "activated" status)
+- [ ] T057 [US2] Test offline mode: load app → DevTools → Network → Offline → reload → verify app loads from cache
+- [ ] T058 [US2] Test PWA install prompt: visit app → wait for prompt → click Install → verify icon appears in app drawer/desktop
+
+**Checkpoint**: At this point, User Story 2 (Offline PWA) should work independently - app functions offline after first load
+
+---
+
+## Phase 5: User Story 3 - Privacy-First Ad Consent Management (Priority: P2)
+
+**Goal**: Implement privacy-first ad consent with ads disabled by default, explicit user opt-in, and persistent preference across sessions
+
+**Independent Test**: Open app in Incognito mode → verify consent banner appears → click "Keep Off" → verify banner disappears, no AdSense loads → reload → verify preference persists, banner doesn't reappear
+
+### Implementation for User Story 3
+
+- [ ] T059 [P] [US3] Implement loadUserConsent() function in index.html inline script (localStorage.getItem('sc.adsConsent'))
+- [ ] T060 [P] [US3] Implement saveUserConsent(status) function in index.html inline script (localStorage.setItem('sc.adsConsent', status))
+- [ ] T061 [P] [US3] Implement enableAds() function in index.html inline script (creates AdSense script tag, checks for REPLACE_ME placeholder)
+- [ ] T062 [US3] Add consent gate logic in index.html inline script (if "yes" → enableAds(), if "no" → hide banner, if null → show banner)
+- [ ] T063 [US3] Wire up "Enable Ads" button event listener in index.html inline script (saveUserConsent("yes"), enableAds(), hideConsentBanner())
+- [ ] T064 [US3] Wire up "Keep Off" button event listener in index.html inline script (saveUserConsent("no"), hideConsentBanner())
+- [ ] T065 [US3] Add consent banner styles to src/styles.css (.consent, .consent-box, .consent-actions, .consent.hidden)
+- [ ] T066 [US3] Test consent flow: Incognito → banner shows → "Keep Off" → banner hides, reload → no banner → DevTools → Application → Local Storage → verify "no" value
+- [ ] T067 [US3] Test consent flow: Incognito → banner shows → "Enable Ads" → banner hides, AdSense loads (check Network tab for pagead2.googlesyndication.com)
+
+**Checkpoint**: At this point, User Story 3 (Privacy Consent) should work independently - ads load only with explicit opt-in
+
+---
+
+## Phase 6: User Story 4 - Multi-Tool Navigation with State Persistence (Priority: P3)
+
+**Goal**: Enable navigation between multiple timer tools while preserving state across navigation (timers continue running in background based on wall-clock timestamps)
+
+**Independent Test**: Start analog countdown → navigate to Home → navigate back to analog countdown → verify remaining time correct (timer continued in background)
+
+### Implementation for User Story 4
+
+- [ ] T068 [P] [US4] Verify TimerState persistence logic uses wall-clock timestamps (endAt) not intervals (already implemented in T035, confirm behavior)
+- [ ] T069 [P] [US4] Create Stopwatch placeholder component (extends Placeholder with "Stopwatch" title) - not fully implemented, just structure
+- [ ] T070 [P] [US4] Create Countdown placeholder component (extends Placeholder with "Countdown" title)
+- [ ] T071 [P] [US4] Create DigitalClock placeholder component (extends Placeholder with "Digital Clock" title)
+- [ ] T072 [P] [US4] Create WorldClock placeholder component (extends Placeholder with "World Clock" title)
+- [ ] T073 [P] [US4] Create Alarm placeholder component (extends Placeholder with "Alarm" title)
+- [ ] T074 [P] [US4] Create Metronome placeholder component (extends Placeholder with "Metronome" title)
+- [ ] T075 [P] [US4] Create ChessClock placeholder component (extends Placeholder with "Chess Clock" title)
+- [ ] T076 [US4] Register all placeholder routes in src/main.tsx App component (map hash to component)
+- [ ] T077 [US4] Update Home component to link to all 8 tool routes
+- [ ] T078 [US4] Test navigation: start analog countdown → click Home → click "Stopwatch" placeholder → back to analog countdown → verify state restored
+- [ ] T079 [US4] Test background timer: start 90-minute countdown → navigate to Home → wait 30 seconds → return to countdown → verify ~89m30s remaining
+
+**Checkpoint**: At this point, User Story 4 (Multi-Tool Navigation) should work independently - all tools accessible, state persists
+
+---
+
+## Phase 7: User Story 5 - Keyboard Shortcuts for Projector Control (Priority: P3)
+
+**Goal**: Enable keyboard shortcuts (Space, R, F, ArrowUp/Down) for efficient presenter control without clicking UI elements
+
+**Independent Test**: Open analog countdown → press Space (starts timer) → press Pause (pauses) → press R (resets) → press F (toggles fullscreen) → press ArrowUp (adds 10s) → press ArrowDown (removes 10s)
+
+### Implementation for User Story 5
+
+- [ ] T080 [US5] Verify keyboard event listener exists in AnalogCountdown component (already implemented in T044, confirm Space/R/F/Arrow keys work)
+- [ ] T081 [US5] Add e.preventDefault() for Space key in keyboard handler (prevents page scroll on Space press)
+- [ ] T082 [US5] Add e.repeat check in keyboard handler (ignores key repeat events for cleaner UX)
+- [ ] T083 [US5] Test keyboard shortcuts: Space → start/pause toggles, R → reset works, F → fullscreen toggles, ArrowUp → +10s, ArrowDown → -10s
+- [ ] T084 [US5] Test keyboard shortcuts in fullscreen mode (verify shortcuts still work when fullscreen active)
+
+**Checkpoint**: At this point, User Story 5 (Keyboard Shortcuts) should work independently - all shortcuts functional
+
+---
+
+## Phase 8: User Story 6 - SEO and AI Discoverability (Priority: P3)
+
+**Goal**: Ensure search engines and AI assistants can discover, understand, and recommend Stoppclock for relevant queries via structured data and SEO optimization
+
+**Independent Test**: Validate JSON-LD with Google Rich Results Test → check sitemap.xml generated at /sitemap.xml → verify meta tags present in HTML → confirm robots.txt allows crawling
+
+### Implementation for User Story 6
+
+- [ ] T085 [P] [US6] Verify JSON-LD WebApplication schema exists in index.html (already added in T007, confirm structure valid)
+- [ ] T086 [P] [US6] Verify JSON-LD FAQPage schema exists in index.html with 8 Q&A pairs (already added in T007, confirm valid)
+- [ ] T087 [P] [US6] Verify SEO meta tags in index.html: title, description, canonical, Open Graph (title, description, url, image), Twitter Card (already added in T007)
+- [ ] T088 [US6] Update scripts/gen-sitemap.mjs routes array to include: /, /analog, /imprint.html (add any additional implemented routes)
+- [ ] T089 [US6] Run build: `npm run build` → verify dist/sitemap.xml generated with all routes
+- [ ] T090 [US6] Test sitemap.xml: start preview server → visit http://localhost:4173/sitemap.xml → verify XML valid, routes listed
+- [ ] T091 [US6] Validate JSON-LD: copy index.html JSON-LD → paste into https://search.google.com/test/rich-results → verify zero errors
+- [ ] T092 [US6] Verify canonical URL points to https://www.stoppclock.com/ in index.html
+- [ ] T093 [US6] Create public/imprint.html static page with legal/imprint content (DE/EN text provided separately)
+- [ ] T094 [US6] Test robots.txt: visit http://localhost:4173/robots.txt → verify allows crawlers, references sitemap
+
+**Checkpoint**: At this point, User Story 6 (SEO) should work independently - all SEO/structured data valid
+
+---
+
+## Phase 9: Polish & Cross-Cutting Concerns
+
+**Purpose**: Improvements that affect multiple user stories and production readiness
+
+- [ ] T095 [P] Replace AdSense Client ID placeholder in index.html (line ~193: ca-pub-REPLACE_ME → actual Client ID)
+- [ ] T096 [P] Replace AdSense Publisher ID placeholder in public/ads.txt (pub-REPLACE_ME → actual Publisher ID)
+- [ ] T097 [P] Replace placeholder brand assets with final icons: public/icons/icon-192.png, icon-512.png, icon-180.png (192x192, 512x512, 180x180)
+- [ ] T098 [P] Replace placeholder Open Graph image: public/og/cover-1200x630.png (1200x630, includes branding and timer visual)
+- [ ] T099 [P] Update GitHub Pages settings: Repository → Settings → Pages → Source: "GitHub Actions", Custom domain: "www.stoppclock.com"
+- [ ] T100 [P] Configure DNS records: CNAME for www → <username>.github.io, A records for apex → GitHub IPs (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153)
+- [ ] T101 Run doctor guard: `npm run doctor` → verify no forbidden tokens detected
+- [ ] T102 Run production build: `npm run build` → verify dist/ output, check bundle size <180kB gzipped
+- [ ] T103 Run preview server: `npm run preview` → manually test all 6 user stories (US1-US6) in production mode
+- [ ] T104 Push to main branch: `git push origin main` → trigger GitHub Actions deployment
+- [ ] T105 Monitor GitHub Actions workflow: check Actions tab → verify all steps pass (checkout, install, doctor, build, deploy, smoke test)
+- [ ] T106 Wait for HTTPS provisioning: GitHub Pages → wait 10-60 minutes → enable "Enforce HTTPS"
+- [ ] T107 Verify deployment: visit https://www.stoppclock.com → test analog countdown, offline mode, consent banner
+- [ ] T108 Run quickstart.md validation: follow all setup steps as new developer → verify no broken instructions
+- [ ] T109 [P] Code cleanup: remove console.log statements, fix linting warnings, format code
+- [ ] T110 [P] Accessibility audit: test keyboard navigation (tab focus), verify color contrast ≥4.5:1, test prefers-reduced-motion
+- [ ] T111 Performance audit: DevTools Lighthouse → verify LCP <2s desktop, performance score >90
+
+---
+
+## Dependencies & Execution Order
+
+### Phase Dependencies
+
+- **Setup (Phase 1)**: No dependencies - can start immediately
+- **Foundational (Phase 2)**: Depends on Setup completion - **BLOCKS all user stories**
+- **User Stories (Phase 3-8)**: All depend on Foundational phase completion
+  - Once Foundational completes, user stories CAN proceed in parallel (if staffed)
+  - Recommended sequential order by priority: US1 (P1) → US2 (P2) → US3 (P2) → US4 (P3) → US5 (P3) → US6 (P3)
+- **Polish (Phase 9)**: Depends on all desired user stories being complete
+
+### User Story Dependencies
+
+- **User Story 1 (P1 - Analog Countdown)**: Can start after Foundational - **NO dependencies on other stories** ✅ FULLY INDEPENDENT MVP
+- **User Story 2 (P2 - Offline PWA)**: Can start after Foundational - Uses artifacts from US1 (AnalogCountdown component) but adds Service Worker layer independently
+- **User Story 3 (P2 - Consent)**: Can start after Foundational - **NO dependencies on other stories** ✅ FULLY INDEPENDENT
+- **User Story 4 (P3 - Multi-Tool Navigation)**: Can start after Foundational - Extends US1 by adding placeholder tools, tests persistence (relies on US1's TimerState mechanism)
+- **User Story 5 (P3 - Keyboard Shortcuts)**: Can start after US1 - Enhances US1 component with keyboard listeners
+- **User Story 6 (P3 - SEO)**: Can start after Foundational - **NO dependencies on other stories** ✅ FULLY INDEPENDENT (validates existing HTML/sitemap)
+
+### Critical Path (Minimum for MVP)
+
+```
+Phase 1 (Setup) → Phase 2 (Foundational) → Phase 3 (US1: Analog Countdown)
+```
+
+**Everything else is optional enhancement** beyond core MVP!
+
+### Within Each User Story
+
+- Models/utilities before components (e.g., TimerState interface before AnalogCountdown component)
+- Persistence utilities before component state management
+- Core logic before UI rendering
+- Component implementation before route registration
+- Story complete before moving to next priority
+
+### Parallel Opportunities
+
+**Setup Phase (Phase 1)**:
+- T003, T004, T005 can run in parallel (different config files)
+
+**Foundational Phase (Phase 2)**:
+- T008, T009, T010, T012, T013, T014, T015, T016, T017, T018, T019, T020, T021, T023 can all run in parallel (different files, no cross-dependencies)
+
+**Within User Story 1 (Phase 3)**:
+- T024-T030 can run in parallel (different utility functions, CSS)
+- After T033 (component created): T038-T043 callbacks can be implemented in parallel
+
+**User Stories 2, 3, 6 can start in parallel** (no cross-dependencies):
+- Developer A: US2 (Offline PWA) - T053-T058
+- Developer B: US3 (Consent) - T059-T067
+- Developer C: US6 (SEO) - T085-T094
+
+**Within User Story 4 (Phase 6)**:
+- T069-T075 (placeholder components) can all run in parallel (independent files)
+
+**Polish Phase (Phase 9)**:
+- T095-T100, T109-T111 can run in parallel (different files, independent improvements)
+
+---
+
+## Parallel Example: User Story 1 (Analog Countdown)
+
+### Utilities & Interfaces (Parallel Batch 1)
+```bash
+# Launch all independent utilities together:
+Task T024: "Create TimerState TypeScript interface in src/pages/AnalogCountdown.tsx"
+Task T025: "Implement loadTimerState() persistence utility"
+Task T026: "Implement saveTimerState() persistence utility"
+Task T027: "Implement beep() audio function"
+Task T028: "Implement flash() visual alert function"
+Task T029: "Create useRaf() React hook"
+Task T030: "Add flash animation keyframes to src/styles.css"
+```
+
+### Component Callbacks (Parallel Batch 2 - after T033 component created)
+```bash
+# Launch all callbacks together:
+Task T038: "Implement start() callback"
+Task T039: "Implement pause() callback"
+Task T040: "Implement reset() callback"
+Task T041: "Implement plus(ms) callback"
+Task T042: "Implement setDur(ms) callback"
+Task T043: "Implement full() callback"
+```
+
+---
+
+## Implementation Strategy
+
+### MVP First (User Story 1 Only) 🎯 RECOMMENDED
+
+**Goal**: Ship the core differentiator (analog countdown with projection) as fast as possible
+
+1. ✅ Complete **Phase 1: Setup** (T001-T006) - ~30 minutes
+2. ✅ Complete **Phase 2: Foundational** (T007-T023) - ~2-3 hours
+3. ✅ Complete **Phase 3: User Story 1** (T024-T052) - ~4-5 hours
+4. **STOP and VALIDATE**: Test analog countdown independently:
+   - Set 30-second timer → start → verify smooth animation
+   - Enter fullscreen → verify projection mode
+   - Adjust time with +/- buttons and arrow keys
+   - Test warning signal (beep + flash at 10 seconds)
+   - Test completion signal (beep + flash at zero)
+   - Navigate to Home → back → verify state persisted
+5. **Deploy MVP**: Push to main → verify deployment → share with users!
+
+**Total MVP time estimate**: ~7-9 hours (one full development day)
+
+**Value delivered**: Core use case (exam/seminar projection timer) is fully functional and usable!
+
+### Incremental Delivery (Add Features Post-MVP)
+
+After MVP is validated and deployed:
+
+1. ✅ **Add User Story 2 (Offline PWA)** - ~1 hour
+   - Test independently: Load app → disconnect internet → verify offline works
+   - Deploy → Demo enhanced capability
+
+2. ✅ **Add User Story 3 (Privacy Consent)** - ~1 hour
+   - Test independently: Incognito → verify consent flow → verify ads load only on accept
+   - Deploy → Demo privacy-first approach
+
+3. ✅ **Add User Story 6 (SEO)** - ~1 hour
+   - Validate JSON-LD, sitemap, meta tags
+   - Deploy → Submit sitemap to Google Search Console
+
+4. ⚠️ **Optional: User Story 4 (Multi-Tool Navigation)** - ~2 hours
+   - Adds placeholder pages for future tools
+   - Not critical for MVP (analog countdown alone is valuable)
+
+5. ⚠️ **Optional: User Story 5 (Keyboard Shortcuts)** - ~30 minutes
+   - Minor UX enhancement (shortcuts already implemented in US1)
+   - Just validation/testing
+
+6. ✅ **Polish Phase** - ~2 hours
+   - Replace placeholder assets
+   - Configure production domain
+   - Final testing and optimization
+
+**Total for all features**: ~16-18 hours (2-3 development days)
+
+### Parallel Team Strategy (If Multiple Developers Available)
+
+**Day 1: Foundation (Everyone together)**
+- Team completes Phase 1 + Phase 2 together (~4 hours)
+- Ensures consistent setup and foundational infrastructure
+
+**Day 2: Parallel User Stories**
+Once Foundational completes:
+- **Developer A**: User Story 1 (Analog Countdown) - MVP core (~5 hours)
+- **Developer B**: User Story 2 (Offline PWA) + User Story 3 (Consent) - Enhancement layer (~2 hours)
+- **Developer C**: User Story 6 (SEO) + Polish tasks - Marketing/discoverability (~2 hours)
+
+**Day 3: Integration & Testing**
+- Merge all branches
+- Test all stories together
+- User Story 4 & 5 (optional enhancements)
+- Final polish and deployment
+
+**Total team time**: ~3 days with 3 developers = ~24 person-hours spread across parallel work
+
+---
+
+## Notes
+
+- **[P] marker**: Tasks with [P] can run in parallel (different files, no dependencies)
+- **[Story] label**: Maps task to specific user story for traceability (US1-US6)
+- **Independent testing**: Each user story has clear "Independent Test" criteria - test before moving to next story
+- **File paths**: All tasks include exact file paths - no ambiguity about where to implement
+- **Commit strategy**: Commit after each task or logical group (e.g., batch T024-T030 utilities, then commit)
+- **Checkpoint validation**: Stop at each checkpoint to validate story independently before proceeding
+- **MVP-first mindset**: User Story 1 (Analog Countdown) alone is a shippable product - everything else is enhancement
+- **No premature optimization**: Focus on working implementation first, polish phase handles performance/cleanup
+- **Manual testing only**: No automated test framework in initial scope - smoke tests in CI/CD verify deployment only
+
+**Total Tasks**: 111 tasks across 9 phases
+- **Phase 1 (Setup)**: 6 tasks
+- **Phase 2 (Foundational)**: 17 tasks (CRITICAL BLOCKER)
+- **Phase 3 (US1 - Analog Countdown)**: 29 tasks (MVP CORE)
+- **Phase 4 (US2 - Offline PWA)**: 6 tasks
+- **Phase 5 (US3 - Privacy Consent)**: 9 tasks
+- **Phase 6 (US4 - Multi-Tool Navigation)**: 12 tasks
+- **Phase 7 (US5 - Keyboard Shortcuts)**: 5 tasks
+- **Phase 8 (US6 - SEO)**: 10 tasks
+- **Phase 9 (Polish)**: 17 tasks
+
+**Parallel Tasks**: 47 tasks marked [P] can run in parallel within their phases
+
+**MVP Scope** (minimum viable product):
+- Phase 1 (Setup): 6 tasks
+- Phase 2 (Foundational): 17 tasks
+- Phase 3 (User Story 1): 29 tasks
+- **Total MVP**: 52 tasks (~7-9 hours)
+
+**Recommended First Deployment**: Complete MVP (Phases 1-3), deploy, validate with users, then incrementally add US2, US3, US6, polish.

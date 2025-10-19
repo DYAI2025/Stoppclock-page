@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pagead2.googlesyndication.com; connect-src 'self'; font-src 'self' data:; frame-src https://googleads.g.doubleclick.net; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stoppclock — Projector-friendly Timers & Clocks</title>
+    <meta name="description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more. Projector-friendly, offline-ready, minimal controls." />
+    <link rel="canonical" href="https://www.stoppclock.com/"/>
+
+    <!-- Open Graph (use your own hosted assets) -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Stoppclock — Projector-friendly Timers & Clocks"/>
+    <meta property="og:description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more."/>
+    <meta property="og:url" content="https://www.stoppclock.com/"/>
+    <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png"/>
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Stoppclock — Projector-friendly Timers & Clocks"/>
+    <meta name="twitter:description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more."/>
+    <meta name="twitter:image" content="https://www.stoppclock.com/og/cover-1200x630.png"/>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#0b1220" />
+
+    <!-- Browser-Support-Matrix (SSoT Hinweis)
+         Target: last 2 Chrome/Edge/Firefox/Safari, iOS 15+ -->
+    <meta name="supported-browsers" content="last 2 Chrome/Edge/Firefox/Safari; iOS 15+"/>
+
+    <link rel="icon" href="/icons/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+    <link rel="stylesheet" href="/src/styles.css" />
+
+  </head>
+  <body>
+    <!-- Consent banner -->
+    <div id="consent" class="consent hidden">
+      <div class="consent-box">
+        <div><strong>Privacy first.</strong> Ads are <em>off</em> by default. Enable only if you agree.</div>
+        <div class="consent-actions">
+          <button id="consent-accept" class="btn primary">Enable Ads</button>
+          <button id="consent-decline" class="btn">Keep Off</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- WebApplication JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Stoppclock",
+      "applicationCategory": "Utility",
+      "operatingSystem": "Web",
+      "url": "https://www.stoppclock.com/",
+      "description": "Projector-friendly timers and clocks. Analog countdown up to 12 hours, stopwatch, interval, world clock, and more.",
+      "offers": { "@type": "Offer", "price": "0" },
+      "featureList": [
+        "Analog countdown up to 12 hours",
+        "Stopwatch with laps",
+        "Interval / rounds timer",
+        "World clock",
+        "Metronome",
+        "Chess clock",
+        "Offline PWA"
+      ]
+    }
+    </script>
+
+    <!-- FAQPage JSON-LD (8 Q&A) -->
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"How do I set a 90-minute exam timer with the analog countdown?","acceptedAnswer":{"@type":"Answer","text":"Open Analog Countdown, choose the 90m preset or set 01:30:00, press Start, then press Fullscreen to project it."}},
+        {"@type":"Question","name":"Will my timer keep running if I return to the home page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each tool persists its state locally. Timers resume when you return."}},
+        {"@type":"Question","name":"Does Stoppclock work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. It's a PWA. Once loaded, the app shell and tools work offline."}},
+        {"@type":"Question","name":"Is it beamer-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Fullscreen for a clean, high-contrast view for exams and seminars."}},
+        {"@type":"Question","name":"How precise are timers?","acceptedAnswer":{"@type":"Answer","text":"They use wall-clock deltas with ~60 FPS visuals to minimize drift."}},
+        {"@type":"Question","name":"Can I save common durations?","acceptedAnswer":{"@type":"Answer","text":"Last used settings and presets are kept locally on your device."}},
+        {"@type":"Question","name":"Can I share a timer with another device?","acceptedAnswer":{"@type":"Answer","text":"State is local per device. Share by projecting or mirroring your screen."}},
+        {"@type":"Question","name":"Is Stoppclock privacy-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. No trackers by default. Ads optional with explicit consent."}}
+      ]
+    }
+    </script>
+
+    <!-- App Entry -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Consent-gated AdSense -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const LS = "sc.adsConsent";
+        const has = localStorage.getItem(LS);
+        const el = document.getElementById('consent');
+        const acceptBtn = document.getElementById('consent-accept');
+        const declineBtn = document.getElementById('consent-decline');
+
+        function hideConsent(){ el?.classList.add('hidden'); }
+        function showConsent(){ el?.classList.remove('hidden'); }
+
+        function enableAds() {
+          const client = "ca-pub-1712273263687132";
+          if (!client || client.includes("REPLACE_ME")) { hideConsent(); return; }
+          const s = document.createElement('script');
+          s.async = true;
+          s.crossOrigin = "anonymous";
+          s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(client)}`;
+          document.head.appendChild(s);
+        }
+
+        if (has === "yes") { enableAds(); hideConsent(); }
+        else if (has === "no") { hideConsent(); }
+        else { showConsent(); }
+
+        acceptBtn?.addEventListener("click", () => { localStorage.setItem(LS, "yes"); enableAds(); hideConsent(); });
+        declineBtn?.addEventListener("click", () => { localStorage.setItem(LS, "no"); hideConsent(); });
+      });
+    </script>
+
+  </body>
+</html>

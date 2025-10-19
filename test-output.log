@@ -1,0 +1,77 @@
+
+> stoppclock@1.0.0 test:e2e
+> playwright test
+
+
+Running 8 tests using 8 workers
+
+[1A[2K[1/8] [chromium] › tests/e2e/01-analog-countdown.spec.ts:11:3 › Analog Countdown › should load and function correctly
+[1A[2K[2/8] [firefox] › tests/e2e/01-analog-countdown.spec.ts:96:3 › Analog Countdown › should toggle signal options
+[1A[2K[3/8] [firefox] › tests/e2e/01-analog-countdown.spec.ts:82:3 › Analog Countdown › should render canvas clock face
+[1A[2K[4/8] [firefox] › tests/e2e/01-analog-countdown.spec.ts:11:3 › Analog Countdown › should load and function correctly
+[1A[2K[5/8] [chromium] › tests/e2e/01-analog-countdown.spec.ts:82:3 › Analog Countdown › should render canvas clock face
+[1A[2K[6/8] [chromium] › tests/e2e/01-analog-countdown.spec.ts:96:3 › Analog Countdown › should toggle signal options
+[1A[2K[7/8] [chromium] › tests/e2e/01-analog-countdown.spec.ts:58:3 › Analog Countdown › should support fullscreen and keyboard shortcuts
+[1A[2K[8/8] [firefox] › tests/e2e/01-analog-countdown.spec.ts:58:3 › Analog Countdown › should support fullscreen and keyboard shortcuts
+[1A[2K  1) [chromium] › tests/e2e/01-analog-countdown.spec.ts:11:3 › Analog Countdown › should load and function correctly 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.hms')
+    Expected: [32m"00:0[7m5[27m:00"[39m
+    Received: [31m"00:[7m3[27m0:00"[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.hms')[22m
+    [2m    9 × locator resolved to <div class="hms">00:30:00</div>[22m
+    [2m      - unexpected value "00:30:00"[22m
+
+
+      53 |     // Verify state persisted (should still be 00:05:00 after reset)
+      54 |     await expect(hmsDisplay).toBeVisible();
+    > 55 |     await expect(hmsDisplay).toHaveText('00:05:00');
+         |                              ^
+      56 |   });
+      57 |
+      58 |   test('should support fullscreen and keyboard shortcuts', async ({ page }) => {
+        at /home/dyai/Dokumente/DYAI_home/Web/stoppclock-page/tests/e2e/01-analog-countdown.spec.ts:55:30
+
+    Error Context: test-results/01-analog-countdown-Analog-c73dd-load-and-function-correctly-chromium/error-context.md
+
+
+[1A[2K  2) [firefox] › tests/e2e/01-analog-countdown.spec.ts:11:3 › Analog Countdown › should load and function correctly 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.hms')
+    Expected: [32m"00:0[7m5[27m:00"[39m
+    Received: [31m"00:[7m3[27m0:00"[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toHaveText" with timeout 5000ms[22m
+    [2m  - waiting for locator('.hms')[22m
+    [2m    9 × locator resolved to <div class="hms">00:30:00</div>[22m
+    [2m      - unexpected value "00:30:00"[22m
+
+
+      53 |     // Verify state persisted (should still be 00:05:00 after reset)
+      54 |     await expect(hmsDisplay).toBeVisible();
+    > 55 |     await expect(hmsDisplay).toHaveText('00:05:00');
+         |                              ^
+      56 |   });
+      57 |
+      58 |   test('should support fullscreen and keyboard shortcuts', async ({ page }) => {
+        at /home/dyai/Dokumente/DYAI_home/Web/stoppclock-page/tests/e2e/01-analog-countdown.spec.ts:55:30
+
+    Error Context: test-results/01-analog-countdown-Analog-c73dd-load-and-function-correctly-firefox/error-context.md
+
+
+[1A[2K  2 failed
+    [chromium] › tests/e2e/01-analog-countdown.spec.ts:11:3 › Analog Countdown › should load and function correctly 
+    [firefox] › tests/e2e/01-analog-countdown.spec.ts:11:3 › Analog Countdown › should load and function correctly 
+  6 passed (10.5s)
+
+[36m  Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.[39m
