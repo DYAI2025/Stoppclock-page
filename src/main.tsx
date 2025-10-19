@@ -52,7 +52,6 @@ function Home() {
               alt={label}
               className="timer-button"
             />
-            <div className="timer-label" style={{color: borderColor}}>{label}</div>
           </a>
         ))}
       </div>
