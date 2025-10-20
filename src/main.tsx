@@ -12,6 +12,7 @@ import CycleTimer from "./pages/CycleTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
+import ResponsiveAd from "./components/ads/ResponsiveAd";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -51,6 +52,7 @@ function Home() {
           </a>
         ))}
       </div>
+      <ResponsiveAd />
       <footer className="footer">
         <a href="#/impressum">Impressum</a>
         <span>•</span>
