@@ -180,15 +180,17 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     }
   }
 
-  // map remaining to hands (4-hour clock face)
+  // Map remaining time to clock hands (4-hour clock face)
   const totalSeconds = Math.floor(st.remainingMs / 1000);
   const hours = Math.floor(totalSeconds / 3600); // Full hours (0-4)
   const minutes = Math.floor((totalSeconds % 3600) / 60); // Minutes within the hour (0-59)
   const seconds = totalSeconds % 60; // Seconds within the minute (0-59)
 
-  // Hour hand moves gradually with minutes (like a real clock)
+  // Hour hand moves gradually with minutes (like a real analog clock)
+  // Position: hours + fractional progress through current hour
   const totalHoursWithMinutes = hours + (minutes / 60);
-  const hrs = (totalHoursWithMinutes % 4) / 4; // Map 0-4 hours to 0-1 for full circle
+  // Map 0-4 hours to 0-1 for full circle (no modulo needed, already 0-4)
+  const hrs = totalHoursWithMinutes / 4;
   const mins = minutes / 60; // Map 0-59 minutes to 0-1
   const secs = seconds / 60; // Map 0-59 seconds to 0-1
 
