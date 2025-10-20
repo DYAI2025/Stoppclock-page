@@ -180,11 +180,17 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     }
   }
 
-  // map remaining to hands (4-hour clock face, so each hour is 3 * 5min = 15min on the face)
-  const totalHours = st.remainingMs / 3600_000;
-  const hrs = (totalHours % 4) / 4; // Map 0-4 hours to 0-1 for full circle
-  const mins = ((st.remainingMs / 60_000) % 60) / 60;
-  const secs = ((st.remainingMs / 1000) % 60) / 60;
+  // map remaining to hands (4-hour clock face)
+  const totalSeconds = Math.floor(st.remainingMs / 1000);
+  const hours = Math.floor(totalSeconds / 3600); // Full hours (0-4)
+  const minutes = Math.floor((totalSeconds % 3600) / 60); // Minutes within the hour (0-59)
+  const seconds = totalSeconds % 60; // Seconds within the minute (0-59)
+
+  // Hour hand moves gradually with minutes (like a real clock)
+  const totalHoursWithMinutes = hours + (minutes / 60);
+  const hrs = (totalHoursWithMinutes % 4) / 4; // Map 0-4 hours to 0-1 for full circle
+  const mins = minutes / 60; // Map 0-59 minutes to 0-1
+  const secs = seconds / 60; // Map 0-59 seconds to 0-1
 
   hand(ctx, r*0.5, hrs*Math.PI*2 - Math.PI/2, Math.max(6, r*0.03), "white");
   hand(ctx, r*0.72, mins*Math.PI*2 - Math.PI/2, Math.max(4, r*0.02), "white");

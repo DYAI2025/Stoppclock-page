@@ -95,25 +95,29 @@ export default function ChessClock() {
     };
   }, [st.activePlayer, st.startedAt, st.player1Time, st.player2Time]);
 
-  const switchToPlayer = (player: 1 | 2) => {
-    if (st.activePlayer === player) return;
-
+  const switchToPlayer = (clickedPlayer: 1 | 2) => {
     const now = Date.now();
 
-    if (st.activePlayer) {
-      // Switch from other player
+    if (!st.activePlayer) {
+      // First click: start the clicked player's timer
+      setSt(s => ({ ...s, activePlayer: clickedPlayer, startedAt: now }));
+      return;
+    }
+
+    // If clicking the currently active player, switch to the opponent
+    if (st.activePlayer === clickedPlayer) {
       const elapsed = now - (st.startedAt ?? now);
+      const opponent = clickedPlayer === 1 ? 2 : 1;
+
       setSt(s => ({
         ...s,
         player1Time: s.activePlayer === 1 ? Math.max(0, s.player1Time - elapsed) : s.player1Time,
         player2Time: s.activePlayer === 2 ? Math.max(0, s.player2Time - elapsed) : s.player2Time,
-        activePlayer: player,
+        activePlayer: opponent,
         startedAt: now
       }));
-    } else {
-      // Start from scratch
-      setSt(s => ({ ...s, activePlayer: player, startedAt: now }));
     }
+    // If clicking the inactive player, do nothing (prevent accidental switches)
   };
 
   const reset = () => {
