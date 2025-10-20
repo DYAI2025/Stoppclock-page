@@ -180,17 +180,24 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     }
   }
 
-  // Map remaining time to clock hands (4-hour clock face)
+  // Map remaining time to clock hands (4-hour COUNTDOWN clock face)
   const totalSeconds = Math.floor(st.remainingMs / 1000);
   const hours = Math.floor(totalSeconds / 3600); // Full hours (0-4)
   const minutes = Math.floor((totalSeconds % 3600) / 60); // Minutes within the hour (0-59)
   const seconds = totalSeconds % 60; // Seconds within the minute (0-59)
 
-  // Hour hand moves gradually with minutes (like a real analog clock)
-  // Position: hours + fractional progress through current hour
+  // Hour hand "schleicht" (moves gradually with minutes, like a real analog clock)
+  // At 3:30, hour hand is halfway between 3 and 4
   const totalHoursWithMinutes = hours + (minutes / 60);
-  // Map 0-4 hours to 0-1 for full circle (no modulo needed, already 0-4)
-  const hrs = totalHoursWithMinutes / 4;
+
+  // Stundenzeiger-Logik für 4-Stunden-Timer auf 12-Stunden-Zifferblatt:
+  // Der Stundenzeiger bewegt sich wie bei einer normalen Uhr (12x langsamer als Minutenzeiger)
+  // In 1 Stunde (60 Minuten) bewegt er sich um 5 Minuten-Markierungen (60/12 = 5)
+  // In 0.5 Stunden (30 Minuten) bewegt er sich um 2.5 Minuten-Markierungen
+  //
+  // Für 4-Stunden-Timer: 4h = 20 Minuten-Markierungen (4 × 5)
+  // Position = verbleibende Stunden × 5 Minuten / 60 Minuten = verbleibende Stunden / 12
+  const hrs = totalHoursWithMinutes / 12; // Map to 12-hour clock face
   const mins = minutes / 60; // Map 0-59 minutes to 0-1
   const secs = seconds / 60; // Map 0-59 seconds to 0-1
 
