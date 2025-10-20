@@ -162,17 +162,29 @@ export default function Countdown() {
     }));
   }, []);
 
+  // Calculate current h, m, s for display and input handling
+  const totalSec = Math.floor(st.remainingMs / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+
   const handleInputChange = useCallback((field: 'h' | 'm' | 's', value: string) => {
     // Parse and clamp value
     const num = parseInt(value) || 0;
     const max = field === 'h' ? 12 : 59;
     const clamped = clamp(num, 0, max);
 
+    // Calculate current h, m, s from state
+    const currentTotalSec = Math.floor(st.remainingMs / 1000);
+    const currentH = Math.floor(currentTotalSec / 3600);
+    const currentM = Math.floor((currentTotalSec % 3600) / 60);
+    const currentS = currentTotalSec % 60;
+
     // Apply based on field
-    if (field === 'h') setTime(clamped, m, s);
-    else if (field === 'm') setTime(h, clamped, s);
-    else setTime(h, m, clamped);
-  }, [h, m, s, setTime]);
+    if (field === 'h') setTime(clamped, currentM, currentS);
+    else if (field === 'm') setTime(currentH, clamped, currentS);
+    else setTime(currentH, currentM, clamped);
+  }, [st.remainingMs, setTime]);
 
   const handlePaste = useCallback((e: React.ClipboardEvent<HTMLInputElement>, field: 'h' | 'm' | 's') => {
     const pasted = e.clipboardData.getData('text');
@@ -186,11 +198,17 @@ export default function Countdown() {
     const max = field === 'h' ? 12 : 59;
     const clamped = clamp(num, 0, max);
 
+    // Calculate current h, m, s from state
+    const currentTotalSec = Math.floor(st.remainingMs / 1000);
+    const currentH = Math.floor(currentTotalSec / 3600);
+    const currentM = Math.floor((currentTotalSec % 3600) / 60);
+    const currentS = currentTotalSec % 60;
+
     e.preventDefault();
-    if (field === 'h') setTime(clamped, m, s);
-    else if (field === 'm') setTime(h, clamped, s);
-    else setTime(h, m, clamped);
-  }, [h, m, s, setTime]);
+    if (field === 'h') setTime(clamped, currentM, currentS);
+    else if (field === 'm') setTime(currentH, clamped, currentS);
+    else setTime(currentH, currentM, clamped);
+  }, [st.remainingMs, setTime]);
 
   const full = useCallback(() => {
     const el = wrapRef.current;
@@ -234,11 +252,6 @@ export default function Countdown() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [st.running, plus]);
-
-  const totalSec = Math.floor(st.remainingMs / 1000);
-  const h = Math.floor(totalSec / 3600);
-  const m = Math.floor((totalSec % 3600) / 60);
-  const s = totalSec % 60;
 
   return (
     <div className="countdown-wrap" ref={wrapRef}>
