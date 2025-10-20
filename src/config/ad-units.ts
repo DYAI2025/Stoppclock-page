@@ -6,13 +6,16 @@ import type { AdUnit } from '../types/monetization-types';
 // Google AdSense Publisher ID
 export const ADSENSE_PUBLISHER_ID = 'ca-pub-1712273263687132';
 
+// Primary responsive ad slot for the home page (replace with live slot once issued)
+export const HOME_TOP_SLOT_ID = '1234567890';
+
 // Ad unit configurations
 // Note: Ad slot IDs are placeholders - replace with actual IDs from AdSense dashboard
 export const AD_UNITS: AdUnit[] = [
   // Home page - top responsive ad between timer cards
   {
     unitId: 'home-top',
-    adSlotId: `${ADSENSE_PUBLISHER_ID}/1234567890`, // TODO: Replace with actual slot ID
+    adSlotId: HOME_TOP_SLOT_ID,
     placement: 'home',
     format: 'responsive',
     visibilityRules: {
@@ -25,7 +28,7 @@ export const AD_UNITS: AdUnit[] = [
   // Home page - middle responsive ad
   {
     unitId: 'home-middle',
-    adSlotId: `${ADSENSE_PUBLISHER_ID}/2345678901`,
+    adSlotId: '2345678901',
     placement: 'home',
     format: 'responsive',
     visibilityRules: {
@@ -38,7 +41,7 @@ export const AD_UNITS: AdUnit[] = [
   // Setup screens - sidebar/bottom responsive ad
   {
     unitId: 'setup-main',
-    adSlotId: `${ADSENSE_PUBLISHER_ID}/3456789012`,
+    adSlotId: '3456789012',
     placement: 'setup',
     format: 'responsive',
     visibilityRules: {
@@ -51,7 +54,7 @@ export const AD_UNITS: AdUnit[] = [
   // Timer completion interstitial
   {
     unitId: 'interstitial-complete',
-    adSlotId: `${ADSENSE_PUBLISHER_ID}/4567890123`,
+    adSlotId: '4567890123',
     placement: 'interstitial',
     format: 'responsive',
     visibilityRules: {
@@ -64,7 +67,7 @@ export const AD_UNITS: AdUnit[] = [
   // Anchor ad - bottom sticky
   {
     unitId: 'anchor-bottom',
-    adSlotId: `${ADSENSE_PUBLISHER_ID}/5678901234`,
+    adSlotId: '5678901234',
     placement: 'anchor',
     format: 'anchor',
     visibilityRules: {

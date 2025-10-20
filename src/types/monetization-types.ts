@@ -19,7 +19,7 @@ export interface ConsentPreference {
  */
 export interface AdUnit {
   unitId: string; // e.g., "home-top", "setup-sidebar"
-  adSlotId: string; // Google AdSense slot ID (ca-pub-XXXX/XXXXXX)
+  adSlotId: string; // Google AdSense slot ID (10-digit numeric string)
   placement: 'home' | 'setup' | 'interstitial' | 'anchor';
   format: 'responsive' | 'banner' | 'anchor';
   visibilityRules: {
