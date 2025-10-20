@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Common Timer State",
+  "description": "localStorage schema for countdown-style timers (Countdown, Analog Countdown)",
+  "type": "object",
+  "required": ["version", "running", "remainingMs", "durationMs", "endAt", "signal", "warnAt"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version for future migrations"
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Is timer currently running?"
+    },
+    "remainingMs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 43200000,
+      "description": "Time remaining in milliseconds (max 12 hours = 43200000ms)"
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 1000,
+      "maximum": 43200000,
+      "description": "Total duration in milliseconds (reset value, min 1 second)"
+    },
+    "endAt": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Unix timestamp (ms) when timer expires, null if not running"
+    },
+    "signal": {
+      "type": "object",
+      "required": ["sound", "flash"],
+      "properties": {
+        "sound": {
+          "type": "boolean",
+          "description": "Play beep sound on timer completion"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Flash screen on timer completion"
+        }
+      }
+    },
+    "warnAt": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 43200000,
+      "description": "Warning threshold in milliseconds (trigger signals when remainingMs <= warnAt)"
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "running": true,
+      "remainingMs": 180000,
+      "durationMs": 300000,
+      "endAt": 1729450823456,
+      "signal": {
+        "sound": true,
+        "flash": true
+      },
+      "warnAt": 60000
+    }
+  ]
+}

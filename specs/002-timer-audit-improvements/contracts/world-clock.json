@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "World Clock State",
+  "description": "localStorage schema for World Clock with multiple timezones",
+  "type": "object",
+  "required": ["version", "selectedZones"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "selectedZones": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["id", "city", "zone", "country", "utcOffset"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier (same as zone, IANA timezone name)"
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display name (e.g., 'New York', 'London')"
+          },
+          "zone": {
+            "type": "string",
+            "pattern": "^[A-Za-z]+/[A-Za-z_]+$",
+            "description": "IANA timezone identifier (e.g., 'America/New_York')"
+          },
+          "country": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Country or region name (e.g., 'USA', 'UK')"
+          },
+          "utcOffset": {
+            "type": "string",
+            "pattern": "^UTC[+-]\\d{1,2}$",
+            "description": "Current UTC offset including DST (e.g., 'UTC-5', 'UTC+9')"
+          }
+        }
+      },
+      "description": "User-selected timezones (1-6 zones)"
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "selectedZones": [
+        {
+          "id": "America/New_York",
+          "city": "New York",
+          "zone": "America/New_York",
+          "country": "USA",
+          "utcOffset": "UTC-5"
+        },
+        {
+          "id": "Europe/London",
+          "city": "London",
+          "zone": "Europe/London",
+          "country": "UK",
+          "utcOffset": "UTC+0"
+        },
+        {
+          "id": "Asia/Tokyo",
+          "city": "Tokyo",
+          "zone": "Asia/Tokyo",
+          "country": "Japan",
+          "utcOffset": "UTC+9"
+        }
+      ]
+    }
+  ]
+}

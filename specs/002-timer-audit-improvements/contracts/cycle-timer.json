@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cycle Timer State",
+  "description": "localStorage schema for auto-restarting Cycle Timer",
+  "type": "object",
+  "required": ["version", "intervalMs", "remainingMs", "running", "endAt", "cycleCount", "signal"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "intervalMs": {
+      "type": "integer",
+      "minimum": 1000,
+      "maximum": 43200000,
+      "description": "Duration of each cycle in milliseconds (min 1s, max 12h)"
+    },
+    "remainingMs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 43200000,
+      "description": "Time remaining in current cycle (milliseconds)"
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Is timer currently running?"
+    },
+    "endAt": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Unix timestamp (ms) when current cycle expires, null if not running"
+    },
+    "cycleCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of completed cycles (increments on each auto-restart)"
+    },
+    "signal": {
+      "type": "object",
+      "required": ["sound", "flash"],
+      "properties": {
+        "sound": {
+          "type": "boolean",
+          "description": "Play beep sound on cycle completion"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Flash screen on cycle completion"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "intervalMs": 60000,
+      "remainingMs": 42350,
+      "running": true,
+      "endAt": 1729450865350,
+      "cycleCount": 12,
+      "signal": {
+        "sound": true,
+        "flash": true
+      }
+    }
+  ]
+}
