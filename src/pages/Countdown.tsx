@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
+import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -39,7 +40,7 @@ function load(): Persist {
       remainingMs: 300_000,
       running: false,
       endAt: null,
-      warnAtMs: 60_000,
+      warnAtMs: 10_000, // 10 seconds warning (spec requirement)
       signal: { sound: true, flash: true }
     };
   }
@@ -146,7 +147,12 @@ export default function Countdown() {
   }), []);
 
   const setTime = useCallback((h: number, m: number, s: number) => {
-    const ms = clamp((h * 3600 + m * 60 + s) * 1000, 1000, MAX);
+    // Clamp inputs to valid ranges
+    const clampedH = clamp(h, 0, 12);
+    const clampedM = clamp(m, 0, 59);
+    const clampedS = clamp(s, 0, 59);
+
+    const ms = clamp((clampedH * 3600 + clampedM * 60 + clampedS) * 1000, 1000, MAX);
     setSt(st => ({
       ...st,
       durationMs: ms,
@@ -155,6 +161,36 @@ export default function Countdown() {
       endAt: null
     }));
   }, []);
+
+  const handleInputChange = useCallback((field: 'h' | 'm' | 's', value: string) => {
+    // Parse and clamp value
+    const num = parseInt(value) || 0;
+    const max = field === 'h' ? 12 : 59;
+    const clamped = clamp(num, 0, max);
+
+    // Apply based on field
+    if (field === 'h') setTime(clamped, m, s);
+    else if (field === 'm') setTime(h, clamped, s);
+    else setTime(h, m, clamped);
+  }, [h, m, s, setTime]);
+
+  const handlePaste = useCallback((e: React.ClipboardEvent<HTMLInputElement>, field: 'h' | 'm' | 's') => {
+    const pasted = e.clipboardData.getData('text');
+    const num = parseInt(pasted);
+
+    if (isNaN(num) || num < 0) {
+      e.preventDefault();
+      return;
+    }
+
+    const max = field === 'h' ? 12 : 59;
+    const clamped = clamp(num, 0, max);
+
+    e.preventDefault();
+    if (field === 'h') setTime(clamped, m, s);
+    else if (field === 'm') setTime(h, clamped, s);
+    else setTime(h, m, clamped);
+  }, [h, m, s, setTime]);
 
   const full = useCallback(() => {
     const el = wrapRef.current;
@@ -166,19 +202,28 @@ export default function Countdown() {
     }
   }, []);
 
+  // Use centralized keyboard shortcuts hook
+  useKeyboardShortcuts({
+    onSpace: () => st.running ? pause() : start(),
+    onReset: reset,
+    onFullscreen: full,
+  }, true);
+
+  // Arrow keys for time adjustment (only when paused)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement) return; // Don't intercept input fields
-      if (e.key === " " || e.key === "Spacebar") {
-        e.preventDefault();
-        st.running ? pause() : start();
-      } else if (e.key === "r" || e.key === "R") {
-        e.preventDefault();
-        reset();
-      } else if (e.key === "f" || e.key === "F") {
-        e.preventDefault();
-        full();
-      } else if (e.key === "ArrowUp" && !st.running) {
+      // Don't intercept if user is typing in input fields
+      const target = e.target as HTMLElement;
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      // Arrow keys only work when timer is NOT running (paused)
+      if (e.key === "ArrowUp" && !st.running) {
         e.preventDefault();
         plus(10_000);
       } else if (e.key === "ArrowDown" && !st.running) {
@@ -188,7 +233,7 @@ export default function Countdown() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [st.running, start, pause, reset, full, plus]);
+  }, [st.running, plus]);
 
   const totalSec = Math.floor(st.remainingMs / 1000);
   const h = Math.floor(totalSec / 3600);
@@ -208,7 +253,8 @@ export default function Countdown() {
             value={h}
             aria-label="Hours"
             disabled={st.running}
-            onChange={e => setTime(Number(e.target.value) || 0, m, s)}
+            onChange={e => handleInputChange('h', e.target.value)}
+            onPaste={e => handlePaste(e, 'h')}
           />
         </label>
         <span className="sep">:</span>
@@ -221,7 +267,8 @@ export default function Countdown() {
             value={m}
             aria-label="Minutes"
             disabled={st.running}
-            onChange={e => setTime(h, Number(e.target.value) || 0, s)}
+            onChange={e => handleInputChange('m', e.target.value)}
+            onPaste={e => handlePaste(e, 'm')}
           />
         </label>
         <span className="sep">:</span>
@@ -234,7 +281,8 @@ export default function Countdown() {
             value={s}
             aria-label="Seconds"
             disabled={st.running}
-            onChange={e => setTime(h, m, Number(e.target.value) || 0)}
+            onChange={e => handleInputChange('s', e.target.value)}
+            onPaste={e => handlePaste(e, 's')}
           />
         </label>
       </div>
@@ -242,11 +290,11 @@ export default function Countdown() {
       <div className="countdown-display">{fmt(st.remainingMs)}</div>
 
       <div className="countdown-controls">
-        <button className="btn primary" onClick={st.running ? pause : start}>
+        <button type="button" className="btn primary" onClick={st.running ? pause : start}>
           {st.running ? "Pause" : "Start"}
         </button>
-        <button className="btn" onClick={reset}>Reset</button>
-        <button className="btn" onClick={full}>Fullscreen</button>
+        <button type="button" className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={full}>Fullscreen</button>
       </div>
 
       <div className="countdown-settings">
@@ -257,6 +305,7 @@ export default function Countdown() {
             onChange={e => setSt(s => ({ ...s, warnAtMs: e.target.value === "off" ? null : Number(e.target.value) }))}
           >
             <option value="off">Off</option>
+            <option value="10000">10sec</option>
             <option value="60000">1min</option>
             <option value="300000">5min</option>
             <option value="600000">10min</option>

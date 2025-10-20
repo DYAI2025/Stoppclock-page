@@ -24,30 +24,25 @@ function useHashRoute() {
 }
 
 function Home() {
-  // Each timer has: route, label, iconPath, buttonPath, borderColor
-  const items: Array<[string, string, string, string, string]> = [
-    ["#/stopwatch", "Stopwatch", "/icons/STOP_WATCH_ICON.png", "/icons/STOP_WATCH_BUTTON.png", "#4a6955"],
-    ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_ICON.png", "/icons/DIGITAL_COUNTDOWN_BUTTON.png", "#36454f"],
-    ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_ICON.png", "/icons/ANALOG_COUNTDOWN_BUTTON.png", "#d4a574"],
-    ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_ICON.png", "/icons/CYCLE_TIME_BUTTON.png", "#6b7546"],
-    ["#/world", "World Clock", "/icons/WORLD_TIME_ICON.png", "/icons/WORLD_TIME_BUTTON.png", "#5a7c99"],
-    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_ICON.png", "/icons/ALARM_CLOCK_BUTTON.png", "#6b4f4a"],
-    ["#/metronome", "Metronome", "/icons/METRONOM_ICON.png", "/icons/METRONOM_BUTTON.png", "#7a5c8f"],
-    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_ICON.png", "/icons/CHESS_CLOCK_BUTTON.png", "#8b6f47"],
-    ["#/", "Coming Soon", "/icons/icon-512.png", "/icons/icon-512.png", "#888888"]
+  // Each timer has: route, label, buttonPath, borderColor
+  const items: Array<[string, string, string, string]> = [
+    ["#/stopwatch", "Stopwatch", "/icons/STOP_WATCH_BUTTON.png", "#4a6955"],
+    ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_BUTTON.png", "#36454f"],
+    ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_BUTTON.png", "#d4a574"],
+    ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_BUTTON.png", "#6b7546"],
+    ["#/world", "World Clock", "/icons/WORLD_TIME_BUTTON.png", "#5a7c99"],
+    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_BUTTON.png", "#6b4f4a"],
+    ["#/metronome", "Metronome", "/icons/METRONOM_BUTTON.png", "#7a5c8f"],
+    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_BUTTON.png", "#8b6f47"],
+    ["#/", "Coming Soon", "/icons/icon-512.png", "#888888"]
   ];
 
   return (
     <>
       <h1 className="home-title">Stoppclock</h1>
       <div className="home-grid">
-        {items.map(([href, label, iconPath, buttonPath, borderColor]) => (
+        {items.map(([href, label, buttonPath, borderColor]) => (
           <a key={href} className="timer-card" href={href} style={{borderColor}}>
-            <img
-              src={iconPath}
-              alt={`${label} icon`}
-              className="timer-icon-top"
-            />
             <img
               src={buttonPath}
               alt={label}

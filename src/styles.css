@@ -1,8 +1,83 @@
+/* Default (dark) theme */
 :root {
   color-scheme: light dark;
   --bg:#0b1220;
   --fg:#e6edf3;
   --muted:#9aa4b2;
+  --primary:#58a6ff;
+  --accent:#f78166;
+  --border:#30363d;
+  --error:#f85149;
+  --warning:#d29922;
+  --success:#3fb950;
+
+  /* ============================================
+   * DESIGN TOKENS - Action Colors
+   * Timer-specific action colors
+   * ============================================ */
+  --stopwatch-start: #28a745;  /* Green - Start/Go actions */
+  --stopwatch-stop:  #dc3545;  /* Red - Stop/Danger actions */
+  --countdown-accent: #17a2b8; /* Teal - Countdown specific */
+
+  /* ============================================
+   * DESIGN TOKENS - Chess Clock
+   * Player background colors
+   * ============================================ */
+  --chess-white: #ffffff;      /* Player 1 (White) background */
+  --chess-black: #000000;      /* Player 2 (Black) background */
+
+  /* ============================================
+   * DESIGN TOKENS - Surface Colors
+   * Background surfaces for light theme
+   * ============================================ */
+  --surface-1: #f8f9fa;        /* Primary background surface */
+  --surface-2: #e9ecef;        /* Secondary background surface */
+
+  /* ============================================
+   * DESIGN TOKENS - Text Colors
+   * Typography hierarchy
+   * ============================================ */
+  --text-primary: #212529;     /* Main text (high contrast) */
+  --text-secondary: #6c757d;   /* Muted/secondary text */
+
+  /* ============================================
+   * DESIGN TOKENS - Interaction States
+   * Focus, hover effects
+   * ============================================ */
+  --focus-glow: 0 0 0 4px rgba(0, 123, 255, 0.15); /* Keyboard focus outline */
+  --hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);    /* Button hover shadow */
+
+  /* ============================================
+   * DESIGN TOKENS - Warning System
+   * Flash warning overlay
+   * ============================================ */
+  --warning-flash: rgba(220, 53, 69, 0.18);        /* Semi-transparent red flash */
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --bg:#ffffff;
+  --fg:#24292f;
+  --muted:#57606a;
+  --primary:#0969da;
+  --accent:#cf222e;
+  --border:#d0d7de;
+  --error:#cf222e;
+  --warning:#9a6700;
+  --success:#1a7f37;
+}
+
+/* Dark theme (explicit) */
+[data-theme="dark"] {
+  --bg:#0b1220;
+  --fg:#e6edf3;
+  --muted:#9aa4b2;
+  --primary:#58a6ff;
+  --accent:#f78166;
+  --border:#30363d;
+  --error:#f85149;
+  --warning:#d29922;
+  --success:#3fb950;
 }
 
 *{ box-sizing:border-box; }
@@ -108,7 +183,7 @@ body{
 
 .timer-button{
   width:100%;
-  max-width:245px;
+  max-width:320px;
   height:auto;
   object-fit:contain;
   flex-shrink:0;
@@ -247,16 +322,37 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 }
 
 .btn{
-  padding:10px 14px;
-  border-radius:10px;
-  border:1px solid #243244;
+  padding:12px 18px;
+  min-width:56px;
+  min-height:56px;
+  border-radius:12px;
+  border:2px solid #243244;
   background:rgba(255,255,255,.04);
   color:var(--fg);
   cursor:pointer;
   text-decoration:none;
+  font-size:16px;
+  font-weight:600;
+  transition:all 0.2s ease;
 }
 
-.btn.primary{ border-color:#3b82f6; }
+.btn.primary{
+  border-color:var(--stopwatch-start);
+  background:var(--stopwatch-start);
+  color:#fff;
+  min-width:120px;
+}
+
+.btn.primary:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--hover-shadow);
+}
+
+.btn.primary:focus-visible{
+  box-shadow:var(--focus-glow);
+  outline:none;
+}
+
 .btn:hover{ background:rgba(255,255,255,.08); }
 
 .btn-home{
@@ -335,9 +431,9 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .flash{ animation:flash .9s linear 1; }
 
 @keyframes flash{
-  0%{background:rgba(255,255,255,.0);}
-  15%{background:rgba(255,255,255,.20);}
-  100%{background:rgba(255,255,255,.0);}
+  0%{background:rgba(220, 53, 69, 0);}
+  15%{background:var(--warning-flash);}  /* Uses design token */
+  100%{background:rgba(220, 53, 69, 0);}
 }
 
 /* Respect user preferences for motion */
@@ -796,15 +892,21 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   justify-content:center;
   cursor:pointer;
   background:rgba(255,255,255,.02);
-  transition:background .2s;
+  transition:all 0.2s ease;
+  border:4px solid transparent;
+  position:relative;
 }
 
 .player.active{
   background:rgba(59,130,246,.15);
+  box-shadow:inset 0 0 0 6px rgba(0,123,255,0.3), var(--focus-glow);
+  transform:scale(1.02);
+  border-color:rgba(0,123,255,0.5);
 }
 
 .player:hover{
   background:rgba(255,255,255,.06);
+  box-shadow:var(--hover-shadow);
 }
 
 .player-label{
@@ -847,4 +949,70 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   align-items:center;
   justify-content:center;
   background:rgba(107, 117, 70, 0.7);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Update Notification */
+.update-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: var(--primary);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.update-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.update-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.update-notification .btn {
+  font-size: 14px;
+  padding: 6px 16px;
 }
