@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "User Preferences",
+  "description": "localStorage schema for global user preferences",
+  "type": "object",
+  "required": ["version", "theme", "defaultSignals", "keyboardShortcutsEnabled"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "theme": {
+      "type": "string",
+      "enum": ["light", "dark", "auto"],
+      "description": "Theme preference: light, dark, or auto (follows system preference)"
+    },
+    "defaultSignals": {
+      "type": "object",
+      "required": ["sound", "flash"],
+      "properties": {
+        "sound": {
+          "type": "boolean",
+          "description": "Default sound setting for new timers"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Default flash setting for new timers"
+        }
+      },
+      "description": "Default signal settings applied to new timer configurations"
+    },
+    "keyboardShortcutsEnabled": {
+      "type": "boolean",
+      "description": "Global toggle for keyboard shortcuts (Space, R, F keys)"
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "theme": "auto",
+      "defaultSignals": {
+        "sound": true,
+        "flash": true
+      },
+      "keyboardShortcutsEnabled": true
+    }
+  ]
+}

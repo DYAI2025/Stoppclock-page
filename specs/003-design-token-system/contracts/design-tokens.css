@@ -1,0 +1,171 @@
+/**
+ * Design Tokens Contract
+ *
+ * All color values MUST be referenced via these tokens.
+ * Direct hex/rgb values in components are FORBIDDEN (enforced by linter).
+ *
+ * This file serves as the SOURCE OF TRUTH for all design tokens.
+ * Actual implementation is in src/styles.css :root section.
+ */
+
+:root {
+  /* ============================================
+   * ACTION COLORS
+   * Used for primary timer control actions
+   * ============================================ */
+
+  --stopwatch-start: #28a745;  /* Green - Start/Go actions in Stopwatch */
+  --stopwatch-stop:  #dc3545;  /* Red - Stop/Danger actions in Stopwatch */
+  --countdown-accent: #17a2b8; /* Teal - Countdown timer specific accent */
+
+
+  /* ============================================
+   * CHESS CLOCK COLORS
+   * Player background colors
+   * ============================================ */
+
+  --chess-white: #ffffff;      /* Player 1 (White) background */
+  --chess-black: #000000;      /* Player 2 (Black) background */
+
+
+  /* ============================================
+   * SURFACE COLORS
+   * Background and surface variations
+   * ============================================ */
+
+  --surface-1: #f8f9fa;        /* Primary background surface */
+  --surface-2: #e9ecef;        /* Secondary background surface (slightly darker) */
+
+
+  /* ============================================
+   * TEXT COLORS
+   * Typography and text hierarchy
+   * ============================================ */
+
+  --text-primary: #212529;     /* Main text color (high contrast) */
+  --text-secondary: #6c757d;   /* Muted/secondary text (lower emphasis) */
+
+
+  /* ============================================
+   * INTERACTION STATES
+   * Focus, hover, and other interactive states
+   * ============================================ */
+
+  --focus-glow: 0 0 0 4px rgba(0, 123, 255, 0.15); /* Keyboard focus outline */
+  --hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);    /* Button hover elevation shadow */
+
+
+  /* ============================================
+   * WARNING SYSTEM
+   * Visual flash overlay for countdown warnings
+   * ============================================ */
+
+  --warning-flash: rgba(220, 53, 69, 0.18);        /* Semi-transparent red flash overlay */
+}
+
+
+/* ============================================
+ * USAGE EXAMPLES
+ * ============================================ */
+
+/*
+ * Example 1: Button with design token
+ *
+ * <button style={{ background: 'var(--stopwatch-start)' }}>Start</button>
+ */
+
+/*
+ * Example 2: Focus state
+ *
+ * .btn:focus-visible {
+ *   box-shadow: var(--focus-glow);
+ * }
+ */
+
+/*
+ * Example 3: Chess Clock active player
+ *
+ * .player.white {
+ *   background: var(--chess-white);
+ * }
+ * .player.black {
+ *   background: var(--chess-black);
+ * }
+ */
+
+/*
+ * Example 4: Flash warning overlay
+ *
+ * .flash-overlay {
+ *   position: fixed;
+ *   inset: 0;
+ *   background: var(--warning-flash);
+ *   animation: flashFade 250ms ease-in-out;
+ * }
+ */
+
+
+/* ============================================
+ * VALIDATION RULES
+ * ============================================ */
+
+/*
+ * Rule 1: All component files MUST use var(--token-name) syntax
+ * Rule 2: NO hardcoded hex (#rrggbb) or rgb() values in components
+ * Rule 3: Token names MUST be semantic (--stopwatch-start, not --green-500)
+ * Rule 4: All tokens MUST be defined in :root scope (global)
+ * Rule 5: Token values MUST be valid CSS values
+ *
+ * Enforcement:
+ * - Pre-commit hook checks for hardcoded colors
+ * - E2E tests verify token usage
+ * - Code review checklist includes token verification
+ */
+
+
+/* ============================================
+ * ADDING NEW TOKENS
+ * ============================================ */
+
+/*
+ * Step 1: Define token in this file (design-tokens.css)
+ * Step 2: Add token to src/styles.css :root section
+ * Step 3: Document usage in quickstart.md
+ * Step 4: Use in components via var(--token-name)
+ * Step 5: Verify no hardcoded colors remain (grep)
+ *
+ * Naming Convention:
+ * --{component}-{property}  (e.g., --stopwatch-start)
+ * --{semantic-role}         (e.g., --focus-glow)
+ *
+ * DO:    --metronome-accent, --alarm-active
+ * DON'T: --color-1, --blue-primary, --btn-bg
+ */
+
+
+/* ============================================
+ * FUTURE EXTENSIONS
+ * (Not yet implemented - for planning)
+ * ============================================ */
+
+/*
+ * Potential future tokens:
+ *
+ * --metronome-beat-active: #7a5c8f;     // Active beat indicator
+ * --alarm-active: #ffc107;              // Active alarm highlight
+ * --cycle-timer-accent: #6b7546;        // Cycle timer specific
+ * --world-clock-accent: #5a7c99;        // World clock specific
+ *
+ * Spacing tokens (if needed):
+ * --spacing-xs: 4px;
+ * --spacing-sm: 8px;
+ * --spacing-md: 16px;
+ * --spacing-lg: 24px;
+ *
+ * Typography tokens (if needed):
+ * --font-size-sm: 14px;
+ * --font-size-md: 16px;
+ * --font-size-lg: 20px;
+ * --font-weight-normal: 400;
+ * --font-weight-bold: 600;
+ */

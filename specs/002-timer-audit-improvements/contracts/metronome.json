@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Metronome State",
+  "description": "localStorage schema for Metronome with BPM and time signature",
+  "type": "object",
+  "required": ["version", "bpm", "running", "timeSignature", "currentBeat", "accentFirstBeat"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "bpm": {
+      "type": "integer",
+      "minimum": 40,
+      "maximum": 240,
+      "description": "Beats per minute (40-240)"
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Is metronome currently playing clicks?"
+    },
+    "timeSignature": {
+      "type": "object",
+      "required": ["beatsPerMeasure", "beatValue"],
+      "properties": {
+        "beatsPerMeasure": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12,
+          "description": "Numerator of time signature (e.g., 4 in 4/4)"
+        },
+        "beatValue": {
+          "type": "integer",
+          "enum": [2, 4, 8, 16],
+          "description": "Denominator of time signature (e.g., 4 in 4/4)"
+        }
+      },
+      "description": "Time signature for beat patterns (e.g., 4/4, 3/4, 6/8)"
+    },
+    "currentBeat": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Current beat number in measure (1-based, resets after beatsPerMeasure)"
+    },
+    "accentFirstBeat": {
+      "type": "boolean",
+      "description": "Play louder/higher pitch click on first beat of measure?"
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "bpm": 120,
+      "running": false,
+      "timeSignature": {
+        "beatsPerMeasure": 4,
+        "beatValue": 4
+      },
+      "currentBeat": 1,
+      "accentFirstBeat": true
+    }
+  ]
+}

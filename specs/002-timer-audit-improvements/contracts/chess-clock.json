@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Chess Clock State",
+  "description": "localStorage schema for dual-player Chess Clock with increment/delay",
+  "type": "object",
+  "required": ["version", "players", "activePlayer", "running", "endAt", "mode", "timeExpired"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "players": {
+      "type": "object",
+      "required": ["player1", "player2"],
+      "properties": {
+        "player1": {
+          "type": "object",
+          "required": ["remainingMs", "moveCount"],
+          "properties": {
+            "remainingMs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 43200000,
+              "description": "Player 1 time remaining in milliseconds (max 12h)"
+            },
+            "moveCount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of moves made by Player 1"
+            }
+          }
+        },
+        "player2": {
+          "type": "object",
+          "required": ["remainingMs", "moveCount"],
+          "properties": {
+            "remainingMs": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 43200000,
+              "description": "Player 2 time remaining in milliseconds (max 12h)"
+            },
+            "moveCount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of moves made by Player 2"
+            }
+          }
+        }
+      },
+      "description": "State for both players"
+    },
+    "activePlayer": {
+      "type": ["integer", "null"],
+      "enum": [1, 2, null],
+      "description": "Which player's clock is running (1, 2, or null if stopped)"
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Is any clock currently running?"
+    },
+    "endAt": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Unix timestamp (ms) when active player's clock expires, null if stopped"
+    },
+    "mode": {
+      "type": "object",
+      "required": ["type", "incrementMs", "delayMs"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["simple", "fischer", "bronstein"],
+          "description": "Clock mode: simple (no increment), fischer (add time after move), bronstein (delay before decrement)"
+        },
+        "incrementMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 60000,
+          "description": "Fischer increment: milliseconds added to clock after each move"
+        },
+        "delayMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 60000,
+          "description": "Bronstein delay: milliseconds to pause before clock starts decrementing"
+        }
+      },
+      "description": "Clock mode configuration"
+    },
+    "timeExpired": {
+      "type": ["integer", "null"],
+      "enum": [1, 2, null],
+      "description": "Which player ran out of time (1, 2, or null if game ongoing)"
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "players": {
+        "player1": {
+          "remainingMs": 600000,
+          "moveCount": 12
+        },
+        "player2": {
+          "remainingMs": 540000,
+          "moveCount": 11
+        }
+      },
+      "activePlayer": 1,
+      "running": true,
+      "endAt": 1729451423000,
+      "mode": {
+        "type": "fischer",
+        "incrementMs": 10000,
+        "delayMs": 0
+      },
+      "timeExpired": null
+    }
+  ]
+}
