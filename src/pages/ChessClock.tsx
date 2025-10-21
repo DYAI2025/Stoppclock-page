@@ -163,7 +163,7 @@ export default function ChessClock() {
           <div className="chess-settings-content">
             <h3>Set Time</h3>
             <div className="time-input-group">
-              <label htmlFor="chess-minutes">Minuten pro Spieler:</label>
+              <label htmlFor="chess-minutes">Minutes per player:</label>
               <input
                 id="chess-minutes"
                 type="number"
