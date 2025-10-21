@@ -14,8 +14,6 @@ import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
-import { AdUnit } from "./components/AdUnit";
-import { getAdUnit } from "./config/ad-units";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
