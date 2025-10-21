@@ -152,7 +152,7 @@ export default function Alarm() {
 
       {/* Current Local Time Display */}
       <div className="current-time-display">
-        <div className="current-time-label">Aktuelle Uhrzeit</div>
+        <div className="current-time-label">Current Time</div>
         <div className="current-time-value">{formatCurrentTime()}</div>
       </div>
 
