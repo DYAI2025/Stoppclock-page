@@ -84,7 +84,6 @@ function fmt(ms: number): string {
 export default function Countdown() {
   const [st, setSt] = useState<Persist>(load);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const warned = useRef(false);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
@@ -147,70 +146,6 @@ export default function Countdown() {
     return s.running ? { ...s, remainingMs: next, endAt: Date.now() + next } : { ...s, durationMs: next, remainingMs: next };
   }), []);
 
-  const setTime = useCallback((h: number, m: number, s: number) => {
-    // Clamp inputs to valid ranges
-    const clampedH = clamp(h, 0, 12);
-    const clampedM = clamp(m, 0, 59);
-    const clampedS = clamp(s, 0, 59);
-
-    const ms = clamp((clampedH * 3600 + clampedM * 60 + clampedS) * 1000, 1000, MAX);
-    setSt(st => ({
-      ...st,
-      durationMs: ms,
-      remainingMs: ms,
-      running: false,
-      endAt: null
-    }));
-  }, []);
-
-  // Calculate current h, m, s for display and input handling
-  const totalSec = Math.floor(st.remainingMs / 1000);
-  const h = Math.floor(totalSec / 3600);
-  const m = Math.floor((totalSec % 3600) / 60);
-  const s = totalSec % 60;
-
-  const handleInputChange = useCallback((field: 'h' | 'm' | 's', value: string) => {
-    // Parse and clamp value
-    const num = parseInt(value) || 0;
-    const max = field === 'h' ? 12 : 59;
-    const clamped = clamp(num, 0, max);
-
-    // Calculate current h, m, s from state
-    const currentTotalSec = Math.floor(st.remainingMs / 1000);
-    const currentH = Math.floor(currentTotalSec / 3600);
-    const currentM = Math.floor((currentTotalSec % 3600) / 60);
-    const currentS = currentTotalSec % 60;
-
-    // Apply based on field
-    if (field === 'h') setTime(clamped, currentM, currentS);
-    else if (field === 'm') setTime(currentH, clamped, currentS);
-    else setTime(currentH, currentM, clamped);
-  }, [st.remainingMs, setTime]);
-
-  const handlePaste = useCallback((e: React.ClipboardEvent<HTMLInputElement>, field: 'h' | 'm' | 's') => {
-    const pasted = e.clipboardData.getData('text');
-    const num = parseInt(pasted);
-
-    if (isNaN(num) || num < 0) {
-      e.preventDefault();
-      return;
-    }
-
-    const max = field === 'h' ? 12 : 59;
-    const clamped = clamp(num, 0, max);
-
-    // Calculate current h, m, s from state
-    const currentTotalSec = Math.floor(st.remainingMs / 1000);
-    const currentH = Math.floor(currentTotalSec / 3600);
-    const currentM = Math.floor((currentTotalSec % 3600) / 60);
-    const currentS = currentTotalSec % 60;
-
-    e.preventDefault();
-    if (field === 'h') setTime(clamped, currentM, currentS);
-    else if (field === 'm') setTime(currentH, clamped, currentS);
-    else setTime(currentH, currentM, clamped);
-  }, [st.remainingMs, setTime]);
-
   const full = useCallback(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -272,28 +207,28 @@ export default function Countdown() {
       {/* Controls */}
       <div className="countdown-controls">
         {!st.running ? (
-          <button className="countdown-btn" onClick={start}>
+          <button type="button" className="countdown-btn" onClick={start}>
             Start
           </button>
         ) : (
-          <button className="countdown-btn" onClick={pause}>
+          <button type="button" className="countdown-btn" onClick={pause}>
             Pause
           </button>
         )}
-        <button className="countdown-btn secondary" onClick={reset}>
+        <button type="button" className="countdown-btn secondary" onClick={reset}>
           Reset
         </button>
-        <button className="countdown-btn secondary" onClick={full}>
+        <button type="button" className="countdown-btn secondary" onClick={full}>
           Fullscreen
         </button>
       </div>
 
       {/* Presets */}
       <div className="countdown-presets">
-        <button className="countdown-preset" onClick={() => plus(60_000)}>+1m</button>
-        <button className="countdown-preset" onClick={() => plus(300_000)}>+5m</button>
-        <button className="countdown-preset" onClick={() => plus(600_000)}>+10m</button>
-        <button className="countdown-preset" onClick={() => plus(-60_000)}>-1m</button>
+        <button type="button" className="countdown-preset" onClick={() => plus(60_000)}>+1m</button>
+        <button type="button" className="countdown-preset" onClick={() => plus(300_000)}>+5m</button>
+        <button type="button" className="countdown-preset" onClick={() => plus(600_000)}>+10m</button>
+        <button type="button" className="countdown-preset" onClick={() => plus(-60_000)}>-1m</button>
       </div>
 
       {/* Settings */}
