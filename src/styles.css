@@ -1,4 +1,10 @@
 /* ============================================
+ * IMPORT DESIGN TOKENS
+ * Swiss/Bauhaus modular scale system
+ * ============================================ */
+@import './design-tokens.css';
+
+/* ============================================
  * MODERN MINIMALIST THEME
  * Clean and contemporary grayscale palette
  * ============================================ */

@@ -1,0 +1,127 @@
+/* ============================================
+ * SWISS/BAUHAUS DESIGN TOKENS
+ * Modular scale typography-based system
+ * ============================================ */
+
+:root {
+  /* ============================================
+   * TYPOGRAPHY SCALE (Modular Scale: 1.5x ratio)
+   * Base: 1rem (16px)
+   * ============================================ */
+  --type-xs: 0.75rem;      /* 12px - Small labels */
+  --type-sm: 0.875rem;     /* 14px - Secondary text */
+  --type-base: 1rem;       /* 16px - Body text */
+  --type-lg: 1.5rem;       /* 24px - H3, large labels */
+  --type-xl: 2rem;         /* 32px - H2, section headers */
+  --type-2xl: 3rem;        /* 48px - H1, page titles */
+  --type-3xl: 4rem;        /* 64px - Hero displays */
+  --type-4xl: 6rem;        /* 96px - Timer displays */
+  --type-5xl: 8rem;        /* 128px - Large timer displays */
+
+  /* ============================================
+   * SPACING SCALE (Modular: derived from type)
+   * ============================================ */
+  --space-1: 0.25rem;      /* 4px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-4: 1rem;         /* 16px - Base unit */
+  --space-6: 1.5rem;       /* 24px */
+  --space-8: 2rem;         /* 32px */
+  --space-12: 3rem;        /* 48px */
+  --space-16: 4rem;        /* 64px */
+  --space-24: 6rem;        /* 96px */
+
+  /* ============================================
+   * MONOCHROME PALETTE (Minimal)
+   * Pure black/white/grays for digital timers
+   * ============================================ */
+  --mono-black: #000000;
+  --mono-gray-900: #1a1a1a;
+  --mono-gray-800: #2d2d2d;
+  --mono-gray-700: #404040;
+  --mono-gray-600: #666666;
+  --mono-gray-500: #808080;
+  --mono-gray-400: #999999;
+  --mono-gray-300: #cccccc;
+  --mono-gray-200: #e0e0e0;
+  --mono-gray-100: #f5f5f5;
+  --mono-white: #ffffff;
+
+  /* ============================================
+   * SEMANTIC COLORS (Minimal usage)
+   * Only for critical states
+   * ============================================ */
+  --semantic-error: #d32f2f;      /* Red - Error/expired state */
+  --semantic-warning: #f57c00;    /* Orange - Warning state */
+  --semantic-success: #388e3c;    /* Green - Success/running */
+
+  /* ============================================
+   * ANALOG TIMER ACCENT COLORS
+   * Preserved for visual distinction
+   * ============================================ */
+  --analog-progress-start: #dc143c;   /* Crimson red (low time) */
+  --analog-progress-mid: #f39c12;     /* Orange (medium time) */
+  --analog-progress-end: #27ae60;     /* Green (high time) */
+  --analog-hand-primary: #2d2d2d;     /* Charcoal hands */
+  --analog-hand-second: #dc143c;      /* Red second hand */
+  --analog-bg: #ffffff;               /* White clock face */
+  --analog-border: #36454f;           /* Charcoal border */
+
+  /* ============================================
+   * TYPOGRAPHY SYSTEM
+   * Helvetica-inspired (use system fonts)
+   * ============================================ */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Courier New", monospace;
+
+  /* Font weights (limited to 2-3) */
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* ============================================
+   * LAYOUT SYSTEM
+   * Grid and spacing patterns
+   * ============================================ */
+  --container-max: 64rem;          /* 1024px max width */
+  --container-padding: var(--space-4);
+
+  /* Border radius (minimal) */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Border widths */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 4px;
+
+  /* ============================================
+   * SHADOWS (Subtle, geometric)
+   * ============================================ */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+  /* ============================================
+   * TRANSITIONS (Subtle, functional)
+   * ============================================ */
+  --transition-fast: 100ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+
+  /* ============================================
+   * Z-INDEX SCALE
+   * Layering system
+   * ============================================ */
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-modal: 100;
+  --z-toast: 1000;
+}
