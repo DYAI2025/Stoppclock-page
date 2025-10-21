@@ -173,6 +173,7 @@ body:has(.legal-page) {
 }
 
 /* Home Title - Geometric Banner with Golden Ratio */
+/* Home Title */
 .home-title{
   text-align:center;
   font-size:clamp(56px, 10vw, 96px); /* Größer */
@@ -315,6 +316,19 @@ body:has(.legal-page) {
   transition:transform 0.2s, filter 0.2s;
   width:100%;
   max-width:280px;
+}
+
+.ad-container{
+  margin:32px auto 12px;
+  max-width:960px;
+  width:100%;
+  padding:0 16px;
+}
+
+.ad-container > .adsbygoogle{
+  display:block !important;
+  width:100% !important;
+  min-height:90px;
 }
 
 .timer-card:hover{
