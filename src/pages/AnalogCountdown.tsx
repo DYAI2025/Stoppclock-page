@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { HomeButton } from "../components/HomeButton";
 
 type Persist = {
   version: 1;
@@ -97,16 +98,31 @@ function useRaf(on: boolean, cb: () => void) {
   }, [on, cb]);
 }
 
-function hand(ctx:CanvasRenderingContext2D, len:number, ang:number, w:number, col:string) {
+function hand(ctx:CanvasRenderingContext2D, len:number, ang:number, w:number, col:string, withShadow = false) {
   ctx.save();
   ctx.rotate(ang);
+
+  // Shadow for depth (only on hour/minute hands)
+  if (withShadow) {
+    ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+  }
+
+  // Hand shape - elegant taper
   ctx.beginPath();
-  ctx.moveTo(-len*0.15,0);
-  ctx.lineTo(len,0);
-  ctx.strokeStyle = col;
-  ctx.lineWidth = w;
-  ctx.lineCap = "round";
-  ctx.stroke();
+  ctx.moveTo(-len*0.2, 0); // Back of hand
+  ctx.lineTo(-len*0.05, -w*0.8); // Back taper
+  ctx.lineTo(len*0.95, -w*0.3); // Front taper
+  ctx.lineTo(len, 0); // Tip
+  ctx.lineTo(len*0.95, w*0.3); // Front taper
+  ctx.lineTo(-len*0.05, w*0.8); // Back taper
+  ctx.closePath();
+
+  ctx.fillStyle = col;
+  ctx.fill();
+
   ctx.restore();
 }
 
@@ -117,65 +133,82 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   const h = cnv.height;
   const cx = w/2;
   const cy = h/2;
-  const r = Math.min(w,h) * 0.45;
+  const r = Math.min(w,h) * 0.42; // Slightly smaller for better proportions
 
   ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--bg") || "#0b1220";
-  ctx.fillRect(0,0,w,h);
+
+  // Background circle - clean white
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 1.12, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Outer border - elegant dark grey
+  ctx.strokeStyle = "#36454F";
+  ctx.lineWidth = Math.max(4, r * 0.025);
+  ctx.stroke();
 
   ctx.save();
   ctx.translate(cx, cy);
 
-  // ring
-  ctx.beginPath();
-  ctx.arc(0, 0, r, 0, Math.PI*2);
-  ctx.strokeStyle = "rgba(255,255,255,0.15)";
-  ctx.lineWidth = Math.max(2, r*0.01);
-  ctx.stroke();
+  // Clean minimalist hour markers (only 12, 3, 6, 9)
+  const hourNumbers = [12, 3, 6, 9];
+  ctx.fillStyle = "#36454F";
+  ctx.font = `bold ${Math.floor(r * 0.15)}px 'Segoe UI', Arial, sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-  // ticks
+  hourNumbers.forEach(num => {
+    const angle = ((num === 12 ? 0 : num) / 12) * Math.PI * 2 - Math.PI / 2;
+    const dist = r * 0.75;
+    const x = Math.cos(angle) * dist;
+    const y = Math.sin(angle) * dist;
+    ctx.fillText(num.toString(), x, y);
+  });
+
+  // Minute ticks - subtle and minimal
   for(let i=0; i<60; i++) {
+    // Skip hour positions (0, 15, 30, 45)
+    if (i % 15 === 0) continue;
+
     const a = i/60*Math.PI*2 - Math.PI/2;
-    const len = i%5===0 ? r*0.09 : r*0.045;
+    const isHourMark = i % 5 === 0;
+    const len = isHourMark ? r*0.08 : r*0.04;
+
     ctx.beginPath();
     ctx.moveTo(Math.cos(a)*(r-len), Math.sin(a)*(r-len));
     ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
-    ctx.strokeStyle = i%5===0 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)";
-    ctx.lineWidth = i%5===0 ? Math.max(3, r*0.012) : Math.max(1, r*0.006);
+    ctx.strokeStyle = isHourMark ? "#708090" : "#D3D3D3";
+    ctx.lineWidth = isHourMark ? Math.max(2, r*0.01) : Math.max(1, r*0.005);
+    ctx.lineCap = "round";
     ctx.stroke();
   }
 
-  // Draw color-coded hour rings (4 hours max, each hour a different color)
-  // Colors stacked from inside to outside, visible between 50min mark and 12 o'clock
-  const maxMs = 4 * 3600_000; // 4 hours max
-  const hourColors = ["#22c55e", "#3b82f6", "#f59e0b", "#ef4444"]; // green, blue, orange, red
-
+  // Progress arc - single elegant ring showing remaining time
   if (st.remainingMs > 0) {
-    const totalMinutes = st.remainingMs / 60_000;
-    const currentHour = Math.floor(totalMinutes / 60); // Which hour are we in (0-3)
-    const minutesInCurrentHour = totalMinutes % 60; // Minutes within current hour
+    const maxMs = 4 * 3600_000; // 4 hours max
+    const progress = Math.min(1, st.remainingMs / maxMs);
 
-    // Draw completed hour rings (from inside out)
-    const ringWidth = r * 0.06;
-    const baseRadius = r * 0.70;
+    // Gradient from red (low) to green (high)
+    const hue = progress * 120; // 0 (red) to 120 (green)
+    const progressColor = `hsl(${hue}, 70%, 50%)`;
 
-    for (let h = 0; h < currentHour; h++) {
+    // Single progress arc
+    const angleProgress = progress * Math.PI * 2;
+    ctx.beginPath();
+    ctx.strokeStyle = progressColor;
+    ctx.lineWidth = r * 0.12;
+    ctx.lineCap = "round";
+    ctx.arc(0, 0, r * 0.88, -Math.PI/2, -Math.PI/2 + angleProgress, false);
+    ctx.stroke();
+
+    // Background arc (remaining portion) - subtle grey
+    if (progress < 1) {
       ctx.beginPath();
-      ctx.strokeStyle = hourColors[h];
-      ctx.lineWidth = ringWidth;
+      ctx.strokeStyle = "rgba(200, 200, 200, 0.2)";
+      ctx.lineWidth = r * 0.12;
       ctx.lineCap = "round";
-      ctx.arc(0, 0, baseRadius + h * ringWidth, -Math.PI/2, Math.PI * 1.5, false);
-      ctx.stroke();
-    }
-
-    // Draw current partial hour ring
-    if (currentHour < 4) {
-      const angleInHour = (minutesInCurrentHour / 60) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.strokeStyle = hourColors[currentHour];
-      ctx.lineWidth = ringWidth;
-      ctx.lineCap = "round";
-      ctx.arc(0, 0, baseRadius + currentHour * ringWidth, -Math.PI/2, -Math.PI/2 + angleInHour, false);
+      ctx.arc(0, 0, r * 0.88, -Math.PI/2 + angleProgress, Math.PI * 1.5, false);
       ctx.stroke();
     }
   }
@@ -201,14 +234,26 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   const mins = minutes / 60; // Map 0-59 minutes to 0-1
   const secs = seconds / 60; // Map 0-59 seconds to 0-1
 
-  hand(ctx, r*0.5, hrs*Math.PI*2 - Math.PI/2, Math.max(6, r*0.03), "white");
-  hand(ctx, r*0.72, mins*Math.PI*2 - Math.PI/2, Math.max(4, r*0.02), "white");
-  hand(ctx, r*0.82, secs*Math.PI*2 - Math.PI/2, Math.max(2, r*0.01), "#60a5fa");
+  // Draw hands - modern elegant style
+  hand(ctx, r*0.5, hrs*Math.PI*2 - Math.PI/2, r*0.035, "#36454F", true); // Hour hand - charcoal
+  hand(ctx, r*0.72, mins*Math.PI*2 - Math.PI/2, r*0.025, "#36454F", true); // Minute hand - charcoal
+  hand(ctx, r*0.82, secs*Math.PI*2 - Math.PI/2, r*0.012, "#DC143C", false); // Second hand - crimson
 
-  // center
+  // Center cap - elegant white with shadow
+  ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+  ctx.shadowBlur = 3;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
   ctx.beginPath();
-  ctx.fillStyle = "white";
-  ctx.arc(0, 0, Math.max(3, r*0.02), 0, Math.PI*2);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.arc(0, 0, Math.max(4, r*0.03), 0, Math.PI*2);
+  ctx.fill();
+
+  // Inner circle for center cap
+  ctx.shadowColor = "transparent";
+  ctx.beginPath();
+  ctx.fillStyle = "#36454F";
+  ctx.arc(0, 0, Math.max(2, r*0.015), 0, Math.PI*2);
   ctx.fill();
 
   ctx.restore();
@@ -240,6 +285,8 @@ export default function AnalogCountdown() {
     return () => clearTimeout(t);
   }, [st]);
 
+  const lastSecondRef = useRef<number>(-1);
+
   useEffect(() => {
     // warn & finish
     const warnAt = st.warnAtMs;
@@ -250,10 +297,33 @@ export default function AnalogCountdown() {
       if (st.signal.sound) beep(140, 1200);
     }
     if (!isWarn) warned.current = false;
+
+    // Last 10 seconds: beep every second (10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+    const secondsRemaining = Math.floor(st.remainingMs / 1000);
+    if (st.running && secondsRemaining >= 1 && secondsRemaining <= 10) {
+      // Only beep when we cross into a new second
+      if (secondsRemaining !== lastSecondRef.current) {
+        lastSecondRef.current = secondsRemaining;
+        if (st.signal.sound) {
+          // Higher pitch as we get closer to zero
+          const pitch = 800 + (11 - secondsRemaining) * 50; // 850Hz at 10s, 1300Hz at 1s
+          beep(150, pitch); // Short, crisp beep
+        }
+      }
+    }
+
+    // Finish: loud bimmeln (multiple beeps like an alarm clock)
     if (st.running && st.remainingMs <= 0) {
+      lastSecondRef.current = -1; // Reset for next countdown
       setSt(s => ({...s, running: false, endAt: null, remainingMs: 0}));
       if (st.signal.flash) flash(wrapRef.current, 900);
-      if (st.signal.sound) beep(600, 660);
+      if (st.signal.sound) {
+        // Alarm bimmeln - multiple beeps like a real alarm clock
+        beep(200, 880); // First beep
+        setTimeout(() => beep(200, 880), 250);
+        setTimeout(() => beep(200, 880), 500);
+        setTimeout(() => beep(400, 660), 750); // Final longer lower beep
+      }
     }
   }, [st.remainingMs, st.running, st.signal, st.warnAtMs]);
 
@@ -338,58 +408,84 @@ export default function AnalogCountdown() {
 
   return (
     <div ref={wrapRef} className="analog-wrap">
-      <div className="analog-topbar">
-        <a href="#/" className="btn-home">Home</a>
-        <div className="hms">{fmt(st.remainingMs)}</div>
-        <div className="controls">
-          <button onClick={() => st.running ? pause() : start()} className="btn primary">
-            {st.running ? "Pause" : "Start"}
-          </button>
-          <button onClick={reset} className="btn">Reset</button>
-          <button onClick={() => plus(60_000)} className="btn">+1m</button>
-          <button onClick={() => plus(-60_000)} className="btn">−1m</button>
-          <button onClick={full} className="btn">Fullscreen</button>
+      {/* Fixed Home button - top-left */}
+      <HomeButton />
+
+      {/* Title at top */}
+      <h1 className="timer-title" style={{marginTop: 'var(--spacing-lg)'}}>Agile Timer</h1>
+
+      {/* Digital time display above clock */}
+      <div className="analog-digital-time">{fmt(st.remainingMs)}</div>
+
+      {/* Canvas - center with light grey background circle */}
+      <div className="analog-canvas">
+        <div className="analog-clock-bg">
+          <canvas ref={cnvRef}/>
         </div>
       </div>
-      <div className="analog-canvas"><canvas ref={cnvRef}/></div>
-      <div className="analog-presets">
-        {presets.map(min => (
-          <button
-            key={min}
-            className="chip"
-            onClick={() => setDur(min * 60_000)}
-          >
-            {min >= 60 ? `${min/60}h` : `${min}m`}
-          </button>
-        ))}
-        <label className="warn">
-          Warn at:
-          <select
-            value={String(st.warnAtMs ?? 0)}
-            onChange={(e) => setSt(s => ({...s, warnAtMs: Number(e.target.value) || null}))}
-          >
-            <option value="0">off</option>
-            <option value="60000">1m</option>
-            <option value="300000">5m</option>
-            <option value="600000">10m</option>
-          </select>
-        </label>
-        <label className="sig">
-          <input
-            type="checkbox"
-            checked={st.signal.sound}
-            onChange={e => setSt(s => ({...s, signal: {...s.signal, sound: e.target.checked}}))}
-          />
-          Sound
-        </label>
-        <label className="sig">
-          <input
-            type="checkbox"
-            checked={st.signal.flash}
-            onChange={e => setSt(s => ({...s, signal: {...s.signal, flash: e.target.checked}}))}
-          />
-          Flash
-        </label>
+
+      {/* Action buttons below clock */}
+      <div className="analog-actions">
+        <button
+          onClick={() => st.running ? pause() : start()}
+          className="btn-primary-action">
+          {st.running ? "Stop" : "Start"}
+        </button>
+        <button onClick={reset} className="btn">Reset</button>
+        <button onClick={() => plus(60_000)} className="btn">+1m</button>
+        <button onClick={() => plus(-60_000)} className="btn">−1m</button>
+        <button onClick={full} className="btn">Fullscreen</button>
+      </div>
+
+      {/* Configuration elements - bottom */}
+      <div className="analog-config">
+        {/* Preset buttons */}
+        <div className="preset-buttons">
+          {presets.map(min => (
+            <button
+              key={min}
+              className="btn-config"
+              onClick={() => setDur(min * 60_000)}
+            >
+              {min >= 60 ? `${min/60}h` : `${min}m`}
+            </button>
+          ))}
+        </div>
+
+        {/* Settings row */}
+        <div className="config-row">
+          <label className="config-item">
+            Warn at:
+            <select
+              className="config-select"
+              value={String(st.warnAtMs ?? 0)}
+              onChange={(e) => setSt(s => ({...s, warnAtMs: Number(e.target.value) || null}))}
+            >
+              <option value="0">off</option>
+              <option value="60000">1m</option>
+              <option value="300000">5m</option>
+              <option value="600000">10m</option>
+            </select>
+          </label>
+
+          <label className="config-item">
+            <input
+              type="checkbox"
+              checked={st.signal.sound}
+              onChange={e => setSt(s => ({...s, signal: {...s.signal, sound: e.target.checked}}))}
+            />
+            Sound
+          </label>
+
+          <label className="config-item">
+            <input
+              type="checkbox"
+              checked={st.signal.flash}
+              onChange={e => setSt(s => ({...s, signal: {...s.signal, flash: e.target.checked}}))}
+            />
+            Flash
+          </label>
+        </div>
       </div>
     </div>
   );

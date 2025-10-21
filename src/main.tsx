@@ -12,6 +12,10 @@ import CycleTimer from "./pages/CycleTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
+import { AdSenseScript } from "./components/AdSenseScript";
+import { ConsentBanner } from "./components/ConsentBanner";
+import { AdUnit } from "./components/AdUnit";
+import { getAdUnit } from "./config/ad-units";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -37,20 +41,29 @@ function Home() {
     ["#/", "Coming Soon", "/icons/icon-512.png", "#888888"]
   ];
 
+  const homeTopAd = getAdUnit('home-top');
+
   return (
     <>
       <h1 className="home-title">Stoppclock</h1>
-      <div className="home-grid">
-        {items.map(([href, label, buttonPath, borderColor]) => (
-          <a key={href} className="timer-card" href={href} style={{borderColor}}>
-            <img
-              src={buttonPath}
-              alt={label}
-              className="timer-button"
-            />
-          </a>
-        ))}
+
+      {/* Ad placement: Top of home page (between title and grid) */}
+      {homeTopAd && <AdUnit adUnit={homeTopAd} className="home-ad-top" />}
+
+      <div className="home-grid-container">
+        <div className="home-grid">
+          {items.map(([href, label, buttonPath, borderColor]) => (
+            <a key={href} className="timer-card" href={href}>
+              <img
+                src={buttonPath}
+                alt={label}
+                className="timer-button"
+              />
+            </a>
+          ))}
+        </div>
       </div>
+
       <footer className="footer">
         <a href="#/impressum">Impressum</a>
         <span>•</span>
@@ -66,19 +79,33 @@ const Placeholder = ({ title }: { title: string }) => (
 
 function App() {
   const route = useHashRoute();
-  if (route === "/") return <Home />;
-  if (route === "/analog") return <AnalogCountdown />;
-  if (route === "/countdown") return <Countdown />;
-  if (route === "/stopwatch") return <Stopwatch />;
-  if (route === "/cycle") return <CycleTimer />;
-  if (route === "/digital") return <DigitalClock />;
-  if (route === "/world") return <WorldClock />;
-  if (route === "/alarm") return <Alarm />;
-  if (route === "/metronome") return <Metronome />;
-  if (route === "/chess") return <ChessClock />;
-  if (route === "/impressum") return <Impressum />;
-  if (route === "/datenschutz") return <Datenschutz />;
-  return <div className="page"><h1>Not Found</h1></div>;
+
+  return (
+    <>
+      {/* AdSense script loader - loads only with consent */}
+      <AdSenseScript />
+
+      {/* GDPR consent banner - shows on first visit */}
+      <ConsentBanner />
+
+      {/* Route content */}
+      {route === "/" && <Home />}
+      {route === "/analog" && <AnalogCountdown />}
+      {route === "/countdown" && <Countdown />}
+      {route === "/stopwatch" && <Stopwatch />}
+      {route === "/cycle" && <CycleTimer />}
+      {route === "/digital" && <DigitalClock />}
+      {route === "/world" && <WorldClock />}
+      {route === "/alarm" && <Alarm />}
+      {route === "/metronome" && <Metronome />}
+      {route === "/chess" && <ChessClock />}
+      {route === "/impressum" && <Impressum />}
+      {route === "/datenschutz" && <Datenschutz />}
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/cycle", "/digital", "/world", "/alarm", "/metronome", "/chess", "/impressum", "/datenschutz"].includes(route) && (
+        <div className="page"><h1>Not Found</h1></div>
+      )}
+    </>
+  );
 }
 
 // Register Service Worker

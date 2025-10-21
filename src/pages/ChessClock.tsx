@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { beep } from "../utils";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.chessclock";
 const DEFAULT_TIME = 5 * 60 * 1000; // 5 minutes
@@ -140,6 +141,8 @@ export default function ChessClock() {
 
   return (
     <div className="chess-wrap">
+      <HomeButton />
+
       <div
         className={`player player-1 ${st.activePlayer === 1 ? 'active' : ''}`}
         onClick={() => switchToPlayer(1)}
@@ -150,8 +153,7 @@ export default function ChessClock() {
       </div>
 
       <div className="chess-controls">
-        <a href="#/" className="btn-home">Home</a>
-        <button className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={reset}>Reset</button>
       </div>
 
       <div

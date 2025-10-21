@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.cycle";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -153,10 +154,10 @@ export default function CycleTimer() {
 
   return (
     <div className="cycle-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
+      <HomeButton />
 
-      <h2>Cycle Timer</h2>
-      <p style={{color: 'var(--muted)', fontSize: '14px', marginTop: '-8px'}}>
+      <h1 className="timer-title">Cycle Timer</h1>
+      <p style={{color: 'var(--white)', fontSize: '14px', marginTop: '-8px', opacity: 0.8}}>
         Automatically restarts after each interval • Cycle #{st.cycleCount}
       </p>
 
@@ -204,10 +205,10 @@ export default function CycleTimer() {
       <div className="countdown-display">{fmt(st.remainingMs)}</div>
 
       <div className="countdown-controls">
-        <button className="btn primary" onClick={st.running ? pause : start}>
-          {st.running ? "Pause" : "Start"}
+        <button type="button" className="btn-primary-action" onClick={st.running ? pause : start}>
+          {st.running ? "Stop" : "Start"}
         </button>
-        <button className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={reset}>Reset</button>
       </div>
 
       <div className="countdown-settings">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -255,7 +256,8 @@ export default function Countdown() {
 
   return (
     <div className="countdown-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
+      <HomeButton />
+      <h1 className="timer-title">Countdown</h1>
       <div className="countdown-input">
         <label>
           <span>H</span>
@@ -303,8 +305,8 @@ export default function Countdown() {
       <div className="countdown-display">{fmt(st.remainingMs)}</div>
 
       <div className="countdown-controls">
-        <button type="button" className="btn primary" onClick={st.running ? pause : start}>
-          {st.running ? "Pause" : "Start"}
+        <button type="button" className="btn-primary-action" onClick={st.running ? pause : start}>
+          {st.running ? "Stop" : "Start"}
         </button>
         <button type="button" className="btn" onClick={reset}>Reset</button>
         <button type="button" className="btn" onClick={full}>Fullscreen</button>
