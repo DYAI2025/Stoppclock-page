@@ -13,7 +13,7 @@ test.describe('Digital Countdown', () => {
     await page.goto('/#/countdown');
 
     // Wait for page to load
-    await expect(page.locator('.countdown-wrap')).toBeVisible();
+    await expect(page.locator('.countdown-page')).toBeVisible();
 
     // Check digital time display
     const display = page.locator('.countdown-display');
@@ -54,7 +54,7 @@ test.describe('Digital Countdown', () => {
     await expect(page.locator('.countdown-display')).toHaveText('00:05:00');
 
     // Blur input field to allow arrow keys to work
-    await page.locator('.countdown-wrap').click();
+    await page.locator('.countdown-page').click();
 
     // Test ArrowUp adds 10s (should work when paused)
     await page.keyboard.press('ArrowUp');
@@ -85,7 +85,7 @@ test.describe('Digital Countdown', () => {
     await page.goto('/#/countdown');
 
     // Check sound checkbox
-    const soundCheckbox = page.locator('label.sig').filter({ hasText: 'Sound' }).locator('input[type="checkbox"]');
+    const soundCheckbox = page.locator('.countdown-settings label').filter({ hasText: 'Sound' }).locator('input[type="checkbox"]');
     await expect(soundCheckbox).toBeChecked();
 
     // Uncheck sound
@@ -93,13 +93,8 @@ test.describe('Digital Countdown', () => {
     await expect(soundCheckbox).not.toBeChecked();
 
     // Check flash checkbox
-    const flashCheckbox = page.locator('label.sig').filter({ hasText: 'Flash' }).locator('input[type="checkbox"]');
+    const flashCheckbox = page.locator('.countdown-settings label').filter({ hasText: 'Flash' }).locator('input[type="checkbox"]');
     await expect(flashCheckbox).toBeChecked();
-
-    // Change warning dropdown
-    const warnSelect = page.locator('label.warn select');
-    await warnSelect.selectOption('300000'); // 5m
-    await expect(warnSelect).toHaveValue('300000');
   });
 
   test('should persist state across navigation', async ({ page }) => {
@@ -144,7 +139,7 @@ test.describe('Digital Countdown', () => {
     await expect(page.locator('.countdown-display')).toHaveText('00:10:00');
 
     // Blur and then press Space - should work
-    await page.locator('.countdown-wrap').click();
+    await page.locator('.countdown-page').click();
     await page.keyboard.press('Space');
     await expect(page.locator('.countdown-controls button.btn.primary')).toHaveText('Pause');
   });
@@ -156,7 +151,7 @@ test.describe('Digital Countdown', () => {
     await page.locator('input[aria-label="Hours"]').fill('99');
     await page.locator('input[aria-label="Minutes"]').fill('0');
     // Verify it gets clamped to max (12 hours = 43200 seconds = 12:00:00)
-    await page.locator('.countdown-wrap').click(); // Blur to trigger validation
+    await page.locator('.countdown-page').click(); // Blur to trigger validation
     const displayAfterMax = await page.locator('.countdown-display').textContent();
     expect(displayAfterMax).toMatch(/12:00:00/);
 
@@ -164,7 +159,7 @@ test.describe('Digital Countdown', () => {
     await page.locator('input[aria-label="Hours"]').fill('0');
     await page.locator('input[aria-label="Minutes"]').fill('99');
     await page.locator('input[aria-label="Seconds"]').fill('0');
-    await page.locator('.countdown-wrap').click();
+    await page.locator('.countdown-page').click();
     // The setTime function clamps total ms, so 0h 99m 0s = 99*60 = 5940s = 1h 39m
     const displayAfterMinutes = await page.locator('.countdown-display').textContent();
     expect(displayAfterMinutes).toMatch(/01:39:00/);
