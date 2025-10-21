@@ -28,48 +28,42 @@ function useHashRoute() {
 }
 
 function Home() {
-  // Each timer has: route, label, buttonPath, borderColor
-  const items: Array<[string, string, string, string]> = [
-    ["#/stopwatch", "Stopwatch", "/icons/STOP_WATCH_BUTTON.png", "#4a6955"],
-    ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_BUTTON.png", "#36454f"],
-    ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_BUTTON.png", "#d4a574"],
-    ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_BUTTON.png", "#6b7546"],
-    ["#/world", "World Clock", "/icons/WORLD_TIME_BUTTON.png", "#5a7c99"],
-    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_BUTTON.png", "#6b4f4a"],
-    ["#/metronome", "Metronome", "/icons/METRONOM_BUTTON.png", "#7a5c8f"],
-    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_BUTTON.png", "#8b6f47"],
-    ["#/", "Coming Soon", "/icons/icon-512.png", "#888888"]
+  // Timer definitions: [route, label, iconPath]
+  const timers = [
+    ["#/stopwatch", "Stopwatch", "/icons/STOP_WATCH_BUTTON.png"],
+    ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_BUTTON.png"],
+    ["#/analog", "Analog", "/icons/ANALOG_COUNTDOWN_BUTTON.png"],
+    ["#/cycle", "Cycle", "/icons/CYCLE_TIME_BUTTON.png"],
+    ["#/world", "World Clock", "/icons/WORLD_TIME_BUTTON.png"],
+    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_BUTTON.png"],
+    ["#/metronome", "Metronome", "/icons/METRONOM_BUTTON.png"],
+    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_BUTTON.png"],
   ];
 
-  const homeTopAd = getAdUnit('home-top');
-
   return (
-    <>
-      <h1 className="home-title">Stoppclock</h1>
-
-      {/* Ad placement: Top of home page (between title and grid) */}
-      {homeTopAd && <AdUnit adUnit={homeTopAd} className="home-ad-top" />}
-
-      <div className="home-grid-container">
-        <div className="home-grid">
-          {items.map(([href, label, buttonPath, borderColor]) => (
-            <a key={href} className="timer-card" href={href}>
-              <img
-                src={buttonPath}
-                alt={label}
-                className="timer-button"
-              />
-            </a>
-          ))}
-        </div>
+    <div className="home-page">
+      {/* Title */}
+      <div className="home-title-container">
+        <h1 className="home-title">Stoppclock</h1>
       </div>
 
-      <footer className="footer">
+      {/* Timer Grid */}
+      <div className="home-grid">
+        {timers.map(([route, label, icon]) => (
+          <a key={route} href={route} className="home-timer-card">
+            <img src={icon} alt={label} className="home-timer-icon" />
+            <span className="home-timer-label">{label}</span>
+          </a>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <footer className="home-footer">
         <a href="#/impressum">Impressum</a>
         <span>•</span>
         <a href="#/datenschutz">Datenschutz</a>
       </footer>
-    </>
+    </div>
   );
 }
 

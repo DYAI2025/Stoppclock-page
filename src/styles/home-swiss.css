@@ -1,0 +1,119 @@
+/* ============================================
+ * HOME PAGE - Swiss/Bauhaus Minimal
+ * Entry point visual consistency
+ * ============================================ */
+
+.home-page {
+  min-height: 100vh;
+  background: var(--mono-white);
+  color: var(--mono-black);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+/* Title (geometric, minimal) */
+.home-title-container {
+  width: 100%;
+  max-width: var(--container-max);
+  text-align: center;
+  margin-bottom: var(--space-16);
+  padding: var(--space-12) 0;
+  border-bottom: var(--border-medium) solid var(--mono-black);
+}
+
+.home-title {
+  font-size: var(--type-3xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Timer grid (geometric) */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6);
+  max-width: 1000px;
+  width: 100%;
+  margin-bottom: var(--space-12);
+}
+
+/* Timer cards (minimal) */
+.home-timer-card {
+  aspect-ratio: 1;
+  border: var(--border-medium) solid var(--mono-black);
+  background: var(--mono-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--mono-black);
+  transition: all var(--transition-base);
+  padding: var(--space-6);
+}
+
+.home-timer-card:hover {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.home-timer-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--space-4);
+  opacity: 0.9;
+}
+
+.home-timer-card:hover .home-timer-icon {
+  opacity: 1;
+  filter: invert(1);
+}
+
+.home-timer-label {
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* Footer (minimal) */
+.home-footer {
+  margin-top: auto;
+  padding-top: var(--space-8);
+  border-top: var(--border-thin) solid var(--mono-gray-300);
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--type-sm);
+  color: var(--mono-gray-600);
+}
+
+.home-footer a {
+  color: var(--mono-gray-600);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.home-footer a:hover {
+  color: var(--mono-black);
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .home-title {
+    font-size: var(--type-2xl);
+  }
+
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+}
