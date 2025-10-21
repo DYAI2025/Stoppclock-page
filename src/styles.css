@@ -1,15 +1,28 @@
-/* Default (dark) theme */
+/* ============================================
+ * MODERN MINIMALIST THEME
+ * Clean and contemporary grayscale palette
+ * ============================================ */
 :root {
-  color-scheme: light dark;
-  --bg:#0b1220;
-  --fg:#e6edf3;
-  --muted:#9aa4b2;
-  --primary:#58a6ff;
-  --accent:#f78166;
-  --border:#30363d;
-  --error:#f85149;
-  --warning:#d29922;
-  --success:#3fb950;
+  color-scheme: dark;
+
+  /* Modern Minimalist Core Colors */
+  --charcoal: #36454F;        /* Primary backgrounds, dark surfaces */
+  --slate-gray: #708090;      /* Secondary backgrounds, borders */
+  --light-gray: #D3D3D3;      /* Light surfaces, disabled states */
+  --white: #FFFFFF;           /* Text, icons, highlights */
+
+  /* Legacy mappings (for compatibility) */
+  --bg: var(--charcoal);
+  --fg: var(--white);
+  --muted: var(--slate-gray);
+  --border: var(--slate-gray);
+
+  /* Accent colors (exceptions) */
+  --primary: #58a6ff;         /* Home button blue - UNCHANGED */
+  --accent: #f78166;
+  --error: #f85149;
+  --warning: #d29922;
+  --success: #3fb950;
 
   /* ============================================
    * DESIGN TOKENS - Action Colors
@@ -52,6 +65,39 @@
    * Flash warning overlay
    * ============================================ */
   --warning-flash: rgba(220, 53, 69, 0.18);        /* Semi-transparent red flash */
+
+  /* ============================================
+   * DESIGN TOKENS - Button Role Colors
+   * Modern Minimalist button system
+   * ============================================ */
+  --btn-primary-action: #DC143C;              /* Large red Start/Stop button (Crimson) */
+  --btn-primary-action-active: #B22222;       /* Darker red when active (Firebrick) */
+  --btn-secondary: var(--light-gray);         /* Secondary buttons (Reset, etc) */
+  --btn-secondary-text: var(--charcoal);      /* Secondary button text */
+  --btn-config: rgba(211, 211, 211, 0.2);     /* Config presets (Light Gray with opacity) */
+  --btn-config-text: var(--white);            /* Config text */
+  --btn-nav-primary: #58a6ff;                 /* Home button blue - UNCHANGED */
+
+  /* ============================================
+   * DESIGN TOKENS - Spacing Scale
+   * Consistent spacing system
+   * ============================================ */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+
+  /* ============================================
+   * DESIGN TOKENS - Typography
+   * Font system
+   * ============================================ */
+  --font-family-base: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 }
 
 /* Light theme */
@@ -83,66 +129,193 @@
 *{ box-sizing:border-box; }
 html,body,#root{ height:100%; margin:0; }
 body{
-  background:var(--bg);
+  background:var(--light-gray); /* Light Gray background for home page */
   color:var(--fg);
   font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;
 }
 
+/* Override for timer pages - keep Charcoal background */
+body:has(.countdown-wrap),
+body:has(.stopwatch-wrap),
+body:has(.alarm-wrap),
+body:has(.analog-wrap),
+body:has(.chess-wrap),
+body:has(.metronome-wrap),
+body:has(.cycle-wrap),
+body:has(.world-wrap),
+body:has(.digital-wrap),
+body:has(.legal-page) {
+  background:var(--charcoal);
+}
+
+/* Consent banner */
+.consent{
+  position:fixed;
+  z-index:9999;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:grid;
+  place-items:center;
+  padding:20px;
+}
+.consent.hidden{ display:none; }
+.consent-box{
+  background:#1f2937;
+  padding:24px;
+  border-radius:12px;
+  max-width:480px;
+  box-shadow:0 12px 24px rgba(0,0,0,.4);
+}
+.consent-actions{
+  display:flex;
+  gap:12px;
+  margin-top:16px;
+}
+
+/* Home Title - Geometric Banner with Golden Ratio */
 /* Home Title */
 .home-title{
   text-align:center;
-  font-size:clamp(32px, 6vw, 56px);
-  font-weight:700;
-  margin:0;
-  padding:32px 0 24px;
-  color:var(--fg);
+  font-size:clamp(56px, 10vw, 96px); /* Larger */
+  font-weight:900; /* Extra bold */
+  margin:0 0 48px 0;
+  padding:0;
+  color:#FFFFFF; /* Weiß */
+  font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif; /* Modern */
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  position:relative;
+
+  /* Geometric banner background */
+  background:linear-gradient(135deg,
+    #36454F 0%,
+    #4a5a6a 50%,
+    #36454F 100%
+  );
+  padding:clamp(32px, 5vw, 64px) 0; /* Golden ratio vertical padding */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+
+  /* White border with rounded corners */
+  border:2px solid rgba(255, 255, 255, 0.4);
+  border-radius:16px;
 }
 
-/* Home Grid - 3x3 layout centered */
+.home-title::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:61.8%; /* Golden ratio (φ - 1) */
+  height:100%;
+  background:linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  pointer-events:none;
+  z-index:0;
+}
+
+.home-title::after{
+  content:'';
+  position:absolute;
+  bottom:-6px;
+  left:50%;
+  transform:translateX(-50%);
+  width:38.2%; /* Golden ratio complement (1 - φ) */
+  height:4px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    var(--btn-primary-action) 50%,
+    transparent 100%
+  );
+}
+
+/* Home Grid Container - Golden Ratio Layout */
+.home-grid-container{
+  max-width:1618px; /* Golden ratio: 1000 * 1.618 */
+  margin:0 auto;
+  padding:clamp(24px, 3.82vw, 61.8px); /* Golden ratio padding */
+}
+
 .home-grid{
+  background:var(--charcoal); /* Dark tile background */
+  border-radius:32px; /* Geometric rounded corners */
+  padding:clamp(32px, 4.85vw, 78.4px); /* Golden ratio padding (48.4 * φ) */
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.25),
+    0 4px 12px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+
+  /* Geometric border accents */
+  border:2px solid rgba(112, 128, 144, 0.3);
+  position:relative;
+
   display:grid;
   grid-template-columns:repeat(3, 1fr);
   grid-template-rows:repeat(3, auto);
-  gap:4.5%;
-  padding:20px 40px 60px;
-  max-width:1200px;
-  margin:0 auto;
+  gap:clamp(20px, 2.94vw, 47.4px); /* Golden ratio gap (29.4 * φ) */
   justify-items:center;
+  align-items:center;
+}
+
+/* Geometric corner accents */
+.home-grid::before,
+.home-grid::after{
+  content:'';
+  position:absolute;
+  width:61.8px; /* Golden ratio */
+  height:61.8px;
+  border:3px solid var(--btn-primary-action);
+  pointer-events:none;
+}
+
+.home-grid::before{
+  top:-3px;
+  left:-3px;
+  border-right:none;
+  border-bottom:none;
+  border-radius:32px 0 0 0;
+}
+
+.home-grid::after{
+  bottom:-3px;
+  right:-3px;
+  border-left:none;
+  border-top:none;
+  border-radius:0 0 32px 0;
 }
 
 @media (max-width: 900px) {
   .home-grid{
     grid-template-columns:repeat(2, 1fr);
-    gap:6%;
-    padding:20px 30px 60px;
+    gap:20px;
+    padding:30px;
   }
 }
 
 @media (max-width: 500px) {
   .home-grid{
     grid-template-columns:1fr;
-    gap:30px;
-    padding:20px 20px 60px;
+    gap:20px;
+    padding:24px;
   }
 }
 
-/* Timer Cards - border color matches icon color */
+/* Timer Cards - Buttons inside dark tile */
 .timer-card{
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:flex-start;
-  padding:12px 16px 16px;
-  border-radius:12px;
-  border:4px solid;
+  justify-content:center;
   text-decoration:none;
-  background:#fafafa;
-  transition:transform 0.2s, box-shadow 0.2s;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);
-  aspect-ratio:1.4;
-  gap:6px;
+  transition:transform 0.2s, filter 0.2s;
   width:100%;
-  max-width:320px;
+  max-width:280px;
 }
 
 .ad-container{
@@ -159,8 +332,8 @@ body{
 }
 
 .timer-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 4px 12px rgba(0,0,0,.12);
+  transform:scale(1.05);
+  filter:brightness(1.1);
 }
 
 .timer-icon-top{
@@ -168,15 +341,19 @@ body{
   height:84px;
   object-fit:contain;
   flex-shrink:0;
+  margin-top:-10px; /* Pull PNG up to almost touch top border */
 }
 
 .timer-button{
   width:100%;
-  max-width:320px;
+  max-width:280px;
   height:auto;
   object-fit:contain;
   flex-shrink:0;
-  margin-top:-20px;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3)); /* Add shadow to PNGs */
+  /* Clip top portion to hide white rectangles in PNGs */
+  clip-path:inset(8% 0 0 0);
+  margin-top:-8%; /* Compensate for clipped portion */
 }
 
 .timer-label{
@@ -284,30 +461,47 @@ body{
 h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 
 /* Analog countdown styles */
-.analog-wrap{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  background:rgba(212, 165, 116, 0.7);
+/* ============================================
+ * ANALOG COUNTDOWN - Redesigned Layout
+ * ============================================ */
+.analog-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--charcoal); /* Modern Minimalist */
+  padding: 88px var(--spacing-lg) var(--spacing-xl); /* Space for fixed home button */
+  gap: var(--spacing-md);
 }
 
-.analog-topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px 16px;
+/* Digital time display above clock - white text */
+.analog-digital-time {
+  font-size: clamp(48px, 8vw, 72px); /* Larger for better readability */
+  font-weight: var(--font-weight-bold);
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: var(--spacing-lg);
 }
 
-.hms{
-  font-size:clamp(24px,6vw,64px);
-  letter-spacing:.04em;
+/* Clock background - transparent, light grey circle is drawn on canvas */
+.analog-clock-bg {
+  display: inline-block;
 }
 
-.controls{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+.analog-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--spacing-lg);
+}
+
+.controls {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
 .btn{
@@ -344,31 +538,181 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 
 .btn:hover{ background:rgba(255,255,255,.08); }
 
-.btn-home{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding:12px 20px;
-  border-radius:10px;
-  border:none;
-  background:#3b82f6;
-  color:#ffffff;
-  font-weight:600;
-  font-size:16px;
-  cursor:pointer;
-  text-decoration:none;
-  transition:background 0.2s;
+/* ============================================
+ * BUTTONS - Unified Home Button
+ * Fixed position top-left on all pages
+ * ============================================ */
+.btn-home {
+  position: fixed;
+  top: var(--spacing-lg);
+  left: var(--spacing-lg);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 100px;
+  min-height: 56px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--btn-nav-primary);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  border-radius: 12px;
+  border: none;
+  text-decoration: none;
+  z-index: 1000;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.btn-home:hover{
-  background:#2563eb;
+.btn-home:hover {
+  background: #4a8edb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
 }
 
-.btn-home::before{
-  content:"⌂";
-  font-size:24px;
-  line-height:1;
+.home-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.home-text {
+  font-size: 16px;
+}
+
+/* Mobile: Icon only */
+@media (max-width: 500px) {
+  .btn-home {
+    min-width: 56px;
+    padding: var(--spacing-md);
+  }
+
+  .home-text {
+    display: none;
+  }
+}
+
+/* ============================================
+ * TIMER TITLE - Universal timer page heading
+ * ============================================ */
+.timer-title {
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: var(--font-weight-bold);
+  color: var(--white);
+  margin: 0 0 var(--spacing-lg) 0;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+ * BUTTONS - Primary Action Button (Large Red Start/Stop)
+ * ============================================ */
+.btn-primary-action {
+  background: var(--btn-primary-action);
+  border: 2px solid var(--btn-primary-action);
+  color: var(--white);
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  min-height: 80px;
+  min-width: 200px;
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
+}
+
+.btn-primary-action:hover {
+  background: var(--btn-primary-action-active);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(220, 20, 60, 0.5);
+}
+
+.btn-primary-action:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.3);
+}
+
+/* When timer is running (active state) */
+.btn-primary-action.active {
+  background: var(--btn-primary-action-active);
+}
+
+/* Legacy aliases for compatibility */
+.btn-success {
+  background: var(--btn-primary-action);
+  border-color: var(--btn-primary-action);
+  color: var(--white);
+}
+
+.btn-success:hover {
+  background: var(--btn-primary-action-active);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
+}
+
+.btn-danger {
+  background: var(--btn-primary-action-active);
+  border-color: var(--btn-primary-action-active);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  background: #A52A2A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(178, 34, 34, 0.4);
+}
+
+/* ============================================
+ * BUTTONS - Secondary Buttons (Reset, etc)
+ * ============================================ */
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--slate-gray);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  min-height: 56px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--slate-gray);
+  border-color: var(--light-gray);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+ * BUTTONS - Configuration Buttons
+ * ============================================ */
+.btn-config {
+  background: var(--btn-config);
+  border: 1px solid var(--border);
+  color: var(--btn-config-text);
+  font-size: 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 40px;
+  border-radius: 8px;
+  font-weight: var(--font-weight-normal);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-config:hover {
+  background: rgba(154, 164, 178, 0.15);
+  border-color: var(--muted);
+  color: var(--fg);
+}
+
+.btn-config.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
 }
 
 .analog-canvas{
@@ -376,32 +720,92 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   display:grid;
   place-items:center;
   padding:8px 16px;
+  max-height: 60vh; /* Limit height so config buttons are visible */
 }
 
 .analog-canvas canvas{
-  width:min(90vmin,1200px);
-  height:min(90vmin,1200px);
+  width:min(63vmin,840px); /* 30% smaller: 90vmin * 0.7 = 63vmin, 1200px * 0.7 = 840px */
+  height:min(63vmin,840px);
   display:block;
 }
 
-.analog-presets{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  padding:12px 16px 20px;
-  align-items:center;
+/* Analog Countdown - Configuration Section */
+.analog-config {
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.15);
 }
 
-.chip{
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid #304258;
-  background:rgba(255,255,255,.03);
-  color:var(--fg);
-  cursor:pointer;
+.preset-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
 }
 
-.chip:hover{ background:rgba(255,255,255,.08); }
+.config-row {
+  display: flex;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.config-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.config-select {
+  background: var(--btn-config);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.config-select:hover {
+  background: rgba(154, 164, 178, 0.2);
+}
+
+/* Legacy chip styles (kept for compatibility) */
+.chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #304258;
+  background: rgba(255, 255, 255, .03);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.chip:hover {
+  background: rgba(255, 255, 255, .08);
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .analog-topbar {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .analog-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .analog-time-display {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+}
 
 .warn{
   margin-left:auto;
@@ -477,6 +881,17 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   letter-spacing:0.05em;
   font-weight:200;
   font-variant-numeric:tabular-nums;
+  /* Digital display - rechteckig wie digitales Ziffernblatt */
+  background:#000000; /* Schwarzer Hintergrund wie Digitaluhr */
+  color:#FFFFFF; /* Weiße Ziffern */
+  border-radius:12px; /* Slightly rounded corners */
+  padding:var(--spacing-2xl) var(--spacing-2xl);
+  border:4px solid var(--slate-gray);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.3),
+    inset 0 2px 4px rgba(255,255,255,0.1); /* Leichter Glanz-Effekt */
+  display:inline-block;
+  min-width:400px;
 }
 
 .countdown-controls{
@@ -507,7 +922,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:40px 20px;
   align-items:center;
   justify-content:center;
-  background:rgba(74, 105, 85, 0.7);
+  background:var(--charcoal); /* Modern Minimalist */
 }
 
 .stopwatch-display{
@@ -515,6 +930,18 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   letter-spacing:0.05em;
   font-weight:200;
   font-variant-numeric:tabular-nums;
+  /* Digital display - inverted from Countdown (white on black) */
+  background:#FFFFFF; /* White background */
+  color:#000000; /* Black digits */
+  border-radius:12px;
+  padding:var(--spacing-2xl) var(--spacing-2xl);
+  border:4px solid var(--slate-gray);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.3),
+    inset 0 2px 4px rgba(0,0,0,0.1); /* Inverted LCD effect */
+  display:inline-block;
+  min-width:min(800px, 90vw);
+  text-align:center;
 }
 
 .stopwatch-controls{
@@ -691,12 +1118,33 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   margin:0 auto;
   padding:40px 20px;
   min-height:100vh;
-  background:rgba(107, 79, 74, 0.7);
+  background:var(--charcoal); /* Modern Minimalist */
 }
 
-.alarm-wrap h2{
-  text-align:center;
-  margin-bottom:24px;
+/* Current Time Display */
+.current-time-display {
+  text-align: center;
+  margin: var(--spacing-xl) 0 var(--spacing-2xl);
+  padding: var(--spacing-xl);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  border: 2px solid var(--slate-gray);
+}
+
+.current-time-label {
+  font-size: 16px;
+  color: var(--slate-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--spacing-sm);
+}
+
+.current-time-value {
+  font-size: clamp(48px, 10vw, 72px);
+  font-weight: var(--font-weight-bold);
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
 }
 
 .alarm-list{
@@ -800,7 +1248,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:40px 20px;
   text-align:center;
   min-height:100vh;
-  background:rgba(122, 92, 143, 0.7);
+  background:var(--charcoal); /* Modern Minimalist */
 }
 
 .metronome-wrap h2{
@@ -865,12 +1313,13 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   transform:scale(1.3);
 }
 
-/* Chess Clock styles */
+/* Chess Clock styles - Modern Minimalist Vertical Layout */
 .chess-wrap{
-  height:100%;
+  height:100vh;
   display:flex;
   flex-direction:column;
-  background:rgba(139, 111, 71, 0.7);
+  background:var(--charcoal); /* Modern Minimalist */
+  overflow: hidden;
 }
 
 .player{
@@ -880,28 +1329,40 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  background:rgba(255,255,255,.02);
   transition:all 0.2s ease;
-  border:4px solid transparent;
+  border:2px solid rgba(255, 255, 255, 0.1);
   position:relative;
+  opacity:0.7; /* Inactive state - dimmed */
 }
 
+/* Player 1: Charcoal background */
+.player-1{
+  background:var(--charcoal);
+}
+
+/* Player 2: Slate Gray background */
+.player-2{
+  background:var(--slate-gray);
+}
+
+/* Active player state - full brightness + white glow */
 .player.active{
-  background:rgba(59,130,246,.15);
-  box-shadow:inset 0 0 0 6px rgba(0,123,255,0.3), var(--focus-glow);
-  transform:scale(1.02);
-  border-color:rgba(0,123,255,0.5);
+  opacity:1.0;
+  border:4px solid var(--white);
+  box-shadow:inset 0 0 40px rgba(255, 255, 255, 0.2);
 }
 
-.player:hover{
-  background:rgba(255,255,255,.06);
-  box-shadow:var(--hover-shadow);
+/* Press feedback - scale down + flash */
+.player:active{
+  transform:scale(0.98);
+  box-shadow:inset 0 0 60px rgba(255, 255, 255, 0.3);
 }
 
 .player-label{
   font-size:24px;
-  color:var(--muted);
+  color:var(--white);
   margin-bottom:12px;
+  opacity:0.8;
 }
 
 .player-time{
@@ -909,23 +1370,103 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   letter-spacing:0.05em;
   font-weight:200;
   font-variant-numeric:tabular-nums;
+  color:var(--white);
 }
 
 .chess-controls{
   padding:20px;
   text-align:center;
+  background:rgba(0, 0, 0, 0.7); /* Opaque neutral zone between players */
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  z-index:100;
+  display:flex;
+  gap:12px;
+  border-radius:12px;
+  backdrop-filter:blur(8px); /* Add blur for better visibility */
 }
 
 .chess-piece{
   font-size:clamp(80px,15vw,140px);
-  color:#ffffff;
-  text-shadow:0 4px 8px rgba(0,0,0,.3);
+  text-shadow:0 4px 8px rgba(0,0,0,.5);
   margin-bottom:16px;
 }
 
+/* Player 1: White chess piece (King) */
+.player-1 .chess-piece{
+  color:#FFFFFF;
+}
+
+/* Player 2: Black chess piece (King) */
 .chess-piece-black{
-  color:#1a1a1a;
+  color:#000000;
   text-shadow:0 2px 4px rgba(255,255,255,.2);
+}
+
+/* Chess Clock Settings Modal */
+.chess-settings-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0, 0, 0, 0.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+
+.chess-settings-content{
+  background:var(--charcoal);
+  border:2px solid var(--slate-gray);
+  border-radius:16px;
+  padding:32px;
+  min-width:320px;
+  box-shadow:0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.chess-settings-content h3{
+  color:var(--white);
+  margin:0 0 24px 0;
+  font-size:24px;
+  text-align:center;
+}
+
+.time-input-group{
+  margin-bottom:24px;
+}
+
+.time-input-group label{
+  display:block;
+  color:var(--white);
+  margin-bottom:8px;
+  font-size:16px;
+}
+
+.time-input-group input[type="number"]{
+  width:100%;
+  padding:12px;
+  font-size:18px;
+  border:2px solid var(--slate-gray);
+  border-radius:8px;
+  background:rgba(255, 255, 255, 0.1);
+  color:var(--white);
+  text-align:center;
+}
+
+.time-input-group input[type="number"]:focus{
+  outline:none;
+  border-color:var(--btn-primary-action);
+  box-shadow:0 0 0 3px rgba(220, 20, 60, 0.2);
+}
+
+.chess-settings-buttons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
 }
 
 /* Cycle Timer styles - uses same layout as countdown but with different background */
@@ -937,7 +1478,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:40px 20px;
   align-items:center;
   justify-content:center;
-  background:rgba(107, 117, 70, 0.7);
+  background:var(--charcoal); /* Modern Minimalist */
 }
 
 /* Theme Toggle Button */
@@ -1004,4 +1545,219 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .update-notification .btn {
   font-size: 14px;
   padding: 6px 16px;
+}
+/* ============================================
+ * MONETIZATION - Consent Banner
+ * GDPR-compliant consent UI
+ * ============================================ */
+.consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border-top: 2px solid var(--primary);
+  padding: 24px;
+  z-index: 10000;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.consent-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.consent-content h3 {
+  margin: 0 0 12px 0;
+  color: var(--fg);
+  font-size: 18px;
+}
+
+.consent-content p {
+  margin: 0 0 16px 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.consent-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.consent-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.consent-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.consent-option input[type="checkbox"] {
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.consent-option div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.consent-option strong {
+  color: var(--fg);
+  font-size: 14px;
+}
+
+.consent-option span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.consent-note {
+  font-size: 13px !important;
+  color: var(--muted) !important;
+  margin: 16px 0 !important;
+}
+
+.privacy-link {
+  color: var(--primary);
+  text-decoration: underline;
+  margin-left: 4px;
+}
+
+.consent-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.consent-decline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.consent-decline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg);
+}
+
+.consent-accept {
+  min-width: 140px;
+}
+
+@media (max-width: 600px) {
+  .consent-banner {
+    padding: 16px;
+  }
+
+  .consent-actions {
+    flex-direction: column-reverse;
+  }
+
+  .consent-actions button {
+    width: 100%;
+  }
+}
+
+/* ============================================
+ * MONETIZATION - Ad Unit Wrapper
+ * Spacing and responsive layout for ads
+ * ============================================ */
+.ad-unit-wrapper {
+  margin: 24px auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+.home-ad-top {
+  margin: 32px auto 24px auto;
+  max-width: 970px;
+}
+
+/* Ensure ads don't break layout */
+.adsbygoogle {
+  display: block;
+  min-height: 50px; /* Prevent layout shift */
+}
+
+/* ============================================
+ * MONETIZATION - Consent Settings
+ * Settings page for privacy preferences
+ * ============================================ */
+.consent-settings {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.consent-settings h3 {
+  margin: 0 0 24px 0;
+  color: var(--fg);
+}
+
+.consent-setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.consent-setting:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.consent-setting div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.consent-setting strong {
+  color: var(--fg);
+  font-size: 14px;
+}
+
+.consent-setting span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.consent-setting input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.consent-info {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 16px;
+}
+
+.consent-reload-note {
+  background: rgba(255, 165, 0, 0.1);
+  border-left: 3px solid var(--warning);
+  padding: 12px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--warning);
+  border-radius: 4px;
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { beep } from "../utils";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.chessclock";
 const DEFAULT_TIME = 5 * 60 * 1000; // 5 minutes
@@ -53,6 +54,8 @@ function fmt(ms: number): string {
 export default function ChessClock() {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
+  const [showSettings, setShowSettings] = useState(false);
+  const [tempMinutes, setTempMinutes] = useState(5);
   const rafRef = useRef<number | undefined>();
 
   useEffect(() => {
@@ -130,6 +133,18 @@ export default function ChessClock() {
     });
   };
 
+  const applyTimeSettings = () => {
+    const newTime = tempMinutes * 60 * 1000;
+    setSt({
+      version: 1,
+      player1Time: newTime,
+      player2Time: newTime,
+      activePlayer: null,
+      startedAt: null
+    });
+    setShowSettings(false);
+  };
+
   const currentP1Time = st.activePlayer === 1 && st.startedAt
     ? Math.max(0, st.player1Time - (Date.now() - st.startedAt))
     : st.player1Time;
@@ -140,6 +155,36 @@ export default function ChessClock() {
 
   return (
     <div className="chess-wrap">
+      <HomeButton />
+
+      {/* Time Settings Modal */}
+      {showSettings && (
+        <div className="chess-settings-modal">
+          <div className="chess-settings-content">
+            <h3>Set Time</h3>
+            <div className="time-input-group">
+              <label htmlFor="chess-minutes">Minutes per player:</label>
+              <input
+                id="chess-minutes"
+                type="number"
+                min="1"
+                max="180"
+                value={tempMinutes}
+                onChange={(e) => setTempMinutes(Math.max(1, Math.min(180, parseInt(e.target.value) || 1)))}
+              />
+            </div>
+            <div className="chess-settings-buttons">
+              <button type="button" className="btn primary" onClick={applyTimeSettings}>
+                Apply
+              </button>
+              <button type="button" className="btn" onClick={() => setShowSettings(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div
         className={`player player-1 ${st.activePlayer === 1 ? 'active' : ''}`}
         onClick={() => switchToPlayer(1)}
@@ -150,8 +195,8 @@ export default function ChessClock() {
       </div>
 
       <div className="chess-controls">
-        <a href="#/" className="btn-home">Home</a>
-        <button className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={() => setShowSettings(true)}>Zeit</button>
       </div>
 
       <div

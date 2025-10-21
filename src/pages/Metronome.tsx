@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { beep, flash } from "../utils";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.metronome";
 const MIN_BPM = 40;
@@ -77,7 +78,7 @@ export default function Metronome() {
 
   return (
     <div className="metronome-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
+      <HomeButton />
       <h2>Metronome</h2>
 
       <div className="bpm-display">{st.bpm} BPM</div>
@@ -100,7 +101,7 @@ export default function Metronome() {
       </div>
 
       <div className="metronome-controls">
-        <button className="btn primary" onClick={() => setRunning(!running)}>
+        <button className="btn-primary-action" onClick={() => setRunning(!running)}>
           {running ? "Stop" : "Start"}
         </button>
         <label className="metronome-toggle">

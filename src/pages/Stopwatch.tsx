@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.stopwatch";
 
@@ -144,12 +145,13 @@ export default function Stopwatch() {
 
   return (
     <div className="stopwatch-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
+      <HomeButton />
+      <h1 className="timer-title">Stopwatch</h1>
       <div className="stopwatch-display">{fmt(currentTime)}</div>
 
       <div className="stopwatch-controls">
-        <button className="btn primary" onClick={st.running ? pause : start}>
-          {st.running ? "Pause" : "Start"}
+        <button className="btn-primary-action" onClick={st.running ? pause : start}>
+          {st.running ? "Stop" : "Start"}
         </button>
         <button className="btn" onClick={reset}>Reset</button>
         <button className="btn" onClick={addLap} disabled={!st.running}>Lap</button>

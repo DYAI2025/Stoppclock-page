@@ -15,7 +15,7 @@ export const AD_UNITS: AdUnit[] = [
   // Home page - top responsive ad between timer cards
   {
     unitId: 'home-top',
-    adSlotId: HOME_TOP_SLOT_ID,
+    adSlotId: `${ADSENSE_PUBLISHER_ID}/2954253435`, // Banner01 - Automatic responsive ad
     placement: 'home',
     format: 'responsive',
     visibilityRules: {
