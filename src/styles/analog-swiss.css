@@ -1,0 +1,126 @@
+/* ============================================
+ * ANALOG COUNTDOWN - Swiss/Bauhaus
+ * Preserves color for visual distinction
+ * ============================================ */
+
+.analog-page {
+  min-height: 100vh;
+  background: var(--mono-gray-100);
+  color: var(--mono-black);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+/* Header (consistent) */
+.analog-header {
+  width: 100%;
+  max-width: var(--container-max);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-thin) solid var(--mono-gray-300);
+}
+
+.analog-title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-regular);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Canvas container */
+.analog-canvas-container {
+  margin: var(--space-12) 0;
+  position: relative;
+}
+
+.analog-canvas {
+  display: block;
+  border: var(--border-medium) solid var(--analog-border);
+  background: var(--analog-bg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Controls (same as countdown but centered) */
+.analog-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: var(--space-8);
+}
+
+.analog-btn {
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  padding: var(--space-4) var(--space-6);
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analog-btn:hover {
+  background: var(--mono-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.analog-btn.secondary {
+  background: var(--mono-gray-200);
+  color: var(--mono-black);
+}
+
+.analog-btn.secondary:hover {
+  background: var(--mono-gray-300);
+}
+
+/* Presets (minimal) */
+.analog-presets {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--space-8);
+}
+
+.analog-preset {
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--font-regular);
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  color: var(--mono-gray-600);
+  border: var(--border-thin) solid var(--mono-gray-400);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.analog-preset:hover {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border-color: var(--mono-black);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .analog-canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .analog-controls {
+    grid-template-columns: 1fr;
+  }
+}

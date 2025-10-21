@@ -404,88 +404,58 @@ export default function AnalogCountdown() {
     return () => window.removeEventListener("keydown", on);
   }, [start, pause, reset, plus, full, st.running]);
 
-  const presets = useMemo(() => [5, 10, 15, 30, 45, 60, 90, 120, 180, 240], []); // Max 240min = 4 hours
-
   return (
-    <div ref={wrapRef} className="analog-wrap">
-      {/* Fixed Home button - top-left */}
-      <HomeButton />
+    <div className="analog-page" ref={wrapRef}>
+      {/* Header */}
+      <header className="analog-header">
+        <h1 className="analog-title">Analog Countdown</h1>
+        <HomeButton />
+      </header>
 
-      {/* Title at top */}
-      <h1 className="timer-title" style={{marginTop: 'var(--spacing-lg)'}}>Agile Timer</h1>
-
-      {/* Digital time display above clock */}
-      <div className="analog-digital-time">{fmt(st.remainingMs)}</div>
-
-      {/* Canvas - center with light grey background circle */}
-      <div className="analog-canvas">
-        <div className="analog-clock-bg">
-          <canvas ref={cnvRef}/>
-        </div>
+      {/* Canvas (colors preserved in drawing code) */}
+      <div className="analog-canvas-container">
+        <canvas ref={cnvRef} className="analog-canvas" width={800} height={800} />
       </div>
 
-      {/* Action buttons below clock */}
-      <div className="analog-actions">
-        <button
-          onClick={() => st.running ? pause() : start()}
-          className="btn-primary-action">
-          {st.running ? "Stop" : "Start"}
-        </button>
-        <button onClick={reset} className="btn">Reset</button>
-        <button onClick={() => plus(60_000)} className="btn">+1m</button>
-        <button onClick={() => plus(-60_000)} className="btn">−1m</button>
-        <button onClick={full} className="btn">Fullscreen</button>
+      {/* Controls */}
+      <div className="analog-controls">
+        {!st.running ? (
+          <button type="button" className="analog-btn" onClick={start}>Start</button>
+        ) : (
+          <button type="button" className="analog-btn" onClick={pause}>Pause</button>
+        )}
+        <button type="button" className="analog-btn secondary" onClick={reset}>Reset</button>
+        <button type="button" className="analog-btn secondary" onClick={full}>Fullscreen</button>
       </div>
 
-      {/* Configuration elements - bottom */}
-      <div className="analog-config">
-        {/* Preset buttons */}
-        <div className="preset-buttons">
-          {presets.map(min => (
-            <button
-              key={min}
-              className="btn-config"
-              onClick={() => setDur(min * 60_000)}
-            >
-              {min >= 60 ? `${min/60}h` : `${min}m`}
-            </button>
-          ))}
-        </div>
+      {/* Presets */}
+      <div className="analog-presets">
+        <button type="button" className="analog-preset" onClick={() => setDur(5 * 60_000)}>5m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(10 * 60_000)}>10m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(30 * 60_000)}>30m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(60 * 60_000)}>1h</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(90 * 60_000)}>1h30m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(2 * 60 * 60_000)}>2h</button>
+      </div>
 
-        {/* Settings row */}
-        <div className="config-row">
-          <label className="config-item">
-            Warn at:
-            <select
-              className="config-select"
-              value={String(st.warnAtMs ?? 0)}
-              onChange={(e) => setSt(s => ({...s, warnAtMs: Number(e.target.value) || null}))}
-            >
-              <option value="0">off</option>
-              <option value="60000">1m</option>
-              <option value="300000">5m</option>
-              <option value="600000">10m</option>
-            </select>
-          </label>
-
-          <label className="config-item">
-            <input
-              type="checkbox"
-              checked={st.signal.sound}
-              onChange={e => setSt(s => ({...s, signal: {...s.signal, sound: e.target.checked}}))}
-            />
-            Sound
-          </label>
-
-          <label className="config-item">
-            <input
-              type="checkbox"
-              checked={st.signal.flash}
-              onChange={e => setSt(s => ({...s, signal: {...s.signal, flash: e.target.checked}}))}
-            />
-            Flash
-          </label>
-        </div>
+      {/* Settings */}
+      <div className="countdown-settings">
+        <label>
+          <input
+            type="checkbox"
+            checked={st.signal.sound}
+            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
+          />
+          Sound
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={st.signal.flash}
+            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
+          />
+          Flash
+        </label>
       </div>
     </div>
   );
