@@ -143,35 +143,65 @@ export default function Stopwatch() {
     ? st.elapsedMs + (Date.now() - st.startedAt)
     : st.elapsedMs;
 
-  return (
-    <div className="stopwatch-wrap" ref={wrapRef}>
-      <HomeButton />
-      <h1 className="timer-title">Stopwatch</h1>
-      <div className="stopwatch-display">{fmt(currentTime)}</div>
+  // Calculate lap differences
+  const lapDiffs = st.laps.map((lapTime, idx) => {
+    const prevTime = idx === 0 ? 0 : st.laps[idx - 1];
+    return lapTime - prevTime;
+  });
 
-      <div className="stopwatch-controls">
-        <button className="btn-primary-action" onClick={st.running ? pause : start}>
-          {st.running ? "Stop" : "Start"}
-        </button>
-        <button className="btn" onClick={reset}>Reset</button>
-        <button className="btn" onClick={addLap} disabled={!st.running}>Lap</button>
-        <button className="btn" onClick={full}>Fullscreen</button>
+  return (
+    <div className="stopwatch-page" ref={wrapRef}>
+      {/* Header */}
+      <header className="stopwatch-header">
+        <h1 className="stopwatch-title">Stopwatch</h1>
+        <HomeButton />
+      </header>
+
+      {/* Timer Display (inverted colors) */}
+      <div className={`stopwatch-display ${st.running ? 'running' : ''}`}>
+        {fmt(currentTime)}
       </div>
 
+      {/* Controls */}
+      <div className="stopwatch-controls">
+        {!st.running ? (
+          <button type="button" className="stopwatch-btn" onClick={start}>
+            Start
+          </button>
+        ) : (
+          <button type="button" className="stopwatch-btn" onClick={pause}>
+            Pause
+          </button>
+        )}
+        <button
+          type="button"
+          className="stopwatch-btn secondary"
+          onClick={addLap}
+          disabled={!st.running}
+        >
+          Lap
+        </button>
+        <button type="button" className="stopwatch-btn secondary" onClick={reset}>
+          Reset
+        </button>
+        <button type="button" className="stopwatch-btn secondary" onClick={full}>
+          Fullscreen
+        </button>
+      </div>
+
+      {/* Lap Times */}
       {st.laps.length > 0 && (
         <div className="stopwatch-laps">
-          <h3>Laps</h3>
-          <div className="lap-list">
-            {st.laps.map((lapMs, i) => (
-              <div key={i} className="lap-item">
-                <span className="lap-num">#{st.laps.length - i}</span>
-                <span className="lap-time">{fmt(lapMs)}</span>
-                {i > 0 && (
-                  <span className="lap-diff">+{fmt(lapMs - st.laps[i - 1])}</span>
-                )}
-              </div>
+          <h2 className="stopwatch-laps-title">Lap Times</h2>
+          <ul className="stopwatch-laps-list">
+            {st.laps.map((lapTime, idx) => (
+              <li key={idx} className="stopwatch-lap-item">
+                <span className="stopwatch-lap-number">#{idx + 1}</span>
+                <span className="stopwatch-lap-time">{fmt(lapDiffs[idx])}</span>
+                <span className="stopwatch-lap-total">{fmt(lapTime)}</span>
+              </li>
             )).reverse()}
-          </div>
+          </ul>
         </div>
       )}
     </div>
