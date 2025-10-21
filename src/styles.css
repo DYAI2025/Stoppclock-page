@@ -176,7 +176,7 @@ body:has(.legal-page) {
 /* Home Title */
 .home-title{
   text-align:center;
-  font-size:clamp(56px, 10vw, 96px); /* Größer */
+  font-size:clamp(56px, 10vw, 96px); /* Larger */
   font-weight:900; /* Extra bold */
   margin:0 0 48px 0;
   padding:0;
