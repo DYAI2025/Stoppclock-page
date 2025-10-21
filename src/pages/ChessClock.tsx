@@ -175,10 +175,10 @@ export default function ChessClock() {
             </div>
             <div className="chess-settings-buttons">
               <button type="button" className="btn primary" onClick={applyTimeSettings}>
-                Anwenden
+                Apply
               </button>
               <button type="button" className="btn" onClick={() => setShowSettings(false)}>
-                Abbrechen
+                Cancel
               </button>
             </div>
           </div>
