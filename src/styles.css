@@ -476,7 +476,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 
 /* Digital time display above clock - white text */
 .analog-digital-time {
-  font-size: clamp(48px, 8vw, 72px); /* Größer für bessere Lesbarkeit */
+  font-size: clamp(48px, 8vw, 72px); /* Larger for better readability */
   font-weight: var(--font-weight-bold);
   color: var(--white);
   font-variant-numeric: tabular-nums;
