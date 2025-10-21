@@ -197,9 +197,9 @@ body:has(.legal-page) {
     inset 0 2px 0 rgba(255, 255, 255, 0.1),
     inset 0 -2px 0 rgba(0, 0, 0, 0.2);
 
-  /* Geometric accent lines */
-  border-top:3px solid var(--slate-gray);
-  border-bottom:3px solid var(--slate-gray);
+  /* White border with rounded corners */
+  border:2px solid rgba(255, 255, 255, 0.4);
+  border-radius:16px;
 }
 
 .home-title::before{
@@ -337,6 +337,9 @@ body:has(.legal-page) {
   object-fit:contain;
   flex-shrink:0;
   filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3)); /* Add shadow to PNGs */
+  /* Clip top portion to hide white rectangles in PNGs */
+  clip-path:inset(8% 0 0 0);
+  margin-top:-8%; /* Compensate for clipped portion */
 }
 
 .timer-label{
@@ -1386,6 +1389,70 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .chess-piece-black{
   color:#000000;
   text-shadow:0 2px 4px rgba(255,255,255,.2);
+}
+
+/* Chess Clock Settings Modal */
+.chess-settings-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(0, 0, 0, 0.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+
+.chess-settings-content{
+  background:var(--charcoal);
+  border:2px solid var(--slate-gray);
+  border-radius:16px;
+  padding:32px;
+  min-width:320px;
+  box-shadow:0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.chess-settings-content h3{
+  color:var(--white);
+  margin:0 0 24px 0;
+  font-size:24px;
+  text-align:center;
+}
+
+.time-input-group{
+  margin-bottom:24px;
+}
+
+.time-input-group label{
+  display:block;
+  color:var(--white);
+  margin-bottom:8px;
+  font-size:16px;
+}
+
+.time-input-group input[type="number"]{
+  width:100%;
+  padding:12px;
+  font-size:18px;
+  border:2px solid var(--slate-gray);
+  border-radius:8px;
+  background:rgba(255, 255, 255, 0.1);
+  color:var(--white);
+  text-align:center;
+}
+
+.time-input-group input[type="number"]:focus{
+  outline:none;
+  border-color:var(--btn-primary-action);
+  box-shadow:0 0 0 3px rgba(220, 20, 60, 0.2);
+}
+
+.chess-settings-buttons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
 }
 
 /* Cycle Timer styles - uses same layout as countdown but with different background */
