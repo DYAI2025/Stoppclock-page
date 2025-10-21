@@ -255,92 +255,64 @@ export default function Countdown() {
   }, [st.running, plus]);
 
   return (
-    <div className="countdown-wrap" ref={wrapRef}>
-      <HomeButton />
-      <h1 className="timer-title">Countdown</h1>
-      <div className="countdown-input">
-        <label>
-          <span>H</span>
-          <input
-            type="number"
-            min="0"
-            max="12"
-            value={h}
-            aria-label="Hours"
-            disabled={st.running}
-            onChange={e => handleInputChange('h', e.target.value)}
-            onPaste={e => handlePaste(e, 'h')}
-          />
-        </label>
-        <span className="sep">:</span>
-        <label>
-          <span>M</span>
-          <input
-            type="number"
-            min="0"
-            max="59"
-            value={m}
-            aria-label="Minutes"
-            disabled={st.running}
-            onChange={e => handleInputChange('m', e.target.value)}
-            onPaste={e => handlePaste(e, 'm')}
-          />
-        </label>
-        <span className="sep">:</span>
-        <label>
-          <span>S</span>
-          <input
-            type="number"
-            min="0"
-            max="59"
-            value={s}
-            aria-label="Seconds"
-            disabled={st.running}
-            onChange={e => handleInputChange('s', e.target.value)}
-            onPaste={e => handlePaste(e, 's')}
-          />
-        </label>
+    <div className="countdown-page" ref={wrapRef}>
+      {/* Header */}
+      <header className="countdown-header">
+        <h1 className="countdown-title">Countdown</h1>
+        <HomeButton />
+      </header>
+
+      {/* Timer Display */}
+      <div
+        className={`countdown-display ${st.running ? 'running' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}
+      >
+        {fmt(st.remainingMs)}
       </div>
 
-      <div className="countdown-display">{fmt(st.remainingMs)}</div>
-
+      {/* Controls */}
       <div className="countdown-controls">
-        <button type="button" className="btn-primary-action" onClick={st.running ? pause : start}>
-          {st.running ? "Stop" : "Start"}
+        {!st.running ? (
+          <button className="countdown-btn" onClick={start}>
+            Start
+          </button>
+        ) : (
+          <button className="countdown-btn" onClick={pause}>
+            Pause
+          </button>
+        )}
+        <button className="countdown-btn secondary" onClick={reset}>
+          Reset
         </button>
-        <button type="button" className="btn" onClick={reset}>Reset</button>
-        <button type="button" className="btn" onClick={full}>Fullscreen</button>
+        <button className="countdown-btn secondary" onClick={full}>
+          Fullscreen
+        </button>
       </div>
 
+      {/* Presets */}
+      <div className="countdown-presets">
+        <button className="countdown-preset" onClick={() => plus(60_000)}>+1m</button>
+        <button className="countdown-preset" onClick={() => plus(300_000)}>+5m</button>
+        <button className="countdown-preset" onClick={() => plus(600_000)}>+10m</button>
+        <button className="countdown-preset" onClick={() => plus(-60_000)}>-1m</button>
+      </div>
+
+      {/* Settings */}
       <div className="countdown-settings">
-        <label className="warn">
-          <span>Warn at:</span>
-          <select
-            value={st.warnAtMs ?? "off"}
-            onChange={e => setSt(s => ({ ...s, warnAtMs: e.target.value === "off" ? null : Number(e.target.value) }))}
-          >
-            <option value="off">Off</option>
-            <option value="10000">10sec</option>
-            <option value="60000">1min</option>
-            <option value="300000">5min</option>
-            <option value="600000">10min</option>
-          </select>
-        </label>
-        <label className="sig">
+        <label>
           <input
             type="checkbox"
             checked={st.signal.sound}
-            onChange={e => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
+            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
           />
-          <span>Sound</span>
+          Sound
         </label>
-        <label className="sig">
+        <label>
           <input
             type="checkbox"
             checked={st.signal.flash}
-            onChange={e => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
+            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
           />
-          <span>Flash</span>
+          Flash
         </label>
       </div>
     </div>

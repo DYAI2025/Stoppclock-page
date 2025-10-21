@@ -1,0 +1,158 @@
+/* ============================================
+ * COUNTDOWN TIMER - Swiss/Bauhaus Minimal
+ * ============================================ */
+
+.countdown-page {
+  min-height: 100vh;
+  background: var(--mono-white);
+  color: var(--mono-black);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+/* Header (minimal) */
+.countdown-header {
+  width: 100%;
+  max-width: var(--container-max);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-thin) solid var(--mono-gray-300);
+}
+
+.countdown-title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-regular);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Timer display (dominant element) */
+.countdown-display {
+  font-size: var(--type-5xl);
+  font-weight: var(--font-regular);
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  margin: var(--space-16) 0;
+  padding: var(--space-8);
+  background: var(--mono-gray-100);
+  border: var(--border-medium) solid var(--mono-black);
+  min-width: 600px;
+  text-align: center;
+  transition: background var(--transition-base);
+}
+
+.countdown-display.running {
+  background: var(--mono-white);
+}
+
+.countdown-display.expired {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border-color: var(--semantic-error);
+}
+
+/* Controls (geometric grid) */
+.countdown-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: var(--space-8);
+}
+
+.countdown-btn {
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  padding: var(--space-4) var(--space-6);
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.countdown-btn:hover {
+  background: var(--mono-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.countdown-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.countdown-btn.secondary {
+  background: var(--mono-gray-200);
+  color: var(--mono-black);
+}
+
+.countdown-btn.secondary:hover {
+  background: var(--mono-gray-300);
+}
+
+/* Presets (minimal buttons) */
+.countdown-presets {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--space-8);
+}
+
+.countdown-preset {
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--font-regular);
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  color: var(--mono-gray-600);
+  border: var(--border-thin) solid var(--mono-gray-400);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.countdown-preset:hover {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border-color: var(--mono-black);
+}
+
+/* Settings (minimal checkboxes) */
+.countdown-settings {
+  display: flex;
+  gap: var(--space-6);
+  font-size: var(--type-sm);
+  color: var(--mono-gray-700);
+}
+
+.countdown-settings label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .countdown-display {
+    font-size: var(--type-4xl);
+    min-width: auto;
+    width: 100%;
+  }
+
+  .countdown-controls {
+    grid-template-columns: 1fr;
+  }
+}
