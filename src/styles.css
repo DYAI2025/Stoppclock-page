@@ -884,7 +884,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   /* Digital display - rechteckig wie digitales Ziffernblatt */
   background:#000000; /* Schwarzer Hintergrund wie Digitaluhr */
   color:#FFFFFF; /* Weiße Ziffern */
-  border-radius:12px; /* Leicht abgerundete Ecken */
+  border-radius:12px; /* Slightly rounded corners */
   padding:var(--spacing-2xl) var(--spacing-2xl);
   border:4px solid var(--slate-gray);
   box-shadow:
