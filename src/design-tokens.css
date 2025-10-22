@@ -1,6 +1,7 @@
 /* ============================================
  * SWISS/BAUHAUS DESIGN TOKENS
  * Modular scale typography-based system
+ * UPDATED: Deep Ocean Aurora Color Scheme
  * ============================================ */
 
 :root {
@@ -32,40 +33,62 @@
   --space-24: 6rem;        /* 96px */
 
   /* ============================================
-   * MONOCHROME PALETTE (Minimal)
-   * Pure black/white/grays for digital timers
+   * DEEP OCEAN AURORA COLOR PALETTE
+   * Modern, vibrant, high-contrast scheme
    * ============================================ */
-  --mono-black: #000000;
-  --mono-gray-900: #1a1a1a;
-  --mono-gray-800: #2d2d2d;
-  --mono-gray-700: #404040;
-  --mono-gray-600: #666666;
-  --mono-gray-500: #808080;
-  --mono-gray-400: #999999;
-  --mono-gray-300: #cccccc;
-  --mono-gray-200: #e0e0e0;
-  --mono-gray-100: #f5f5f5;
-  --mono-white: #ffffff;
+  
+  /* Base Ocean Depths (Backgrounds) */
+  --ocean-deep: #0A1628;        /* Deepest ocean - primary bg (18.13:1 contrast) */
+  --ocean-dark: #1A2942;        /* Dark ocean - secondary bg (14.59:1 contrast) */
+  --ocean-mid: #2D4263;         /* Mid ocean - elevated surfaces (10.14:1 contrast) */
+  --ocean-light: #4A6FA5;       /* Light ocean - borders, muted elements (5.11:1 contrast) */
+  --ocean-bright: #6B9BD1;      /* Bright ocean - hover states, accents */
+
+  /* Aurora Accents (Vibrant highlights) */
+  --aurora-cyan: #00D9FF;       /* Electric cyan - primary actions (10.68:1 contrast) */
+  --aurora-purple: #7B2CBF;     /* Deep purple - secondary actions */
+  --aurora-lavender: #C77DFF;   /* Lavender - tertiary accents (6.74:1 contrast) */
+  --aurora-pink: #E0AAFF;       /* Soft pink - subtle highlights */
+
+  /* Semantic Colors (Status indicators) */
+  --semantic-success: #10B981;  /* Emerald green - success/running (7.15:1 contrast) */
+  --semantic-warning: #F59E0B;  /* Amber - warnings */
+  --semantic-error: #EF4444;    /* Red - errors/stop */
+
+  /* Neutral Scale */
+  --neutral-white: #FFFFFF;     /* Pure white - text */
+  --neutral-gray-100: #F8FAFC;  /* Very light gray */
+  --neutral-gray-200: #E2E8F0;  /* Light gray */
+  --neutral-gray-300: #CBD5E1;  /* Medium-light gray */
+  --neutral-gray-400: #94A3B8;  /* Medium gray */
+  --neutral-gray-500: #64748B;  /* True gray */
 
   /* ============================================
-   * SEMANTIC COLORS (Minimal usage)
-   * Only for critical states
+   * LEGACY MONOCHROME PALETTE (Deprecated)
+   * Kept for backward compatibility
    * ============================================ */
-  --semantic-error: #d32f2f;      /* Red - Error/expired state */
-  --semantic-warning: #f57c00;    /* Orange - Warning state */
-  --semantic-success: #388e3c;    /* Green - Success/running */
+  --mono-black: var(--ocean-deep);
+  --mono-gray-900: var(--ocean-dark);
+  --mono-gray-800: var(--ocean-mid);
+  --mono-gray-700: #4A5568;
+  --mono-gray-600: #718096;
+  --mono-gray-500: #A0AEC0;
+  --mono-gray-400: #CBD5E0;
+  --mono-gray-300: #E2E8F0;
+  --mono-gray-200: #EDF2F7;
+  --mono-gray-100: #F7FAFC;
+  --mono-white: var(--neutral-white);
 
   /* ============================================
-   * ANALOG TIMER ACCENT COLORS
-   * Preserved for visual distinction
+   * ANALOG TIMER COLORS (Updated for Ocean theme)
    * ============================================ */
-  --analog-progress-start: #dc143c;   /* Crimson red (low time) */
-  --analog-progress-mid: #f39c12;     /* Orange (medium time) */
-  --analog-progress-end: #27ae60;     /* Green (high time) */
-  --analog-hand-primary: #2d2d2d;     /* Charcoal hands */
-  --analog-hand-second: #dc143c;      /* Red second hand */
-  --analog-bg: #ffffff;               /* White clock face */
-  --analog-border: #36454f;           /* Charcoal border */
+  --analog-progress-start: var(--semantic-error);     /* Red (low time) */
+  --analog-progress-mid: var(--semantic-warning);     /* Amber (medium time) */
+  --analog-progress-end: var(--semantic-success);     /* Green (high time) */
+  --analog-hand-primary: var(--ocean-dark);           /* Dark hands */
+  --analog-hand-second: var(--aurora-cyan);           /* Cyan second hand */
+  --analog-bg: var(--neutral-white);                  /* White clock face */
+  --analog-border: var(--ocean-mid);                  /* Ocean border */
 
   /* ============================================
    * TYPOGRAPHY SYSTEM
@@ -95,6 +118,9 @@
   --radius-none: 0;
   --radius-sm: 2px;
   --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
 
   /* Border widths */
   --border-thin: 1px;
@@ -102,12 +128,42 @@
   --border-thick: 4px;
 
   /* ============================================
-   * SHADOWS (Subtle, geometric)
+   * SHADOWS (Subtle, geometric with glow)
    * ============================================ */
   --shadow-none: none;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-glow-cyan: 0 0 20px rgba(0, 217, 255, 0.3);
+  --shadow-glow-purple: 0 0 20px rgba(199, 125, 255, 0.3);
+  --shadow-glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
+
+  /* ============================================
+   * GRADIENTS (Aurora-inspired)
+   * Professional multi-layer gradients
+   * ============================================ */
+  --gradient-ocean: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-dark) 50%, var(--ocean-mid) 100%);
+  --gradient-ocean-radial: radial-gradient(ellipse at top, var(--ocean-dark) 0%, var(--ocean-deep) 100%);
+  --gradient-ocean-mesh: 
+    radial-gradient(at 0% 0%, rgba(26, 41, 66, 0.8) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(45, 66, 99, 0.6) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(74, 111, 165, 0.4) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(26, 41, 66, 0.8) 0px, transparent 50%);
+  
+  --gradient-aurora: linear-gradient(135deg, var(--aurora-cyan) 0%, var(--aurora-purple) 50%, var(--aurora-lavender) 100%);
+  --gradient-aurora-subtle: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(199, 125, 255, 0.1) 100%);
+  --gradient-aurora-glow: 
+    radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(199, 125, 255, 0.15) 0%, transparent 50%);
+  
+  --gradient-glow: radial-gradient(circle at center, rgba(0, 217, 255, 0.15) 0%, transparent 70%);
+  --gradient-shimmer: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 217, 255, 0.1) 25%, 
+    rgba(199, 125, 255, 0.1) 50%, 
+    rgba(0, 217, 255, 0.1) 75%, 
+    transparent 100%);
 
   /* ============================================
    * TRANSITIONS (Subtle, functional)
@@ -115,6 +171,7 @@
   --transition-fast: 100ms ease;
   --transition-base: 200ms ease;
   --transition-slow: 300ms ease;
+  --transition-glow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* ============================================
    * Z-INDEX SCALE

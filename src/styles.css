@@ -9,84 +9,84 @@
 @import './styles/home-swiss.css';
 
 /* ============================================
- * MODERN MINIMALIST THEME
- * Clean and contemporary grayscale palette
+ * DEEP OCEAN AURORA THEME
+ * Modern, vibrant color scheme with excellent contrast
  * ============================================ */
 :root {
   color-scheme: dark;
 
-  /* Modern Minimalist Core Colors */
-  --charcoal: #36454F;        /* Primary backgrounds, dark surfaces */
-  --slate-gray: #708090;      /* Secondary backgrounds, borders */
-  --light-gray: #D3D3D3;      /* Light surfaces, disabled states */
-  --white: #FFFFFF;           /* Text, icons, highlights */
+  /* Deep Ocean Aurora Core Colors */
+  --charcoal: var(--ocean-deep);        /* Primary backgrounds */
+  --slate-gray: var(--ocean-light);     /* Secondary backgrounds, borders */
+  --light-gray: var(--ocean-bright);    /* Light surfaces, disabled states */
+  --white: var(--neutral-white);        /* Text, icons, highlights */
 
   /* Legacy mappings (for compatibility) */
-  --bg: var(--charcoal);
-  --fg: var(--white);
-  --muted: var(--slate-gray);
-  --border: var(--slate-gray);
+  --bg: var(--ocean-deep);
+  --fg: var(--neutral-white);
+  --muted: var(--ocean-light);
+  --border: var(--ocean-mid);
 
-  /* Accent colors (exceptions) */
-  --primary: #58a6ff;         /* Home button blue - UNCHANGED */
-  --accent: #f78166;
-  --error: #f85149;
-  --warning: #d29922;
-  --success: #3fb950;
+  /* Accent colors (Aurora-inspired) */
+  --primary: var(--aurora-cyan);        /* Primary actions - electric cyan */
+  --accent: var(--aurora-lavender);     /* Secondary accents - lavender */
+  --error: var(--semantic-error);       /* Error states - red */
+  --warning: var(--semantic-warning);   /* Warning states - amber */
+  --success: var(--semantic-success);   /* Success states - emerald */
 
   /* ============================================
    * DESIGN TOKENS - Action Colors
-   * Timer-specific action colors
+   * Timer-specific action colors (Aurora-themed)
    * ============================================ */
-  --stopwatch-start: #28a745;  /* Green - Start/Go actions */
-  --stopwatch-stop:  #dc3545;  /* Red - Stop/Danger actions */
-  --countdown-accent: #17a2b8; /* Teal - Countdown specific */
+  --stopwatch-start: var(--semantic-success);  /* Emerald - Start/Go actions */
+  --stopwatch-stop:  var(--semantic-error);    /* Red - Stop/Danger actions */
+  --countdown-accent: var(--aurora-cyan);      /* Cyan - Countdown specific */
 
   /* ============================================
    * DESIGN TOKENS - Chess Clock
-   * Player background colors
+   * Player background colors (Ocean-themed)
    * ============================================ */
-  --chess-white: #ffffff;      /* Player 1 (White) background */
-  --chess-black: #000000;      /* Player 2 (Black) background */
+  --chess-white: var(--ocean-mid);      /* Player 1 - Mid ocean */
+  --chess-black: var(--ocean-deep);     /* Player 2 - Deep ocean */
 
   /* ============================================
    * DESIGN TOKENS - Surface Colors
-   * Background surfaces for light theme
+   * Background surfaces with ocean depth
    * ============================================ */
-  --surface-1: #f8f9fa;        /* Primary background surface */
-  --surface-2: #e9ecef;        /* Secondary background surface */
+  --surface-1: var(--ocean-dark);      /* Primary background surface */
+  --surface-2: var(--ocean-mid);       /* Secondary background surface */
 
   /* ============================================
    * DESIGN TOKENS - Text Colors
-   * Typography hierarchy
+   * Typography hierarchy with aurora accents
    * ============================================ */
-  --text-primary: #212529;     /* Main text (high contrast) */
-  --text-secondary: #6c757d;   /* Muted/secondary text */
+  --text-primary: var(--neutral-white);     /* Main text (high contrast) */
+  --text-secondary: var(--ocean-bright);    /* Muted/secondary text */
 
   /* ============================================
    * DESIGN TOKENS - Interaction States
-   * Focus, hover effects
+   * Focus, hover effects with aurora glow
    * ============================================ */
-  --focus-glow: 0 0 0 4px rgba(0, 123, 255, 0.15); /* Keyboard focus outline */
-  --hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);    /* Button hover shadow */
+  --focus-glow: 0 0 0 4px rgba(0, 217, 255, 0.25), var(--shadow-glow-cyan); /* Cyan glow focus */
+  --hover-shadow: 0 4px 12px rgba(0, 217, 255, 0.2);    /* Cyan glow hover */
 
   /* ============================================
    * DESIGN TOKENS - Warning System
-   * Flash warning overlay
+   * Flash warning overlay with aurora effect
    * ============================================ */
-  --warning-flash: rgba(220, 53, 69, 0.18);        /* Semi-transparent red flash */
+  --warning-flash: rgba(239, 68, 68, 0.25);        /* Semi-transparent red flash */
 
   /* ============================================
    * DESIGN TOKENS - Button Role Colors
-   * Modern Minimalist button system
+   * Deep Ocean Aurora button system
    * ============================================ */
-  --btn-primary-action: #DC143C;              /* Large red Start/Stop button (Crimson) */
-  --btn-primary-action-active: #B22222;       /* Darker red when active (Firebrick) */
-  --btn-secondary: var(--light-gray);         /* Secondary buttons (Reset, etc) */
-  --btn-secondary-text: var(--charcoal);      /* Secondary button text */
-  --btn-config: rgba(211, 211, 211, 0.2);     /* Config presets (Light Gray with opacity) */
-  --btn-config-text: var(--white);            /* Config text */
-  --btn-nav-primary: #58a6ff;                 /* Home button blue - UNCHANGED */
+  --btn-primary-action: var(--aurora-cyan);           /* Large cyan Start/Stop button */
+  --btn-primary-action-active: var(--aurora-purple);  /* Purple when active */
+  --btn-secondary: transparent;                       /* Secondary buttons (transparent) */
+  --btn-secondary-text: var(--neutral-white);         /* Secondary button text */
+  --btn-config: rgba(74, 111, 165, 0.2);             /* Config presets (Ocean light with opacity) */
+  --btn-config-text: var(--neutral-white);            /* Config text */
+  --btn-nav-primary: var(--aurora-cyan);              /* Home button - cyan */
 
   /* ============================================
    * DESIGN TOKENS - Spacing Scale
@@ -110,41 +110,78 @@
   --font-weight-bold: 700;
 }
 
-/* Light theme */
+/* Light theme (Ocean Day) */
 [data-theme="light"] {
-  --bg:#ffffff;
-  --fg:#24292f;
-  --muted:#57606a;
-  --primary:#0969da;
-  --accent:#cf222e;
-  --border:#d0d7de;
-  --error:#cf222e;
-  --warning:#9a6700;
-  --success:#1a7f37;
+  --bg: var(--neutral-gray-100);
+  --fg: var(--ocean-deep);
+  --muted: var(--ocean-light);
+  --primary: var(--aurora-purple);
+  --accent: var(--aurora-lavender);
+  --border: var(--ocean-bright);
+  --error: var(--semantic-error);
+  --warning: var(--semantic-warning);
+  --success: var(--semantic-success);
 }
 
-/* Dark theme (explicit) */
+/* Dark theme (Ocean Night) - Default */
 [data-theme="dark"] {
-  --bg:#0b1220;
-  --fg:#e6edf3;
-  --muted:#9aa4b2;
-  --primary:#58a6ff;
-  --accent:#f78166;
-  --border:#30363d;
-  --error:#f85149;
-  --warning:#d29922;
-  --success:#3fb950;
+  --bg: var(--ocean-deep);
+  --fg: var(--neutral-white);
+  --muted: var(--ocean-light);
+  --primary: var(--aurora-cyan);
+  --accent: var(--aurora-lavender);
+  --border: var(--ocean-mid);
+  --error: var(--semantic-error);
+  --warning: var(--semantic-warning);
+  --success: var(--semantic-success);
 }
 
 *{ box-sizing:border-box; }
 html,body,#root{ height:100%; margin:0; }
 body{
-  background:var(--light-gray); /* Light Gray background for home page */
+  background: var(--ocean-deep);
   color:var(--fg);
   font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Override for timer pages - keep Charcoal background */
+/* Multi-layer gradient background system */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-ocean-mesh);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Animated aurora glow overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background: var(--gradient-aurora-glow);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+  animation: aurora-drift 20s ease-in-out infinite;
+}
+
+@keyframes aurora-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5%, 5%) rotate(1deg); }
+  50% { transform: translate(-3%, 8%) rotate(-1deg); }
+  75% { transform: translate(8%, -5%) rotate(0.5deg); }
+}
+
+/* Override for timer pages - enhanced gradient */
 body:has(.countdown-wrap),
 body:has(.stopwatch-wrap),
 body:has(.alarm-wrap),
@@ -155,7 +192,7 @@ body:has(.cycle-wrap),
 body:has(.world-wrap),
 body:has(.digital-wrap),
 body:has(.legal-page) {
-  background:var(--charcoal);
+  background: var(--gradient-ocean-radial);
 }
 
 /* Consent banner */
@@ -182,35 +219,55 @@ body:has(.legal-page) {
   margin-top:16px;
 }
 
-/* Home Title - Geometric Banner with Golden Ratio */
-/* Home Title */
+/* Home Title - Professional Aurora Banner */
 .home-title{
   text-align:center;
-  font-size:clamp(56px, 10vw, 96px); /* Larger */
-  font-weight:900; /* Extra bold */
+  font-size:clamp(56px, 10vw, 96px);
+  font-weight:900;
   margin:0 0 48px 0;
   padding:0;
-  color:#FFFFFF; /* Weiß */
-  font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif; /* Modern */
+  color: var(--neutral-white);
+  font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing:0.15em;
   text-transform:uppercase;
   position:relative;
+  z-index: 1;
+  overflow: hidden;
 
-  /* Geometric banner background */
-  background:linear-gradient(135deg,
-    #36454F 0%,
-    #4a5a6a 50%,
-    #36454F 100%
-  );
-  padding:clamp(32px, 5vw, 64px) 0; /* Golden ratio vertical padding */
+  /* Deep ocean gradient with depth */
+  background: 
+    linear-gradient(135deg, 
+      rgba(0, 217, 255, 0.05) 0%, 
+      transparent 50%, 
+      rgba(199, 125, 255, 0.05) 100%),
+    var(--gradient-ocean);
+  padding:clamp(32px, 5vw, 64px) 0;
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 2px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(0, 217, 255, 0.2),
+    inset 0 1px 0 rgba(0, 217, 255, 0.3),
+    inset 0 -1px 0 rgba(123, 44, 191, 0.3);
 
-  /* White border with rounded corners */
-  border:2px solid rgba(255, 255, 255, 0.4);
+  /* Aurora border with animated glow */
+  border:2px solid transparent;
   border-radius:16px;
+  background-clip: padding-box;
+}
+
+.home-title::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-aurora);
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0.6;
+  animation: border-pulse 3s ease-in-out infinite;
+}
+
+@keyframes border-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 .home-title::before{
@@ -233,16 +290,30 @@ body:has(.legal-page) {
 .home-title::after{
   content:'';
   position:absolute;
-  bottom:-6px;
+  bottom:-8px;
   left:50%;
   transform:translateX(-50%);
   width:38.2%; /* Golden ratio complement (1 - φ) */
-  height:4px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    var(--btn-primary-action) 50%,
-    transparent 100%
-  );
+  height:6px;
+  background: var(--gradient-aurora);
+  box-shadow: 
+    0 0 20px rgba(0, 217, 255, 0.6),
+    0 0 40px rgba(199, 125, 255, 0.4);
+  border-radius: 3px;
+  animation: underline-glow 2s ease-in-out infinite;
+}
+
+@keyframes underline-glow {
+  0%, 100% { 
+    box-shadow: 
+      0 0 20px rgba(0, 217, 255, 0.6),
+      0 0 40px rgba(199, 125, 255, 0.4);
+  }
+  50% { 
+    box-shadow: 
+      0 0 30px rgba(0, 217, 255, 0.8),
+      0 0 60px rgba(199, 125, 255, 0.6);
+  }
 }
 
 /* Home Grid Container - Golden Ratio Layout */
@@ -253,52 +324,67 @@ body:has(.legal-page) {
 }
 
 .home-grid{
-  background:var(--charcoal); /* Dark tile background */
-  border-radius:32px; /* Geometric rounded corners */
-  padding:clamp(32px, 4.85vw, 78.4px); /* Golden ratio padding (48.4 * φ) */
+  background: 
+    linear-gradient(135deg, 
+      rgba(0, 217, 255, 0.03) 0%, 
+      transparent 50%, 
+      rgba(199, 125, 255, 0.03) 100%),
+    var(--ocean-dark);
+  border-radius:32px;
+  padding:clamp(32px, 4.85vw, 78.4px);
   box-shadow:
-    0 12px 40px rgba(0,0,0,0.25),
-    0 4px 12px rgba(0,0,0,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.05);
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 80px rgba(0, 217, 255, 0.15),
+    inset 0 1px 0 rgba(0, 217, 255, 0.2),
+    inset 0 -1px 0 rgba(123, 44, 191, 0.2);
 
-  /* Geometric border accents */
-  border:2px solid rgba(112, 128, 144, 0.3);
+  /* Gradient border effect */
+  border:2px solid transparent;
+  background-clip: padding-box;
   position:relative;
+  z-index: 1;
+  overflow: hidden;
 
   display:grid;
   grid-template-columns:repeat(3, 1fr);
   grid-template-rows:repeat(3, auto);
-  gap:clamp(20px, 2.94vw, 47.4px); /* Golden ratio gap (29.4 * φ) */
+  gap:clamp(20px, 2.94vw, 47.4px);
   justify-items:center;
   align-items:center;
 }
 
-/* Geometric corner accents */
-.home-grid::before,
-.home-grid::after{
-  content:'';
-  position:absolute;
-  width:61.8px; /* Golden ratio */
-  height:61.8px;
-  border:3px solid var(--btn-primary-action);
-  pointer-events:none;
+/* Animated gradient border */
+.home-grid::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, 
+    var(--aurora-cyan) 0%, 
+    var(--aurora-purple) 50%, 
+    var(--aurora-lavender) 100%);
+  border-radius: 32px;
+  z-index: -1;
+  opacity: 0.4;
 }
 
-.home-grid::before{
-  top:-3px;
-  left:-3px;
-  border-right:none;
-  border-bottom:none;
-  border-radius:32px 0 0 0;
+/* Shimmer effect overlay */
+.home-grid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-shimmer);
+  animation: shimmer 8s linear infinite;
+  pointer-events: none;
 }
 
-.home-grid::after{
-  bottom:-3px;
-  right:-3px;
-  border-left:none;
-  border-top:none;
-  border-radius:0 0 32px 0;
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
 }
+
 
 @media (max-width: 900px) {
   .home-grid{
@@ -316,16 +402,17 @@ body:has(.legal-page) {
   }
 }
 
-/* Timer Cards - Buttons inside dark tile */
+/* Timer Cards - Professional glass-morphism style */
 .timer-card{
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  transition:transform 0.2s, filter 0.2s;
+  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width:100%;
   max-width:280px;
+  position: relative;
 }
 
 .ad-container{
@@ -342,8 +429,12 @@ body:has(.legal-page) {
 }
 
 .timer-card:hover{
-  transform:scale(1.05);
-  filter:brightness(1.1);
+  transform:scale(1.08) translateY(-4px);
+  filter:brightness(1.2) drop-shadow(0 8px 24px rgba(0, 217, 255, 0.3));
+}
+
+.timer-card:active{
+  transform:scale(1.02) translateY(-2px);
 }
 
 .timer-icon-top{
@@ -388,14 +479,46 @@ body:has(.legal-page) {
 .card{
   display:block;
   padding:18px;
-  border:1px solid #1f2937;
+  border:2px solid var(--ocean-mid);
   border-radius:12px;
   text-decoration:none;
   color:var(--fg);
-  background:rgba(255,255,255,.02);
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(199, 125, 255, 0.03) 100%),
+    rgba(26, 41, 66, 0.4);
   text-align:center;
+  backdrop-filter: blur(10px);
+  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
-.card:hover{ background:rgba(255,255,255,.06); }
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 217, 255, 0.1) 50%, 
+    transparent 100%);
+  transition: left 0.5s;
+}
+
+.card:hover{ 
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(199, 125, 255, 0.08) 100%),
+    rgba(26, 41, 66, 0.6);
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.card:hover::before {
+  left: 100%;
+}
 
 /* Page layout */
 .page{
@@ -479,9 +602,11 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--charcoal); /* Modern Minimalist */
-  padding: 88px var(--spacing-lg) var(--spacing-xl); /* Space for fixed home button */
+  background: transparent;
+  padding: 88px var(--spacing-lg) var(--spacing-xl);
   gap: var(--spacing-md);
+  position: relative;
+  z-index: 1;
 }
 
 /* Digital time display above clock - white text */
@@ -519,26 +644,29 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   min-width:56px;
   min-height:56px;
   border-radius:12px;
-  border:2px solid #243244;
-  background:rgba(255,255,255,.04);
+  border:2px solid var(--ocean-mid);
+  background:rgba(74, 111, 165, 0.15);
   color:var(--fg);
   cursor:pointer;
   text-decoration:none;
   font-size:16px;
   font-weight:600;
-  transition:all 0.2s ease;
+  transition:all var(--transition-glow);
 }
 
 .btn.primary{
-  border-color:var(--stopwatch-start);
-  background:var(--stopwatch-start);
-  color:#fff;
+  border-color:var(--aurora-cyan);
+  background:var(--aurora-cyan);
+  color:var(--ocean-deep);
   min-width:120px;
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 .btn.primary:hover{
   transform:translateY(-2px);
-  box-shadow:var(--hover-shadow);
+  box-shadow:var(--hover-shadow), var(--shadow-glow-cyan);
+  background: var(--aurora-lavender);
+  border-color: var(--aurora-lavender);
 }
 
 .btn.primary:focus-visible{
@@ -546,7 +674,10 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   outline:none;
 }
 
-.btn:hover{ background:rgba(255,255,255,.08); }
+.btn:hover{ 
+  background:rgba(74, 111, 165, 0.25);
+  border-color: var(--ocean-light);
+}
 
 /* ============================================
  * BUTTONS - Unified Home Button
@@ -562,22 +693,24 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   min-width: 100px;
   min-height: 56px;
   padding: var(--spacing-md) var(--spacing-lg);
-  background: var(--btn-nav-primary);
-  color: #fff;
+  background: var(--aurora-cyan);
+  color: var(--ocean-deep);
   font-weight: var(--font-weight-semibold);
   border-radius: 12px;
-  border: none;
+  border: 2px solid var(--aurora-cyan);
   text-decoration: none;
   z-index: 1000;
-  transition: all 0.2s ease;
+  transition: all var(--transition-glow);
   cursor: pointer;
   font-size: 16px;
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 .btn-home:hover {
-  background: #4a8edb;
+  background: var(--aurora-lavender);
+  border-color: var(--aurora-lavender);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+  box-shadow: var(--shadow-glow-purple);
 }
 
 .home-icon {
@@ -618,9 +751,9 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
  * BUTTONS - Primary Action Button (Large Red Start/Stop)
  * ============================================ */
 .btn-primary-action {
-  background: var(--btn-primary-action);
-  border: 2px solid var(--btn-primary-action);
-  color: var(--white);
+  background: var(--aurora-cyan);
+  border: 2px solid var(--aurora-cyan);
+  color: var(--ocean-deep);
   font-size: 24px;
   font-weight: var(--font-weight-bold);
   min-height: 80px;
@@ -628,51 +761,57 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding: var(--spacing-xl) var(--spacing-2xl);
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-glow);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 .btn-primary-action:hover {
-  background: var(--btn-primary-action-active);
+  background: var(--aurora-lavender);
+  border-color: var(--aurora-lavender);
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(220, 20, 60, 0.5);
+  box-shadow: var(--shadow-glow-purple);
 }
 
 .btn-primary-action:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.3);
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 /* When timer is running (active state) */
 .btn-primary-action.active {
-  background: var(--btn-primary-action-active);
+  background: var(--aurora-purple);
+  border-color: var(--aurora-purple);
+  box-shadow: var(--shadow-glow-purple);
 }
 
 /* Legacy aliases for compatibility */
 .btn-success {
-  background: var(--btn-primary-action);
-  border-color: var(--btn-primary-action);
-  color: var(--white);
+  background: var(--semantic-success);
+  border-color: var(--semantic-success);
+  color: var(--neutral-white);
+  box-shadow: var(--shadow-glow-green);
 }
 
 .btn-success:hover {
-  background: var(--btn-primary-action-active);
+  background: var(--aurora-cyan);
+  border-color: var(--aurora-cyan);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.4);
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 .btn-danger {
-  background: var(--btn-primary-action-active);
-  border-color: var(--btn-primary-action-active);
-  color: var(--white);
+  background: var(--semantic-error);
+  border-color: var(--semantic-error);
+  color: var(--neutral-white);
 }
 
 .btn-danger:hover {
-  background: #A52A2A;
+  background: var(--aurora-purple);
+  border-color: var(--aurora-purple);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(178, 34, 34, 0.4);
+  box-shadow: var(--shadow-glow-purple);
 }
 
 /* ============================================
@@ -680,21 +819,22 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
  * ============================================ */
 .btn-secondary {
   background: transparent;
-  border: 2px solid var(--slate-gray);
-  color: var(--white);
+  border: 2px solid var(--ocean-mid);
+  color: var(--neutral-white);
   font-size: 16px;
   font-weight: var(--font-weight-semibold);
   min-height: 56px;
   padding: var(--spacing-md) var(--spacing-lg);
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-glow);
 }
 
 .btn-secondary:hover {
-  background: var(--slate-gray);
-  border-color: var(--light-gray);
+  background: rgba(74, 111, 165, 0.2);
+  border-color: var(--aurora-cyan);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 /* ============================================
@@ -702,27 +842,28 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
  * ============================================ */
 .btn-config {
   background: var(--btn-config);
-  border: 1px solid var(--border);
+  border: 1px solid var(--ocean-mid);
   color: var(--btn-config-text);
   font-size: 14px;
   padding: var(--spacing-sm) var(--spacing-md);
   min-height: 40px;
   border-radius: 8px;
   font-weight: var(--font-weight-normal);
-  transition: all 0.2s ease;
+  transition: all var(--transition-glow);
   cursor: pointer;
 }
 
 .btn-config:hover {
-  background: rgba(154, 164, 178, 0.15);
-  border-color: var(--muted);
+  background: rgba(74, 111, 165, 0.25);
+  border-color: var(--ocean-light);
   color: var(--fg);
 }
 
 .btn-config.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
+  background: var(--aurora-cyan);
+  border-color: var(--aurora-cyan);
+  color: var(--ocean-deep);
+  box-shadow: var(--shadow-glow-cyan);
 }
 
 .analog-canvas{
@@ -789,14 +930,23 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .chip {
   padding: 8px 12px;
   border-radius: 999px;
-  border: 1px solid #304258;
-  background: rgba(255, 255, 255, .03);
+  border: 1px solid var(--ocean-mid);
+  background: 
+    linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(199, 125, 255, 0.05) 100%),
+    rgba(26, 41, 66, 0.3);
   color: var(--fg);
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
 }
 
 .chip:hover {
-  background: rgba(255, 255, 255, .08);
+  background: 
+    linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(199, 125, 255, 0.1) 100%),
+    rgba(26, 41, 66, 0.5);
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 /* Mobile adjustments */
@@ -850,10 +1000,12 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   display:flex;
   flex-direction:column;
   gap:20px;
-  padding:40px 20px;
+  padding:88px 20px 40px;
   align-items:center;
   justify-content:center;
-  background:rgba(54, 69, 79, 0.7);
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .countdown-input{
@@ -875,10 +1027,23 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   padding:8px;
   font-size:28px;
   text-align:center;
-  background:rgba(255,255,255,.08);
-  border:1px solid #304258;
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(199, 125, 255, 0.05) 100%),
+    rgba(26, 41, 66, 0.4);
+  border:2px solid var(--ocean-mid);
   border-radius:8px;
   color:var(--fg);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.countdown-input input:focus {
+  outline: none;
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2), 0 0 20px rgba(0, 217, 255, 0.3);
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(199, 125, 255, 0.1) 100%),
+    rgba(26, 41, 66, 0.6);
 }
 
 .countdown-input .sep{
@@ -891,17 +1056,43 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   letter-spacing:0.05em;
   font-weight:200;
   font-variant-numeric:tabular-nums;
-  /* Digital display - rechteckig wie digitales Ziffernblatt */
-  background:#000000; /* Schwarzer Hintergrund wie Digitaluhr */
-  color:#FFFFFF; /* Weiße Ziffern */
-  border-radius:12px; /* Slightly rounded corners */
+  /* Digital display with vibrant aurora glow */
+  background: 
+    radial-gradient(ellipse at center, rgba(0, 217, 255, 0.05) 0%, transparent 70%),
+    var(--ocean-deep);
+  color: var(--aurora-cyan);
+  border-radius:16px;
   padding:var(--spacing-2xl) var(--spacing-2xl);
-  border:4px solid var(--slate-gray);
+  border:3px solid var(--aurora-cyan);
   box-shadow:
-    0 8px 24px rgba(0,0,0,0.3),
-    inset 0 2px 4px rgba(255,255,255,0.1); /* Leichter Glanz-Effekt */
+    0 0 40px rgba(0, 217, 255, 0.4),
+    0 0 80px rgba(0, 217, 255, 0.2),
+    0 8px 32px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(0, 217, 255, 0.3),
+    inset 0 0 60px rgba(0, 217, 255, 0.05);
   display:inline-block;
   min-width:400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.countdown-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 217, 255, 0.1) 50%, 
+    transparent 100%);
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
 .countdown-controls{
@@ -929,10 +1120,12 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   display:flex;
   flex-direction:column;
   gap:20px;
-  padding:40px 20px;
+  padding:88px 20px 40px;
   align-items:center;
   justify-content:center;
-  background:var(--charcoal); /* Modern Minimalist */
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .stopwatch-display{
@@ -940,18 +1133,39 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   letter-spacing:0.05em;
   font-weight:200;
   font-variant-numeric:tabular-nums;
-  /* Digital display - inverted from Countdown (white on black) */
-  background:#FFFFFF; /* White background */
-  color:#000000; /* Black digits */
-  border-radius:12px;
+  /* Digital display with vibrant purple aurora glow */
+  background: 
+    radial-gradient(ellipse at center, rgba(199, 125, 255, 0.05) 0%, transparent 70%),
+    var(--ocean-deep);
+  color: var(--aurora-lavender);
+  border-radius:16px;
   padding:var(--spacing-2xl) var(--spacing-2xl);
-  border:4px solid var(--slate-gray);
+  border:3px solid var(--aurora-lavender);
   box-shadow:
-    0 8px 24px rgba(0,0,0,0.3),
-    inset 0 2px 4px rgba(0,0,0,0.1); /* Inverted LCD effect */
+    0 0 40px rgba(199, 125, 255, 0.4),
+    0 0 80px rgba(199, 125, 255, 0.2),
+    0 8px 32px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(199, 125, 255, 0.3),
+    inset 0 0 60px rgba(199, 125, 255, 0.05);
   display:inline-block;
   min-width:min(800px, 90vw);
   text-align:center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stopwatch-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(199, 125, 255, 0.1) 50%, 
+    transparent 100%);
+  animation: scan 3s linear infinite;
 }
 
 .stopwatch-controls{
@@ -985,9 +1199,22 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   display:flex;
   gap:12px;
   padding:8px 12px;
-  background:rgba(255,255,255,.04);
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(199, 125, 255, 0.03) 100%),
+    rgba(26, 41, 66, 0.3);
   border-radius:8px;
   font-variant-numeric:tabular-nums;
+  border: 1px solid var(--ocean-mid);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+.lap-item:hover {
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(199, 125, 255, 0.08) 100%),
+    rgba(26, 41, 66, 0.5);
+  border-color: var(--aurora-cyan);
+  transform: translateX(4px);
 }
 
 .lap-num{
@@ -1047,9 +1274,11 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .world-wrap{
   max-width:800px;
   margin:0 auto;
-  padding:40px 20px;
+  padding:88px 20px 40px;
   min-height:100vh;
-  background:rgba(90, 124, 153, 0.7);
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .world-wrap h2{
@@ -1069,8 +1298,22 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   align-items:center;
   gap:16px;
   padding:16px;
-  background:rgba(255,255,255,.04);
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(199, 125, 255, 0.03) 100%),
+    rgba(26, 41, 66, 0.3);
   border-radius:12px;
+  border: 2px solid var(--ocean-mid);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timezone-item:hover {
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(199, 125, 255, 0.08) 100%),
+    rgba(26, 41, 66, 0.5);
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .tz-info{
@@ -1126,9 +1369,11 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .alarm-wrap{
   max-width:600px;
   margin:0 auto;
-  padding:40px 20px;
+  padding:88px 20px 40px;
   min-height:100vh;
-  background:var(--charcoal); /* Modern Minimalist */
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 /* Current Time Display */
@@ -1169,8 +1414,22 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   align-items:center;
   gap:12px;
   padding:16px;
-  background:rgba(255,255,255,.04);
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(199, 125, 255, 0.03) 100%),
+    rgba(26, 41, 66, 0.3);
   border-radius:12px;
+  border: 2px solid var(--ocean-mid);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.alarm-item:hover {
+  background:
+    linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(199, 125, 255, 0.08) 100%),
+    rgba(26, 41, 66, 0.5);
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .alarm-info{
@@ -1255,10 +1514,12 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 .metronome-wrap{
   max-width:600px;
   margin:0 auto;
-  padding:40px 20px;
+  padding:88px 20px 40px;
   text-align:center;
   min-height:100vh;
-  background:var(--charcoal); /* Modern Minimalist */
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .metronome-wrap h2{
@@ -1328,8 +1589,9 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   height:100vh;
   display:flex;
   flex-direction:column;
-  background:var(--charcoal); /* Modern Minimalist */
+  background: transparent;
   overflow: hidden;
+  position: relative;
 }
 
 .player{
@@ -1345,21 +1607,21 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   opacity:0.7; /* Inactive state - dimmed */
 }
 
-/* Player 1: Charcoal background */
+/* Player 1: Ocean Mid background */
 .player-1{
-  background:var(--charcoal);
+  background: var(--ocean-mid);
 }
 
-/* Player 2: Slate Gray background */
+/* Player 2: Ocean Deep background */
 .player-2{
-  background:var(--slate-gray);
+  background: var(--ocean-deep);
 }
 
-/* Active player state - full brightness + white glow */
+/* Active player state - full brightness + aurora glow */
 .player.active{
   opacity:1.0;
-  border:4px solid var(--white);
-  box-shadow:inset 0 0 40px rgba(255, 255, 255, 0.2);
+  border:4px solid var(--aurora-cyan);
+  box-shadow:inset 0 0 40px rgba(0, 217, 255, 0.3), var(--shadow-glow-cyan);
 }
 
 /* Press feedback - scale down + flash */
@@ -1430,12 +1692,12 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 }
 
 .chess-settings-content{
-  background:var(--charcoal);
-  border:2px solid var(--slate-gray);
+  background: var(--ocean-dark);
+  border:2px solid var(--aurora-cyan);
   border-radius:16px;
   padding:32px;
   min-width:320px;
-  box-shadow:0 12px 40px rgba(0, 0, 0, 0.5);
+  box-shadow:0 12px 40px rgba(0, 0, 0, 0.5), var(--shadow-glow-cyan);
 }
 
 .chess-settings-content h3{
@@ -1460,17 +1722,17 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   width:100%;
   padding:12px;
   font-size:18px;
-  border:2px solid var(--slate-gray);
+  border:2px solid var(--ocean-mid);
   border-radius:8px;
-  background:rgba(255, 255, 255, 0.1);
-  color:var(--white);
+  background:rgba(74, 111, 165, 0.15);
+  color:var(--neutral-white);
   text-align:center;
 }
 
 .time-input-group input[type="number"]:focus{
   outline:none;
-  border-color:var(--btn-primary-action);
-  box-shadow:0 0 0 3px rgba(220, 20, 60, 0.2);
+  border-color:var(--aurora-cyan);
+  box-shadow:var(--focus-glow);
 }
 
 .chess-settings-buttons{
@@ -1485,10 +1747,12 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   display:flex;
   flex-direction:column;
   gap:20px;
-  padding:40px 20px;
+  padding:88px 20px 40px;
   align-items:center;
   justify-content:center;
-  background:var(--charcoal); /* Modern Minimalist */
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 /* Theme Toggle Button */

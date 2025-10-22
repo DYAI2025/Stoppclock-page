@@ -18,10 +18,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Core Development
 ```bash
-npm run dev          # Start development server (default: http://localhost:5173)
+npm run dev          # Start development server (http://localhost:5173)
 npm run build        # Production build (outputs to dist/ + generates sitemap)
-npm run preview      # Preview production build locally
+npm run preview      # Preview production build locally (http://localhost:4173)
 ```
+
+**Port Reference:**
+- Dev server: `localhost:5173` (Vite default, hot reload enabled)
+- Preview server: `localhost:4173` (production build testing, used by Playwright)
 
 ### Testing & Quality
 ```bash
@@ -30,7 +34,11 @@ npm run test:e2e:ui  # Run tests with Playwright UI
 npm run doctor       # Security/quality check - scans for forbidden tokens
 ```
 
-**Note:** The `doctor` script checks for forbidden tokens like "lovable", "dev-agent", "tagger" in the codebase. Root-level .md files and the doctor script itself are excluded.
+**Important Testing Notes:**
+- Tests run against the **preview server** (port 4173), not the dev server
+- Playwright auto-starts `npm run preview` before running tests
+- Tests are configured in `playwright.config.ts` (Chromium + Firefox enabled, Webkit disabled)
+- The `doctor` script checks for forbidden tokens like "lovable", "dev-agent", "tagger" in the codebase. Root-level .md files and the doctor script itself are excluded.
 
 ## Architecture
 
@@ -80,11 +88,14 @@ All timer state interfaces defined in `src/types/timer-types.ts`:
 Located in `src/pages/AnalogCountdown.tsx`:
 - **Canvas rendering** at 60 FPS via `requestAnimationFrame`
 - **Clock physics:** Hour hand uses 12-hour clock logic (`totalHours / 12`) to match standard analog clock behavior
-- **Max duration:** 4 hours (for readability)
+- **Max duration:** 4 hours (for optimal readability on clock face)
 - **Progress visualization:** Colored arc (red→green gradient via HSL) shows remaining time
 - **Warning system:** Configurable audio beep + visual flash
+- **Presets:** Quick-select durations from 5 minutes to 4 hours
 
 **Critical bug fix (commit 6891b6b):** Hour hand must divide by 12, not 4, to follow proper analog clock physics where the hour hand moves 1/12th the speed of the minute hand.
+
+**Note:** While analog clock displays up to 4 hours for readability, other timer types support longer durations (e.g., Stopwatch is unlimited, Digital Countdown supports arbitrary hours).
 
 ## Monetization Architecture
 
@@ -162,6 +173,30 @@ Privacy-first monetization framework with GDPR-compliant consent management:
 1. `vite build` → Bundles TypeScript/React to `dist/`
 2. `node scripts/gen-sitemap.mjs` → Generates sitemap.xml for SEO
 
+## Speckit Framework
+
+The project uses a `.specify/` directory structure for feature planning and specifications:
+
+```
+.specify/
+├── memory/
+│   └── constitution.md        # Non-negotiable project principles
+├── features/                  # Feature specifications and plans
+│   ├── ads-monetization-growth/
+│   └── ui-ux-redesign/
+├── scripts/bash/              # Automation scripts for feature creation
+└── templates/                 # Templates for specs, plans, checklists
+```
+
+**Constitution Principles** (`.specify/memory/constitution.md`):
+1. **Privacy First** - No tracking without explicit opt-in consent
+2. **Performance & Speed** - Lighthouse score >90, <2s load time
+3. **Classroom Optimized** - Fullscreen mode without ad interference
+4. **Progressive Enhancement** - Core functionality works without ads
+5. **Accessibility** - WCAG 2.1 AA compliance
+
+These principles are **non-negotiable** when implementing new features or making changes.
+
 ## File Organization Patterns
 
 ```
@@ -197,8 +232,10 @@ src/
 1. **No external dependencies for core timer logic** → All timer calculations use vanilla JS/TypeScript
 2. **Max localStorage usage:** ~5MB total (browser limit)
 3. **60 FPS target** for analog animations via `requestAnimationFrame`
-4. **Privacy-first:** No tracking without explicit user consent
+4. **Privacy-first:** No tracking without explicit user consent (see Constitution)
 5. **Offline-capable:** All core features must work without network
+6. **No ads during active timers:** Fullscreen timer mode must be ad-free for classroom use
+7. **Performance budget:** Lighthouse score must remain >90 (constitution requirement)
 
 ## Common Gotchas
 
@@ -236,3 +273,28 @@ Ad slot IDs configured in `src/config/ad-units.ts`:
 - Other slots: Placeholder IDs (replace with actual AdSense dashboard IDs)
 
 **Note:** `ads.txt` in `public/` directory must be deployed to verify ownership.
+
+## Development Workflow Best Practices
+
+### Before Making Changes
+1. **Check the Constitution** - Ensure changes align with `.specify/memory/constitution.md` principles
+2. **Run tests** - `npm run test:e2e` to verify current state
+3. **Run doctor** - `npm run doctor` to check for forbidden tokens
+
+### During Development
+1. **Use dev server** - `npm run dev` for hot reload during development
+2. **Test in preview mode** - `npm run preview` to test production build behavior
+3. **Verify cross-tab sync** - Open multiple browser tabs to test `useStorageSync` functionality
+4. **Check fullscreen mode** - Press F or click fullscreen button to verify layout
+
+### Before Committing
+1. **Build successfully** - `npm run build` must complete without errors
+2. **Tests pass** - `npm run test:e2e` must pass (44+ tests)
+3. **Doctor check** - `npm run doctor` must report OK
+4. **Performance check** - Verify Lighthouse score >90 if making UI changes
+5. **Constitution compliance** - Confirm changes don't violate non-negotiable principles
+
+### Feature Development
+- Use `.specify/` directory for planning new features
+- Follow the existing feature structure (spec.md, plan.md, data-model.md, etc.)
+- Reference the Constitution principles in feature specs
