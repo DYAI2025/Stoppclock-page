@@ -10,6 +10,7 @@ import Metronome from "./pages/Metronome";
 import ChessClock from "./pages/ChessClock";
 import CycleTimer from "./pages/CycleTimer";
 import DigitalClock from "./pages/DigitalClock";
+import Pomodoro from "./pages/Pomodoro";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import { AdSenseScript } from "./components/AdSenseScript";
@@ -126,6 +127,7 @@ function Home() {
     { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
     { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
     { route: "#/analog", label: "Analog", color: "#C77DFF", colorRgb: "199, 125, 255" },
+    { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
     { route: "#/cycle", label: "Cycle Timer", color: "#10B981", colorRgb: "16, 185, 129" },
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
     { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
@@ -197,6 +199,7 @@ function App() {
       {route === "/analog" && <AnalogCountdown />}
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
+      {route === "/pomodoro" && <Pomodoro />}
       {route === "/cycle" && <CycleTimer />}
       {route === "/digital" && <DigitalClock />}
       {route === "/world" && <WorldClock />}
@@ -205,7 +208,7 @@ function App() {
       {route === "/chess" && <ChessClock />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/cycle", "/digital", "/world", "/alarm", "/metronome", "/chess", "/impressum", "/datenschutz"].includes(route) && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cycle", "/digital", "/world", "/alarm", "/metronome", "/chess", "/impressum", "/datenschutz"].includes(route) && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
@@ -245,6 +248,15 @@ function TimerIcon({ type }: { type: string }) {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+    "Pomodoro": (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="13" r="9"/>
+        <path d="M12 4v9l3.5 3.5"/>
+        <path d="M10 2h4"/>
+        <path d="M11 2l-1 2"/>
+        <path d="M14 2l1 2"/>
       </svg>
     ),
     "Cycle Timer": (
