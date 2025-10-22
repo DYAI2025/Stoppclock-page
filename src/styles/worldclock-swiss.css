@@ -1,0 +1,197 @@
+/* ============================================
+ * WORLD CLOCK - Swiss/Bauhaus Minimal
+ * Inspired by UN headquarters wall clocks
+ * ============================================ */
+
+.worldclock-page {
+  min-height: 100vh;
+  background: var(--mono-white);
+  color: var(--mono-black);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+/* Header (consistent with other timers) */
+.worldclock-header {
+  width: 100%;
+  max-width: var(--container-max);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-thin) solid var(--mono-gray-300);
+}
+
+.worldclock-title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-regular);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Clock grid (5 clocks in a row, like UN headquarters) */
+.worldclock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-6);
+  max-width: 1400px;
+  width: 100%;
+  margin-bottom: var(--space-8);
+}
+
+/* Individual clock card */
+.worldclock-card {
+  background: var(--mono-white);
+  border: var(--border-medium) solid var(--mono-black);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition-base);
+}
+
+.worldclock-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* City selector dropdown */
+.worldclock-selector {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--font-medium);
+  padding: var(--space-2) var(--space-3);
+  background: var(--mono-white);
+  color: var(--mono-black);
+  border: var(--border-thin) solid var(--mono-gray-400);
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-fast);
+}
+
+.worldclock-selector:hover,
+.worldclock-selector:focus {
+  background: var(--mono-gray-100);
+  border-color: var(--mono-black);
+  outline: none;
+}
+
+/* Analog clock (mini version, clean and minimal) */
+.worldclock-analog {
+  width: 160px;
+  height: 160px;
+  position: relative;
+  border: var(--border-medium) solid var(--mono-black);
+  border-radius: 50%;
+  background: var(--mono-white);
+  margin: var(--space-2) 0;
+}
+
+/* Digital time display */
+.worldclock-digital {
+  font-family: var(--font-mono);
+  font-size: var(--type-2xl);
+  font-weight: var(--font-regular);
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: var(--space-3) var(--space-4);
+  background: var(--mono-gray-100);
+  border: var(--border-thin) solid var(--mono-black);
+  width: 100%;
+}
+
+/* Date display */
+.worldclock-date {
+  font-size: var(--type-sm);
+  color: var(--mono-gray-600);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Remove button */
+.worldclock-remove {
+  align-self: stretch;
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--font-medium);
+  padding: var(--space-2);
+  background: transparent;
+  color: var(--mono-gray-600);
+  border: var(--border-thin) solid var(--mono-gray-300);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.worldclock-remove:hover {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border-color: var(--mono-black);
+}
+
+/* Add button */
+.worldclock-add {
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  padding: var(--space-4) var(--space-6);
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--space-4);
+}
+
+.worldclock-add:hover {
+  background: var(--mono-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.worldclock-add:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .worldclock-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .worldclock-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .worldclock-analog {
+    width: 120px;
+    height: 120px;
+  }
+
+  .worldclock-digital {
+    font-size: var(--type-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .worldclock-grid {
+    grid-template-columns: 1fr;
+  }
+}

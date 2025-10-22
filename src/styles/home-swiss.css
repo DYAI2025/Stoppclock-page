@@ -22,6 +22,8 @@
   margin-bottom: var(--space-16);
   padding: var(--space-12) 0;
   border-bottom: var(--border-medium) solid var(--mono-black);
+  /* Subtle gradient to light gray */
+  background: linear-gradient(to bottom, var(--mono-white), var(--mono-gray-100));
 }
 
 .home-title {
@@ -49,7 +51,8 @@
 .home-timer-card {
   aspect-ratio: 1;
   border: var(--border-medium) solid var(--mono-black);
-  background: var(--mono-white);
+  /* Subtle gradient to light gray for depth */
+  background: linear-gradient(135deg, var(--mono-white), var(--mono-gray-100));
   display: flex;
   flex-direction: column;
   align-items: center;

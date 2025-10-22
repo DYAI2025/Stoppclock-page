@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { HomeButton } from "../components/HomeButton";
+import "../styles/worldclock-swiss.css";
 
 const LS_KEY = "sc.v1.worldclock";
 
@@ -8,26 +10,50 @@ type Persist = {
 };
 
 const DEFAULT_TIMEZONES = [
-  "UTC",
   "America/New_York",
   "Europe/London",
-  "Asia/Tokyo"
-];
-
-const COMMON_TIMEZONES = [
-  "UTC",
-  "America/New_York",
-  "America/Chicago",
-  "America/Denver",
-  "America/Los_Angeles",
-  "Europe/London",
-  "Europe/Paris",
-  "Europe/Berlin",
   "Asia/Tokyo",
-  "Asia/Shanghai",
-  "Asia/Dubai",
   "Australia/Sydney",
   "Pacific/Auckland"
+];
+
+// Comprehensive timezone list with city/country labels
+const TIMEZONE_OPTIONS = [
+  { value: "UTC", label: "UTC (Coordinated Universal Time)" },
+  { value: "America/New_York", label: "New York, USA (EST/EDT)" },
+  { value: "America/Chicago", label: "Chicago, USA (CST/CDT)" },
+  { value: "America/Denver", label: "Denver, USA (MST/MDT)" },
+  { value: "America/Los_Angeles", label: "Los Angeles, USA (PST/PDT)" },
+  { value: "America/Toronto", label: "Toronto, Canada (EST/EDT)" },
+  { value: "America/Mexico_City", label: "Mexico City, Mexico (CST/CDT)" },
+  { value: "America/Sao_Paulo", label: "São Paulo, Brazil (BRT)" },
+  { value: "America/Buenos_Aires", label: "Buenos Aires, Argentina (ART)" },
+  { value: "Europe/London", label: "London, UK (GMT/BST)" },
+  { value: "Europe/Paris", label: "Paris, France (CET/CEST)" },
+  { value: "Europe/Berlin", label: "Berlin, Germany (CET/CEST)" },
+  { value: "Europe/Rome", label: "Rome, Italy (CET/CEST)" },
+  { value: "Europe/Madrid", label: "Madrid, Spain (CET/CEST)" },
+  { value: "Europe/Amsterdam", label: "Amsterdam, Netherlands (CET/CEST)" },
+  { value: "Europe/Brussels", label: "Brussels, Belgium (CET/CEST)" },
+  { value: "Europe/Vienna", label: "Vienna, Austria (CET/CEST)" },
+  { value: "Europe/Zurich", label: "Zurich, Switzerland (CET/CEST)" },
+  { value: "Europe/Stockholm", label: "Stockholm, Sweden (CET/CEST)" },
+  { value: "Europe/Moscow", label: "Moscow, Russia (MSK)" },
+  { value: "Africa/Cairo", label: "Cairo, Egypt (EET)" },
+  { value: "Africa/Johannesburg", label: "Johannesburg, South Africa (SAST)" },
+  { value: "Asia/Dubai", label: "Dubai, UAE (GST)" },
+  { value: "Asia/Kolkata", label: "Mumbai, India (IST)" },
+  { value: "Asia/Bangkok", label: "Bangkok, Thailand (ICT)" },
+  { value: "Asia/Singapore", label: "Singapore (SGT)" },
+  { value: "Asia/Hong_Kong", label: "Hong Kong (HKT)" },
+  { value: "Asia/Shanghai", label: "Shanghai, China (CST)" },
+  { value: "Asia/Tokyo", label: "Tokyo, Japan (JST)" },
+  { value: "Asia/Seoul", label: "Seoul, South Korea (KST)" },
+  { value: "Australia/Sydney", label: "Sydney, Australia (AEDT/AEST)" },
+  { value: "Australia/Melbourne", label: "Melbourne, Australia (AEDT/AEST)" },
+  { value: "Pacific/Auckland", label: "Auckland, New Zealand (NZDT/NZST)" },
+  { value: "Pacific/Fiji", label: "Fiji (FJT)" },
+  { value: "Pacific/Honolulu", label: "Honolulu, USA (HST)" }
 ];
 
 function load(): Persist {
@@ -37,7 +63,9 @@ function load(): Persist {
     const p = JSON.parse(raw) as Persist;
     return {
       version: 1,
-      timezones: Array.isArray(p.timezones) ? p.timezones : DEFAULT_TIMEZONES
+      timezones: Array.isArray(p.timezones) && p.timezones.length > 0
+        ? p.timezones
+        : DEFAULT_TIMEZONES
     };
   } catch {
     return {
@@ -55,12 +83,109 @@ function save(p: Persist) {
   }
 }
 
+// Mini analog clock component (canvas-based)
+function MiniAnalogClock({ timezone }: { timezone: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const w = canvas.width;
+    const h = canvas.height;
+    const cx = w / 2;
+    const cy = h / 2;
+    const r = Math.min(w, h) / 2 - 4;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, w, h);
+
+    // Get time in timezone
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+
+    const parts = formatter.formatToParts(now);
+    const hours = parseInt(parts.find(p => p.type === 'hour')?.value || '0');
+    const minutes = parseInt(parts.find(p => p.type === 'minute')?.value || '0');
+    const seconds = parseInt(parts.find(p => p.type === 'second')?.value || '0');
+
+    ctx.save();
+    ctx.translate(cx, cy);
+
+    // Draw hour markers (minimal)
+    for (let i = 0; i < 12; i++) {
+      const angle = (i * Math.PI) / 6 - Math.PI / 2;
+      const len = i % 3 === 0 ? r * 0.12 : r * 0.06;
+      const width = i % 3 === 0 ? 2 : 1;
+
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(angle) * (r - len), Math.sin(angle) * (r - len));
+      ctx.lineTo(Math.cos(angle) * r, Math.sin(angle) * r);
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = width;
+      ctx.lineCap = "round";
+      ctx.stroke();
+    }
+
+    // Hour hand
+    const hourAngle = ((hours % 12) + minutes / 60) * (Math.PI / 6) - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(Math.cos(hourAngle) * r * 0.5, Math.sin(hourAngle) * r * 0.5);
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // Minute hand
+    const minuteAngle = (minutes + seconds / 60) * (Math.PI / 30) - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(Math.cos(minuteAngle) * r * 0.75, Math.sin(minuteAngle) * r * 0.75);
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // Second hand (thin red)
+    const secondAngle = seconds * (Math.PI / 30) - Math.PI / 2;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(Math.cos(secondAngle) * r * 0.85, Math.sin(secondAngle) * r * 0.85);
+    ctx.strokeStyle = "#DC143C";
+    ctx.lineWidth = 1;
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    // Center dot
+    ctx.beginPath();
+    ctx.arc(0, 0, 4, 0, Math.PI * 2);
+    ctx.fillStyle = "#000000";
+    ctx.fill();
+
+    ctx.restore();
+  }, [now, timezone]);
+
+  return <canvas ref={canvasRef} width={160} height={160} className="worldclock-analog" />;
+}
+
 export default function WorldClock() {
   const [st, setSt] = useState<Persist>(load);
   const [now, setNow] = useState(new Date());
-  const [showAdd, setShowAdd] = useState(false);
-  const [selectedTz, setSelectedTz] = useState(COMMON_TIMEZONES[0]);
-  const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000);
@@ -72,24 +197,39 @@ export default function WorldClock() {
     return () => clearTimeout(t);
   }, [st]);
 
-  const addTimezone = () => {
-    if (!st.timezones.includes(selectedTz)) {
-      setSt(s => ({ ...s, timezones: [...s.timezones, selectedTz] }));
-    }
-    setShowAdd(false);
+  const updateTimezone = (index: number, newTz: string) => {
+    setSt(s => {
+      const newTimezones = [...s.timezones];
+      newTimezones[index] = newTz;
+      return { ...s, timezones: newTimezones };
+    });
   };
 
-  const removeTimezone = (tz: string) => {
-    setSt(s => ({ ...s, timezones: s.timezones.filter(t => t !== tz) }));
+  const removeTimezone = (index: number) => {
+    setSt(s => ({
+      ...s,
+      timezones: s.timezones.filter((_, i) => i !== index)
+    }));
+  };
+
+  const addTimezone = () => {
+    if (st.timezones.length < 10) {
+      setSt(s => ({
+        ...s,
+        timezones: [...s.timezones, TIMEZONE_OPTIONS[0].value]
+      }));
+    }
   };
 
   return (
-    <div className="world-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
-      <h2>World Clock</h2>
+    <div className="worldclock-page">
+      <header className="worldclock-header">
+        <h1 className="worldclock-title">World Clock</h1>
+        <HomeButton />
+      </header>
 
-      <div className="timezone-list">
-        {st.timezones.map(tz => {
+      <div className="worldclock-grid">
+        {st.timezones.map((tz, index) => {
           const timeStr = new Intl.DateTimeFormat('en-US', {
             timeZone: tz,
             hour: '2-digit',
@@ -105,42 +245,40 @@ export default function WorldClock() {
             day: 'numeric'
           }).format(now);
 
-          const cityName = tz.split('/').pop()?.replace(/_/g, ' ') || tz;
-
           return (
-            <div key={tz} className="timezone-item">
-              <div className="tz-info">
-                <div className="tz-city">{cityName}</div>
-                <div className="tz-name">{tz}</div>
-              </div>
-              <div className="tz-time">
-                <div className="tz-time-display">{timeStr}</div>
-                <div className="tz-date">{dateStr}</div>
-              </div>
-              <button className="btn btn-remove" onClick={() => removeTimezone(tz)}>×</button>
+            <div key={`${tz}-${index}`} className="worldclock-card">
+              <select
+                className="worldclock-selector"
+                value={tz}
+                onChange={(e) => updateTimezone(index, e.target.value)}
+              >
+                {TIMEZONE_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+
+              <MiniAnalogClock timezone={tz} />
+
+              <div className="worldclock-digital">{timeStr}</div>
+              <div className="worldclock-date">{dateStr}</div>
+
+              <button
+                className="worldclock-remove"
+                onClick={() => removeTimezone(index)}
+              >
+                Remove
+              </button>
             </div>
           );
         })}
       </div>
 
-      {!showAdd && (
-        <button className="btn primary" onClick={() => setShowAdd(true)}>
-          Add Timezone
+      {st.timezones.length < 10 && (
+        <button className="worldclock-add" onClick={addTimezone}>
+          Add Clock
         </button>
-      )}
-
-      {showAdd && (
-        <div className="add-timezone">
-          <select value={selectedTz} onChange={e => setSelectedTz(e.target.value)}>
-            {COMMON_TIMEZONES.map(tz => (
-              <option key={tz} value={tz}>
-                {tz}
-              </option>
-            ))}
-          </select>
-          <button className="btn primary" onClick={addTimezone}>Add</button>
-          <button className="btn" onClick={() => setShowAdd(false)}>Cancel</button>
-        </div>
       )}
     </div>
   );
