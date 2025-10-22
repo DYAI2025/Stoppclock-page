@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
+import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.countdown";
@@ -84,6 +85,7 @@ function fmt(ms: number): string {
 export default function Countdown() {
   const [st, setSt] = useState<Persist>(load);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
@@ -201,7 +203,9 @@ export default function Countdown() {
       <div
         className={`countdown-display ${st.running ? 'running' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}
       >
-        {fmt(st.remainingMs)}
+        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
+          {fmt(st.remainingMs)}
+        </div>
       </div>
 
       {/* Controls */}

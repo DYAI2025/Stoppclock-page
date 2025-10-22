@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
+import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.cycle";
@@ -83,6 +84,7 @@ function fmt(ms: number): string {
 export default function CycleTimer() {
   const [st, setSt] = useState<Persist>(load);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
@@ -202,7 +204,11 @@ export default function CycleTimer() {
         </label>
       </div>
 
-      <div className="countdown-display">{fmt(st.remainingMs)}</div>
+      <div className="countdown-display">
+        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
+          {fmt(st.remainingMs)}
+        </div>
+      </div>
 
       <div className="countdown-controls">
         <button type="button" className="btn-primary-action" onClick={st.running ? pause : start}>
