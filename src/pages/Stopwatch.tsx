@@ -165,11 +165,11 @@ export default function Stopwatch() {
       {/* Controls */}
       <div className="stopwatch-controls">
         {!st.running ? (
-          <button type="button" className="stopwatch-btn" onClick={start}>
+          <button type="button" className="stopwatch-btn primary" onClick={start}>
             Start
           </button>
         ) : (
-          <button type="button" className="stopwatch-btn" onClick={pause}>
+          <button type="button" className="stopwatch-btn primary" onClick={pause}>
             Pause
           </button>
         )}

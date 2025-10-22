@@ -90,6 +90,26 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* Primary START/STOP button - prominent red (like Metronome) */
+.stopwatch-btn.primary {
+  background: #DC143C; /* Crimson red */
+  color: var(--mono-white);
+  font-weight: var(--font-bold);
+  font-size: var(--type-lg);
+  padding: var(--space-6) var(--space-8);
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+}
+
+.stopwatch-btn.primary:hover {
+  background: #B01030; /* Darker red */
+  box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
+}
+
+.stopwatch-btn.primary:active {
+  background: #900820;
+  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.2);
+}
+
 .stopwatch-btn.secondary {
   background: var(--mono-gray-200);
   color: var(--mono-black);

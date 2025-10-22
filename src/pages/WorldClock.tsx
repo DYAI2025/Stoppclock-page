@@ -9,7 +9,8 @@ type Persist = {
   timezones: string[];
 };
 
-const DEFAULT_TIMEZONES = [
+// Fixed 5 clocks (like UN headquarters wall)
+const FIXED_TIMEZONES = [
   "America/New_York",
   "Europe/London",
   "Asia/Tokyo",
@@ -61,16 +62,25 @@ function load(): Persist {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) throw new Error("No saved state");
     const p = JSON.parse(raw) as Persist;
+
+    // Always ensure exactly 5 timezones
+    let timezones = Array.isArray(p.timezones) ? p.timezones : FIXED_TIMEZONES;
+
+    // Pad or trim to exactly 5
+    if (timezones.length < 5) {
+      timezones = [...timezones, ...FIXED_TIMEZONES.slice(timezones.length)];
+    } else if (timezones.length > 5) {
+      timezones = timezones.slice(0, 5);
+    }
+
     return {
       version: 1,
-      timezones: Array.isArray(p.timezones) && p.timezones.length > 0
-        ? p.timezones
-        : DEFAULT_TIMEZONES
+      timezones
     };
   } catch {
     return {
       version: 1,
-      timezones: DEFAULT_TIMEZONES
+      timezones: FIXED_TIMEZONES
     };
   }
 }
@@ -205,21 +215,7 @@ export default function WorldClock() {
     });
   };
 
-  const removeTimezone = (index: number) => {
-    setSt(s => ({
-      ...s,
-      timezones: s.timezones.filter((_, i) => i !== index)
-    }));
-  };
-
-  const addTimezone = () => {
-    if (st.timezones.length < 10) {
-      setSt(s => ({
-        ...s,
-        timezones: [...s.timezones, TIMEZONE_OPTIONS[0].value]
-      }));
-    }
-  };
+  // No remove or add - always exactly 5 clocks
 
   return (
     <div className="worldclock-page">
@@ -263,23 +259,10 @@ export default function WorldClock() {
 
               <div className="worldclock-digital">{timeStr}</div>
               <div className="worldclock-date">{dateStr}</div>
-
-              <button
-                className="worldclock-remove"
-                onClick={() => removeTimezone(index)}
-              >
-                Remove
-              </button>
             </div>
           );
         })}
       </div>
-
-      {st.timezones.length < 10 && (
-        <button className="worldclock-add" onClick={addTimezone}>
-          Add Clock
-        </button>
-      )}
     </div>
   );
 }
