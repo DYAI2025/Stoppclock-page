@@ -8,7 +8,7 @@ interface KanbanBoardProps {
   onDeleteTask: (taskId: string) => void;
 }
 
-export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: KanbanBoardProps) {
+export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Readonly<KanbanBoardProps>) {
   const [newTaskText, setNewTaskText] = useState('');
   const [showInput, setShowInput] = useState(false);
 
@@ -40,6 +40,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                 <span className="kanban-task-text">{task.text}</span>
                 <div className="kanban-task-actions">
                   <button
+                    type="button"
                     onClick={() => onMoveTask(task.id, 'inProgress')}
                     className="kanban-btn kanban-btn-start"
                     title="Start"
@@ -47,6 +48,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                     ▶
                   </button>
                   <button
+                    type="button"
                     onClick={() => onDeleteTask(task.id)}
                     className="kanban-btn kanban-btn-delete"
                     title="Delete"
@@ -70,12 +72,12 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                   autoFocus
                 />
                 <div className="kanban-add-actions">
-                  <button onClick={handleAddTask} className="kanban-btn kanban-btn-confirm">Add</button>
-                  <button onClick={() => { setShowInput(false); setNewTaskText(''); }} className="kanban-btn kanban-btn-cancel">Cancel</button>
+                  <button type="button" onClick={handleAddTask} className="kanban-btn kanban-btn-confirm">Add</button>
+                  <button type="button" onClick={() => { setShowInput(false); setNewTaskText(''); }} className="kanban-btn kanban-btn-cancel">Cancel</button>
                 </div>
               </div>
             ) : (
-              <button onClick={() => setShowInput(true)} className="kanban-add-btn">
+              <button type="button" onClick={() => setShowInput(true)} className="kanban-add-btn">
                 + Add Task
               </button>
             )}
@@ -91,6 +93,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                 <span className="kanban-task-text">{task.text}</span>
                 <div className="kanban-task-actions">
                   <button
+                    type="button"
                     onClick={() => onMoveTask(task.id, 'todo')}
                     className="kanban-btn kanban-btn-back"
                     title="Back to To Do"
@@ -98,6 +101,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                     ◀
                   </button>
                   <button
+                    type="button"
                     onClick={() => onMoveTask(task.id, 'done')}
                     className="kanban-btn kanban-btn-done"
                     title="Complete"
@@ -105,6 +109,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                     ✓
                   </button>
                   <button
+                    type="button"
                     onClick={() => onDeleteTask(task.id)}
                     className="kanban-btn kanban-btn-delete"
                     title="Delete"
@@ -126,6 +131,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Kanb
                 <span className="kanban-task-text">{task.text}</span>
                 <div className="kanban-task-actions">
                   <button
+                    type="button"
                     onClick={() => onDeleteTask(task.id)}
                     className="kanban-btn kanban-btn-delete"
                     title="Delete"
