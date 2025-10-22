@@ -65,9 +65,9 @@
 }
 
 .home-timer-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: var(--space-4);
+  width: 108px;
+  height: 108px;
+  margin-bottom: 0;
   opacity: 0.9;
 }
 
@@ -77,11 +77,7 @@
 }
 
 .home-timer-label {
-  font-size: var(--type-base);
-  font-weight: var(--font-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-align: center;
+  display: none;
 }
 
 /* Footer (minimal) */

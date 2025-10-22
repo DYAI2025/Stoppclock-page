@@ -50,7 +50,6 @@ function Home() {
         {timers.map(([route, label, icon]) => (
           <a key={route} href={route} className="home-timer-card">
             <img src={icon} alt={label} className="home-timer-icon" />
-            <span className="home-timer-label">{label}</span>
           </a>
         ))}
       </div>
