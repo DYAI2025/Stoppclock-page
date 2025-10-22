@@ -240,8 +240,8 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   // In 1 Stunde (60 Minuten) bewegt er sich um 5 Minuten-Markierungen (60/12 = 5)
   // In 0.5 Stunden (30 Minuten) bewegt er sich um 2.5 Minuten-Markierungen
   //
-  // Für 4-Stunden-Timer: 4h = 20 Minuten-Markierungen (4 × 5)
-  // Position = verbleibende Stunden × 5 Minuten / 60 Minuten = verbleibende Stunden / 12
+  // For a 4-hour timer: 4h = 20 minute marks (4 × 5)
+  // Position = remaining hours × 5 minutes / 60 minutes = remaining hours / 12
   const hrs = totalHoursWithMinutes / 12; // Map to 12-hour clock face
   const mins = minutes / 60; // Map 0-59 minutes to 0-1
   const secs = seconds / 60; // Map 0-59 seconds to 0-1

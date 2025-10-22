@@ -161,9 +161,9 @@ export default function ChessClock() {
       {showSettings && (
         <div className="chess-settings-modal">
           <div className="chess-settings-content">
-            <h3>Zeit einstellen</h3>
+            <h3>Set Time</h3>
             <div className="time-input-group">
-              <label htmlFor="chess-minutes">Minuten pro Spieler:</label>
+              <label htmlFor="chess-minutes">Minutes per player:</label>
               <input
                 id="chess-minutes"
                 type="number"
@@ -175,10 +175,10 @@ export default function ChessClock() {
             </div>
             <div className="chess-settings-buttons">
               <button type="button" className="btn primary" onClick={applyTimeSettings}>
-                Anwenden
+                Apply
               </button>
               <button type="button" className="btn" onClick={() => setShowSettings(false)}>
-                Abbrechen
+                Cancel
               </button>
             </div>
           </div>

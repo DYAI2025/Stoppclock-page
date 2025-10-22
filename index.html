@@ -4,13 +4,14 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pagead2.googlesyndication.com; connect-src 'self'; font-src 'self' data:; frame-src https://googleads.g.doubleclick.net; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data:; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stoppclock — Projector-friendly Timers & Clocks</title>
     <meta name="description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more. Projector-friendly, offline-ready, minimal controls." />
     <link rel="canonical" href="https://www.stoppclock.com/"/>
+    <meta name="google-adsense-account" content="ca-pub-1712273263687132" />
 
     <!-- Open Graph (use your own hosted assets) -->
     <meta property="og:type" content="website"/>
@@ -40,19 +41,22 @@
     <link rel="stylesheet" href="/src/design-tokens.css" />
     <link rel="stylesheet" href="/src/styles.css" />
 
+    <!-- Google Certified CMP -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-1712273263687132?ers=1"></script>
+    <script>
+      window.googlefc = window.googlefc || {};
+      window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
+    </script>
+
+    <!-- Google AdSense (static verification + auto ads) -->
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1712273263687132"
+      crossorigin="anonymous"
+    ></script>
+
   </head>
   <body>
-    <!-- Consent banner -->
-    <div id="consent" class="consent hidden">
-      <div class="consent-box">
-        <div><strong>Privacy first.</strong> Ads are <em>off</em> by default. Enable only if you agree.</div>
-        <div class="consent-actions">
-          <button id="consent-accept" class="btn primary">Enable Ads</button>
-          <button id="consent-decline" class="btn">Keep Off</button>
-        </div>
-      </div>
-    </div>
-
     <div id="root"></div>
 
     <!-- WebApplication JSON-LD -->
@@ -98,37 +102,6 @@
 
     <!-- App Entry -->
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- Consent-gated AdSense -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const LS = "sc.adsConsent";
-        const has = localStorage.getItem(LS);
-        const el = document.getElementById('consent');
-        const acceptBtn = document.getElementById('consent-accept');
-        const declineBtn = document.getElementById('consent-decline');
-
-        function hideConsent(){ el?.classList.add('hidden'); }
-        function showConsent(){ el?.classList.remove('hidden'); }
-
-        function enableAds() {
-          const client = "ca-pub-1712273263687132";
-          if (!client || client.includes("REPLACE_ME")) { hideConsent(); return; }
-          const s = document.createElement('script');
-          s.async = true;
-          s.crossOrigin = "anonymous";
-          s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(client)}`;
-          document.head.appendChild(s);
-        }
-
-        if (has === "yes") { enableAds(); hideConsent(); }
-        else if (has === "no") { hideConsent(); }
-        else { showConsent(); }
-
-        acceptBtn?.addEventListener("click", () => { localStorage.setItem(LS, "yes"); enableAds(); hideConsent(); });
-        declineBtn?.addEventListener("click", () => { localStorage.setItem(LS, "no"); hideConsent(); });
-      });
-    </script>
 
   </body>
 </html>

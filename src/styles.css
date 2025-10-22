@@ -183,9 +183,10 @@ body:has(.legal-page) {
 }
 
 /* Home Title - Geometric Banner with Golden Ratio */
+/* Home Title */
 .home-title{
   text-align:center;
-  font-size:clamp(56px, 10vw, 96px); /* Größer */
+  font-size:clamp(56px, 10vw, 96px); /* Larger */
   font-weight:900; /* Extra bold */
   margin:0 0 48px 0;
   padding:0;
@@ -325,6 +326,19 @@ body:has(.legal-page) {
   transition:transform 0.2s, filter 0.2s;
   width:100%;
   max-width:280px;
+}
+
+.ad-container{
+  margin:32px auto 12px;
+  max-width:960px;
+  width:100%;
+  padding:0 16px;
+}
+
+.ad-container > .adsbygoogle{
+  display:block !important;
+  width:100% !important;
+  min-height:90px;
 }
 
 .timer-card:hover{
@@ -472,7 +486,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
 
 /* Digital time display above clock - white text */
 .analog-digital-time {
-  font-size: clamp(48px, 8vw, 72px); /* Größer für bessere Lesbarkeit */
+  font-size: clamp(48px, 8vw, 72px); /* Larger for better readability */
   font-weight: var(--font-weight-bold);
   color: var(--white);
   font-variant-numeric: tabular-nums;
@@ -880,7 +894,7 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
   /* Digital display - rechteckig wie digitales Ziffernblatt */
   background:#000000; /* Schwarzer Hintergrund wie Digitaluhr */
   color:#FFFFFF; /* Weiße Ziffern */
-  border-radius:12px; /* Leicht abgerundete Ecken */
+  border-radius:12px; /* Slightly rounded corners */
   padding:var(--spacing-2xl) var(--spacing-2xl);
   border:4px solid var(--slate-gray);
   box-shadow:
