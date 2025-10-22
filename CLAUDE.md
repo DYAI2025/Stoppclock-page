@@ -48,6 +48,7 @@ Hash-based client-side routing via `useHashRoute()` hook in `src/main.tsx`:
 - `#/analog` → Analog Countdown (Canvas-based)
 - `#/countdown` → Digital Countdown
 - `#/stopwatch` → Stopwatch with lap times
+- `#/pomodoro` → Pomodoro Timer with Kanban board
 - `#/chess` → Chess Clock
 - `#/metronome` → Metronome
 - `#/world` → World Clock
@@ -78,6 +79,7 @@ Auto-disables when user is typing in input fields.
 All timer state interfaces defined in `src/types/timer-types.ts`:
 - `CountdownState` → Digital Countdown, Analog Countdown
 - `StopwatchState` → Stopwatch (includes `LapTime[]` array)
+- `PomodoroState` → Pomodoro Timer (includes phase cycling and task list)
 - `ChessClockState` → Chess Clock (dual timers with modes: simple, fischer, bronstein)
 - `MetronomeState` → Metronome (BPM, time signature, accent patterns)
 - `AlarmState` → Alarm Clock
