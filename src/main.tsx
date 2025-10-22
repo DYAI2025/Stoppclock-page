@@ -133,7 +133,6 @@ function Home() {
     { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
     { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
     { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
-    { route: "#/digital", label: "Digital Clock", color: "#4A6FA5", colorRgb: "74, 111, 165" },
   ];
 
   return (

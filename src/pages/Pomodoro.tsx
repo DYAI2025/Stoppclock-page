@@ -85,9 +85,9 @@ function getPhaseLabel(phase: PomodoroPhase): string {
 
 function getPhaseMessage(phase: PomodoroPhase): string {
   switch (phase) {
-    case 'work': return 'Time to focus! 🍅';
-    case 'shortBreak': return 'Time for a break! ☕';
-    case 'longBreak': return 'Time for a long break! 🌴';
+    case 'work': return 'Work Session';
+    case 'shortBreak': return 'Short Pause';
+    case 'longBreak': return 'Extended Pause';
   }
 }
 
