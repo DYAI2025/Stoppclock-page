@@ -231,14 +231,14 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   const minutes = Math.floor((totalSeconds % 3600) / 60); // Minutes within the hour (0-59)
   const seconds = totalSeconds % 60; // Seconds within the minute (0-59)
 
-  // Hour hand "schleicht" (moves gradually with minutes, like a real analog clock)
+  // Hour hand moves gradually with minutes (like a real analog clock)
   // At 3:30, hour hand is halfway between 3 and 4
   const totalHoursWithMinutes = hours + (minutes / 60);
 
-  // Stundenzeiger-Logik für 4-Stunden-Timer auf 12-Stunden-Zifferblatt:
-  // Der Stundenzeiger bewegt sich wie bei einer normalen Uhr (12x langsamer als Minutenzeiger)
-  // In 1 Stunde (60 Minuten) bewegt er sich um 5 Minuten-Markierungen (60/12 = 5)
-  // In 0.5 Stunden (30 Minuten) bewegt er sich um 2.5 Minuten-Markierungen
+  // Hour hand logic for 4-hour timer on 12-hour clock face:
+  // The hour hand moves like on a normal clock (12x slower than minute hand)
+  // In 1 hour (60 minutes) it moves 5 minute marks (60/12 = 5)
+  // In 0.5 hours (30 minutes) it moves 2.5 minute marks
   //
   // For a 4-hour timer: 4h = 20 minute marks (4 × 5)
   // Position = remaining hours × 5 minutes / 60 minutes = remaining hours / 12

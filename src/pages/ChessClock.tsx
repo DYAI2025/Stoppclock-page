@@ -196,7 +196,7 @@ export default function ChessClock() {
 
       <div className="chess-controls">
         <button type="button" className="btn" onClick={reset}>Reset</button>
-        <button type="button" className="btn" onClick={() => setShowSettings(true)}>Zeit</button>
+        <button type="button" className="btn" onClick={() => setShowSettings(true)}>Time</button>
       </div>
 
       <div
