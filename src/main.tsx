@@ -42,7 +42,10 @@ function Home() {
     <div className="home-page">
       {/* Title */}
       <div className="home-title-container">
-        <h1 className="home-title">Stoppclock</h1>
+        <h1 className="home-title">
+          <span className="home-title-word">Stopp</span>
+          <span className="home-title-word">Clock</span>
+        </h1>
       </div>
 
       {/* Timer Grid */}

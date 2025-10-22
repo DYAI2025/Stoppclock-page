@@ -32,12 +32,27 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin: 0;
-  word-break: break-word;
-  overflow-wrap: break-word;
   max-width: 100%;
   /* Stronger text shadow for prominent depth */
   text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3),
                1px 1px 3px rgba(0, 0, 0, 0.2);
+  /* Desktop: one line, Mobile: two lines */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.home-title-word {
+  /* Mobile: force line break after first word */
+  flex-basis: 100%;
+}
+
+/* Desktop: keep in one line */
+@media (min-width: 641px) {
+  .home-title-word {
+    flex-basis: auto;
+  }
 }
 
 /* Timer grid (geometric) */
