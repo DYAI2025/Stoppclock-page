@@ -143,10 +143,6 @@ export default function Stopwatch() {
     return () => window.removeEventListener("keydown", onKey);
   }, [st.running, start, pause, reset, full, addLap]);
 
-  const currentTime = st.running && st.startedAt
-    ? st.elapsedMs + (Date.now() - st.startedAt)
-    : st.elapsedMs;
-
   // Calculate lap differences
   const lapDiffs = st.laps.map((lapTime, idx) => {
     const prevTime = idx === 0 ? 0 : st.laps[idx - 1];
