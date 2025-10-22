@@ -1,187 +1,361 @@
 /* ============================================
- * HOME PAGE - Swiss/Bauhaus Minimal
- * Entry point visual consistency
+ * HOME PAGE - Premium Glass-Morphism Design
+ * Metal, Aluminum, Glass Quality Aesthetic
  * ============================================ */
 
 .home-page {
   min-height: 100vh;
-  background: var(--mono-white);
-  color: var(--mono-black);
-  font-family: var(--font-sans);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-8);
+  padding: var(--space-8) var(--space-4);
+  position: relative;
+  z-index: 1;
 }
 
-/* Title (geometric, minimal) */
+/* Title Container */
 .home-title-container {
   width: 100%;
   max-width: var(--container-max);
   text-align: center;
-  margin-bottom: var(--space-16);
-  padding: var(--space-12) 0;
-  border-bottom: var(--border-medium) solid var(--mono-black);
-  /* Subtle gradient to light gray */
-  background: linear-gradient(to bottom, var(--mono-white), var(--mono-gray-100));
+  margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 1;
 }
 
-.home-title {
-  font-size: var(--type-3xl);
-  font-weight: var(--font-bold);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 0;
-  max-width: 100%;
-  /* Stronger text shadow for prominent depth */
-  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3),
-               1px 1px 3px rgba(0, 0, 0, 0.2);
-  /* Desktop: one line, Mobile: two lines */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5em;
-}
-
-.home-title-word {
-  /* Mobile: force line break after first word */
-  flex-basis: 100%;
-}
-
-/* Desktop: keep in one line */
-@media (min-width: 641px) {
-  .home-title-word {
-    flex-basis: auto;
-  }
-}
-
-/* Timer grid (geometric) */
+/* Timer Grid - Premium Layout */
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-6);
-  max-width: 1000px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2.94vw, 32px);
+  max-width: 1200px;
   width: 100%;
   margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 1;
 }
 
-/* Timer cards (minimal) */
+/* Premium Glass-Morphism Timer Cards */
 .home-timer-card {
+  position: relative;
   aspect-ratio: 1;
-  border: var(--border-medium) solid var(--mono-black);
-  /* Subtle gradient to light gray for depth */
-  background: linear-gradient(135deg, var(--mono-white), var(--mono-gray-100));
+  text-decoration: none;
+  color: var(--neutral-white);
+  overflow: hidden;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Metal frame base */
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(0, 0, 0, 0.1) 100%),
+    linear-gradient(135deg,
+      var(--ocean-dark) 0%,
+      var(--ocean-mid) 100%);
+  
+  /* Aluminum border effect */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    /* Outer metal shadow */
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    /* Inner highlight */
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    /* Color glow */
+    0 0 0 1px rgba(var(--card-color-rgb), 0.3);
+}
+
+/* Colored accent border */
+.home-timer-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, 
+    rgba(var(--card-color-rgb), 0.6) 0%,
+    rgba(var(--card-color-rgb), 0.3) 50%,
+    rgba(var(--card-color-rgb), 0.6) 100%);
+  border-radius: 24px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Glass reflection overlay */
+.home-timer-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%);
+  border-radius: 24px 24px 0 0;
+  pointer-events: none;
+}
+
+/* Card Inner Container */
+.timer-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
-  color: var(--mono-black);
-  transition: all var(--transition-base);
-  padding: var(--space-6);
-  /* Prominent shadow for depth - much more visible */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25),
-              0 4px 12px rgba(0, 0, 0, 0.15);
+  gap: clamp(8px, 1.5vw, 16px);
+  padding: clamp(16px, 3vw, 24px);
+  z-index: 1;
 }
 
+/* Icon Container - Glass Button Effect */
+.timer-icon-container {
+  position: relative;
+  width: clamp(64px, 12vw, 96px);
+  height: clamp(64px, 12vw, 96px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Glass button base */
+  background: 
+    radial-gradient(circle at 30% 30%,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(0, 0, 0, 0.1) 100%);
+  
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  
+  /* Inset shadow for depth */
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+  
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Icon SVG Styling */
+.timer-icon-container svg {
+  width: 60%;
+  height: 60%;
+  color: rgba(var(--card-color-rgb), 0.9);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+/* Timer Label - Premium Typography */
+.timer-label {
+  font-size: clamp(11px, 1.8vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--neutral-white);
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(var(--card-color-rgb), 0.3);
+  transition: all 0.3s ease;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Hover State - Premium Interaction */
 .home-timer-card:hover {
-  background: var(--mono-black);
-  color: var(--mono-white);
-  transform: translateY(-8px);
-  /* Even stronger shadow on hover */
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35),
-              0 8px 20px rgba(0, 0, 0, 0.25);
+  transform: translateY(-6px) scale(1.02);
+  
+  /* Enhanced shadows */
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    /* Colored glow */
+    0 0 40px rgba(var(--card-color-rgb), 0.4),
+    0 0 0 2px rgba(var(--card-color-rgb), 0.5);
+  
+  /* Brighter background */
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.15) 0%, 
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(0, 0, 0, 0.05) 100%),
+    linear-gradient(135deg,
+      var(--ocean-mid) 0%,
+      var(--ocean-light) 100%);
 }
 
-.home-timer-icon {
-  width: 108px;
-  height: 108px;
-  margin-bottom: 0;
-  opacity: 0.9;
-}
-
-.home-timer-card:hover .home-timer-icon {
+.home-timer-card:hover::before {
   opacity: 1;
-  filter: invert(1);
 }
 
-.home-timer-label {
-  display: none;
+.home-timer-card:hover .timer-icon-container {
+  /* Pressed glass effect */
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.4),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.2),
+    0 0 20px rgba(var(--card-color-rgb), 0.4);
+  
+  background: 
+    radial-gradient(circle at 30% 30%,
+      rgba(var(--card-color-rgb), 0.2) 0%,
+      rgba(var(--card-color-rgb), 0.1) 50%,
+      rgba(0, 0, 0, 0.2) 100%);
 }
 
-/* Footer (minimal) */
+.home-timer-card:hover .timer-icon-container svg {
+  color: rgba(var(--card-color-rgb), 1);
+  filter: drop-shadow(0 0 8px rgba(var(--card-color-rgb), 0.6));
+  transform: scale(1.1);
+}
+
+.home-timer-card:hover .timer-label {
+  color: rgba(var(--card-color-rgb), 1);
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.6),
+    0 0 16px rgba(var(--card-color-rgb), 0.6);
+}
+
+/* Active/Press State */
+.home-timer-card:active {
+  transform: translateY(-4px) scale(0.98);
+  transition-duration: 0.1s;
+}
+
+.home-timer-card:active .timer-icon-container {
+  transform: scale(0.95);
+  box-shadow:
+    inset 0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Footer */
 .home-footer {
   margin-top: auto;
   padding-top: var(--space-8);
-  border-top: var(--border-thin) solid var(--mono-gray-300);
   display: flex;
   gap: var(--space-4);
   font-size: var(--type-sm);
-  color: var(--mono-gray-600);
+  color: var(--ocean-bright);
+  position: relative;
+  z-index: 1;
 }
 
 .home-footer a {
-  color: var(--mono-gray-600);
+  color: var(--ocean-bright);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .home-footer a:hover {
-  color: var(--mono-black);
-  text-decoration: underline;
+  color: var(--aurora-cyan);
+  text-shadow: 0 0 8px rgba(0, 217, 255, 0.4);
 }
 
-/* Responsive */
+/* Responsive Design */
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
 @media (max-width: 640px) {
   .home-page {
-    padding: var(--space-4);
-  }
-
-  .home-title-container {
-    margin-bottom: var(--space-8);
-    padding: var(--space-6) 0;
-  }
-
-  .home-title {
-    font-size: clamp(2rem, 8vw, 3rem);
+    padding: var(--space-4) var(--space-3);
   }
 
   .home-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3);
+    gap: 16px;
   }
 
-  .home-timer-icon {
-    width: 80px;
-    height: 80px;
+  .timer-icon-container {
+    width: 56px;
+    height: 56px;
+  }
+
+  .timer-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
   }
 }
 
 @media (max-width: 480px) {
-  .home-page {
-    padding: var(--space-3);
-  }
-
-  .home-title-container {
-    margin-bottom: var(--space-6);
-    padding: var(--space-4) 0;
-  }
-
-  .home-title {
-    font-size: clamp(1.5rem, 6vw, 2rem);
-    letter-spacing: 0.05em;
-  }
-
   .home-grid {
-    gap: var(--space-2);
+    gap: 12px;
   }
 
-  .home-timer-card {
-    padding: var(--space-3);
+  .timer-card-inner {
+    gap: 8px;
+    padding: 12px;
   }
 
-  .home-timer-icon {
-    width: 64px;
-    height: 64px;
+  .timer-icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+  }
+
+  .timer-label {
+    font-size: 9px;
+  }
+}
+
+/* Accessibility - Focus States */
+.home-timer-card:focus-visible {
+  outline: none;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 0 0 3px rgba(var(--card-color-rgb), 0.6),
+    0 0 20px rgba(var(--card-color-rgb), 0.4);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .home-timer-card,
+  .timer-icon-container,
+  .timer-icon-container svg,
+  .timer-label {
+    transition: none;
+  }
+  
+  .home-timer-card:hover {
+    transform: none;
+  }
+}
+/* ============================================
+ * HOME ANALOG CLOCK
+ * Elegant clock between title and timer grid
+ * ============================================ */
+.home-clock-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--space-12) 0;
+  padding: var(--space-4);
+}
+
+.home-analog-clock {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+@media (max-width: 640px) {
+  .home-clock-container {
+    margin: var(--space-8) 0;
+  }
+
+  .home-analog-clock {
+    width: 200px !important;
+    height: 200px !important;
   }
 }
