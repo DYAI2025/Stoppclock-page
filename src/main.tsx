@@ -26,39 +26,44 @@ function useHashRoute() {
 }
 
 function Home() {
-  // Timer definitions: [route, label, iconPath]
+  // Timer definitions: [route, label]
   const timers = [
-    ["#/stopwatch", "Stopwatch", "/icons/STOP_WATCH_BUTTON.png"],
-    ["#/countdown", "Countdown", "/icons/DIGITAL_COUNTDOWN_BUTTON.png"],
-    ["#/analog", "Analog", "/icons/ANALOG_COUNTDOWN_BUTTON.png"],
-    ["#/cycle", "Cycle", "/icons/CYCLE_TIME_BUTTON.png"],
-    ["#/world", "World Clock", "/icons/WORLD_TIME_BUTTON.png"],
-    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_BUTTON.png"],
-    ["#/metronome", "Metronome", "/icons/METRONOM_BUTTON.png"],
-    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_BUTTON.png"],
+    ["#/countdown", "Countdown"],
+    ["#/stopwatch", "Stopwatch"],
+    ["#/analog", "Analog Clock"],
+    ["#/chess", "Chess Clock"],
+    ["#/metronome", "Metronome"],
+    ["#/world", "World Clock"],
+    ["#/alarm", "Alarm"],
+    ["#/cycle", "Cycle Timer"],
   ];
 
   return (
     <div className="home-page">
-      {/* Title */}
-      <div className="home-title-container">
-        <h1 className="home-title">Stoppclock</h1>
-      </div>
+      {/* Header */}
+      <header className="home-header">
+        <h1 className="home-title">STOPPCLOCK</h1>
+        <div className="home-title-line"></div>
+      </header>
 
       {/* Timer Grid */}
       <div className="home-grid">
-        {timers.map(([route, label, icon]) => (
+        {timers.map(([route, label]) => (
           <a key={route} href={route} className="home-timer-card">
-            <img src={icon} alt={label} className="home-timer-icon" />
+            <div className="home-timer-icon-placeholder"></div>
+            <span className="home-timer-label">{label}</span>
           </a>
         ))}
       </div>
 
       {/* Footer */}
       <footer className="home-footer">
-        <a href="#/impressum">Impressum</a>
-        <span>•</span>
-        <a href="#/datenschutz">Datenschutz</a>
+        <div className="home-footer-links">
+          <a href="#/impressum">Impressum</a>
+          <span>•</span>
+          <a href="#/datenschutz">Datenschutz</a>
+        </div>
+        <div className="home-footer-brand">Powered by DYAI</div>
       </footer>
     </div>
   );
