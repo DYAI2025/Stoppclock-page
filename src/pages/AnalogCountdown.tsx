@@ -186,8 +186,7 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
 
   // Progress arc - single elegant ring showing remaining time
   if (st.remainingMs > 0) {
-    const maxMs = 4 * 3600_000; // 4 hours max
-    const progress = Math.min(1, st.remainingMs / maxMs);
+    const progress = Math.min(1, st.remainingMs / st.durationMs);
 
     // Gradient from red (low) to green (high)
     const hue = progress * 120; // 0 (red) to 120 (green)
@@ -436,6 +435,14 @@ export default function AnalogCountdown() {
         <button type="button" className="analog-preset" onClick={() => setDur(60 * 60_000)}>1h</button>
         <button type="button" className="analog-preset" onClick={() => setDur(90 * 60_000)}>1h30m</button>
         <button type="button" className="analog-preset" onClick={() => setDur(2 * 60 * 60_000)}>2h</button>
+      </div>
+
+      {/* Time Adjustments */}
+      <div className="analog-presets">
+        <button type="button" className="analog-preset" onClick={() => plus(30 * 60_000)}>+30m</button>
+        <button type="button" className="analog-preset" onClick={() => plus(60 * 60_000)}>+1h</button>
+        <button type="button" className="analog-preset" onClick={() => plus(-30 * 60_000)}>-30m</button>
+        <button type="button" className="analog-preset" onClick={() => plus(-60 * 60_000)}>-1h</button>
       </div>
 
       {/* Settings */}
