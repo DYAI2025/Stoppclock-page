@@ -197,7 +197,7 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     const hue = progress * 120; // 0 (red) to 120 (green)
     const progressColor = `hsl(${hue}, 70%, 50%)`;
 
-    // Single progress arc
+    // Single progress arc - shows ONLY the colored arc, no background
     const angleProgress = progress * Math.PI * 2;
     ctx.beginPath();
     ctx.strokeStyle = progressColor;
@@ -206,15 +206,8 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     ctx.arc(0, 0, r * 0.88, -Math.PI/2, -Math.PI/2 + angleProgress, false);
     ctx.stroke();
 
-    // Background arc (remaining portion) - subtle grey
-    if (progress < 1) {
-      ctx.beginPath();
-      ctx.strokeStyle = "rgba(200, 200, 200, 0.2)";
-      ctx.lineWidth = r * 0.12;
-      ctx.lineCap = "round";
-      ctx.arc(0, 0, r * 0.88, -Math.PI/2 + angleProgress, Math.PI * 1.5, false);
-      ctx.stroke();
-    }
+    // No background arc - cleaner display
+    // This ensures timers <1h show only their proportional arc (30min = 50%, 10min = 17%)
   }
 
   // Map remaining time to clock hands (4-hour COUNTDOWN clock face)
