@@ -181,6 +181,7 @@
 @media (max-width: 768px) {
   .worldclock-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
   }
 
   .worldclock-analog {
@@ -189,12 +190,49 @@
   }
 
   .worldclock-digital {
-    font-size: var(--type-lg);
+    font-size: var(--type-base);
+  }
+}
+
+@media (max-width: 640px) {
+  .worldclock-page {
+    padding: var(--space-4);
+  }
+
+  .worldclock-grid {
+    gap: var(--space-3);
+  }
+
+  .worldclock-card {
+    padding: var(--space-4);
+  }
+
+  .worldclock-analog {
+    width: 100px;
+    height: 100px;
+  }
+
+  .worldclock-digital {
+    font-size: var(--type-sm);
+    padding: var(--space-1) var(--space-2);
   }
 }
 
 @media (max-width: 480px) {
+  .worldclock-page {
+    padding: var(--space-3);
+  }
+
+  .worldclock-title {
+    font-size: var(--type-lg);
+  }
+
   .worldclock-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .worldclock-card {
+    padding: var(--space-3);
   }
 }

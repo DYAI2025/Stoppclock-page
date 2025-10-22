@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.stopwatch";
@@ -74,6 +75,9 @@ export default function Stopwatch() {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  const currentTime = st.running && st.startedAt ? st.elapsedMs + (Date.now() - st.startedAt) : st.elapsedMs;
+  const [textRef, autoFontSize] = useAutoFitText(fmt(currentTime), 8, 1.5);
 
   const sync = useCallback(() => {
     if (!st.running || !st.startedAt) return;
@@ -159,7 +163,9 @@ export default function Stopwatch() {
 
       {/* Timer Display (inverted colors) */}
       <div className={`stopwatch-display ${st.running ? 'running' : ''}`}>
-        {fmt(currentTime)}
+        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
+          {fmt(currentTime)}
+        </div>
       </div>
 
       {/* Controls */}
