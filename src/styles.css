@@ -3,10 +3,10 @@
  * Swiss/Bauhaus modular scale system
  * ============================================ */
 @import './design-tokens.css';
+@import './styles/home-swiss.css';
 @import './styles/countdown-swiss.css';
 @import './styles/stopwatch-swiss.css';
 @import './styles/analog-swiss.css';
-@import './styles/home-swiss.css';
 
 /* ============================================
  * DEEP OCEAN AURORA THEME
