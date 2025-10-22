@@ -111,14 +111,12 @@ function HomeAnalogClock() {
   }, []);
 
   return (
-    <div className="home-clock-container">
-      <canvas
-        ref={canvasRef}
-        width={300}
-        height={300}
-        className="home-analog-clock"
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      width={120}
+      height={120}
+      className="home-analog-clock"
+    />
   );
 }
 
@@ -138,13 +136,14 @@ function Home() {
 
   return (
     <div className="home-page">
-      {/* Title */}
+      {/* Title with integrated clock */}
       <div className="home-title-container">
-        <h1 className="home-title">Stoppclock</h1>
+        <div className="home-title-with-clock">
+          <span className="home-title-word">Stopp</span>
+          <HomeAnalogClock />
+          <span className="home-title-word">Clock</span>
+        </div>
       </div>
-
-      {/* Elegant Analog Clock */}
-      <HomeAnalogClock />
 
       {/* Timer Grid */}
       <div className="home-grid">

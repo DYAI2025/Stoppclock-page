@@ -331,31 +331,44 @@
   }
 }
 /* ============================================
- * HOME ANALOG CLOCK
- * Elegant clock between title and timer grid
+ * TITLE WITH INTEGRATED CLOCK
+ * Clock between "Stopp" and "Clock"
  * ============================================ */
-.home-clock-container {
+.home-title-with-clock {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin: var(--space-12) 0;
-  padding: var(--space-4);
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.home-title-word {
+  font-size: var(--type-3xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3),
+               1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .home-analog-clock {
   display: block;
-  max-width: 100%;
-  height: auto;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
 }
 
 @media (max-width: 640px) {
-  .home-clock-container {
-    margin: var(--space-8) 0;
+  .home-title-with-clock {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .home-title-word {
+    font-size: var(--type-2xl);
   }
 
   .home-analog-clock {
-    width: 200px !important;
-    height: 200px !important;
+    width: 80px;
+    height: 80px;
   }
 }
