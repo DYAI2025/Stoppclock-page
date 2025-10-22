@@ -186,7 +186,12 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
 
   // Progress arc - single elegant ring showing remaining time
   if (st.remainingMs > 0) {
-    const progress = Math.min(1, st.remainingMs / st.durationMs);
+    // Arc represents ONLY current hour's progress (max 60 minutes)
+    // For 2h timer: shows full arc initially, depletes over first hour, refills at 1h mark, depletes again
+    // For 30min timer: shows half arc (30/60), depletes to nothing
+    const remainingSeconds = Math.floor(st.remainingMs / 1000);
+    const minutesInCurrentHour = (remainingSeconds % 3600) / 60; // 0-60
+    const progress = minutesInCurrentHour / 60; // 0-1
 
     // Gradient from red (low) to green (high)
     const hue = progress * 120; // 0 (red) to 120 (green)
