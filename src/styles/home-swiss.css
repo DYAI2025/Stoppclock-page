@@ -8,7 +8,8 @@
   /* Soft gradient background - slightly lighter charcoal */
   background: linear-gradient(135deg, #242b3d 0%, #1a2332 100%);
   color: #FFFFFF;
-  font-family: var(--font-sans);
+  /* Premium font stack - Inter-style modern sans-serif */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,6 +48,8 @@
   max-width: 1200px;
   width: 100%;
   margin-bottom: 64px;
+  /* Force all grid items to have equal dimensions */
+  grid-auto-rows: 1fr;
 }
 
 /* Timer cards - glass morphism effect */
@@ -58,10 +61,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: #FFFFFF;
   transition: all 0.2s ease;
   cursor: pointer;
+  /* Force square aspect ratio - width equals height */
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  /* Ensure content doesn't break layout */
+  overflow: hidden;
 }
 
 .home-timer-card:hover {
@@ -85,11 +94,18 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Timer label */
+/* Timer label - dynamic sizing */
 .home-timer-label {
-  font-size: 16px;
-  font-weight: 400;
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 500;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  letter-spacing: 0.3px;
+  /* Subtle text shadow for depth */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Footer */
