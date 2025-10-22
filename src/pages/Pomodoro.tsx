@@ -128,14 +128,18 @@ export default function Pomodoro() {
         completedPomodoros += 1;
         if (st.currentSession >= SESSIONS_BEFORE_LONG_BREAK) {
           nextPhase = 'longBreak';
-          nextSession = 1; // Reset session counter after long break
+          // Keep session at 4, will reset after long break completes
         } else {
           nextPhase = 'shortBreak';
-          nextSession = st.currentSession + 1;
+          // Keep session as is, will increment after short break completes
         }
-      } else {
-        // Break finished, go back to work
+      } else if (st.phase === 'shortBreak') {
         nextPhase = 'work';
+        nextSession = st.currentSession + 1; // Increment for next work session
+      } else {
+        // longBreak
+        nextPhase = 'work';
+        nextSession = 1; // Reset to session 1 after long break
       }
 
       const nextDuration = getPhaseDuration(nextPhase);
@@ -216,7 +220,7 @@ export default function Pomodoro() {
   // Kanban handlers
   const addTask = useCallback((text: string) => {
     const newTask: PomodoroTask = {
-      id: `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: `task-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
       text,
       status: 'todo',
       createdAt: Date.now()
@@ -266,18 +270,21 @@ export default function Pomodoro() {
       {/* Phase Tabs */}
       <div className="pomodoro-tabs">
         <button
+          type="button"
           className={`pomodoro-tab ${st.phase === 'work' ? 'active' : ''}`}
           onClick={() => switchPhase('work')}
         >
           Pomodoro
         </button>
         <button
+          type="button"
           className={`pomodoro-tab ${st.phase === 'shortBreak' ? 'active' : ''}`}
           onClick={() => switchPhase('shortBreak')}
         >
           Short Break
         </button>
         <button
+          type="button"
           className={`pomodoro-tab ${st.phase === 'longBreak' ? 'active' : ''}`}
           onClick={() => switchPhase('longBreak')}
         >
