@@ -252,11 +252,10 @@ function TimerIcon({ type }: { type: string }) {
     ),
     "Pomodoro": (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="13" r="9"/>
-        <path d="M12 4v9l3.5 3.5"/>
-        <path d="M10 2h4"/>
-        <path d="M11 2l-1 2"/>
-        <path d="M14 2l1 2"/>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+        <path d="M16.24 7.76l-1.5 1.5"/>
+        <path d="M19 12h-2"/>
       </svg>
     ),
     "Cycle Timer": (
