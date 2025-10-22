@@ -52,6 +52,7 @@
 
 .stopwatch-display.running {
   background: var(--mono-gray-900);
+  color: var(--mono-white);
 }
 
 /* Controls (geometric grid - consistent) */

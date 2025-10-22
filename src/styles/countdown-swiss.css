@@ -50,6 +50,7 @@
 
 .countdown-display.running {
   background: var(--mono-white);
+  color: var(--mono-black);
 }
 
 .countdown-display.expired {
