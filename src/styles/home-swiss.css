@@ -39,6 +39,8 @@
 .home-timer-card {
   position: relative;
   aspect-ratio: 1;
+  min-height: 160px;
+  max-height: 200px;
   text-decoration: none;
   color: var(--neutral-white);
   overflow: hidden;
@@ -109,43 +111,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 1.5vw, 16px);
-  padding: clamp(16px, 3vw, 24px);
+  gap: 12px;
+  padding: 20px;
   z-index: 1;
 }
 
-/* Icon Container - Glass Button Effect */
+/* Icon Container - Direct on card, no extra button */
 .timer-icon-container {
   position: relative;
-  width: clamp(64px, 12vw, 96px);
-  height: clamp(64px, 12vw, 96px);
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Glass button base */
-  background: 
-    radial-gradient(circle at 30% 30%,
-      rgba(255, 255, 255, 0.2) 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(0, 0, 0, 0.1) 100%);
-  
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  
-  /* Inset shadow for depth */
-  box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.2),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    0 4px 12px rgba(0, 0, 0, 0.2);
-  
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
 }
 
 /* Icon SVG Styling */
 .timer-icon-container svg {
-  width: 60%;
-  height: 60%;
+  width: 100%;
+  height: 100%;
   color: rgba(var(--card-color-rgb), 0.9);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   transition: all 0.3s ease;
@@ -153,9 +138,9 @@
 
 /* Timer Label - Premium Typography */
 .timer-label {
-  font-size: clamp(11px, 1.8vw, 14px);
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--neutral-white);
   text-shadow: 
@@ -163,7 +148,10 @@
     0 0 8px rgba(var(--card-color-rgb), 0.3);
   transition: all 0.3s ease;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.3;
+  max-width: 100%;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 /* Hover State - Premium Interaction */
@@ -195,24 +183,10 @@
   opacity: 1;
 }
 
-.home-timer-card:hover .timer-icon-container {
-  /* Pressed glass effect */
-  box-shadow:
-    inset 0 3px 6px rgba(0, 0, 0, 0.4),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.2),
-    0 0 20px rgba(var(--card-color-rgb), 0.4);
-  
-  background: 
-    radial-gradient(circle at 30% 30%,
-      rgba(var(--card-color-rgb), 0.2) 0%,
-      rgba(var(--card-color-rgb), 0.1) 50%,
-      rgba(0, 0, 0, 0.2) 100%);
-}
-
 .home-timer-card:hover .timer-icon-container svg {
   color: rgba(var(--card-color-rgb), 1);
-  filter: drop-shadow(0 0 8px rgba(var(--card-color-rgb), 0.6));
-  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(var(--card-color-rgb), 0.8));
+  transform: scale(1.15);
 }
 
 .home-timer-card:hover .timer-label {
@@ -228,11 +202,8 @@
   transition-duration: 0.1s;
 }
 
-.home-timer-card:active .timer-icon-container {
+.home-timer-card:active .timer-icon-container svg {
   transform: scale(0.95);
-  box-shadow:
-    inset 0 4px 8px rgba(0, 0, 0, 0.5),
-    inset 0 -1px 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Footer */
@@ -276,13 +247,18 @@
     gap: 16px;
   }
 
+  .home-timer-card {
+    min-height: 140px;
+    max-height: 180px;
+  }
+
   .timer-icon-container {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
   }
 
   .timer-label {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.08em;
   }
 }
@@ -292,19 +268,23 @@
     gap: 12px;
   }
 
+  .home-timer-card {
+    min-height: 120px;
+    max-height: 160px;
+  }
+
   .timer-card-inner {
-    gap: 8px;
-    padding: 12px;
+    gap: 10px;
+    padding: 16px 12px;
   }
 
   .timer-icon-container {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
+    width: 36px;
+    height: 36px;
   }
 
   .timer-label {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
 
