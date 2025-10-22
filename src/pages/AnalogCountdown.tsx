@@ -184,30 +184,45 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     ctx.stroke();
   }
 
-  // Progress arc - single elegant ring showing remaining time
+  // Progress rings - follow minute hand, multiple concentric rings for >1h
   if (st.remainingMs > 0) {
-    // Arc represents ONLY current hour's progress (max 60 minutes)
-    // For 2h timer: shows full arc initially, depletes over first hour, refills at 1h mark, depletes again
-    // For 30min timer: shows half arc (30/60), depletes to nothing
     const remainingSeconds = Math.floor(st.remainingMs / 1000);
-    const minutesInCurrentHour = (remainingSeconds % 3600) / 60; // 0-60
-    const progress = minutesInCurrentHour / 60; // 0-1
+    const totalHours = Math.floor(remainingSeconds / 3600); // Full hours (0-4)
+    const minutes = Math.floor((remainingSeconds % 3600) / 60); // Minutes in current hour (0-59)
 
-    // Gradient from red (low) to green (high)
-    const hue = progress * 120; // 0 (red) to 120 (green)
-    const progressColor = `hsl(${hue}, 70%, 50%)`;
+    // Current hour progress follows minute hand (0-59 minutes → 0-360°)
+    const minuteProgress = minutes / 60; // 0-1
+    const minuteAngle = minuteProgress * Math.PI * 2; // 0-2π
 
-    // Single progress arc - shows ONLY the colored arc, no background
-    const angleProgress = progress * Math.PI * 2;
+    // Color gradient: red (low) → yellow → green (high)
+    const hue = minuteProgress * 120; // 0° (red) → 120° (green)
+    const ringColor = `hsl(${hue}, 70%, 50%)`;
+
+    const ringWidth = r * 0.12;
+    const baseRadius = r * 0.88;
+
+    // Draw completed hour rings (inner rings, one per full hour)
+    // Each completed hour = one full ring, moving inward
+    for (let h = 0; h < totalHours; h++) {
+      const ringRadius = baseRadius - (h * ringWidth * 1.1); // Concentric rings with 10% gap
+      const ringHue = 120 - (h * 30); // Gradient: green → yellow → orange for older hours
+
+      ctx.beginPath();
+      ctx.strokeStyle = `hsl(${Math.max(0, ringHue)}, 70%, 50%)`;
+      ctx.lineWidth = ringWidth;
+      ctx.lineCap = "round";
+      ctx.arc(0, 0, ringRadius, 0, Math.PI * 2, false); // Full circle
+      ctx.stroke();
+    }
+
+    // Draw current hour progress arc (outermost ring, follows minute hand)
+    const currentRingRadius = baseRadius - (totalHours * ringWidth * 1.1);
     ctx.beginPath();
-    ctx.strokeStyle = progressColor;
-    ctx.lineWidth = r * 0.12;
+    ctx.strokeStyle = ringColor;
+    ctx.lineWidth = ringWidth;
     ctx.lineCap = "round";
-    ctx.arc(0, 0, r * 0.88, -Math.PI/2, -Math.PI/2 + angleProgress, false);
+    ctx.arc(0, 0, currentRingRadius, -Math.PI/2, -Math.PI/2 + minuteAngle, false);
     ctx.stroke();
-
-    // No background arc - cleaner display
-    // This ensures timers <1h show only their proportional arc (30min = 50%, 10min = 17%)
   }
 
   // Map remaining time to clock hands (4-hour COUNTDOWN clock face)

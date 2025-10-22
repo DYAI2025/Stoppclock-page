@@ -30,7 +30,9 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  /* Stronger text shadow for prominent depth */
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3),
+               1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Timer grid (geometric) */
@@ -56,14 +58,18 @@
   color: var(--mono-black);
   transition: all var(--transition-base);
   padding: var(--space-6);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Prominent shadow for depth - much more visible */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25),
+              0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .home-timer-card:hover {
   background: var(--mono-black);
   color: var(--mono-white);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px);
+  /* Even stronger shadow on hover */
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35),
+              0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .home-timer-icon {
