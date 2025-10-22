@@ -1,0 +1,458 @@
+/* ============================================
+ * POMODORO TIMER - Phase-Based Color Theming
+ * Work: Green, Short Break: White, Long Break: Cyan
+ * ============================================ */
+
+.pomodoro-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8) var(--space-4);
+  transition: background 0.5s ease;
+}
+
+/* Phase-based background colors */
+.pomodoro-phase-work {
+  background: linear-gradient(135deg,
+    #0A1628 0%,
+    #0d4d2f 50%,
+    #10B981 100%
+  );
+}
+
+.pomodoro-phase-shortBreak {
+  background: linear-gradient(135deg,
+    #FFFFFF 0%,
+    #F0F4F8 50%,
+    #E0E7EF 100%
+  );
+  color: var(--ocean-deep);
+}
+
+.pomodoro-phase-longBreak {
+  background: linear-gradient(135deg,
+    #0A1628 0%,
+    #006B7D 50%,
+    #00D9FF 100%
+  );
+}
+
+/* Header */
+.pomodoro-header {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
+}
+
+.pomodoro-title {
+  font-size: var(--type-2xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.05em;
+}
+
+.pomodoro-phase-shortBreak .pomodoro-title {
+  color: var(--ocean-deep);
+}
+
+/* Phase Tabs */
+.pomodoro-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+  background: rgba(255, 255, 255, 0.1);
+  padding: var(--space-1);
+  border-radius: 12px;
+}
+
+.pomodoro-tab {
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--type-base);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.pomodoro-tab:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pomodoro-tab.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--neutral-white);
+}
+
+.pomodoro-phase-shortBreak .pomodoro-tab {
+  color: rgba(10, 22, 40, 0.6);
+}
+
+.pomodoro-phase-shortBreak .pomodoro-tab:hover {
+  background: rgba(10, 22, 40, 0.1);
+  color: rgba(10, 22, 40, 0.9);
+}
+
+.pomodoro-phase-shortBreak .pomodoro-tab.active {
+  background: rgba(10, 22, 40, 0.15);
+  color: var(--ocean-deep);
+}
+
+/* Timer Container */
+.pomodoro-timer-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  margin-bottom: var(--space-12);
+}
+
+/* Timer Display */
+.pomodoro-display {
+  width: 100%;
+  padding: var(--space-12) var(--space-8);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-weight: var(--font-bold);
+  color: var(--neutral-white);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pomodoro-phase-shortBreak .pomodoro-display {
+  background: rgba(10, 22, 40, 0.08);
+  color: var(--ocean-deep);
+}
+
+.pomodoro-display.running {
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+/* Controls */
+.pomodoro-controls {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pomodoro-btn {
+  padding: var(--space-4) var(--space-8);
+  border: none;
+  border-radius: 12px;
+  font-size: var(--type-lg);
+  font-weight: var(--font-bold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pomodoro-btn.primary {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ocean-deep);
+  padding: var(--space-5) var(--space-12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pomodoro-btn.primary:hover {
+  background: var(--neutral-white);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.pomodoro-btn.secondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--neutral-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.pomodoro-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.pomodoro-phase-shortBreak .pomodoro-btn.primary {
+  background: var(--ocean-deep);
+  color: var(--neutral-white);
+}
+
+.pomodoro-phase-shortBreak .pomodoro-btn.secondary {
+  background: rgba(10, 22, 40, 0.1);
+  color: var(--ocean-deep);
+  border: 1px solid rgba(10, 22, 40, 0.3);
+}
+
+/* Session Info */
+.pomodoro-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pomodoro-session {
+  font-size: var(--type-lg);
+  font-weight: var(--font-semibold);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pomodoro-message {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-white);
+}
+
+.pomodoro-phase-shortBreak .pomodoro-session,
+.pomodoro-phase-shortBreak .pomodoro-message {
+  color: var(--ocean-deep);
+}
+
+/* ============================================
+ * KANBAN BOARD
+ * ============================================ */
+
+.kanban-board {
+  width: 100%;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: var(--space-6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.pomodoro-phase-shortBreak .kanban-board {
+  background: rgba(10, 22, 40, 0.05);
+}
+
+.kanban-header {
+  margin-bottom: var(--space-6);
+}
+
+.kanban-header h2 {
+  font-size: var(--type-xl);
+  font-weight: var(--font-bold);
+  color: var(--neutral-white);
+}
+
+.pomodoro-phase-shortBreak .kanban-header h2 {
+  color: var(--ocean-deep);
+}
+
+.kanban-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.kanban-column {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: var(--space-4);
+  min-height: 200px;
+}
+
+.pomodoro-phase-shortBreak .kanban-column {
+  background: rgba(10, 22, 40, 0.08);
+}
+
+.kanban-column-title {
+  font-size: var(--type-base);
+  font-weight: var(--font-semibold);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pomodoro-phase-shortBreak .kanban-column-title {
+  color: var(--ocean-deep);
+}
+
+.kanban-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.kanban-task {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: var(--space-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  transition: all 0.2s ease;
+}
+
+.kanban-task:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(4px);
+}
+
+.pomodoro-phase-shortBreak .kanban-task {
+  background: rgba(10, 22, 40, 0.1);
+}
+
+.pomodoro-phase-shortBreak .kanban-task:hover {
+  background: rgba(10, 22, 40, 0.15);
+}
+
+.kanban-task-done {
+  opacity: 0.6;
+}
+
+.kanban-task-text {
+  flex: 1;
+  color: var(--neutral-white);
+  font-size: var(--type-sm);
+  word-wrap: break-word;
+}
+
+.pomodoro-phase-shortBreak .kanban-task-text {
+  color: var(--ocean-deep);
+}
+
+.kanban-task-actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.kanban-btn {
+  padding: var(--space-1) var(--space-2);
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--neutral-white);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--type-xs);
+  transition: all 0.2s ease;
+}
+
+.kanban-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.pomodoro-phase-shortBreak .kanban-btn {
+  background: rgba(10, 22, 40, 0.2);
+  color: var(--ocean-deep);
+}
+
+.kanban-btn-delete {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.kanban-btn-delete:hover {
+  background: rgba(239, 68, 68, 0.5);
+}
+
+.kanban-add-btn {
+  width: 100%;
+  padding: var(--space-3);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: var(--type-sm);
+  transition: all 0.2s ease;
+}
+
+.kanban-add-btn:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--neutral-white);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.pomodoro-phase-shortBreak .kanban-add-btn {
+  border-color: rgba(10, 22, 40, 0.3);
+  color: rgba(10, 22, 40, 0.6);
+}
+
+.pomodoro-phase-shortBreak .kanban-add-btn:hover {
+  border-color: rgba(10, 22, 40, 0.5);
+  color: var(--ocean-deep);
+  background: rgba(10, 22, 40, 0.05);
+}
+
+.kanban-add-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.kanban-add-input input {
+  width: 100%;
+  padding: var(--space-2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--neutral-white);
+  border-radius: 4px;
+  font-size: var(--type-sm);
+}
+
+.pomodoro-phase-shortBreak .kanban-add-input input {
+  border-color: rgba(10, 22, 40, 0.3);
+  background: rgba(10, 22, 40, 0.1);
+  color: var(--ocean-deep);
+}
+
+.kanban-add-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.kanban-btn-confirm {
+  background: rgba(16, 185, 129, 0.8);
+  color: var(--neutral-white);
+}
+
+.kanban-btn-cancel {
+  background: rgba(107, 114, 128, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .kanban-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .pomodoro-page {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .pomodoro-tabs {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .pomodoro-tab {
+    width: 100%;
+  }
+
+  .pomodoro-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .pomodoro-btn {
+    width: 100%;
+  }
+}
