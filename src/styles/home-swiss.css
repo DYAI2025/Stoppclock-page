@@ -265,6 +265,7 @@
 
 @media (max-width: 480px) {
   .home-grid {
+    grid-template-columns: repeat(2, 1fr); /* Ensure 2 columns on all mobile devices */
     gap: 12px;
   }
 
