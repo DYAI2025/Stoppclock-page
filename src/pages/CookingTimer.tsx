@@ -93,6 +93,7 @@ export default function CookingTimer() {
   const [st, setSt] = useState<CookingTimerState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const [customMinutes, setCustomMinutes] = useState<string>('10');
+  const [customName, setCustomName] = useState<string>('');
   const wrapRef = useRef<HTMLDivElement>(null);
 
   // Sort timers by remaining time (soonest first)
@@ -170,11 +171,19 @@ export default function CookingTimer() {
     if (st.timers.length >= MAX_TIMERS) return;
 
     const preset = COOKING_PRESETS.find(p => p.id === presetId);
-    const minutes = presetId === 'custom' ? parseInt(customMinutes) || 10 : preset?.defaultMinutes || 10;
+    const minutes = presetId === 'custom' ? Number.parseInt(customMinutes) || 10 : preset?.defaultMinutes || 10;
     const durationMs = minutes * 60 * 1000;
 
     const { color, nextIndex } = getNextColor(st.nextColorIndex);
-    const label = preset ? `${preset.emoji} ${preset.label}` : `⏱️ ${minutes}min`;
+
+    // Use custom name if provided, otherwise use preset label or default
+    let label: string;
+    if (presetId === 'custom') {
+      const trimmedName = customName.trim();
+      label = trimmedName ? `⏱️ ${trimmedName}` : `⏱️ ${minutes}min`;
+    } else {
+      label = preset ? `${preset.emoji} ${preset.label}` : `⏱️ ${minutes}min`;
+    }
 
     const newTimer: CookingTimer = {
       id: `cooking-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
@@ -194,7 +203,12 @@ export default function CookingTimer() {
       timers: [...s.timers, newTimer],
       nextColorIndex: nextIndex
     }));
-  }, [st.timers.length, st.nextColorIndex, customMinutes]);
+
+    // Reset custom name after adding
+    if (presetId === 'custom') {
+      setCustomName('');
+    }
+  }, [st.timers.length, st.nextColorIndex, customMinutes, customName]);
 
   // Start/pause individual timer
   const toggleTimer = useCallback((timerId: string) => {
@@ -352,21 +366,29 @@ export default function CookingTimer() {
           {/* Custom Timer */}
           <div className="preset-custom">
             <input
+              type="text"
+              value={customName}
+              onChange={(e) => setCustomName(e.target.value)}
+              className="custom-input custom-name-input"
+              placeholder="Timer Name"
+              maxLength={20}
+            />
+            <input
               type="number"
               min="1"
               max="180"
               value={customMinutes}
               onChange={(e) => setCustomMinutes(e.target.value)}
-              className="custom-input"
-              placeholder="Minutes"
+              className="custom-input custom-minutes-input"
+              placeholder="Min"
             />
             <button
               type="button"
-              className="preset-btn"
+              className="preset-btn custom-add-btn"
               onClick={() => addTimer('custom')}
             >
               <span className="preset-emoji">⏱️</span>
-              <span className="preset-label">Custom</span>
+              <span className="preset-label">Add</span>
             </button>
           </div>
         </div>
