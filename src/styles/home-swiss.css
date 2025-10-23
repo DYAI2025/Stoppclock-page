@@ -27,7 +27,7 @@
 .home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(20px, 2.94vw, 32px);
+  gap: clamp(24px, 3vw, 36px);
   max-width: 1200px;
   width: 100%;
   margin-bottom: var(--space-12);
@@ -35,7 +35,7 @@
   z-index: 1;
 }
 
-/* Premium Glass-Morphism Timer Cards */
+/* Premium Glass-Morphism Timer Cards mit deutlichem Aluminium-Rahmen */
 .home-timer-card {
   position: relative;
   aspect-ratio: 1;
@@ -43,63 +43,81 @@
   max-height: 200px;
   text-decoration: none;
   color: var(--neutral-white);
-  overflow: hidden;
-  border-radius: 24px;
+  overflow: visible;
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Metal frame base */
+  /* Innere Glasfläche mit gleichmäßigem Farbverlauf */
   background: 
     linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.1) 0%, 
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(0, 0, 0, 0.1) 100%),
+      rgba(var(--card-color-rgb), 0.12) 0%, 
+      rgba(var(--card-color-rgb), 0.06) 50%,
+      rgba(0, 0, 0, 0.3) 100%),
     linear-gradient(135deg,
-      var(--ocean-dark) 0%,
-      var(--ocean-mid) 100%);
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 100%);
   
-  /* Aluminum border effect */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Deutlicher Aluminium-Rahmen mit Metallic-Effekt */
+  border: 3px solid;
+  border-image: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.3) 25%,
+    rgba(120, 120, 120, 0.4) 50%,
+    rgba(255, 255, 255, 0.3) 75%,
+    rgba(255, 255, 255, 0.6) 100%) 1;
+  
+  /* Aluminium-Schatten und Tiefe */
   box-shadow:
-    /* Outer metal shadow */
-    0 8px 32px rgba(0, 0, 0, 0.4),
+    /* Äußerer Schatten für Tiefe */
+    0 8px 32px rgba(0, 0, 0, 0.5),
     0 2px 8px rgba(0, 0, 0, 0.3),
-    /* Inner highlight */
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    /* Color glow */
-    0 0 0 1px rgba(var(--card-color-rgb), 0.3);
+    /* Innere Highlights für Aluminium-Effekt */
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    inset 1px 0 0 rgba(255, 255, 255, 0.2),
+    inset -1px 0 0 rgba(0, 0, 0, 0.3),
+    /* Farbiger Glow */
+    0 0 0 1px rgba(var(--card-color-rgb), 0.4),
+    0 0 20px rgba(var(--card-color-rgb), 0.2);
 }
 
-/* Colored accent border */
+/* Äußerer Aluminium-Rahmen mit Metallic-Verlauf */
 .home-timer-card::before {
   content: '';
   position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, 
-    rgba(var(--card-color-rgb), 0.6) 0%,
-    rgba(var(--card-color-rgb), 0.3) 50%,
-    rgba(var(--card-color-rgb), 0.6) 100%);
-  border-radius: 24px;
+  inset: -4px;
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(180, 180, 180, 0.3) 25%,
+      rgba(120, 120, 120, 0.2) 50%,
+      rgba(180, 180, 180, 0.3) 75%,
+      rgba(255, 255, 255, 0.4) 100%);
+  border-radius: 22px;
   z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* Glass reflection overlay */
+/* Glas-Reflexion oben - gleichmäßiger Verlauf */
 .home-timer-card::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
+  height: 45%;
   background: linear-gradient(180deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.12) 30%,
+    rgba(255, 255, 255, 0.05) 60%,
     transparent 100%);
-  border-radius: 24px 24px 0 0;
+  border-radius: 20px 20px 0 0;
   pointer-events: none;
+  z-index: 2;
 }
 
 /* Card Inner Container */
@@ -111,41 +129,43 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 20px;
+  gap: 14px;
+  padding: 24px 20px;
   z-index: 1;
 }
 
-/* Icon Container - Direct on card, no extra button */
+/* Icon Container */
 .timer-icon-container {
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-/* Icon SVG Styling */
+/* Icon SVG Styling mit Farbverlauf */
 .timer-icon-container svg {
   width: 100%;
   height: 100%;
-  color: rgba(var(--card-color-rgb), 0.9);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  color: rgba(var(--card-color-rgb), 1);
+  filter: 
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 0 8px rgba(var(--card-color-rgb), 0.4));
   transition: all 0.3s ease;
 }
 
 /* Timer Label - Premium Typography */
 .timer-label {
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--neutral-white);
   text-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.5),
-    0 0 8px rgba(var(--card-color-rgb), 0.3);
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    0 0 12px rgba(var(--card-color-rgb), 0.5);
   transition: all 0.3s ease;
   text-align: center;
   line-height: 1.3;
@@ -154,56 +174,72 @@
   hyphens: auto;
 }
 
-/* Hover State - Premium Interaction */
+/* Hover State - Verstärkter Glas/Alu-Effekt */
 .home-timer-card:hover {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-8px) scale(1.03);
   
-  /* Enhanced shadows */
+  /* Verstärkte Schatten und Glows */
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.5),
-    0 4px 16px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-    /* Colored glow */
-    0 0 40px rgba(var(--card-color-rgb), 0.4),
-    0 0 0 2px rgba(var(--card-color-rgb), 0.5);
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+    inset 2px 0 0 rgba(255, 255, 255, 0.3),
+    inset -2px 0 0 rgba(0, 0, 0, 0.4),
+    0 0 0 2px rgba(var(--card-color-rgb), 0.6),
+    0 0 40px rgba(var(--card-color-rgb), 0.5);
   
-  /* Brighter background */
+  /* Hellerer Glasverlauf beim Hover */
   background: 
     linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.15) 0%, 
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(0, 0, 0, 0.05) 100%),
+      rgba(var(--card-color-rgb), 0.2) 0%, 
+      rgba(var(--card-color-rgb), 0.12) 50%,
+      rgba(0, 0, 0, 0.2) 100%),
     linear-gradient(135deg,
-      var(--ocean-mid) 0%,
-      var(--ocean-light) 100%);
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 100%);
 }
 
+/* Verstärkter Aluminium-Rahmen beim Hover */
 .home-timer-card:hover::before {
-  opacity: 1;
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(200, 200, 200, 0.5) 25%,
+      rgba(150, 150, 150, 0.4) 50%,
+      rgba(200, 200, 200, 0.5) 75%,
+      rgba(255, 255, 255, 0.6) 100%);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.6);
 }
 
 .home-timer-card:hover .timer-icon-container svg {
   color: rgba(var(--card-color-rgb), 1);
-  filter: drop-shadow(0 0 12px rgba(var(--card-color-rgb), 0.8));
-  transform: scale(1.15);
+  filter: 
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5))
+    drop-shadow(0 0 16px rgba(var(--card-color-rgb), 0.8))
+    drop-shadow(0 0 24px rgba(var(--card-color-rgb), 0.4));
+  transform: scale(1.12);
 }
 
 .home-timer-card:hover .timer-label {
   color: rgba(var(--card-color-rgb), 1);
   text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.6),
-    0 0 16px rgba(var(--card-color-rgb), 0.6);
+    0 2px 4px rgba(0, 0, 0, 0.7),
+    0 0 16px rgba(var(--card-color-rgb), 0.8),
+    0 0 24px rgba(var(--card-color-rgb), 0.4);
 }
 
 /* Active/Press State */
 .home-timer-card:active {
-  transform: translateY(-4px) scale(0.98);
+  transform: translateY(-6px) scale(1.01);
   transition-duration: 0.1s;
 }
 
 .home-timer-card:active .timer-icon-container svg {
-  transform: scale(0.95);
+  transform: scale(1.05);
 }
 
 /* Footer */
@@ -250,6 +286,45 @@
   .home-timer-card {
     min-height: 140px;
     max-height: 180px;
+    border-radius: 18px;
+  }
+
+  .home-timer-card::before {
+    inset: -3px;
+    border-radius: 20px;
+  }
+
+  .timer-icon-container {
+    width: 44px;
+    height: 44px;
+  }
+
+  .timer-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .home-timer-card {
+    min-height: 120px;
+    max-height: 160px;
+    border-radius: 16px;
+  }
+
+  .home-timer-card::before {
+    inset: -2px;
+    border-radius: 18px;
+  }
+
+  .timer-card-inner {
+    gap: 12px;
+    padding: 18px 16px;
   }
 
   .timer-icon-container {
@@ -258,34 +333,8 @@
   }
 
   .timer-label {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-grid {
-    grid-template-columns: repeat(2, 1fr); /* Ensure 2 columns on all mobile devices */
-    gap: 12px;
-  }
-
-  .home-timer-card {
-    min-height: 120px;
-    max-height: 160px;
-  }
-
-  .timer-card-inner {
-    gap: 10px;
-    padding: 16px 12px;
-  }
-
-  .timer-icon-container {
-    width: 36px;
-    height: 36px;
-  }
-
-  .timer-label {
     font-size: 10px;
+    letter-spacing: 0.08em;
   }
 }
 
@@ -293,15 +342,14 @@
 .home-timer-card:focus-visible {
   outline: none;
   box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.5),
-    0 0 0 3px rgba(var(--card-color-rgb), 0.6),
-    0 0 20px rgba(var(--card-color-rgb), 0.4);
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 3px rgba(var(--card-color-rgb), 0.8),
+    0 0 30px rgba(var(--card-color-rgb), 0.5);
 }
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   .home-timer-card,
-  .timer-icon-container,
   .timer-icon-container svg,
   .timer-label {
     transition: none;
