@@ -8,7 +8,7 @@ import WorldClock from "./pages/WorldClock";
 import Alarm from "./pages/Alarm";
 import Metronome from "./pages/Metronome";
 import ChessClock from "./pages/ChessClock";
-import CycleTimer from "./pages/CycleTimer";
+import CookingTimer from "./pages/CookingTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
 import Impressum from "./pages/Impressum";
@@ -128,7 +128,7 @@ function Home() {
     { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
     { route: "#/analog", label: "Analog", color: "#C77DFF", colorRgb: "199, 125, 255" },
     { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
-    { route: "#/cycle", label: "Cycle Timer", color: "#10B981", colorRgb: "16, 185, 129" },
+    { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
     { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
     { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
@@ -199,7 +199,7 @@ function App() {
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
       {route === "/pomodoro" && <Pomodoro />}
-      {route === "/cycle" && <CycleTimer />}
+      {route === "/cooking" && <CookingTimer />}
       {route === "/digital" && <DigitalClock />}
       {route === "/world" && <WorldClock />}
       {route === "/alarm" && <Alarm />}
@@ -207,7 +207,7 @@ function App() {
       {route === "/chess" && <ChessClock />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cycle", "/digital", "/world", "/alarm", "/metronome", "/chess", "/impressum", "/datenschutz"].includes(route) && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/impressum", "/datenschutz"].includes(route) && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
@@ -257,10 +257,13 @@ function TimerIcon({ type }: { type: string }) {
         <path d="M19 12h-2"/>
       </svg>
     ),
-    "Cycle Timer": (
+    "Cooking Timer": (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
-        <path d="M21 3v5h-5"/>
+        <circle cx="12" cy="13" r="8"/>
+        <path d="M12 9v4l3 2"/>
+        <path d="M16.5 3.5L19 6"/>
+        <path d="M7.5 3.5L5 6"/>
+        <path d="M9 2h6"/>
       </svg>
     ),
     "World Clock": (

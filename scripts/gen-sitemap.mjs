@@ -6,6 +6,8 @@ const routes = [
   "/analog",
   "/stopwatch",
   "/countdown",
+  "/pomodoro",
+  "/cooking",
   "/digital",
   "/world",
   "/alarm",

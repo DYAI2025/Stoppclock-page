@@ -142,3 +142,25 @@ export interface PomodoroState {
   completedPomodoros: number; // Total completed today
   tasks: PomodoroTask[];
 }
+
+// Cooking Timer state - multi-timer kitchen assistant
+export type CookingPresetId = 'stove' | 'oven' | 'pasta' | 'rice' | 'eggs' | 'tea' | 'custom';
+
+export interface CookingTimer {
+  id: string;
+  label: string;
+  presetId: CookingPresetId;
+  durationMs: number;
+  remainingMs: number;
+  running: boolean;
+  startedAt: number | null;
+  color: string;
+  alarming: boolean; // true when alarm is actively ringing/pulsing
+  alarmStartedAt: number | null; // when alarm started (for 60s audio limit)
+}
+
+export interface CookingTimerState {
+  version: 1;
+  timers: CookingTimer[]; // Up to 10 timers
+  nextColorIndex: number; // For auto-rotation through color palette
+}

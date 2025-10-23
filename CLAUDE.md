@@ -49,11 +49,11 @@ Hash-based client-side routing via `useHashRoute()` hook in `src/main.tsx`:
 - `#/countdown` → Digital Countdown
 - `#/stopwatch` → Stopwatch with lap times
 - `#/pomodoro` → Pomodoro Timer with Kanban board
+- `#/cooking` → Cooking Timer (multi-timer kitchen assistant)
 - `#/chess` → Chess Clock
 - `#/metronome` → Metronome
 - `#/world` → World Clock
 - `#/alarm` → Alarm
-- `#/cycle` → Cycle Timer
 - `#/impressum` → Legal imprint
 - `#/datenschutz` → Privacy policy
 
@@ -80,11 +80,11 @@ All timer state interfaces defined in `src/types/timer-types.ts`:
 - `CountdownState` → Digital Countdown, Analog Countdown
 - `StopwatchState` → Stopwatch (includes `LapTime[]` array)
 - `PomodoroState` → Pomodoro Timer (includes phase cycling and task list)
+- `CookingTimerState` → Cooking Timer (multi-timer kitchen assistant, up to 10 timers)
 - `ChessClockState` → Chess Clock (dual timers with modes: simple, fischer, bronstein)
 - `MetronomeState` → Metronome (BPM, time signature, accent patterns)
 - `AlarmState` → Alarm Clock
 - `WorldClockState` → World Clock (timezone entries)
-- `CycleTimerState` → Cycle Timer (interval-based)
 
 ### Analog Countdown Implementation
 Located in `src/pages/AnalogCountdown.tsx`:
@@ -98,6 +98,25 @@ Located in `src/pages/AnalogCountdown.tsx`:
 **Critical bug fix (commit 6891b6b):** Hour hand must divide by 12, not 4, to follow proper analog clock physics where the hour hand moves 1/12th the speed of the minute hand.
 
 **Note:** While analog clock displays up to 4 hours for readability, other timer types support longer durations (e.g., Stopwatch is unlimited, Digital Countdown supports arbitrary hours).
+
+### Cooking Timer Implementation
+Located in `src/pages/CookingTimer.tsx`:
+- **Multi-timer support:** Up to 10 simultaneous timers with independent controls
+- **Presets:** Stove (20min), Oven (25min), Pasta (10min), Rice (15min), Eggs (7min), Tea (3min), Custom
+- **Auto-color rotation:** 10 soft pastel colors (defined in `src/config/cooking-presets.ts`)
+- **Smart sorting:** Timers auto-sort by soonest completion time, alarming timers always on top
+- **Alarm behavior:** 60-second audio beep (800 Hz), then visual pulsing until manual dismissal
+- **Extension controls:** Add +1, +2, or +5 minutes while alarm is ringing (safety feature for cooking)
+- **Card-based UI:** Each timer is a colored card with label, countdown, progress bar, and controls
+- **localStorage persistence:** State saved to `sc.v1.cooking` with 150ms debounce
+- **Responsive design:** Grid layout adapts from multi-column to single column on mobile
+
+**Key features:**
+- Manual dismissal required (no auto-dismiss for cooking safety)
+- Progress bar shows remaining time visually
+- Delete/reset individual timers
+- Fullscreen mode support
+- Deep Ocean Aurora color theme with soft pastel timer cards
 
 ## Monetization Architecture
 
