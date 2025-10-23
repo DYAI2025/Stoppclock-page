@@ -279,6 +279,7 @@ function flash(el:HTMLElement|null, ms=500) {
 
 export default function AnalogCountdown() {
   const [st, setSt] = useState<Persist>(() => load());
+  const [customMinutes, setCustomMinutes] = useState<string>('');
   const cnvRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const warned = useRef(false);
@@ -287,7 +288,14 @@ export default function AnalogCountdown() {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
     const rem = Math.max(0, st.endAt - now);
-    if (rem !== st.remainingMs) setSt(s => ({...s, remainingMs: rem}));
+
+    // Only update on second change to prevent flickering
+    const currentSeconds = Math.floor(st.remainingMs / 1000);
+    const newSeconds = Math.floor(rem / 1000);
+
+    if (newSeconds !== currentSeconds) {
+      setSt(s => ({...s, remainingMs: rem}));
+    }
   }, [st.running, st.endAt, st.remainingMs]);
 
   useRaf(st.running, sync);
@@ -386,6 +394,14 @@ export default function AnalogCountdown() {
     endAt: null
   })), []);
 
+  const handleCustomMinutes = useCallback(() => {
+    const minutes = parseInt(customMinutes, 10);
+    if (!isNaN(minutes) && minutes >= 1 && minutes <= 180) {
+      setDur(minutes * 60_000);
+      setCustomMinutes('');
+    }
+  }, [customMinutes, setDur]);
+
   const full = useCallback(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -444,18 +460,46 @@ export default function AnalogCountdown() {
       <div className="analog-presets">
         <button type="button" className="analog-preset" onClick={() => setDur(5 * 60_000)}>5m</button>
         <button type="button" className="analog-preset" onClick={() => setDur(10 * 60_000)}>10m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(15 * 60_000)}>15m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(20 * 60_000)}>20m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(25 * 60_000)}>25m</button>
         <button type="button" className="analog-preset" onClick={() => setDur(30 * 60_000)}>30m</button>
-        <button type="button" className="analog-preset" onClick={() => setDur(60 * 60_000)}>1h</button>
-        <button type="button" className="analog-preset" onClick={() => setDur(90 * 60_000)}>1h30m</button>
-        <button type="button" className="analog-preset" onClick={() => setDur(2 * 60 * 60_000)}>2h</button>
       </div>
 
       {/* Time Adjustments */}
       <div className="analog-presets">
-        <button type="button" className="analog-preset" onClick={() => plus(30 * 60_000)}>+30m</button>
-        <button type="button" className="analog-preset" onClick={() => plus(60 * 60_000)}>+1h</button>
-        <button type="button" className="analog-preset" onClick={() => plus(-30 * 60_000)}>-30m</button>
-        <button type="button" className="analog-preset" onClick={() => plus(-60 * 60_000)}>-1h</button>
+        <button type="button" className="analog-preset" onClick={() => plus(5 * 60_000)}>+5</button>
+        <button type="button" className="analog-preset" onClick={() => plus(10 * 60_000)}>+10</button>
+        <button type="button" className="analog-preset" onClick={() => plus(-5 * 60_000)}>-5</button>
+        <button type="button" className="analog-preset" onClick={() => plus(-10 * 60_000)}>-10</button>
+      </div>
+
+      {/* Custom Duration Input */}
+      <div className="analog-custom-input">
+        <label htmlFor="custom-minutes">Custom Timer (1-180 min):</label>
+        <div className="analog-input-group">
+          <input
+            id="custom-minutes"
+            type="number"
+            min="1"
+            max="180"
+            value={customMinutes}
+            onChange={(e) => setCustomMinutes(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleCustomMinutes();
+            }}
+            placeholder="Enter minutes"
+            disabled={st.running}
+          />
+          <button
+            type="button"
+            className="analog-btn secondary"
+            onClick={handleCustomMinutes}
+            disabled={st.running || !customMinutes}
+          >
+            Set
+          </button>
+        </div>
       </div>
 
       {/* Settings */}

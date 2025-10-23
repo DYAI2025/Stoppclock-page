@@ -150,6 +150,21 @@ input[type="text"]:not([maxlength]) {
   /* Default maxlength for inputs without explicit limit */
   max-length: 40;
 }
+
+/* Prevent flickering on timer displays - disable transitions on digits */
+.countdown-display, .stopwatch-display, .pomodoro-display,
+.timer-display, [class*="-display"] {
+  /* Use GPU acceleration but no transitions on content changes */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Disable transitions on text/number changes */
+.countdown-display *, .stopwatch-display *, .pomodoro-display *,
+.timer-display * {
+  transition: none !important;
+}
 html,body,#root{ height:100%; margin:0; }
 body{
   background: var(--ocean-deep);

@@ -75,15 +75,23 @@ export default function Stopwatch() {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const lastSecondRef = useRef<number>(-1);
 
   const currentTime = st.running && st.startedAt ? st.elapsedMs + (Date.now() - st.startedAt) : st.elapsedMs;
   const [textRef, autoFontSize] = useAutoFitText(fmt(currentTime), 8, 1.5);
 
   const sync = useCallback(() => {
     if (!st.running || !st.startedAt) return;
-    // Force re-render for display update, don't update state
-    forceUpdate();
-  }, [st.running, st.startedAt]);
+
+    // Only update on 100ms intervals to reduce flicker (10 FPS)
+    const currentMs = st.elapsedMs + (Date.now() - st.startedAt);
+    const currentTenth = Math.floor(currentMs / 100);
+
+    if (currentTenth !== lastSecondRef.current) {
+      lastSecondRef.current = currentTenth;
+      forceUpdate();
+    }
+  }, [st.running, st.startedAt, st.elapsedMs]);
 
   useRaf(st.running, sync);
 

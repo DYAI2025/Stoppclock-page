@@ -86,12 +86,20 @@ export default function Countdown() {
   const [st, setSt] = useState<Persist>(load);
   const wrapRef = useRef<HTMLDivElement>(null);
   const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
+  const lastSecondRef = useRef<number>(-1);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
     const rem = Math.max(0, st.endAt - now);
-    if (rem !== st.remainingMs) setSt(s => ({ ...s, remainingMs: rem }));
+
+    // Only update on second change to prevent flickering
+    const currentSeconds = Math.floor(st.remainingMs / 1000);
+    const newSeconds = Math.floor(rem / 1000);
+
+    if (newSeconds !== currentSeconds) {
+      setSt(s => ({ ...s, remainingMs: rem }));
+    }
   }, [st.running, st.endAt, st.remainingMs]);
 
   useRaf(st.running, sync);
@@ -102,34 +110,35 @@ export default function Countdown() {
   }, [st]);
 
   useEffect(() => {
-    // warn & finish
-    const warnAt = st.warnAtMs;
-    const isWarn = (warnAt != null) && st.running && st.remainingMs > 0 && st.remainingMs <= warnAt;
-
-    // Beep/flash every second when in warning zone (last minute)
-    let warnInterval: number | undefined;
-    if (isWarn) {
-      // Trigger immediately
-      if (st.signal.flash) flash(wrapRef.current, 250);
-      if (st.signal.sound) beep(140, 1200);
-
-      // Then every second
-      warnInterval = window.setInterval(() => {
+    // Last 10 seconds: tick every second (10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+    const secondsRemaining = Math.floor(st.remainingMs / 1000);
+    if (st.running && secondsRemaining >= 1 && secondsRemaining <= 10) {
+      // Only beep when we cross into a new second
+      if (secondsRemaining !== lastSecondRef.current) {
+        lastSecondRef.current = secondsRemaining;
         if (st.signal.flash) flash(wrapRef.current, 250);
-        if (st.signal.sound) beep(140, 1200);
-      }, 1000);
+        if (st.signal.sound) {
+          // Higher pitch as we get closer to zero (more urgent)
+          const pitch = 800 + (11 - secondsRemaining) * 50; // 850Hz at 10s, 1300Hz at 1s
+          beep(80, pitch); // Short 80ms tick
+        }
+      }
     }
 
+    // Finish: loud alarm with ADSR envelope (multiple beeps)
     if (st.running && st.remainingMs <= 0) {
+      lastSecondRef.current = -1; // Reset for next countdown
       setSt(s => ({ ...s, running: false, endAt: null, remainingMs: 0 }));
       if (st.signal.flash) flash(wrapRef.current, 900);
-      if (st.signal.sound) beep(600, 660);
+      if (st.signal.sound) {
+        // Alarm bimmeln - multiple beeps with ADSR envelope
+        beep(300, 880);  // First beep (300ms)
+        setTimeout(() => beep(300, 880), 350);  // Second beep
+        setTimeout(() => beep(300, 880), 700);  // Third beep
+        setTimeout(() => beep(500, 660), 1050); // Final longer lower beep (500ms)
+      }
     }
-
-    return () => {
-      if (warnInterval) clearInterval(warnInterval);
-    };
-  }, [st.remainingMs, st.running, st.signal, st.warnAtMs]);
+  }, [st.remainingMs, st.running, st.signal]);
 
   const start = useCallback(() => {
     if (st.remainingMs <= 0) {
