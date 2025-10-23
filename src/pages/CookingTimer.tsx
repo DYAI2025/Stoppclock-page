@@ -262,6 +262,40 @@ export default function CookingTimer() {
     }));
   }, []);
 
+  // Adjust timer by minutes (add or subtract)
+  const adjustTimer = useCallback((timerId: string, minutes: number) => {
+    setSt(prev => ({
+      ...prev,
+      timers: prev.timers.map(timer => {
+        if (timer.id !== timerId) return timer;
+
+        const adjustmentMs = minutes * 60 * 1000;
+        const currentRemaining = timer.running && timer.startedAt
+          ? Math.max(0, timer.remainingMs - (Date.now() - timer.startedAt))
+          : timer.remainingMs;
+
+        const newRemaining = Math.max(0, currentRemaining + adjustmentMs);
+
+        if (timer.running) {
+          // If running, update remainingMs and reset startedAt to now
+          return {
+            ...timer,
+            remainingMs: newRemaining,
+            startedAt: Date.now(),
+            durationMs: timer.durationMs + adjustmentMs
+          };
+        } else {
+          // If paused, just update remainingMs
+          return {
+            ...timer,
+            remainingMs: newRemaining,
+            durationMs: timer.durationMs + adjustmentMs
+          };
+        }
+      })
+    }));
+  }, []);
+
   // Reset timer
   const resetTimer = useCallback((timerId: string) => {
     setSt(prev => ({
@@ -374,9 +408,29 @@ export default function CookingTimer() {
                   </button>
                 </div>
 
-                {/* Timer Display */}
-                <div className="card-display">
-                  {fmt(currentTime)}
+                {/* Timer Display with +/- buttons */}
+                <div className="card-display-container">
+                  <button
+                    type="button"
+                    className="time-adjust-btn minus"
+                    onClick={() => adjustTimer(timer.id, -1)}
+                    disabled={timer.alarming}
+                    title="Subtract 1 minute"
+                  >
+                    −
+                  </button>
+                  <div className="card-display">
+                    {fmt(currentTime)}
+                  </div>
+                  <button
+                    type="button"
+                    className="time-adjust-btn plus"
+                    onClick={() => adjustTimer(timer.id, 1)}
+                    disabled={timer.alarming}
+                    title="Add 1 minute"
+                  >
+                    +
+                  </button>
                 </div>
 
                 {/* Progress Bar */}
