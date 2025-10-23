@@ -18,13 +18,28 @@ function load(): PomodoroState {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) throw new Error('No saved state');
     const p = JSON.parse(raw) as PomodoroState;
+
+    // Calculate actual remaining time if timer was running
+    let actualRemainingMs = p.remainingMs ?? WORK_DURATION;
+    let shouldContinueRunning = false;
+
+    if (p.running && p.startedAt) {
+      const elapsedSinceStart = Date.now() - p.startedAt;
+      actualRemainingMs = Math.max(0, p.remainingMs - elapsedSinceStart);
+
+      // Only continue running if there's time left
+      if (actualRemainingMs > 0) {
+        shouldContinueRunning = true;
+      }
+    }
+
     return {
       version: 1,
       phase: p.phase ?? 'work',
       currentSession: p.currentSession ?? 1,
-      remainingMs: p.remainingMs ?? WORK_DURATION,
-      running: false, // Always start paused
-      startedAt: null,
+      remainingMs: actualRemainingMs,
+      running: shouldContinueRunning,
+      startedAt: shouldContinueRunning ? Date.now() : null,
       completedPomodoros: p.completedPomodoros ?? 0,
       tasks: Array.isArray(p.tasks) ? p.tasks : []
     };
@@ -111,60 +126,66 @@ export default function Pomodoro() {
   const [textRef, autoFontSize] = useAutoFitText(fmt(currentTime), 8, 1.5);
 
   const sync = useCallback(() => {
-    if (!st.running || !st.startedAt) return;
+    setSt(currentSt => {
+      if (!currentSt.running || !currentSt.startedAt) {
+        forceUpdate();
+        return currentSt;
+      }
 
-    const elapsed = Date.now() - st.startedAt;
-    const remaining = st.remainingMs - elapsed;
+      const elapsed = Date.now() - currentSt.startedAt;
+      const remaining = currentSt.remainingMs - elapsed;
 
-    if (remaining <= 0) {
-      // Phase completed - move to next phase
-      playSingingBowl();
+      if (remaining <= 0) {
+        // Phase completed - move to next phase
+        playSingingBowl();
 
-      let nextPhase: PomodoroPhase;
-      let nextSession = st.currentSession;
-      let completedPomodoros = st.completedPomodoros;
+        let nextPhase: PomodoroPhase;
+        let nextSession = currentSt.currentSession;
+        let completedPomodoros = currentSt.completedPomodoros;
 
-      if (st.phase === 'work') {
-        completedPomodoros += 1;
-        if (st.currentSession >= SESSIONS_BEFORE_LONG_BREAK) {
-          nextPhase = 'longBreak';
-          // Keep session at 4, will reset after long break completes
+        if (currentSt.phase === 'work') {
+          completedPomodoros += 1;
+          if (currentSt.currentSession >= SESSIONS_BEFORE_LONG_BREAK) {
+            nextPhase = 'longBreak';
+            // Keep session at 4, will reset after long break completes
+          } else {
+            nextPhase = 'shortBreak';
+            // Keep session as is, will increment after short break completes
+          }
+        } else if (currentSt.phase === 'shortBreak') {
+          nextPhase = 'work';
+          nextSession = currentSt.currentSession + 1; // Increment for next work session
         } else {
-          nextPhase = 'shortBreak';
-          // Keep session as is, will increment after short break completes
+          // longBreak
+          nextPhase = 'work';
+          nextSession = 1; // Reset to session 1 after long break
         }
-      } else if (st.phase === 'shortBreak') {
-        nextPhase = 'work';
-        nextSession = st.currentSession + 1; // Increment for next work session
+
+        const nextDuration = getPhaseDuration(nextPhase);
+
+        // Show browser notification
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('Stoppclock - Pomodoro', {
+            body: getPhaseMessage(nextPhase),
+            icon: '/icons/icon-192x192.png'
+          });
+        }
+
+        return {
+          ...currentSt,
+          phase: nextPhase,
+          currentSession: nextSession,
+          remainingMs: nextDuration,
+          running: false, // Stop after phase transition
+          startedAt: null,
+          completedPomodoros
+        };
       } else {
-        // longBreak
-        nextPhase = 'work';
-        nextSession = 1; // Reset to session 1 after long break
+        forceUpdate();
+        return currentSt;
       }
-
-      const nextDuration = getPhaseDuration(nextPhase);
-
-      // Show browser notification
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Stoppclock - Pomodoro', {
-          body: getPhaseMessage(nextPhase),
-          icon: '/icons/icon-192x192.png'
-        });
-      }
-
-      setSt(s => ({
-        ...s,
-        phase: nextPhase,
-        currentSession: nextSession,
-        remainingMs: nextDuration,
-        running: false, // Stop after phase transition
-        startedAt: null,
-        completedPomodoros
-      }));
-    } else {
-      forceUpdate();
-    }
-  }, [st.running, st.startedAt, st.remainingMs, st.phase, st.currentSession, st.completedPomodoros]);
+    });
+  }, []);
 
   useRaf(st.running, sync);
 

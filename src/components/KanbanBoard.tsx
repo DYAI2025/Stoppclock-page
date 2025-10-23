@@ -70,6 +70,7 @@ export function KanbanBoard({ tasks, onAddTask, onMoveTask, onDeleteTask }: Read
                   }}
                   placeholder="Task description..."
                   autoFocus
+                  maxLength={40}
                 />
                 <div className="kanban-add-actions">
                   <button type="button" onClick={handleAddTask} className="kanban-btn kanban-btn-confirm">Add</button>

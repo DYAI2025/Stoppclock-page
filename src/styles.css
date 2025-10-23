@@ -138,6 +138,18 @@
 }
 
 *{ box-sizing:border-box; }
+
+/* Global text input constraints */
+input[type="text"], textarea {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+input[type="text"]:not([maxlength]) {
+  /* Default maxlength for inputs without explicit limit */
+  max-length: 40;
+}
 html,body,#root{ height:100%; margin:0; }
 body{
   background: var(--ocean-deep);
@@ -145,6 +157,38 @@ body{
   font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;
   position: relative;
   overflow-x: hidden;
+  /* Prevent layout shifts on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent bounce scrolling issues */
+  overscroll-behavior-y: none;
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  * {
+    /* Reduce motion for better performance on mobile */
+    --reduced-motion-duration: 0.15s;
+  }
+
+  /* Disable expensive transitions on mobile */
+  button, a, .home-timer-card, .preset-btn {
+    transition-duration: var(--reduced-motion-duration, 0.2s) !important;
+  }
+
+  /* Prevent layout shift from URL bar on iOS */
+  html, body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #root {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+  }
 }
 
 /* Multi-layer gradient background system */

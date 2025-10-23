@@ -322,6 +322,13 @@
   color: var(--neutral-white);
   font-size: var(--type-sm);
   word-wrap: break-word;
+  /* Limit to 2 lines max */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3em; /* 2 lines * 1.5 line-height */
 }
 
 .pomodoro-phase-shortBreak .kanban-task-text {
