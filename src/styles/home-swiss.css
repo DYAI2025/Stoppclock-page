@@ -129,6 +129,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  /* Force square aspect ratio - width equals height */
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  /* Ensure content doesn't break layout */
+  overflow: hidden;
   gap: 14px;
   padding: 24px 20px;
   z-index: 1;
@@ -257,54 +266,59 @@
 .home-footer a {
   color: var(--ocean-bright);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: color 0.2s ease;
 }
 
-.home-footer a:hover {
-  color: var(--aurora-cyan);
-  text-shadow: 0 0 8px rgba(0, 217, 255, 0.4);
+.home-footer-links a:hover {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
 }
 
-/* Responsive Design */
-@media (max-width: 900px) {
-  .home-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
+/* Brand whisper - "Powered by DYAI" */
+.home-footer-brand {
+  font-size: 10px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
 }
 
-@media (max-width: 640px) {
+/* Responsive - Tablet (2 columns) */
+@media (max-width: 768px) {
   .home-page {
-    padding: var(--space-4) var(--space-3);
+    padding: 48px 20px;
+  }
+
+  .home-header {
+    margin-bottom: 40px;
+  }
+
+  .home-title {
+    font-size: 28px;
+    letter-spacing: 6px;
   }
 
   .home-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 24px;
+    margin-bottom: 48px;
   }
 
   .home-timer-card {
-    min-height: 140px;
-    max-height: 180px;
-    border-radius: 18px;
+    padding: 24px 20px;
   }
 
-  .home-timer-card::before {
-    inset: -3px;
-    border-radius: 20px;
+  .home-timer-icon-placeholder {
+    width: 40px;
+    height: 40px;
   }
 
-  .timer-icon-container {
-    width: 44px;
-    height: 44px;
-  }
-
-  .timer-label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
+  .home-timer-label {
+    font-size: 14px;
   }
 }
 
+/* Responsive - Mobile (1 column) */
 @media (max-width: 480px) {
   .home-grid {
     grid-template-columns: repeat(2, 1fr);

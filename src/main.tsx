@@ -122,17 +122,16 @@ function HomeAnalogClock() {
 }
 
 function Home() {
-  // Timer definitions with unique colors for Deep Ocean Aurora theme
+  // Timer definitions: [route, label]
   const timers = [
-    { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
-    { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
-    { route: "#/analog", label: "Analog", color: "#C77DFF", colorRgb: "199, 125, 255" },
-    { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
-    { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
-    { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
-    { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
-    { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
-    { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
+    ["#/countdown", "Countdown"],
+    ["#/stopwatch", "Stopwatch"],
+    ["#/analog", "Analog Clock"],
+    ["#/chess", "Chess Clock"],
+    ["#/metronome", "Metronome"],
+    ["#/world", "World Clock"],
+    ["#/alarm", "Alarm"],
+    ["#/cycle", "Cycle Timer"],
   ];
 
   return (
@@ -170,9 +169,12 @@ function Home() {
 
       {/* Footer */}
       <footer className="home-footer">
-        <a href="#/impressum">Impressum</a>
-        <span>•</span>
-        <a href="#/datenschutz">Datenschutz</a>
+        <div className="home-footer-links">
+          <a href="#/impressum">Impressum</a>
+          <span>•</span>
+          <a href="#/datenschutz">Datenschutz</a>
+        </div>
+        <div className="home-footer-brand">Powered by DYAI</div>
       </footer>
     </div>
   );
