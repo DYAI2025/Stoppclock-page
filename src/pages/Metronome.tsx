@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { beep, flash } from "../utils";
 import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.metronome";
@@ -43,32 +42,100 @@ export default function Metronome() {
   const [st, setSt] = useState<Persist>(load);
   const [running, setRunning] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
-  const intervalRef = useRef<number | null>(null);
-  const beatCount = useRef(0);
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Web Audio API lookahead scheduling
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const nextNoteTimeRef = useRef<number>(0);
+  const beatCountRef = useRef(0);
+  const schedulerTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => save(st), 150);
     return () => clearTimeout(t);
   }, [st]);
 
+  // Create soft click sound with ADSR envelope (2-5ms attack/release)
+  const playClick = (time: number, isAccent: boolean) => {
+    const ctx = audioCtxRef.current;
+    if (!ctx) return;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.value = isAccent ? 1200 : 800;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    // ADSR envelope: 3ms attack, 40ms total duration, 3ms release
+    const attackTime = 0.003; // 3ms attack
+    const releaseTime = 0.003; // 3ms release
+    const duration = 0.04; // 40ms total
+
+    gain.gain.setValueAtTime(0, time);
+    gain.gain.linearRampToValueAtTime(0.3, time + attackTime); // Attack
+    gain.gain.linearRampToValueAtTime(0.3, time + duration - releaseTime); // Sustain
+    gain.gain.linearRampToValueAtTime(0, time + duration); // Release
+
+    osc.start(time);
+    osc.stop(time + duration);
+  };
+
+  // Schedule notes using lookahead
+  const scheduleNote = (beatNumber: number, time: number) => {
+    const isAccent = st.accentFirst && beatNumber === 0;
+    playClick(time, isAccent);
+
+    // Update UI - schedule at the right time
+    const delay = (time - (audioCtxRef.current?.currentTime ?? 0)) * 1000;
+    setTimeout(() => setCurrentBeat(beatNumber), Math.max(0, delay));
+  };
+
+  const scheduler = () => {
+    const ctx = audioCtxRef.current;
+    if (!ctx) return;
+
+    const scheduleAheadTime = 0.2; // Schedule 200ms ahead
+
+    while (nextNoteTimeRef.current < ctx.currentTime + scheduleAheadTime) {
+      scheduleNote(beatCountRef.current, nextNoteTimeRef.current);
+
+      const secondsPerBeat = 60.0 / st.bpm;
+      nextNoteTimeRef.current += secondsPerBeat;
+
+      beatCountRef.current = (beatCountRef.current + 1) % 4;
+    }
+  };
+
   useEffect(() => {
     if (running) {
-      const intervalMs = 60000 / st.bpm;
-      intervalRef.current = window.setInterval(() => {
-        beatCount.current = (beatCount.current + 1) % 4;
-        setCurrentBeat(beatCount.current);
-        const isAccent = st.accentFirst && beatCount.current === 0;
-        beep(50, isAccent ? 1200 : 800);
-      }, intervalMs);
+      // Initialize AudioContext if needed
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+
+      const ctx = audioCtxRef.current;
+      nextNoteTimeRef.current = ctx.currentTime + 0.005; // Start immediately
+      beatCountRef.current = 0;
+
+      // Schedule at 25ms intervals (lookahead scheduling)
+      schedulerTimerRef.current = window.setInterval(() => {
+        scheduler();
+      }, 25);
     } else {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      beatCount.current = 0;
+      if (schedulerTimerRef.current) {
+        clearInterval(schedulerTimerRef.current);
+        schedulerTimerRef.current = null;
+      }
+      beatCountRef.current = 0;
       setCurrentBeat(0);
     }
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (schedulerTimerRef.current) {
+        clearInterval(schedulerTimerRef.current);
+      }
     };
   }, [running, st.bpm, st.accentFirst]);
 

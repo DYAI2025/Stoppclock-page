@@ -113,6 +113,55 @@
   border-color: var(--mono-black);
 }
 
+/* Custom Input */
+.analog-custom-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+  max-width: 600px;
+  width: 100%;
+}
+
+.analog-custom-input label {
+  font-size: var(--type-sm);
+  font-weight: var(--font-medium);
+  color: var(--mono-gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analog-input-group {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 400px;
+}
+
+.analog-custom-input input[type="number"] {
+  flex: 1;
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-thin) solid var(--mono-gray-400);
+  background: var(--mono-white);
+  color: var(--mono-black);
+  transition: all var(--transition-fast);
+}
+
+.analog-custom-input input[type="number"]:focus {
+  outline: none;
+  border-color: var(--mono-black);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.analog-custom-input input[type="number"]:disabled {
+  background: var(--mono-gray-200);
+  color: var(--mono-gray-500);
+  cursor: not-allowed;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .analog-page {

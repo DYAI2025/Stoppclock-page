@@ -121,3 +121,46 @@ export interface UserPreferences {
   defaultSignals: SignalPreferences;
   keyboardShortcutsEnabled: boolean;
 }
+
+// Pomodoro Timer state
+export type PomodoroPhase = 'work' | 'shortBreak' | 'longBreak';
+
+export interface PomodoroTask {
+  id: string;
+  text: string;
+  status: 'todo' | 'inProgress' | 'done';
+  createdAt: number;
+}
+
+export interface PomodoroState {
+  version: 1;
+  phase: PomodoroPhase;
+  currentSession: number; // 1-4 (which pomodoro in current cycle)
+  remainingMs: number;
+  running: boolean;
+  startedAt: number | null;
+  completedPomodoros: number; // Total completed today
+  tasks: PomodoroTask[];
+}
+
+// Cooking Timer state - multi-timer kitchen assistant
+export type CookingPresetId = 'stove' | 'oven' | 'pasta' | 'rice' | 'eggs' | 'tea' | 'custom';
+
+export interface CookingTimer {
+  id: string;
+  label: string;
+  presetId: CookingPresetId;
+  durationMs: number;
+  remainingMs: number;
+  running: boolean;
+  startedAt: number | null;
+  color: string;
+  alarming: boolean; // true when alarm is actively ringing/pulsing
+  alarmStartedAt: number | null; // when alarm started (for 60s audio limit)
+}
+
+export interface CookingTimerState {
+  version: 1;
+  timers: CookingTimer[]; // Up to 10 timers
+  nextColorIndex: number; // For auto-rotation through color palette
+}

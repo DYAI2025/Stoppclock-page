@@ -208,6 +208,12 @@ export default function Alarm() {
             placeholder="Label (optional)"
             value={newLabel}
             onChange={e => setNewLabel(e.target.value)}
+            maxLength={40}
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
           />
           <button className="btn primary" onClick={addAlarm}>Save</button>
           <button className="btn" onClick={() => setShowAdd(false)}>Cancel</button>
