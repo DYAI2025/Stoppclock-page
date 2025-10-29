@@ -1,5 +1,6 @@
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import "./design-tokens.css";
 import "./styles.css";
 import AnalogCountdown from "./pages/AnalogCountdown";
 import Countdown from "./pages/Countdown";
@@ -124,14 +125,14 @@ function HomeAnalogClock() {
 function Home() {
   // Timer definitions: [route, label]
   const timers = [
-    ["#/countdown", "Countdown"],
-    ["#/stopwatch", "Stopwatch"],
-    ["#/analog", "Analog Clock"],
-    ["#/chess", "Chess Clock"],
-    ["#/metronome", "Metronome"],
-    ["#/world", "World Clock"],
-    ["#/alarm", "Alarm"],
-    ["#/cycle", "Cycle Timer"],
+    { route: "#/countdown", label: "Countdown" },
+    { route: "#/stopwatch", label: "Stopwatch" },
+    { route: "#/analog", label: "Analog Clock" },
+    { route: "#/chess", label: "Chess Clock" },
+    { route: "#/metronome", label: "Metronome" },
+    { route: "#/world", label: "World Clock" },
+    { route: "#/alarm", label: "Alarm" },
+    { route: "#/pomodoro", label: "Pomodoro" },
   ];
 
   return (
@@ -147,15 +148,11 @@ function Home() {
 
       {/* Timer Grid */}
       <div className="home-grid">
-        {timers.map(({ route, label, color, colorRgb }) => (
-          <a 
-            key={route} 
-            href={route} 
+        {timers.map(({ route, label }) => (
+          <a
+            key={route}
+            href={route}
             className="home-timer-card"
-            style={{
-              '--card-color': color,
-              '--card-color-rgb': colorRgb
-            } as React.CSSProperties}
           >
             <div className="timer-card-inner">
               <div className="timer-icon-container">
@@ -246,6 +243,12 @@ function TimerIcon({ type }: { type: string }) {
       </svg>
     ),
     "Analog": (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+    "Analog Clock": (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
