@@ -7,7 +7,7 @@ import type { AdUnit } from '../types/monetization-types';
 export const ADSENSE_PUBLISHER_ID = 'ca-pub-1712273263687132';
 
 // Primary responsive ad slot for the home page (replace with live slot once issued)
-export const HOME_TOP_SLOT_ID = '1234567890';
+export const HOME_TOP_SLOT_ID = '2954253435';
 
 // Ad unit configurations
 // Note: Ad slot IDs are placeholders - replace with actual IDs from AdSense dashboard
@@ -15,7 +15,7 @@ export const AD_UNITS: AdUnit[] = [
   // Home page - top responsive ad between timer cards
   {
     unitId: 'home-top',
-    adSlotId: `${ADSENSE_PUBLISHER_ID}/2954253435`, // Banner01 - Automatic responsive ad
+    adSlotId: '2954253435', // Banner01 - Automatic responsive ad
     placement: 'home',
     format: 'responsive',
     visibilityRules: {

@@ -12,6 +12,8 @@ import ChessClock from "./pages/ChessClock";
 import CookingTimer from "./pages/CookingTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
+import ImprintEn from "./pages/ImprintEn";
+import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import { AdSenseScript } from "./components/AdSenseScript";
@@ -167,9 +169,13 @@ function Home() {
       {/* Footer */}
       <footer className="home-footer">
         <div className="home-footer-links">
-          <a href="#/impressum">Impressum</a>
+          <a href="#/imprint">Imprint (EN)</a>
           <span>•</span>
-          <a href="#/datenschutz">Datenschutz</a>
+          <a href="#/privacy">Privacy Policy (EN)</a>
+          <span>•</span>
+          <a href="#/impressum">Impressum (DE)</a>
+          <span>•</span>
+          <a href="#/datenschutz">Datenschutz (DE)</a>
         </div>
         <div className="home-footer-brand">Powered by DYAI</div>
       </footer>
@@ -204,9 +210,11 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {route === "/imprint" && <ImprintEn />}
+      {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/impressum", "/datenschutz"].includes(route) && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>

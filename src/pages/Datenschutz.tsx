@@ -132,6 +132,10 @@ export default function Datenschutz() {
           <li>Beschwerderecht bei einer Aufsichtsbehörde</li>
         </ul>
       </section>
+
+      <p className="legal-lang-switch">
+        Prefer English? <a href="#/privacy">Read the privacy policy in English</a>
+      </p>
     </div>
   );
 }
