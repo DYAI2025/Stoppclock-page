@@ -154,8 +154,8 @@ export function ClockFactsBoard() {
 
   return (
     <section className="facts-board" aria-label="Time Facts">
+      <div className="facts-heading">" Things that you didnt know about the time ... "</div>
       <div className="facts-frame" onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>
-        <div className="facts-heading">" Things that you didnt know about the time ... "</div>
         <button
           className="facts-badge"
           onClick={nextFact}
