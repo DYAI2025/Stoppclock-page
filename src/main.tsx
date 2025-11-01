@@ -21,6 +21,7 @@ import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
+import LanguageToggle from "./components/LanguageToggle";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -145,6 +146,7 @@ function Home() {
     <div className="home-page">
       {/* Title with integrated clock */}
       <div className="home-title-container">
+        <LanguageToggle />
         <div className="home-title-with-clock">
           <span className="home-title-word">Stopp</span>
           <HomeAnalogClock />

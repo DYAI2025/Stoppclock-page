@@ -1,5 +1,6 @@
 import React from 'react';
 import { trackEvent } from '../utils/analytics';
+import { useLang } from '../hooks/useLang';
 
 type FactLoaderMap = Record<string, () => Promise<string>>;
 
@@ -59,10 +60,12 @@ function extractFacts(text: string): Fact[] {
 }
 
 export function ClockFactsBoard() {
+  const [lang] = useLang();
   const [facts, setFacts] = React.useState<Fact[]>([]);
   const [index, setIndex] = React.useState(0);
   const intervalRef = React.useRef<number | null>(null);
   const DURATION = 30000;
+  const [fullscreen, setFullscreen] = React.useState(false);
 
   function scheduleRotation() {
     if (!facts.length) return;
@@ -89,7 +92,7 @@ export function ClockFactsBoard() {
     let cancelled = false;
     (async () => {
       try {
-        const sources = Object.keys(enFactModules).length ? enFactModules : genericFactModules;
+        const sources = (lang === 'en' && Object.keys(enFactModules).length) ? enFactModules : genericFactModules;
         const modules = await Promise.all(Object.values(sources).map(loader => loader()));
         const allText = modules.join('\n');
         let parsed = extractFacts(allText);
@@ -165,7 +168,7 @@ export function ClockFactsBoard() {
   return (
     <section className="facts-board" aria-label="Time Facts">
       <div className="facts-heading">" Things that you didnt know about the time ... "</div>
-      <div className="facts-frame" onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>
+      <div className={"facts-frame" + (fullscreen ? " facts-overlay" : "")} onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>
         <button
           className="facts-badge"
           onClick={nextFact}
@@ -174,6 +177,7 @@ export function ClockFactsBoard() {
           onFocus={pauseRotation}
           onBlur={resumeRotation}
         >Click to discover</button>
+        <button className="facts-fs-btn" onClick={() => setFullscreen(f => !f)} aria-label="Toggle fullscreen">{fullscreen ? 'Close' : 'Fullscreen'}</button>
         <div className="facts-controls">
           <button className="facts-btn prev" onClick={prevFact} aria-label="Previous fact" onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>◁ Prev</button>
           <a

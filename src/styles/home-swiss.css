@@ -22,6 +22,22 @@
   position: relative;
   z-index: 1;
 }
+/* Language toggle (fixed top-right) */
+.lang-toggle{
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+@media (max-width: 640px){ .lang-toggle{ top: 12px; right: 12px; padding: 6px 8px; } }
 
 /* Subtle intro paragraph above timer grid */
 .home-intro {
@@ -458,6 +474,25 @@
     0 10px 30px rgba(0,0,0,0.25),
     0 0 40px rgba(0,217,255,0.08);
   padding: 18px 16px 16px;
+  position: relative;
+}
+.facts-fs-btn{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.facts-overlay{
+  position: fixed;
+  inset: 0;
+  margin: 0 auto;
+  z-index: 2000;
+  border-radius: 0;
 }
 .facts-heading {
   text-align: center;
