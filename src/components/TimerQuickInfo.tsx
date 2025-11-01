@@ -11,7 +11,6 @@ export function TimerQuickInfo() {
     { name: 'Alarm', desc: 'Alarms with labels and repeat options.', href: '#/alarm' },
     { name: 'Metronome', desc: 'BPM control with accent on the first beat.', href: '#/metronome' },
     { name: 'Chess Clock', desc: 'Dual clocks with player switching.', href: '#/chess' },
-    { name: 'Digital Clock', desc: 'Readable real-time display (12/24h).', href: '#/digital' },
   ];
 
   return (
