@@ -12,6 +12,7 @@ import ChessClock from "./pages/ChessClock";
 import CookingTimer from "./pages/CookingTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
+import TimerAbout from "./pages/TimerAbout";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
 import Impressum from "./pages/Impressum";
@@ -203,6 +204,8 @@ const Placeholder = ({ title }: { title: string }) => (
 
 function App() {
   const route = useHashRoute();
+  const isAbout = route.startsWith('/about/');
+  const isWissen = route.startsWith('/wissen/');
 
   return (
     <>
@@ -224,11 +227,12 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {(isAbout || isWissen) && <TimerAbout />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && !isAbout && !isWissen && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>

@@ -2,15 +2,15 @@ import React from 'react';
 
 export function TimerQuickInfo() {
   const items: { name: string; desc: string; href: string }[] = [
-    { name: 'Stopwatch', desc: 'Start, stop, and lap times — ideal for measuring tasks.', href: '#/stopwatch' },
-    { name: 'Countdown', desc: 'Counts down a fixed duration — with optional warnings.', href: '#/countdown' },
-    { name: 'Analog', desc: 'Classic clock face with clear remaining time.', href: '#/analog' },
-    { name: 'Pomodoro', desc: 'Focus cycles with breaks — stay productive.', href: '#/pomodoro' },
-    { name: 'Cooking Timer', desc: 'Multiple kitchen timers with presets and names.', href: '#/cooking' },
-    { name: 'World Clock', desc: 'Track multiple time zones at once.', href: '#/world' },
-    { name: 'Alarm', desc: 'Alarms with labels and repeat options.', href: '#/alarm' },
-    { name: 'Metronome', desc: 'BPM control with accent on the first beat.', href: '#/metronome' },
-    { name: 'Chess Clock', desc: 'Dual clocks with player switching.', href: '#/chess' },
+    { name: 'Stopwatch', desc: 'Start, stop, and lap times — ideal for measuring tasks.', href: '#/about/stopwatch' },
+    { name: 'Countdown', desc: 'Counts down a fixed duration — with optional warnings.', href: '#/about/countdown' },
+    { name: 'Analog', desc: 'Classic clock face with clear remaining time.', href: '#/about/analog' },
+    { name: 'Pomodoro', desc: 'Focus cycles with breaks — stay productive.', href: '#/about/pomodoro' },
+    { name: 'Cooking Timer', desc: 'Multiple kitchen timers with presets and names.', href: '#/about/cooking' },
+    { name: 'World Clock', desc: 'Track multiple time zones at once.', href: '#/about/world' },
+    { name: 'Alarm', desc: 'Alarms with labels and repeat options.', href: '#/about/alarm' },
+    { name: 'Metronome', desc: 'BPM control with accent on the first beat.', href: '#/about/metronome' },
+    { name: 'Chess Clock', desc: 'Dual clocks with player switching.', href: '#/about/chess' },
   ];
 
   return (

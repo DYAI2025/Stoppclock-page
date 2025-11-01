@@ -9,8 +9,9 @@ type Fact = {
   url?: string;
 };
 
-// Use German facts for now
-const factModules = (import.meta as any).glob('../../timer_facts/*.txt', { query: '?raw', import: 'default' }) as FactLoaderMap;
+// Prefer English fun facts if present, fallback to generic files
+const enFactModules = (import.meta as any).glob('../../timer_facts/English_Fun_Facts*.txt', { query: '?raw', import: 'default' }) as FactLoaderMap;
+const genericFactModules = (import.meta as any).glob('../../timer_facts/*.txt', { query: '?raw', import: 'default' }) as FactLoaderMap;
 
 function extractFacts(text: string): Fact[] {
   const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
@@ -88,7 +89,8 @@ export function ClockFactsBoard() {
     let cancelled = false;
     (async () => {
       try {
-        const modules = await Promise.all(Object.values(factModules).map(loader => loader()));
+        const sources = Object.keys(enFactModules).length ? enFactModules : genericFactModules;
+        const modules = await Promise.all(Object.values(sources).map(loader => loader()));
         const allText = modules.join('\n');
         let parsed = extractFacts(allText);
         // Fallback seed if parsing yields no items
