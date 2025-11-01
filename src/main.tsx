@@ -11,6 +11,7 @@ import Metronome from "./pages/Metronome";
 import ChessClock from "./pages/ChessClock";
 import CookingTimer from "./pages/CookingTimer";
 import DigitalClock from "./pages/DigitalClock";
+import Discover from "./pages/Discover";
 import Pomodoro from "./pages/Pomodoro";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
@@ -18,6 +19,8 @@ import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
+import TimerQuickInfo from "./components/TimerQuickInfo";
+import ClockFactsBoard from "./components/ClockFactsBoard";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -148,6 +151,9 @@ function Home() {
         </div>
       </div>
 
+      {/* Digital-style facts board above the timers */}
+      <ClockFactsBoard />
+
       {/* Timer Grid */}
       <div className="home-grid">
         {timers.map(({ route, label }) => (
@@ -165,6 +171,9 @@ function Home() {
           </a>
         ))}
       </div>
+
+      {/* Info section under timer grid */}
+      <TimerQuickInfo />
 
       {/* Footer */}
       <footer className="home-footer">
@@ -210,11 +219,12 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {route === "/discover" && <Discover />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/discover", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
