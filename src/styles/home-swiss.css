@@ -23,6 +23,18 @@
   z-index: 1;
 }
 
+/* Subtle intro paragraph above timer grid */
+.home-intro {
+  width: min(1100px, 92%);
+  margin: 0 auto var(--space-8);
+  color: var(--ocean-bright);
+}
+.home-intro p {
+  margin: 0;
+  font-size: clamp(0.98rem, 0.92rem + 0.5vw, 1.2rem);
+  line-height: 1.7;
+}
+
 /* Timer Grid - Premium Layout */
 .home-grid {
   display: grid;
