@@ -1,5 +1,5 @@
 // Minimal SW for offline shell; update CACHE_VER to bust old caches.
-const CACHE_VER = "sc-v3";
+const CACHE_VER = "sc-v4"; // bump to refresh caches on clients
 const ASSETS = ["/manifest.webmanifest"];
 
 self.addEventListener("install", e => {
