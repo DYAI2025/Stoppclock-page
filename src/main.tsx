@@ -154,15 +154,12 @@ function Home() {
       {/* Digital-style facts board above the timers */}
       <ClockFactsBoard />
 
-      {/* Subtle long intro text above timer grid */}
-      <div className="home-intro">
-        <p>
-          Time, held lightly. Time is relative. The less we have, the more precious it becomes, then, strangely, it stretches on forever. Stop Clock won’t solve time, but it lets you hold it for a moment: counting up, counting down, counting what matters. Use it as a tool, a daily helper, a nudge to think, a small philosophy and, sometimes, a reason to smile.
-        </p>
-      </div>
-
       {/* Timer Grid */}
       <div className="home-grid">
+        {/* Long intro placed ON the section surface */}
+        <div className="home-grid-header">
+          Time, held lightly. Time is relative. The less we have, the more precious it becomes, then, strangely, it stretches on forever. Stop Clock won’t solve time, but it lets you hold it for a moment: counting up, counting down, counting what matters. Use it as a tool, a daily helper, a nudge to think, a small philosophy and, sometimes, a reason to smile.
+        </div>
         {timers.map(({ route, label, color, colorRgb }) => (
           <a
             key={route}

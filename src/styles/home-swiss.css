@@ -47,6 +47,18 @@
   z-index: 1;
 }
 
+/* Header inside the grid surface */
+.home-grid-header{
+  grid-column: 1 / -1;
+  color: var(--neutral-white);
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  font-size: clamp(1rem, 0.95rem + 0.7vw, 1.4rem);
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  padding: 6px 10px 4px;
+}
+
 /* Premium Glass-Morphism Timer Cards mit deutlichem Aluminium-Rahmen */
 .home-timer-card {
   position: relative;
@@ -433,7 +445,7 @@
  * ============================= */
 .facts-board {
   width: min(1100px, 92%);
-  margin: 0 auto var(--space-12);
+  margin: 0 auto calc(var(--space-12) + 10px);
 }
 .facts-frame {
   background: linear-gradient(180deg, #0b1220, #0a0f1b);
@@ -469,7 +481,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: stretch;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 12px;
 }
 .facts-btn {
   background: rgba(255,255,255,0.06);
