@@ -193,7 +193,7 @@
 .timer-label {
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--neutral-white);
   text-shadow: 
@@ -372,7 +372,10 @@
 
   .timer-label {
     font-size: 10px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -507,7 +510,7 @@
               radial-gradient(140% 140% at 90% 20%, rgba(199,125,255,0.10), transparent 60%);
   border-radius: 10px;
   padding: 18px 20px;
-  min-height: 110px;
+  min-height: 130px;
   border: 1px solid rgba(255,255,255,0.06);
   cursor: pointer;
 }
@@ -553,8 +556,10 @@
   }
   .facts-btn { width: 100%; }
   .facts-screen {
-    min-height: 96px;
-    padding: 14px;
+    min-height: 180px;
+    padding: 16px 14px;
+    flex-direction: column;
+    justify-content: center;
   }
   .home-grid-header{
     font-size: clamp(0.98rem, 3.6vw, 1.2rem);
@@ -563,6 +568,10 @@
   }
   .home-grid {
     gap: 18px;
+  }
+  .facts-text {
+    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+    line-height: 1.6;
   }
 }
 

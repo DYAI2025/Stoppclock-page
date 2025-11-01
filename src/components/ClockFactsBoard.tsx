@@ -90,7 +90,15 @@ export function ClockFactsBoard() {
       try {
         const modules = await Promise.all(Object.values(factModules).map(loader => loader()));
         const allText = modules.join('\n');
-        const parsed = extractFacts(allText);
+        let parsed = extractFacts(allText);
+        // Fallback seed if parsing yields no items
+        if (!parsed.length) {
+          parsed = [
+            { text: 'Zeit ist das, was man an der Uhr abliest.', author: 'Albert Einstein' },
+            { text: 'Die Zeit vergeht nicht schneller als früher, aber wir laufen eiliger an ihr vorbei.', author: 'George Orwell' },
+            { text: 'Wer die Zeit nutzen will, muss sie zuerst sehen.', author: 'Unbekannt' },
+          ];
+        }
         if (!cancelled && parsed.length) setFacts(parsed);
       } catch {
         // ignore
