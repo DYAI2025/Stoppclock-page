@@ -127,16 +127,16 @@ function HomeAnalogClock() {
 }
 
 function Home() {
-  // Timer definitions: [route, label]
+  // Timer definitions with per-card accent colors
   const timers = [
-    { route: "#/countdown", label: "Countdown" },
-    { route: "#/stopwatch", label: "Stopwatch" },
-    { route: "#/analog", label: "Analog Clock" },
-    { route: "#/chess", label: "Chess Clock" },
-    { route: "#/metronome", label: "Metronome" },
-    { route: "#/world", label: "World Clock" },
-    { route: "#/alarm", label: "Alarm" },
-    { route: "#/pomodoro", label: "Pomodoro" },
+    { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
+    { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
+    { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
+    { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
+    { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
+    { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
+    { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
+    { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
   ];
 
   return (
@@ -155,11 +155,12 @@ function Home() {
 
       {/* Timer Grid */}
       <div className="home-grid">
-        {timers.map(({ route, label }) => (
+        {timers.map(({ route, label, color, colorRgb }) => (
           <a
             key={route}
             href={route}
             className="home-timer-card"
+            style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
           >
             <div className="timer-card-inner">
               <div className="timer-icon-container">
