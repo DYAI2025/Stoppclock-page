@@ -124,7 +124,7 @@ export function ClockFactsBoard() {
 
   function addUtm(href: string | null | undefined, idx: number): string {
     try {
-      const baseHref = href && /^https?:/i.test(href) ? href : `#/discover`;
+      const baseHref = href && /^https?:/i.test(href) ? href : `#/`;
       const url = new URL(baseHref, window.location.origin);
       url.searchParams.set('utm_source', 'pillar');
       url.searchParams.set('utm_medium', 'facts');
@@ -132,7 +132,7 @@ export function ClockFactsBoard() {
       url.searchParams.set('utm_content', String(idx));
       return url.toString();
     } catch {
-      return `#/discover?utm_source=pillar&utm_medium=facts&utm_campaign=time_facts&utm_content=${idx}`;
+      return `#/?utm_source=pillar&utm_medium=facts&utm_campaign=time_facts&utm_content=${idx}`;
     }
   }
 
@@ -156,14 +156,14 @@ export function ClockFactsBoard() {
     <section className="facts-board" aria-label="Time Facts">
       <div className="facts-heading">" Things that you didnt know about the time ... "</div>
       <div className="facts-frame" onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>
-        <a
+        <button
           className="facts-badge"
-          href={addUtm(current.url, index)}
+          onClick={nextFact}
           onMouseEnter={pauseRotation}
           onMouseLeave={resumeRotation}
           onFocus={pauseRotation}
           onBlur={resumeRotation}
-        >Click to discover</a>
+        >Click to discover</button>
         <div className="facts-controls">
           <button className="facts-btn prev" onClick={prevFact} aria-label="Previous fact" onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>◁ Prev</button>
           <a

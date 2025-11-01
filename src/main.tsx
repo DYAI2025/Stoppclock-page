@@ -11,7 +11,6 @@ import Metronome from "./pages/Metronome";
 import ChessClock from "./pages/ChessClock";
 import CookingTimer from "./pages/CookingTimer";
 import DigitalClock from "./pages/DigitalClock";
-import Discover from "./pages/Discover";
 import Pomodoro from "./pages/Pomodoro";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
@@ -219,12 +218,11 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
-      {route === "/discover" && <Discover />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/discover", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
