@@ -3,8 +3,8 @@ import { useLang } from '../hooks/useLang';
 
 type Fact = { text: string; author?: string };
 type LoaderMap = Record<string, () => Promise<string>>;
-const enModules = (import.meta as any).glob('../../timer_facts/English_Fun_Facts*.txt', { query: '?raw', import: 'default' }) as LoaderMap;
-const genericModules = (import.meta as any).glob('../../timer_facts/*.txt', { query: '?raw', import: 'default' }) as LoaderMap;
+const enModules = (import.meta as any).glob('../../timer_facts/English_*.txt', { query: '?raw', import: 'default' }) as LoaderMap;
+const deModules = (import.meta as any).glob('../../timer_facts/German_*.txt', { query: '?raw', import: 'default' }) as LoaderMap;
 
 function extractFacts(text: string): Fact[] {
   const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
@@ -48,7 +48,7 @@ export function TimerQuickInfo() {
 
   React.useEffect(() => {
     (async () => {
-      const src = (lang === 'en' && Object.keys(enModules).length) ? enModules : genericModules;
+      const src = lang === 'en' ? enModules : deModules;
       const modules = await Promise.all(Object.values(src).map(l => l()));
       let parsed = extractFacts(modules.join('\n'));
       if (!parsed.length) parsed = [{ text: lang === 'en' ? 'No facts available yet.' : 'Noch keine Fakten verfügbar.' }];
@@ -56,38 +56,63 @@ export function TimerQuickInfo() {
     })();
   }, [lang]);
 
-  React.useEffect(() => {
-    if (!open || !facts.length) return;
-    const id = window.setInterval(() => setIdx(i => (i + 1) % facts.length), 30000);
-    return () => window.clearInterval(id);
-  }, [open, facts]);
-
   return (
     <section className="timer-info" aria-labelledby="timer-info-title">
+      {/* Display ALL facts continuously at the top - English only */}
+      <div style={{ marginBottom: '48px' }}>
+        <h2 style={{ fontSize: '1.75rem', marginBottom: '24px', color: 'var(--neutral-white)' }}>
+          Fun Facts & Quotes About Time
+        </h2>
+        <div className="facts-display-all" style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '16px', 
+          maxHeight: '500px', 
+          overflowY: 'auto',
+          padding: '8px'
+        }}>
+          {facts.map((fact, index) => (
+            <div key={index} className="facts-frame" style={{ padding: '16px' }}>
+              <div className="facts-screen" style={{ minHeight: 'auto' }}>
+                <span className="facts-prefix" style={{ fontSize: '0.75rem', opacity: 0.7 }}>
+                  #{index + 1}
+                </span>
+                <span className="facts-text" style={{ 
+                  fontSize: '0.95rem', 
+                  lineHeight: '1.6',
+                  display: 'block',
+                  marginTop: '8px'
+                }}>
+                  {fact.text}
+                </span>
+                {fact.author && (
+                  <span className="facts-author" style={{ 
+                    fontSize: '0.85rem',
+                    marginTop: '8px',
+                    display: 'block',
+                    fontStyle: 'italic',
+                    opacity: 0.8
+                  }}>
+                    — {fact.author}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <h2 id="timer-info-title">{lang === 'en' ? 'About the Timers' : 'Über die Timer'}</h2>
       <div className="timer-info-grid">
         {items.map(i => (
           <div className="timer-info-item" key={i.key}>
-            <button
-              onClick={() => setOpen(o => o === i.key ? null : i.key)}
-              aria-expanded={open === i.key}
-              aria-controls={`panel-${i.key}`}
-              style={{ textAlign: 'left', background: 'transparent', border: 'none', color: 'inherit', padding: 0, cursor: 'pointer' }}
+            <a
+              href={lang === 'en' ? `#/about/${i.key}` : `#/wissen/${i.key}`}
+              style={{ textAlign: 'left', background: 'transparent', border: 'none', color: 'inherit', padding: 0, cursor: 'pointer', textDecoration: 'none', display: 'block' }}
             >
               <span className="timer-info-name">{i.name}</span>
               <span className="timer-info-desc">{i.desc}</span>
-            </button>
-            {open === i.key && (
-              <div id={`panel-${i.key}`} style={{ marginTop: 8 }}>
-                <div className="facts-frame" style={{ padding: 10 }}>
-                  <div className="facts-screen" style={{ minHeight: 120 }}>
-                    <span className="facts-prefix">Fact</span>
-                    <span className="facts-text" aria-live="polite">{facts[idx]?.text}</span>
-                    {facts[idx]?.author && <span className="facts-author">— {facts[idx]?.author}</span>}
-                  </div>
-                </div>
-              </div>
-            )}
+            </a>
           </div>
         ))}
       </div>

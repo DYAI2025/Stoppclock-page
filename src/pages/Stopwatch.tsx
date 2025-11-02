@@ -194,7 +194,7 @@ export default function Stopwatch() {
         <button type="button" className="stopwatch-btn secondary" onClick={reset}>
           Reset
         </button>
-        <button type="button" className="stopwatch-btn secondary" onClick={full}>
+        <button type="button" className="stopwatch-btn secondary hide-on-mobile" onClick={full}>
           Fullscreen
         </button>
       </div>

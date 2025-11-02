@@ -12,15 +12,17 @@ import ChessClock from "./pages/ChessClock";
 import CookingTimer from "./pages/CookingTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
-import TimerAbout from "./pages/TimerAbout";
+import Wissen from "./pages/Wissen";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
+import PillarPage from "./pages/PillarPage";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
+import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import LanguageToggle from "./components/LanguageToggle";
 
 function useHashRoute() {
@@ -229,12 +231,13 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
-      {(isAbout || isWissen) && <TimerAbout />}
+      {(isAbout || isWissen) && <Wissen />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz"].includes(route) && !isAbout && !isWissen && (
+      {route === "/pillar" && <PillarPage />}
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar"].includes(route) && !isAbout && !isWissen && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
@@ -347,5 +350,9 @@ function TimerIcon({ type }: { type: string }) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode><App /></StrictMode>
+  <StrictMode>
+    <PinnedTimersProvider>
+      <App />
+    </PinnedTimersProvider>
+  </StrictMode>
 );

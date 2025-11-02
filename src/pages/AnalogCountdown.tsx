@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HomeButton } from "../components/HomeButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 
 type Persist = {
   version: 1;
@@ -432,6 +433,17 @@ export default function AnalogCountdown() {
     return () => window.removeEventListener("keydown", on);
   }, [start, pause, reset, plus, full, st.running]);
 
+  const { addTimer } = usePinnedTimers();
+
+  const handlePin = () => {
+    const timer: PinnedTimer = {
+      id: LS_KEY,
+      type: 'AnalogCountdown',
+      name: 'Analog Countdown',
+    };
+    addTimer(timer);
+  };
+
   return (
     <div className="analog-page" ref={wrapRef}>
       {/* Header */}
@@ -453,7 +465,8 @@ export default function AnalogCountdown() {
           <button type="button" className="analog-btn" onClick={pause}>Pause</button>
         )}
         <button type="button" className="analog-btn secondary" onClick={reset}>Reset</button>
-        <button type="button" className="analog-btn secondary" onClick={full}>Fullscreen</button>
+        <button type="button" className="analog-btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
+        <button type="button" className="analog-btn secondary" onClick={handlePin}>Pin to Main Page</button>
       </div>
 
       {/* Presets */}

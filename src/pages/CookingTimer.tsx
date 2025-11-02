@@ -521,7 +521,7 @@ export default function CookingTimer() {
 
       {/* Footer Controls */}
       <div className="cooking-footer">
-        <button type="button" className="footer-btn" onClick={full}>
+        <button type="button" className="footer-btn hide-on-mobile" onClick={full}>
           Fullscreen
         </button>
         <span className="timer-count">

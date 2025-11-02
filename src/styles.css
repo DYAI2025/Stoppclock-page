@@ -8,6 +8,7 @@
 @import './styles/stopwatch-swiss.css';
 @import './styles/analog-swiss.css';
 @import './styles/pomodoro-swiss.css';
+@import './styles/pillar-page.css';
 
 /* ============================================
  * DEEP OCEAN AURORA THEME
@@ -148,7 +149,7 @@ input[type="text"], textarea {
 
 input[type="text"]:not([maxlength]) {
   /* Default maxlength for inputs without explicit limit */
-  max-length: 40;
+  /* Note: maxlength is an HTML attribute, not a CSS property */
 }
 
 /* Prevent flickering on timer displays - disable transitions on digits */
@@ -203,6 +204,12 @@ body{
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
   }
 }
 
@@ -285,7 +292,6 @@ body:has(.legal-page) {
   font-size:clamp(56px, 10vw, 96px);
   font-weight:900;
   margin:0 0 48px 0;
-  padding:0;
   color: var(--neutral-white);
   font-family:'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   letter-spacing:0.15em;

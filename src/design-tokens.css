@@ -64,6 +64,22 @@
   --neutral-gray-500: #64748B;  /* True gray */
 
   /* ============================================
+   * PILLAR PAGE COLOR SYSTEM
+   * Light/Dark mode with Gold accent
+   * ============================================ */
+  --pillar-accent-gold: #F0C419;        /* Yellow-Gold accent (max 20% usage) */
+  --pillar-accent-gold-hover: #d4a817;  /* Darker gold for hover */
+  --pillar-bg-light: #F8FAFC;           /* Light mode background */
+  --pillar-bg-dark: #0B1B2B;            /* Dark mode background */
+  --pillar-text-light: #1A2942;         /* Light mode text */
+  --pillar-text-dark: #E6E6E6;          /* Dark mode text (not pure white) */
+  --pillar-surface-light: #E8EDF3;      /* Light mode surface (L*+8-12) */
+  --pillar-surface-dark: #1A2942;       /* Dark mode surface */
+  --pillar-hover-steel: #3C5A7A;        /* Steel blue for dark mode hover */
+  --pillar-border-light: #CBD5E1;       /* Light mode borders */
+  --pillar-border-dark: #2D4263;        /* Dark mode borders */
+
+  /* ============================================
    * LEGACY MONOCHROME PALETTE (Deprecated)
    * Kept for backward compatibility
    * ============================================ */

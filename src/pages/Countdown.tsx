@@ -231,7 +231,7 @@ export default function Countdown() {
         <button type="button" className="countdown-btn secondary" onClick={reset}>
           Reset
         </button>
-        <button type="button" className="countdown-btn secondary" onClick={full}>
+        <button type="button" className="countdown-btn secondary hide-on-mobile" onClick={full}>
           Fullscreen
         </button>
       </div>
