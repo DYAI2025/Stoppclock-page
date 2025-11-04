@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const DarkModeToggle: React.FC = () => {
-  const [isDark, setIsDark] = useState(false);
-
-  // Initialize from localStorage
-  useEffect(() => {
+  // Initialize state from localStorage, defaulting to dark mode
+  const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('sc.theme-mode');
-    const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = saved ? saved === 'dark' : prefersDark;
+    return saved ? saved === 'dark' : true;
+  });
 
-    setIsDark(shouldBeDark);
-    // Apply theme synchronously before render
-    setTimeout(() => applyTheme(shouldBeDark), 0);
-  }, []);
-
-  const applyTheme = (dark: boolean) => {
+  // Apply theme function
+  const applyTheme = useCallback((dark: boolean) => {
     const html = document.documentElement;
     const homePage = document.querySelector('.home-page');
 
-    // Always set the dataset
+    // Set the dataset attribute for CSS selectors
     html.dataset.theme = dark ? 'dark' : 'light';
 
     // Apply background to home-page element
@@ -30,14 +24,18 @@ const DarkModeToggle: React.FC = () => {
       }
     }
 
-    // Save preference
+    // Save preference to localStorage
     localStorage.setItem('sc.theme-mode', dark ? 'dark' : 'light');
-  };
+  }, []);
 
+  // Apply theme whenever isDark changes
+  useEffect(() => {
+    applyTheme(isDark);
+  }, [isDark, applyTheme]);
+
+  // Toggle theme
   const toggle = () => {
-    const newDark = !isDark;
-    setIsDark(newDark);
-    applyTheme(newDark);
+    setIsDark(prev => !prev);
   };
 
   return (
