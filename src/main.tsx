@@ -18,6 +18,7 @@ import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import PillarPage from "./pages/PillarPage";
+import TimePhilosophy from "./pages/TimePhilosophy";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -142,6 +143,7 @@ function Home() {
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
     { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
     { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
+    { route: "#/time-philosophy", label: "Raum für Zeit", color: "#A855F7", colorRgb: "168, 85, 247" },
   ];
 
   return (
@@ -237,7 +239,8 @@ function App() {
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
       {route === "/pillar" && <PillarPage />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar"].includes(route) && !isAbout && !isWissen && (
+      {route === "/time-philosophy" && <TimePhilosophy />}
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar", "/time-philosophy"].includes(route) && !isAbout && !isWissen && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
@@ -342,6 +345,12 @@ function TimerIcon({ type }: { type: string }) {
         <path d="M17 10h.01"/>
         <path d="M17 14h.01"/>
         <path d="M12 10v4"/>
+      </svg>
+    ),
+    "Raum für Zeit": (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="12" cy="12" r="4"/>
       </svg>
     )
   };
