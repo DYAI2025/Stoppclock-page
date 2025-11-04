@@ -31,15 +31,40 @@
   padding: var(--space-8) var(--space-4);
   position: relative;
   z-index: 2;
-  background: linear-gradient(180deg, #1a2332 0%, #0f1419 100%);
+  /* Default to dark mode */
+  background: linear-gradient(180deg, #1a2332 0%, #0f1419 100%) !important;
   width: 100%;
 }
 
-/* When home page is visible, override body background */
-body:has(.home-page) {
-  background: linear-gradient(180deg, #1a2332 0%, #0f1419 100%) !important;
+/* Light mode override */
+html[data-theme="light"] .home-page {
+  background: linear-gradient(180deg, #f8f9fa 0%, #f0f1f5 100%) !important;
+  color: #1a1f2e;
 }
 
+html[data-theme="light"] .home-grid-header {
+  color: #1a1f2e;
+  background: rgba(248, 249, 250, 0.6);
+  border-color: rgba(156, 175, 136, 0.2);
+}
+
+html[data-theme="light"] .home-intro p {
+  color: #6b7280;
+}
+
+html[data-theme="light"] .section-title {
+  color: #1a1f2e;
+}
+
+html[data-theme="light"] .home-footer a {
+  color: #6b7280;
+}
+
+html[data-theme="light"] .home-footer-brand {
+  color: #d1d5db;
+}
+
+/* When home page is visible, hide body pseudo-elements */
 body:has(.home-page)::before,
 body:has(.home-page)::after {
   display: none !important;
@@ -136,6 +161,30 @@ body:has(.home-page)::after {
     width: 18px;
     height: 18px;
   }
+}
+
+/* Home Page Sections */
+.home-section {
+  width: 100%;
+  padding: 48px 0;
+  position: relative;
+}
+
+.home-section-timers {
+  border-bottom: 1px solid rgba(156, 175, 136, 0.1);
+}
+
+.home-section-pillars {
+  padding-top: 64px;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+  color: #e8eaed;
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: 0.02em;
 }
 
 /* Subtle intro paragraph above timer grid */

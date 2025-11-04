@@ -149,7 +149,11 @@ function Home() {
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
     { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
     { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
-    { route: "#/time-philosophy", label: "Raum für Zeit", color: "#A855F7", colorRgb: "168, 85, 247" },
+  ];
+
+  // Pillar pages (Blog/Content section)
+  const pillars = [
+    { route: "#/time-philosophy", label: "Space for Time", color: "#A855F7", colorRgb: "168, 85, 247" },
   ];
 
   return (
@@ -168,31 +172,56 @@ function Home() {
       {/* Digital-style facts board above the timers */}
       <ClockFactsBoard />
 
-      {/* Timer Grid */}
-      <div className="home-grid">
-        {/* Long intro placed ON the section surface */}
-        <div className="home-grid-header">
-          Time, held lightly. Time is relative. The less we have, the more precious it becomes, then, strangely, it stretches on forever. Stop Clock won’t solve time, but it lets you hold it for a moment: counting up, counting down, counting what matters. Use it as a tool, a daily helper, a nudge to think, a small philosophy and, sometimes, a reason to smile.
-        </div>
-        {timers.map(({ route, label, color, colorRgb }) => (
-          <a
-            key={route}
-            href={route}
-            className="home-timer-card"
-            style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
-          >
-            <div className="timer-card-inner">
-              <div className="timer-icon-container">
-                <TimerIcon type={label} />
+      {/* TIMER SECTION */}
+      <div className="home-section home-section-timers">
+        {/* Timer Grid */}
+        <div className="home-grid">
+          {/* Long intro placed ON the section surface */}
+          <div className="home-grid-header">
+            Time, held lightly. Time is relative. The less we have, the more precious it becomes, then, strangely, it stretches on forever. Stop Clock won't solve time, but it lets you hold it for a moment: counting up, counting down, counting what matters. Use it as a tool, a daily helper, a nudge to think, a small philosophy and, sometimes, a reason to smile.
+          </div>
+          {timers.map(({ route, label, color, colorRgb }) => (
+            <a
+              key={route}
+              href={route}
+              className="home-timer-card"
+              style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
+            >
+              <div className="timer-card-inner">
+                <div className="timer-icon-container">
+                  <TimerIcon type={label} />
+                </div>
+                <span className="timer-label">{label}</span>
               </div>
-              <span className="timer-label">{label}</span>
-            </div>
-          </a>
-        ))}
+            </a>
+          ))}
+        </div>
+
+        {/* Info section under timer grid */}
+        <TimerQuickInfo />
       </div>
 
-      {/* Info section under timer grid */}
-      <TimerQuickInfo />
+      {/* BLOG/PILLAR SECTION */}
+      <div className="home-section home-section-pillars">
+        <div className="section-title">Explore Further</div>
+        <div className="home-grid">
+          {pillars.map(({ route, label, color, colorRgb }) => (
+            <a
+              key={route}
+              href={route}
+              className="home-timer-card"
+              style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
+            >
+              <div className="timer-card-inner">
+                <div className="timer-icon-container">
+                  <TimerIcon type={label} />
+                </div>
+                <span className="timer-label">{label}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="home-footer">

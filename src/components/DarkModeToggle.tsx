@@ -6,22 +6,31 @@ const DarkModeToggle: React.FC = () => {
   // Initialize from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('sc.theme-mode');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
     const shouldBeDark = saved ? saved === 'dark' : prefersDark;
 
     setIsDark(shouldBeDark);
-    applyTheme(shouldBeDark);
+    // Apply theme synchronously before render
+    setTimeout(() => applyTheme(shouldBeDark), 0);
   }, []);
 
   const applyTheme = (dark: boolean) => {
     const html = document.documentElement;
-    if (dark) {
-      html.dataset.theme = 'dark';
-      document.body.style.background = 'linear-gradient(180deg, #1a2332 0%, #0f1419 100%)';
-    } else {
-      html.dataset.theme = 'light';
-      document.body.style.background = 'linear-gradient(180deg, #f8f9fa 0%, #f0f1f5 100%)';
+    const homePage = document.querySelector('.home-page');
+
+    // Always set the dataset
+    html.dataset.theme = dark ? 'dark' : 'light';
+
+    // Apply background to home-page element
+    if (homePage) {
+      if (dark) {
+        homePage.style.background = 'linear-gradient(180deg, #1a2332 0%, #0f1419 100%)';
+      } else {
+        homePage.style.background = 'linear-gradient(180deg, #f8f9fa 0%, #f0f1f5 100%)';
+      }
     }
+
+    // Save preference
     localStorage.setItem('sc.theme-mode', dark ? 'dark' : 'light');
   };
 
