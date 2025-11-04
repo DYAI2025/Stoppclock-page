@@ -12,6 +12,15 @@
   --off-white: #F8F9FA;         /* Light backgrounds */
   --warm-gray: #7A8A99;         /* Secondary text, borders */
   --light-border: #E5E9EF;      /* Subtle borders */
+
+  /* Dark Mode Colors */
+  --dark-bg: #0f1419;           /* Very dark background */
+  --dark-surface: #1a1f2e;      /* Card/surface dark */
+  --dark-text: #e8eaed;         /* Light text on dark */
+  --dark-border: #2a3142;       /* Borders on dark */
+
+  /* Mode preference */
+  --use-dark: 0;                /* 0 for light, 1 for dark (set by JS) */
 }
 
 .home-page {
@@ -22,13 +31,13 @@
   padding: var(--space-8) var(--space-4);
   position: relative;
   z-index: 2;
-  background-color: var(--off-white);
+  background: linear-gradient(180deg, #1a2332 0%, #0f1419 100%);
   width: 100%;
 }
 
 /* When home page is visible, override body background */
 body:has(.home-page) {
-  background: var(--off-white) !important;
+  background: linear-gradient(180deg, #1a2332 0%, #0f1419 100%) !important;
 }
 
 body:has(.home-page)::before,
@@ -51,9 +60,9 @@ body:has(.home-page)::after {
   top: 16px;
   right: 16px;
   z-index: 1000;
-  background: white;
-  color: var(--charcoal-dark);
-  border: 1px solid var(--light-border);
+  background: rgba(26, 35, 50, 0.8);
+  color: #e8eaed;
+  border: 1px solid rgba(156, 175, 136, 0.2);
   border-radius: 8px;
   padding: 8px 12px;
   font-weight: 600;
@@ -61,14 +70,50 @@ body:has(.home-page)::after {
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .lang-toggle:hover {
   background: var(--sage-primary);
   color: white;
   border-color: var(--sage-primary);
-  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.2);
+  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.3);
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  position: fixed;
+  top: 16px;
+  right: 80px;
+  z-index: 1000;
+  background: rgba(26, 35, 50, 0.8);
+  color: #e8eaed;
+  border: 1px solid rgba(156, 175, 136, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-mode-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--sage-primary);
+  color: white;
+  border-color: var(--sage-primary);
+  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.3);
 }
 
 @media (max-width: 640px) {
@@ -78,20 +123,33 @@ body:has(.home-page)::after {
     padding: 6px 10px;
     font-size: 0.8rem;
   }
+
+  .dark-mode-toggle {
+    top: 12px;
+    right: 60px;
+    padding: 6px 8px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .dark-mode-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* Subtle intro paragraph above timer grid */
 .home-intro {
   width: min(1100px, 92%);
   margin: 0 auto var(--space-8);
-  color: var(--charcoal-text);
+  color: #e8eaed;
 }
 
 .home-intro p {
   margin: 0;
   font-size: clamp(0.98rem, 0.92rem + 0.5vw, 1.15rem);
   line-height: 1.7;
-  color: var(--warm-gray);
+  color: #a8adb5;
 }
 
 /* Timer Grid - Premium Layout */
@@ -123,35 +181,34 @@ body:has(.home-page)::after {
 /* Header inside the grid surface */
 .home-grid-header {
   grid-column: 1 / -1;
-  color: var(--charcoal-text);
+  color: #e8eaed;
   text-align: center;
   font-weight: 600;
-  font-size: clamp(1rem, 0.95rem + 0.7vw, 1.4rem);
+  font-size: clamp(1rem, 0.95rem + 0.7vw, 1.3rem);
   letter-spacing: 0.02em;
   line-height: 1.7;
   padding: 24px 20px;
   margin-bottom: 12px;
   border-radius: 12px;
-  background: white;
-  border: 1px solid var(--light-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: rgba(42, 63, 82, 0.4);
+  border: 1px solid rgba(156, 175, 136, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Professional Minimalist Timer Cards */
+/* Professional Minimalist Timer Cards - Uniform Size */
 .home-timer-card {
   position: relative;
-  aspect-ratio: 1;
-  min-height: 160px;
-  max-height: 200px;
+  width: 100%;
+  height: 180px;
   text-decoration: none;
   color: white;
   overflow: hidden;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, var(--charcoal-dark) 0%, #3D5467 100%) !important;
-  border: 1px solid rgba(156, 175, 136, 0.2) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  background: linear-gradient(135deg, #2a3f52 0%, #1f2f42 100%) !important;
+  border: 1px solid rgba(156, 175, 136, 0.25) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -229,25 +286,20 @@ body:has(.home-page)::after {
 
 /* Hover State - Subtle Professional Effect */
 .home-timer-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
   border-color: var(--sage-primary);
-}
-
-.home-timer-card[style*="--card-color"]:hover {
-  background: linear-gradient(135deg, #3D5467 0%, #4A6A82 100%);
-  border-color: var(--sage-primary);
-  box-shadow: 0 8px 24px rgba(156, 175, 136, 0.15);
+  background: linear-gradient(135deg, #3d5568 0%, #2d4555 100%) !important;
 }
 
 .home-timer-card:hover .timer-icon-container svg {
   color: var(--sage-primary);
-  filter: drop-shadow(0 0 8px rgba(156, 175, 136, 0.4));
-  transform: scale(1.08);
+  filter: drop-shadow(0 0 12px rgba(156, 175, 136, 0.6));
+  transform: scale(1.12);
 }
 
 .home-timer-card:hover .timer-label {
-  color: var(--sage-primary);
+  color: var(--sage-light);
 }
 
 /* Active/Press State */
@@ -274,7 +326,7 @@ body:has(.home-page)::after {
 }
 
 .home-footer a {
-  color: var(--warm-gray);
+  color: #8b92a0;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -289,7 +341,7 @@ body:has(.home-page)::after {
   font-size: 10px;
   font-weight: 300;
   font-style: italic;
-  color: var(--light-border);
+  color: #5a6370;
   text-align: center;
 }
 

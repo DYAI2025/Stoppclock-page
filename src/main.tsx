@@ -30,6 +30,7 @@ import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import LanguageToggle from "./components/LanguageToggle";
+import DarkModeToggle from "./components/DarkModeToggle";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -155,6 +156,7 @@ function Home() {
     <div className="home-page">
       {/* Title with integrated clock */}
       <div className="home-title-container">
+        <DarkModeToggle />
         <LanguageToggle />
         <div className="home-title-with-clock">
           <span className="home-title-word">Stopp</span>
