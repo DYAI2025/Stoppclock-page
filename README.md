@@ -15,13 +15,21 @@
 
 ## 🌟 Features
 
-- **8 Specialized Timers** - Analog countdown, stopwatch, digital countdown, world clock, alarm, metronome, chess clock, and more
+### Core Functionality
+- **8 Specialized Timers** - Analog countdown, stopwatch, digital countdown, world clock, alarm, metronome, chess clock, and cooking timer
 - **Projector-Optimized** - High contrast, large displays perfect for classroom presentations
 - **Offline-Ready** - Fully functional as a Progressive Web App (PWA) without internet connection
 - **Privacy-First** - No tracking by default, ads only enabled with explicit user consent
 - **State Persistence** - All timers maintain their state when navigating between tools
 - **Keyboard Shortcuts** - Space (start/pause), R (reset), F (fullscreen), arrow keys for adjustment
 - **Cross-Platform** - Works on all modern browsers and devices
+
+### Home Page Design (NEW)
+- **Professional Design System** - Swiss/Bauhaus inspired with Sage Green & Charcoal palette
+- **Dark/Light Mode Toggle** - User can switch between dark and light themes with persistent preference
+- **Golden Ratio Layout** - Mathematically proportioned spacing and typography
+- **Responsive Grid** - 3-column timer card layout with proper alignment and spacing
+- **Educational Content** - "Space for Time" pillar section with curated learning resources
 
 ## 🛠️ Technologies Used
 
@@ -132,17 +140,41 @@ npm run test:e2e:ui
 
 ## 🎨 Design Principles
 
+### Visual Design System (Home Page)
+**Swiss/Bauhaus Inspired** - Professional, minimalist aesthetic
+- **Color Palette**: Sage Green (#9CAF88) + Charcoal (#2C3E50)
+- **Typography**: Segoe UI, modern sans-serif
+- **Golden Ratio**: Proportional spacing (φ = 1.618)
+- **Borders**: Minimalist 1px with subtle shadows
+- **Spacing**: Calculated with golden ratio (61.8px, 78.4px, 47.4px gaps)
+
+### Dark/Light Mode Toggle
+- **Dark Mode** (Default): Dark gradient (#1a2332 → #0f1419) with light text
+- **Light Mode**: Light gradient (#f8f9fa → #f0f1f5) with dark text
+- **Persistent**: User preference saved to localStorage
+- **Toggle Button**: Fixed position with moon/sun icons
+- **Implementation**: CSS-based with `html[data-theme]` attribute
+
+### Home Page Layout
+- **Section Separation**: Clear visual distinction between Timer section and Pillar/Blog section
+- **Timer Cards**: Uniform 180px height, responsive grid layout
+- **Hero Section**: "Space for Time" pillar with educational content
+- **Typography**: Large, readable headlines with proper hierarchy
+- **Accessibility**: High contrast, keyboard navigable
+
 ### Accessibility
-- High contrast color scheme
+- High contrast color scheme (WCAG 2.1 AA compliant)
 - Large, readable displays
 - Keyboard navigation support
 - Screen reader compatibility
+- Dark/Light mode for visual preference
 
 ### Performance
 - 60 FPS animations using requestAnimationFrame
 - Efficient state management
 - Minimal bundle size
 - Optimized canvas rendering
+- CSS-based theming (no JavaScript reflows)
 
 ### Privacy
 - No external tracking
