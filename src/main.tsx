@@ -20,6 +20,9 @@ import Datenschutz from "./pages/Datenschutz";
 import PillarPage from "./pages/PillarPage";
 import TimePhilosophy from "./pages/TimePhilosophy";
 import PomodoroTimerOnline from "./pages/blog/PomodoroTimerOnline";
+import TimerForStudents from "./pages/TimerForStudents";
+import TimerForProductivity from "./pages/TimerForProductivity";
+import TimerForFitness from "./pages/TimerForFitness";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -238,13 +241,16 @@ function App() {
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {isBlog && !route.includes("pomodoro-timer-online") && <div className="page"><h1>Blog Article Not Found</h1></div>}
+      {route === "/timer-for-students" && <TimerForStudents />}
+      {route === "/timer-for-productivity" && <TimerForProductivity />}
+      {route === "/timer-for-fitness" && <TimerForFitness />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online"].includes(route) && !isAbout && !isWissen && !isBlog && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
