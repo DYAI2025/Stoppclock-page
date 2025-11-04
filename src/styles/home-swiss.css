@@ -168,6 +168,9 @@ body:has(.home-page)::after {
   width: 100%;
   padding: 48px 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .home-section-timers {
@@ -208,14 +211,15 @@ body:has(.home-page)::after {
   gap: clamp(24px, 3vw, 36px) !important;
   max-width: 1200px !important;
   width: 100% !important;
-  margin-bottom: var(--space-12) !important;
+  margin: 0 auto var(--space-12) auto !important;
   position: relative !important;
   z-index: 1 !important;
   background: transparent !important;
   border-radius: 0 !important;
-  padding: 0 !important;
+  padding: 40px 20px !important;
   box-shadow: none !important;
   border: none !important;
+  place-items: center !important;
 }
 
 /* Remove gradient borders from home-grid */
