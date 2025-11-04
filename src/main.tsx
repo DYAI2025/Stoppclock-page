@@ -19,6 +19,7 @@ import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import PillarPage from "./pages/PillarPage";
 import TimePhilosophy from "./pages/TimePhilosophy";
+import PomodoroTimerOnline from "./pages/blog/PomodoroTimerOnline";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -212,6 +213,7 @@ function App() {
   const route = useHashRoute();
   const isAbout = route.startsWith('/about/');
   const isWissen = route.startsWith('/wissen/');
+  const isBlog = route.startsWith('/blog/');
 
   return (
     <>
@@ -234,13 +236,15 @@ function App() {
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
       {(isAbout || isWissen) && <Wissen />}
+      {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
+      {isBlog && !route.includes("pomodoro-timer-online") && <div className="page"><h1>Blog Article Not Found</h1></div>}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar", "/time-philosophy"].includes(route) && !isAbout && !isWissen && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online"].includes(route) && !isAbout && !isWissen && !isBlog && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
