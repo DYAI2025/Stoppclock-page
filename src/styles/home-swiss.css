@@ -1,7 +1,18 @@
 /* ============================================
- * HOME PAGE - Premium Glass-Morphism Design
- * Metal, Aluminum, Glass Quality Aesthetic
+ * HOME PAGE - Professional Sage Green Design
+ * Modern Minimalist Aesthetic (Swiss/Bauhaus)
  * ============================================ */
+
+:root {
+  /* Sage Green & Charcoal Color System */
+  --sage-primary: #9CAF88;      /* Main accent color */
+  --sage-light: #B5C5A0;        /* Lighter sage for hover */
+  --charcoal-dark: #2C3E50;     /* Dark background */
+  --charcoal-text: #1A1F2E;     /* Text color */
+  --off-white: #F8F9FA;         /* Light backgrounds */
+  --warm-gray: #7A8A99;         /* Secondary text, borders */
+  --light-border: #E5E9EF;      /* Subtle borders */
+}
 
 .home-page {
   min-height: 100vh;
@@ -10,7 +21,19 @@
   align-items: center;
   padding: var(--space-8) var(--space-4);
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  background-color: var(--off-white);
+  width: 100%;
+}
+
+/* When home page is visible, override body background */
+body:has(.home-page) {
+  background: var(--off-white) !important;
+}
+
+body:has(.home-page)::before,
+body:has(.home-page)::after {
+  display: none !important;
 }
 
 /* Title Container */
@@ -23,146 +46,127 @@
   z-index: 1;
 }
 /* Language toggle (fixed top-right) */
-.lang-toggle{
+.lang-toggle {
   position: fixed;
   top: 16px;
   right: 16px;
   z-index: 1000;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 10px;
-  padding: 8px 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  background: white;
+  color: var(--charcoal-dark);
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
-@media (max-width: 640px){ .lang-toggle{ top: 12px; right: 12px; padding: 6px 8px; } }
+
+.lang-toggle:hover {
+  background: var(--sage-primary);
+  color: white;
+  border-color: var(--sage-primary);
+  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.2);
+}
+
+@media (max-width: 640px) {
+  .lang-toggle {
+    top: 12px;
+    right: 12px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
 
 /* Subtle intro paragraph above timer grid */
 .home-intro {
   width: min(1100px, 92%);
   margin: 0 auto var(--space-8);
-  color: var(--ocean-bright);
+  color: var(--charcoal-text);
 }
+
 .home-intro p {
   margin: 0;
-  font-size: clamp(0.98rem, 0.92rem + 0.5vw, 1.2rem);
+  font-size: clamp(0.98rem, 0.92rem + 0.5vw, 1.15rem);
   line-height: 1.7;
+  color: var(--warm-gray);
 }
 
 /* Timer Grid - Premium Layout */
 .home-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(24px, 3vw, 36px);
-  max-width: 1200px;
-  width: 100%;
-  margin-bottom: var(--space-12);
-  position: relative;
-  z-index: 1;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: clamp(24px, 3vw, 36px) !important;
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin-bottom: var(--space-12) !important;
+  position: relative !important;
+  z-index: 1 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Remove gradient borders from home-grid */
+.home-grid::before {
+  display: none !important;
+}
+
+.home-grid::after {
+  display: none !important;
 }
 
 /* Header inside the grid surface */
-.home-grid-header{
+.home-grid-header {
   grid-column: 1 / -1;
-  color: var(--neutral-white);
+  color: var(--charcoal-text);
   text-align: center;
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
   font-size: clamp(1rem, 0.95rem + 0.7vw, 1.4rem);
   letter-spacing: 0.02em;
   line-height: 1.7;
-  padding: 14px 16px;
-  margin-bottom: 6px;
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.10);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+  padding: 24px 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid var(--light-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* Premium Glass-Morphism Timer Cards mit deutlichem Aluminium-Rahmen */
+/* Professional Minimalist Timer Cards */
 .home-timer-card {
   position: relative;
   aspect-ratio: 1;
   min-height: 160px;
   max-height: 200px;
   text-decoration: none;
-  color: var(--neutral-white);
-  overflow: visible;
-  border-radius: 20px;
+  color: white;
+  overflow: hidden;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Innere Glasfläche mit gleichmäßigem Farbverlauf */
-  background: 
-    linear-gradient(135deg, 
-      rgba(var(--card-color-rgb), 0.12) 0%, 
-      rgba(var(--card-color-rgb), 0.06) 50%,
-      rgba(0, 0, 0, 0.3) 100%),
-    linear-gradient(135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 100%);
-  
-  /* Deutlicher Aluminium-Rahmen mit Metallic-Effekt */
-  border: 3px solid;
-  border-image: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.3) 25%,
-    rgba(120, 120, 120, 0.4) 50%,
-    rgba(255, 255, 255, 0.3) 75%,
-    rgba(255, 255, 255, 0.6) 100%) 1;
-  
-  /* Aluminium-Schatten und Tiefe */
-  box-shadow:
-    /* Äußerer Schatten für Tiefe */
-    0 8px 32px rgba(0, 0, 0, 0.5),
-    0 2px 8px rgba(0, 0, 0, 0.3),
-    /* Innere Highlights für Aluminium-Effekt */
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-    inset 1px 0 0 rgba(255, 255, 255, 0.2),
-    inset -1px 0 0 rgba(0, 0, 0, 0.3),
-    /* Farbiger Glow */
-    0 0 0 1px rgba(var(--card-color-rgb), 0.4),
-    0 0 20px rgba(var(--card-color-rgb), 0.2);
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, var(--charcoal-dark) 0%, #3D5467 100%) !important;
+  border: 1px solid rgba(156, 175, 136, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
 }
 
-/* Äußerer Aluminium-Rahmen mit Metallic-Verlauf */
+/* Remove pseudo-elements from glass-morphism design */
 .home-timer-card::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  background: 
-    linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.4) 0%,
-      rgba(180, 180, 180, 0.3) 25%,
-      rgba(120, 120, 120, 0.2) 50%,
-      rgba(180, 180, 180, 0.3) 75%,
-      rgba(255, 255, 255, 0.4) 100%);
-  border-radius: 22px;
-  z-index: -1;
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+  display: none;
 }
 
-/* Glas-Reflexion oben - gleichmäßiger Verlauf */
 .home-timer-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 45%;
-  background: linear-gradient(180deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0.12) 30%,
-    rgba(255, 255, 255, 0.05) 60%,
-    transparent 100%);
-  border-radius: 20px 20px 0 0;
-  pointer-events: none;
-  z-index: 2;
+  display: none;
 }
 
 /* Card Inner Container */
@@ -197,27 +201,22 @@
   flex-shrink: 0;
 }
 
-/* Icon SVG Styling mit Farbverlauf */
+/* Icon SVG Styling */
 .timer-icon-container svg {
   width: 100%;
   height: 100%;
-  color: rgba(var(--card-color-rgb), 1);
-  filter: 
-    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4))
-    drop-shadow(0 0 8px rgba(var(--card-color-rgb), 0.4));
+  color: var(--sage-primary);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   transition: all 0.3s ease;
 }
 
-/* Timer Label - Premium Typography */
+/* Timer Label - Professional Typography */
 .timer-label {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--neutral-white);
-  text-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.6),
-    0 0 12px rgba(var(--card-color-rgb), 0.5);
+  color: white;
   transition: all 0.3s ease;
   text-align: center;
   line-height: 1.3;
@@ -228,77 +227,43 @@
   hyphens: none;
 }
 
-/* Hover State - Verstärkter Glas/Alu-Effekt */
+/* Hover State - Subtle Professional Effect */
 .home-timer-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  
-  /* Verstärkte Schatten und Glows */
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.5),
-    inset 2px 0 0 rgba(255, 255, 255, 0.3),
-    inset -2px 0 0 rgba(0, 0, 0, 0.4),
-    0 0 0 2px rgba(var(--card-color-rgb), 0.6),
-    0 0 40px rgba(var(--card-color-rgb), 0.5);
-  
-  /* Hellerer Glasverlauf beim Hover */
-  background: 
-    linear-gradient(135deg, 
-      rgba(var(--card-color-rgb), 0.2) 0%, 
-      rgba(var(--card-color-rgb), 0.12) 50%,
-      rgba(0, 0, 0, 0.2) 100%),
-    linear-gradient(135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0.05) 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--sage-primary);
 }
 
-/* Verstärkter Aluminium-Rahmen beim Hover */
-.home-timer-card:hover::before {
-  background: 
-    linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(200, 200, 200, 0.5) 25%,
-      rgba(150, 150, 150, 0.4) 50%,
-      rgba(200, 200, 200, 0.5) 75%,
-      rgba(255, 255, 255, 0.6) 100%);
-  box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    inset 0 2px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.6);
+.home-timer-card[style*="--card-color"]:hover {
+  background: linear-gradient(135deg, #3D5467 0%, #4A6A82 100%);
+  border-color: var(--sage-primary);
+  box-shadow: 0 8px 24px rgba(156, 175, 136, 0.15);
 }
 
 .home-timer-card:hover .timer-icon-container svg {
-  color: rgba(var(--card-color-rgb), 1);
-  filter: 
-    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5))
-    drop-shadow(0 0 16px rgba(var(--card-color-rgb), 0.8))
-    drop-shadow(0 0 24px rgba(var(--card-color-rgb), 0.4));
-  transform: scale(1.12);
+  color: var(--sage-primary);
+  filter: drop-shadow(0 0 8px rgba(156, 175, 136, 0.4));
+  transform: scale(1.08);
 }
 
 .home-timer-card:hover .timer-label {
-  color: rgba(var(--card-color-rgb), 1);
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.7),
-    0 0 16px rgba(var(--card-color-rgb), 0.8),
-    0 0 24px rgba(var(--card-color-rgb), 0.4);
+  color: var(--sage-primary);
 }
 
 /* Active/Press State */
 .home-timer-card:active {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-2px);
   transition-duration: 0.1s;
 }
 
 .home-timer-card:active .timer-icon-container svg {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 /* Footer */
 .home-footer {
   margin-top: auto;
+  color: var(--warm-gray);
   padding-top: var(--space-8);
   display: flex;
   gap: var(--space-4);
@@ -309,13 +274,13 @@
 }
 
 .home-footer a {
-  color: var(--ocean-bright);
+  color: var(--warm-gray);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .home-footer-links a:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--sage-primary);
   text-decoration: underline;
 }
 
@@ -324,7 +289,7 @@
   font-size: 10px;
   font-weight: 300;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--light-border);
   text-align: center;
 }
 
