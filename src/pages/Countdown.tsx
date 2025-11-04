@@ -88,6 +88,33 @@ export default function Countdown() {
   const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
   const lastSecondRef = useRef<number>(-1);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    
+    if (params.has('duration')) {
+      const durationSeconds = parseInt(params.get('duration') || '0', 10);
+      const durationMs = clamp(durationSeconds * 1000, 1000, MAX);
+      
+      setSt(s => ({
+        ...s,
+        durationMs,
+        remainingMs: durationMs,
+        running: false,
+        endAt: null
+      }));
+      
+      if (params.get('autostart') === '1') {
+        setTimeout(() => {
+          setSt(s => ({
+            ...s,
+            running: true,
+            endAt: Date.now() + durationMs
+          }));
+        }, 100);
+      }
+    }
+  }, []);
+
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
