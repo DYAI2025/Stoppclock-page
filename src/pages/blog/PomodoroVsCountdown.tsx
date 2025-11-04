@@ -61,15 +61,15 @@ const PomodoroVsCountdown: React.FC = () => {
       {/* Content */}
       <div className="blog-content">
         {/* AI SEO: Quick Answer Section */}
-        <div className="quick-answer-section" style={{ backgroundColor: '#f5f5f5', padding: '16px', borderRadius: '8px', marginBottom: '24px', borderLeft: '4px solid #DC143C' }}>
-          <h3 style={{ marginTop: 0, color: '#0b1220' }}>Kurze Antwort</h3>
-          <p style={{ marginBottom: '8px' }}>
+        <div className="quick-answer-section">
+          <h3>Kurze Antwort</h3>
+          <p>
             <strong>Pomodoro Timer:</strong> Strukturierte 25-Min Blöcke mit Pausen. Beste für Fokus, Lernen, Prokrastination-Überwindung.
           </p>
-          <p style={{ marginBottom: '8px' }}>
+          <p>
             <strong>Countdown Timer:</strong> Flexible Dauer (1 Min bis 12 Stunden). Beste für freie Aufgaben, Training, Cooking, flexible Zeitmessung.
           </p>
-          <p style={{ marginBottom: 0 }}>
+          <p>
             <strong>Sieger:</strong> Ideal ist BEIDE zu nutzen – wähle basierend auf deiner Aufgabe!
           </p>
         </div>

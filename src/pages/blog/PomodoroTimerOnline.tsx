@@ -61,12 +61,12 @@ const PomodoroTimerOnline: React.FC = () => {
       {/* Content */}
       <div className="blog-content">
         {/* AI SEO: Quick Answer Section */}
-        <div className="quick-answer-section" style={{ backgroundColor: '#f5f5f5', padding: '16px', borderRadius: '8px', marginBottom: '24px', borderLeft: '4px solid #DC143C' }}>
-          <h3 style={{ marginTop: 0, color: '#0b1220' }}>Schnelle Antwort</h3>
-          <p style={{ marginBottom: '8px' }}>
+        <div className="quick-answer-section">
+          <h3>Schnelle Antwort</h3>
+          <p>
             Die <strong>Pomodoro-Technik</strong> ist eine Zeitmanagement-Methode mit 25-Minuten Arbeitsphasen, gefolgt von 5-Minuten Pausen. Sie steigert Produktivität um 40-70%, reduziert Prokrastination und verbessert Fokus durch strukturierte Arbeitsphasen.
           </p>
-          <ul style={{ marginBottom: 0, paddingLeft: '20px' }}>
+          <ul>
             <li><strong>Beste für:</strong> Studieren, Konzentration, Prokrastination überwinden</li>
             <li><strong>Dauer:</strong> 25 Min Arbeit + 5 Min Pause</li>
             <li><strong>Kosten:</strong> Kostenlos (unser Timer ist 100% gratis)</li>

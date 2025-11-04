@@ -230,39 +230,39 @@ const TimerForFitness: React.FC = () => {
           Umfrage unter 300+ Fitness-Enthusiasten und Athleten zum Timer-Einsatz im Training
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', margin: '32px 0' }}>
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>89%</h3>
-            <p style={{ marginBottom: 0 }}>
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-number">89%</div>
+            <p className="stat-label">
               <strong>der Athleten</strong> nutzen Timer für strukturiertes Training
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>94%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">94%</div>
+            <p className="stat-label">
               <strong>berichten</strong> bessere Ergebnisse mit exaktem Timing
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>42%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">42%</div>
+            <p className="stat-label">
               <strong>steigern</strong> ihre Leistung um 20-40% mit HIIT/Tabata
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>88%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">88%</div>
+            <p className="stat-label">
               <strong>reduzieren</strong> Ausfallzeiten durch richtige Rest-Zeiten
             </p>
           </div>
         </div>
 
-        <div style={{ backgroundColor: '#fafafa', padding: '24px', borderRadius: '8px', borderLeft: '4px solid #708090', marginTop: '24px' }}>
+        <div className="scientific-backing">
           <h4>Wissenschaftliche Effekte korrekten Timings:</h4>
-          <ul style={{ marginBottom: 0 }}>
+          <ul>
             <li><strong>VO2-Max Verbesserung:</strong> Tabata-Training (20s Vollintensität/10s Pause) erhöht VO2-Max um 35% in 6 Wochen (Universität Tokio, 2012)</li>
             <li><strong>Muskelaufbau:</strong> Exakte 60-90 Sekunden Ruhe zwischen Sätzen optimal für Hypertrophie</li>
             <li><strong>Fettabbau:</strong> HIIT mit korrektem Timing verbrennt 30% mehr Kalorien als Steady-State Cardio</li>

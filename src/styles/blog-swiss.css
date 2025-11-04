@@ -1,0 +1,631 @@
+/* ============================================
+ * BLOG & LANDING PAGE STYLES
+ * Modern, professional design system
+ * Consistent with Deep Ocean Aurora Theme
+ * ============================================ */
+
+/* ============================================
+ * PAGE LAYOUT
+ * ============================================ */
+.blog-post-page,
+.landing-page {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  color: var(--text-primary);
+  background-color: var(--surface-1);
+  min-height: 100vh;
+}
+
+/* ============================================
+ * ARTICLE HEADER
+ * ============================================ */
+.blog-post-header,
+.landing-hero {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--ocean-mid);
+}
+
+.blog-post-header h1,
+.landing-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+}
+
+.blog-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.blog-category {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: rgba(0, 217, 255, 0.1);
+  border: 1px solid var(--aurora-cyan);
+  border-radius: 4px;
+  color: var(--aurora-cyan);
+  font-weight: 600;
+}
+
+.blog-date,
+.blog-reading-time {
+  display: inline-block;
+}
+
+.blog-description,
+.landing-subtitle {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ============================================
+ * BLOG CONTENT
+ * Typography & spacing
+ * ============================================ */
+.blog-content {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.blog-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 40px 0 20px 0;
+  color: var(--text-primary);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--aurora-cyan);
+}
+
+.blog-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 28px 0 16px 0;
+  color: var(--text-primary);
+}
+
+.blog-content h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 20px 0 12px 0;
+  color: var(--text-secondary);
+}
+
+.blog-content p {
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin: 0 0 20px 0;
+  padding-left: 24px;
+}
+
+.blog-content li {
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+.blog-content a {
+  color: var(--aurora-cyan);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.blog-content a:hover {
+  border-bottom-color: var(--aurora-cyan);
+}
+
+.blog-content strong {
+  color: var(--aurora-cyan);
+  font-weight: 600;
+}
+
+/* ============================================
+ * QUICK ANSWER SECTION
+ * Premium info box for AI SEO
+ * ============================================ */
+.quick-answer-section {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(128, 0, 255, 0.04) 100%);
+  border: 1px solid var(--aurora-cyan);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.08);
+}
+
+.quick-answer-section h3 {
+  margin-top: 0;
+  color: var(--aurora-cyan);
+  font-size: 1.125rem;
+}
+
+.quick-answer-section p {
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.quick-answer-section p:last-of-type {
+  margin-bottom: 0;
+}
+
+.quick-answer-section ul {
+  margin: 12px 0 0 0;
+  padding-left: 20px;
+}
+
+.quick-answer-section li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ============================================
+ * TABLES
+ * Professional data presentation
+ * ============================================ */
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  background-color: var(--surface-2);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.blog-content table thead {
+  background-color: rgba(0, 217, 255, 0.1);
+  border-bottom: 2px solid var(--aurora-cyan);
+}
+
+.blog-content table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--aurora-cyan);
+  font-size: 0.95rem;
+}
+
+.blog-content table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+  text-align: left;
+}
+
+.blog-content table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.blog-content table tbody tr:hover {
+  background-color: rgba(0, 217, 255, 0.04);
+}
+
+/* ============================================
+ * STATS SECTION
+ * Key metrics & survey data
+ * ============================================ */
+.landing-stats {
+  margin: 60px 0;
+}
+
+.landing-stats h2 {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0 0 32px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 32px 0;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.06) 0%, rgba(128, 0, 255, 0.03) 100%);
+  border: 1px solid var(--aurora-cyan);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.15);
+  border-color: var(--aurora-purple);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--aurora-cyan);
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.scientific-backing {
+  background-color: rgba(0, 217, 255, 0.04);
+  border-left: 4px solid var(--aurora-cyan);
+  padding: 24px;
+  border-radius: 6px;
+  margin-top: 24px;
+}
+
+.scientific-backing h4 {
+  color: var(--aurora-cyan);
+  margin-top: 0;
+}
+
+.scientific-backing ul {
+  margin-bottom: 0;
+}
+
+.scientific-backing li {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ============================================
+ * FAQ SECTION
+ * Accessible accordion patterns
+ * ============================================ */
+.landing-faq {
+  margin: 60px 0 0 0;
+}
+
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.faq-item {
+  background-color: var(--surface-2);
+  border: 1px solid var(--ocean-mid);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--aurora-cyan);
+}
+
+.faq-item summary {
+  padding: 18px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-primary);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+}
+
+.faq-item summary:hover {
+  background-color: rgba(0, 217, 255, 0.04);
+}
+
+.faq-item summary::marker {
+  color: var(--aurora-cyan);
+}
+
+.faq-content {
+  padding: 0 18px 18px 18px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--ocean-mid);
+  line-height: 1.7;
+}
+
+.faq-content p {
+  margin: 0 0 12px 0;
+}
+
+.faq-content p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-content ul {
+  margin: 12px 0;
+  padding-left: 20px;
+}
+
+.faq-content li {
+  margin-bottom: 8px;
+}
+
+/* ============================================
+ * TESTIMONIALS
+ * User quote sections
+ * ============================================ */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.testimonial-card {
+  background-color: var(--surface-2);
+  border: 1px solid var(--ocean-mid);
+  border-radius: 8px;
+  padding: 24px;
+  border-left: 4px solid var(--aurora-cyan);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  border-left-color: var(--aurora-purple);
+  box-shadow: 0 4px 16px rgba(0, 217, 255, 0.1);
+}
+
+.testimonial-card p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0 0 16px 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.testimonial-card footer {
+  border-top: 1px solid var(--ocean-mid);
+  padding-top: 12px;
+  font-size: 0.85rem;
+}
+
+.testimonial-card strong {
+  color: var(--aurora-cyan);
+  font-style: normal;
+}
+
+/* ============================================
+ * CTA BUTTONS
+ * Call-to-action styling
+ * ============================================ */
+.blog-cta {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(128, 0, 255, 0.04) 100%);
+  border: 1px solid var(--aurora-cyan);
+  border-radius: 8px;
+  padding: 40px 32px;
+  text-align: center;
+  margin: 48px 0;
+}
+
+.blog-cta h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.blog-cta p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--aurora-cyan);
+  color: var(--surface-1);
+}
+
+.btn-primary:hover {
+  background-color: var(--aurora-purple);
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--aurora-cyan);
+  color: var(--aurora-cyan);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(0, 217, 255, 0.1);
+  border-color: var(--aurora-purple);
+  color: var(--aurora-purple);
+}
+
+.btn-large {
+  padding: 16px 32px;
+  font-size: 1.1rem;
+}
+
+/* ============================================
+ * FOOTER
+ * ============================================ */
+.blog-post-footer {
+  margin-top: 60px;
+  padding-top: 32px;
+  border-top: 1px solid var(--ocean-mid);
+}
+
+.blog-tags {
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.blog-tag {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: rgba(0, 217, 255, 0.1);
+  border: 1px solid var(--aurora-cyan);
+  border-radius: 4px;
+  color: var(--aurora-cyan);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.blog-tag:hover {
+  background-color: rgba(0, 217, 255, 0.2);
+  border-color: var(--aurora-purple);
+  color: var(--aurora-purple);
+}
+
+.blog-updated {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 16px 0;
+}
+
+.blog-back-cta {
+  margin-top: 24px;
+}
+
+/* ============================================
+ * RESPONSIVE DESIGN
+ * Mobile-first approach
+ * ============================================ */
+@media (max-width: 768px) {
+  .blog-post-page,
+  .landing-page {
+    padding: 40px 16px;
+  }
+
+  .blog-post-header h1,
+  .landing-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .blog-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .blog-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-cta {
+    padding: 32px 20px;
+  }
+
+  .blog-cta h3 {
+    font-size: 1.25rem;
+  }
+
+  .btn {
+    display: block;
+    margin: 12px auto;
+  }
+}
+
+/* ============================================
+ * LANDING PAGE HERO SECTIONS
+ * ============================================ */
+.landing-hero-content {
+  text-align: center;
+}
+
+.landing-hero-content h1 {
+  font-size: 2rem;
+}
+
+.landing-hero h1 {
+  margin-bottom: 20px;
+}
+
+.landing-section {
+  margin: 60px 0 0 0;
+}
+
+.landing-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+ * BLOCKQUOTE
+ * ============================================ */
+.blog-content blockquote {
+  border-left: 4px solid var(--aurora-cyan);
+  padding: 16px 24px;
+  margin: 24px 0;
+  background-color: rgba(0, 217, 255, 0.04);
+  border-radius: 4px;
+  italic: true;
+  color: var(--text-secondary);
+}
+
+.blog-content code {
+  background-color: var(--surface-2);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--aurora-cyan);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.blog-content pre {
+  background-color: var(--surface-2);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--ocean-mid);
+  margin: 24px 0;
+}
+
+.blog-content pre code {
+  background: none;
+  padding: 0;
+  color: var(--text-primary);
+}

@@ -224,39 +224,39 @@ const TimerForStudents: React.FC = () => {
           Aktuelle Umfrage unter 500+ Studenten zum Pomodoro Timer und Lernmethoden
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', margin: '32px 0' }}>
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>73%</h3>
-            <p style={{ marginBottom: 0 }}>
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-number">73%</div>
+            <p className="stat-label">
               <strong>der Studenten</strong> nutzen einen Pomodoro Timer beim Lernen
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>82%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">82%</div>
+            <p className="stat-label">
               <strong>berichten</strong> bessere Noten durch strukturiertes Lernen
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>67%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">67%</div>
+            <p className="stat-label">
               <strong>überwinden</strong> Prokrastination durch 25-Minuten-Ziele
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>91%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">91%</div>
+            <p className="stat-label">
               <strong>empfehlen</strong> Timer-Techniken ihren Kommilitonen weiter
             </p>
           </div>
         </div>
 
-        <div style={{ backgroundColor: '#fafafa', padding: '24px', borderRadius: '8px', borderLeft: '4px solid #708090', marginTop: '24px' }}>
+        <div className="scientific-backing">
           <h4>Wissenschaftliche Erkenntnisse:</h4>
-          <ul style={{ marginBottom: 0 }}>
+          <ul>
             <li><strong>Gedächtniskonsolidierung:</strong> Kurze Pausen verbessern die Merkfähigkeit um 30-50% (Stanford-Studie, 2015)</li>
             <li><strong>Fokus-Fenster:</strong> 25 Minuten ist das optimale Fenster für ungebrochene Konzentration (MIT, 2014)</li>
             <li><strong>Prokrastination-Überwindung:</strong> "Nur 25 Minuten" reduziert Vermeidung um 40-70% (University of Illinois, 2016)</li>

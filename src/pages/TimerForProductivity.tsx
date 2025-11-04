@@ -218,39 +218,39 @@ const TimerForProductivity: React.FC = () => {
           Umfrage unter 400+ Remote Worker und Freelancer zum Timer-Einsatz
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', margin: '32px 0' }}>
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>78%</h3>
-            <p style={{ marginBottom: 0 }}>
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-number">78%</div>
+            <p className="stat-label">
               <strong>der Remote Worker</strong> nutzen Timer zur Strukturierung
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>86%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">86%</div>
+            <p className="stat-label">
               <strong>berichten</strong> weniger Meetings durch Fokusblöcke
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>71%</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">71%</div>
+            <p className="stat-label">
               <strong>erleben</strong> weniger mentale Erschöpfung durch Pausen
             </p>
           </div>
 
-          <div style={{ backgroundColor: '#f5f5f5', padding: '24px', borderRadius: '8px', textAlign: 'center', borderTop: '4px solid #DC143C' }}>
-            <h3 style={{ marginTop: 0, fontSize: '32px', color: '#DC143C', fontWeight: 'bold' }}>45min</h3>
-            <p style={{ marginBottom: 0 }}>
+          <div className="stat-card">
+            <div className="stat-number">45min</div>
+            <p className="stat-label">
               <strong>durchschnittlich</strong> pro Tag gespart durch besseres Zeitmanagement
             </p>
           </div>
         </div>
 
-        <div style={{ backgroundColor: '#fafafa', padding: '24px', borderRadius: '8px', borderLeft: '4px solid #708090', marginTop: '24px' }}>
+        <div className="scientific-backing">
           <h4>Gründe für Produktivitätssteigerung:</h4>
-          <ul style={{ marginBottom: 0 }}>
+          <ul>
             <li><strong>Deep Work Blöcke:</strong> Ungebrochene 90 Minuten (3-4 Pomodoros) verdoppeln die Ausgabequalität</li>
             <li><strong>Burnout-Vorbeugung:</strong> Regelmäßige Pausen verhindern das Nachmittags-Tief um 3 Uhr</li>
             <li><strong>Meeting-Optimierung:</strong> Strukturierte Arbeitsphasen reduzieren unnötige Meetings um 30%</li>
