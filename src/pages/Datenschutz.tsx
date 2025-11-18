@@ -117,6 +117,30 @@ export default function Datenschutz() {
             https://policies.google.com/technologies/ads
           </a>
         </p>
+
+        <h3>Google Funding Choices (Einwilligungsverwaltungsplattform)</h3>
+        <p>
+          Diese Website verwendet Google Funding Choices, eine von Google zertifizierte Consent Management Platform (CMP),
+          um die Nutzereinwilligung für Cookies und personalisierte Werbung in Übereinstimmung mit der DSGVO und anderen
+          Datenschutzvorschriften zu verwalten.
+        </p>
+        <p>
+          Beim ersten Besuch unserer Website wird Ihnen ein Einwilligungsbanner angezeigt, der Ihnen folgende Optionen bietet:
+        </p>
+        <ul>
+          <li>Alle Cookies und personalisierte Werbung akzeptieren</li>
+          <li>Alle nicht-essenziellen Cookies und personalisierte Werbung ablehnen</li>
+          <li>Ihre Einwilligungspräferenzen detailliert verwalten</li>
+        </ul>
+        <p>
+          Ihre Einwilligungsentscheidungen werden lokal auf Ihrem Gerät gespeichert und während Ihrer gesamten Browsing-Sitzung
+          respektiert. Sie können Ihre Einwilligungspräferenzen jederzeit ändern, indem Sie auf die Datenschutzeinstellungen
+          unserer Website zugreifen.
+        </p>
+        <p>
+          Wenn Sie der Verwendung von Werbe-Cookies nicht zustimmen, sehen Sie weiterhin Werbung, diese wird jedoch nicht
+          auf Basis Ihres Surfverhaltens personalisiert.
+        </p>
       </section>
 
       <section>

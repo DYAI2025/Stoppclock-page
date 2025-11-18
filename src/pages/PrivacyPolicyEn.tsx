@@ -98,10 +98,32 @@ export default function PrivacyPolicyEn() {
           user behaviour to optimize both their website and their advertising.
         </p>
         <p>
-          For more information about Google AdSense, see
+          For more information about Google AdSense, see{" "}
           <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
             https://policies.google.com/technologies/ads
           </a>.
+        </p>
+
+        <h3>Google Funding Choices (Consent Management Platform)</h3>
+        <p>
+          This website uses Google Funding Choices, a Google-certified Consent Management Platform (CMP) to manage user consent for
+          cookies and personalized advertising in compliance with GDPR and other privacy regulations.
+        </p>
+        <p>
+          When you first visit our site, you will be presented with a consent banner that allows you to:
+        </p>
+        <ul>
+          <li>Accept all cookies and personalized ads</li>
+          <li>Reject all non-essential cookies and personalized ads</li>
+          <li>Manage your consent preferences in detail</li>
+        </ul>
+        <p>
+          Your consent choices are stored locally on your device and respected throughout your browsing session. You can change
+          your consent preferences at any time by accessing the privacy settings on our website.
+        </p>
+        <p>
+          If you do not consent to advertising cookies, you will still see ads, but they will not be personalized based on your
+          browsing behavior.
         </p>
       </section>
 
