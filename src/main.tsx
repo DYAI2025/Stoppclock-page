@@ -17,6 +17,8 @@ import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import PillarPage from "./pages/PillarPage";
 import TimePhilosophy from "./pages/TimePhilosophy";
 import PomodoroTimerOnline from "./pages/blog/PomodoroTimerOnline";
@@ -226,6 +228,10 @@ function Home() {
       {/* Footer */}
       <footer className="home-footer">
         <div className="home-footer-links">
+          <a href="#/about">About</a>
+          <span>•</span>
+          <a href="#/contact">Contact</a>
+          <span>•</span>
           <a href="#/imprint">Imprint (EN)</a>
           <span>•</span>
           <a href="#/privacy">Privacy Policy (EN)</a>
@@ -281,9 +287,11 @@ function App() {
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
       {route === "/datenschutz" && <Datenschutz />}
+      {route === "/about" && <About />}
+      {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
