@@ -16,7 +16,7 @@ export default function About() {
       <section>
         <h2>What We Offer</h2>
         <p>
-          Stoppclock provides 8 specialized timer tools that work offline as a Progressive Web App (PWA):
+          Stoppclock provides 9 specialized timer tools that work offline as a Progressive Web App (PWA):
         </p>
         <ul>
           <li><strong>Analog Countdown</strong> - Visual clock-style countdown up to 12 hours, perfect for exams</li>
