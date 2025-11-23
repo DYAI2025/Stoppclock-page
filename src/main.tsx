@@ -10,6 +10,7 @@ import Alarm from "./pages/Alarm";
 import Metronome from "./pages/Metronome";
 import ChessClock from "./pages/ChessClock";
 import CookingTimer from "./pages/CookingTimer";
+import CouplesTimer from "./pages/CouplesTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
 import Wissen from "./pages/Wissen";
@@ -146,6 +147,7 @@ function Home() {
     { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
     { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
     { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
+    { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
     { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
     { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
@@ -271,6 +273,7 @@ function App() {
       {route === "/stopwatch" && <Stopwatch />}
       {route === "/pomodoro" && <Pomodoro />}
       {route === "/cooking" && <CookingTimer />}
+      {route === "/couples" && <CouplesTimer />}
       {route === "/digital" && <DigitalClock />}
       {route === "/world" && <WorldClock />}
       {route === "/alarm" && <Alarm />}
@@ -291,7 +294,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
@@ -354,6 +357,13 @@ function TimerIcon({ type }: { type: string }) {
         <path d="M16.5 3.5L19 6"/>
         <path d="M7.5 3.5L5 6"/>
         <path d="M9 2h6"/>
+      </svg>
+    ),
+    "Couples Timer": (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 9v3l2 2"/>
       </svg>
     ),
     "World Clock": (
