@@ -177,7 +177,7 @@ export type SessionPhase =
   | 'COOLDOWN'        // Post-session cooldown (no follow-up conversation)
   | 'COMPLETED';      // Session completed
 
-export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60' | 'custom';
+export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60';
 
 export interface SessionSlot {
   speaker: 'A' | 'B';
