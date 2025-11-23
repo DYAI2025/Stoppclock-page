@@ -165,16 +165,15 @@ export interface CookingTimerState {
   nextColorIndex: number; // For auto-rotation through color palette
 }
 
-// Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
+ // Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
 export type SessionPhase =
   | 'SETUP'           // Initial setup before session starts
   | 'PREP'            // Preparation phase (3-5 minutes)
   | 'A_SPEAKS'        // Person A's speaking slot
   | 'TRANSITION'      // Transition between speakers (5 seconds)
   | 'B_SPEAKS'        // Person B's speaking slot
-  | 'CLOSING'         // Closing round (1-2 minutes per person)
-  | 'A_CLOSING'       // Person A's closing
-  | 'B_CLOSING'       // Person B's closing
+  | 'A_CLOSING'       // Person A's closing round (1-2 minutes)
+  | 'B_CLOSING'       // Person B's closing round (1-2 minutes)
   | 'COOLDOWN'        // Post-session cooldown (no follow-up conversation)
   | 'COMPLETED';      // Session completed
 
