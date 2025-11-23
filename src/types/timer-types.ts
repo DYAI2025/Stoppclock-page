@@ -179,12 +179,6 @@ export type SessionPhase =
 
 export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60';
 
-export interface SessionSlot {
-  speaker: 'A' | 'B';
-  durationMs: number;
-  type: 'speaking' | 'closing';
-}
-
 export interface SessionPreset {
   id: PresetId;
   name: string;
