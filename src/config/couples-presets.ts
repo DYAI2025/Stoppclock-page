@@ -65,7 +65,7 @@ export const PHASE_GUIDANCE = {
   },
   TRANSITION: {
     title: 'Rollenwechsel',
-    text: 'Kurze Pause. Atme durch. Bereite dich auf deine Rolle vor.'
+    text: 'Kurze Pause. Atmet durch. Bereitet euch auf eure Rolle vor.'
   },
   A_CLOSING: {
     title: '{nameA} Abschluss',
