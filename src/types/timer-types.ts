@@ -164,3 +164,68 @@ export interface CookingTimerState {
   timers: CookingTimer[]; // Up to 10 timers
   nextColorIndex: number; // For auto-rotation through color palette
 }
+
+// Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
+export type SessionPhase =
+  | 'SETUP'           // Initial setup before session starts
+  | 'PREP'            // Preparation phase (3-5 minutes)
+  | 'A_SPEAKS'        // Person A's speaking slot
+  | 'TRANSITION'      // Transition between speakers (5 seconds)
+  | 'B_SPEAKS'        // Person B's speaking slot
+  | 'CLOSING'         // Closing round (1-2 minutes per person)
+  | 'A_CLOSING'       // Person A's closing
+  | 'B_CLOSING'       // Person B's closing
+  | 'COOLDOWN'        // Post-session cooldown (no follow-up conversation)
+  | 'COMPLETED';      // Session completed
+
+export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60' | 'custom';
+
+export interface SessionSlot {
+  speaker: 'A' | 'B';
+  durationMs: number;
+  type: 'speaking' | 'closing';
+}
+
+export interface SessionPreset {
+  id: PresetId;
+  name: string;
+  description: string;
+  totalDurationMs: number;
+  prepDurationMs: number;
+  slotDurationMs: number;      // Duration of each speaking slot
+  slotsPerPerson: number;      // Number of slots per person
+  transitionDurationMs: number;
+  closingDurationMs: number;   // Duration for closing per person
+  cooldownDurationMs: number;
+}
+
+export interface CoupleProfile {
+  id: string;
+  nameA: string;
+  nameB: string;
+  relationshipType: 'couple' | 'parent-child' | 'friends' | 'other';
+  preferredPresetId: PresetId;
+  createdAt: number;
+  lastSessionAt: number | null;
+}
+
+export interface SessionSchedule {
+  mainDay: number;        // 0-6 (Sunday-Saturday)
+  mainTime: string;       // HH:MM
+  backupDay: number;      // 0-6 (Sunday-Saturday)
+  backupTime: string;     // HH:MM
+  crisisMode: boolean;    // If true, schedule 2x per week
+}
+
+export interface CouplesTimerState {
+  version: 1;
+  currentProfile: CoupleProfile | null;
+  currentPreset: SessionPreset | null;
+  phase: SessionPhase;
+  currentSlotIndex: number;      // Index of current slot in session
+  remainingMs: number;           // Remaining time in current phase
+  running: boolean;
+  startedAt: number | null;
+  completedSessions: number;     // Total completed sessions for this profile
+  schedule: SessionSchedule | null;
+}
