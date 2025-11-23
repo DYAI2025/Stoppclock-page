@@ -19,8 +19,14 @@ function loadState(): CouplesTimerState {
     const raw = localStorage.getItem(LS_KEY_STATE);
     if (!raw) throw new Error('No saved state');
     const state = JSON.parse(raw) as CouplesTimerState;
+    let adjustedRemainingMs = state.remainingMs;
+    if (state.running && state.startedAt) {
+      const elapsed = Date.now() - state.startedAt;
+      adjustedRemainingMs = Math.max(0, state.remainingMs - elapsed);
+    }
     return {
       ...state,
+      remainingMs: adjustedRemainingMs,
       running: false, // Always start paused after reload
       startedAt: null
     };
