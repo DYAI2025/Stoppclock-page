@@ -77,17 +77,36 @@ function fmt(ms: number): string {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
+// Reused AudioContext instance for all transition sounds
+let sharedAudioContext: (AudioContext | null) = null;
+
 // Audio alert generator (gentle chime for transitions)
 function playTransitionSound() {
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    if (typeof window === 'undefined') return;
+
+    // Lazily create and cache a single AudioContext
+    if (!sharedAudioContext) {
+      const AudioContextCtor =
+        (window as any).AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContextCtor) {
+        // Web Audio API not available
+        return;
+      }
+      sharedAudioContext = new AudioContextCtor();
+    }
+
+    const audioContext = sharedAudioContext;
+    if (!audioContext) return;
+
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+    // A4 note
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
     oscillator.type = 'sine';
 
     const now = audioContext.currentTime;
@@ -98,7 +117,7 @@ function playTransitionSound() {
     oscillator.start(now);
     oscillator.stop(now + 0.8);
   } catch {
-    // Silently fail if Web Audio API not available
+    // Silently fail if Web Audio API not available or on any runtime error
   }
 }
 
