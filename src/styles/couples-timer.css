@@ -518,6 +518,24 @@
   box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
 }
 
+/* ===== ACCESSIBILITY: FOCUS INDICATORS ===== */
+.profile-card:focus-visible,
+.preset-card:focus-visible,
+.create-profile-btn:focus-visible,
+.start-session-btn:focus-visible,
+.control-btn:focus-visible,
+.new-session-btn:focus-visible,
+.profile-card:focus,
+.preset-card:focus,
+.create-profile-btn:focus,
+.start-session-btn:focus,
+.control-btn:focus,
+.new-session-btn:focus {
+  outline: 2.5px solid #FFD700;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.25);
+  z-index: 2;
+}
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .couples-timer-page {
