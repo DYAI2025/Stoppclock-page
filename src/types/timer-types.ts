@@ -216,6 +216,7 @@ export interface CouplesTimerState {
   currentPreset: SessionPreset | null;
   phase: SessionPhase;
   currentSlotIndex: number;      // Index of current slot in session
+  transitionDurationMs: number;  // Per-session transition buffer
   remainingMs: number;           // Remaining time in current phase
   running: boolean;
   startedAt: number | null;

@@ -225,6 +225,212 @@
   font-weight: 500;
 }
 
+/* Transition controls */
+.transition-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.transition-copy h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #FF69B4;
+}
+
+.transition-copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+}
+
+.transition-controls {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.transition-label {
+  display: block;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.03em;
+}
+
+.transition-slider {
+  width: 100%;
+  accent-color: #F59E0B;
+}
+
+.transition-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.transition-number {
+  width: 90px;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #FFFFFF;
+}
+
+.transition-number:focus {
+  outline: none;
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+}
+
+.transition-unit {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+}
+
+.transition-hint {
+  margin: 0.75rem 0 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Timeline preview */
+.timeline-preview {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.timeline-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #FF69B4;
+}
+
+.timeline-total {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.timeline-description {
+  margin: 0.5rem 0 1rem 0;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.timeline-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.timeline-segment {
+  padding: 0.75rem;
+  color: #0B0B0F;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.segment-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.segment-duration {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.segment-prep {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.28), rgba(0, 217, 255, 0.15));
+  color: #022130;
+}
+
+.segment-speak-a {
+  background: linear-gradient(135deg, rgba(255, 105, 180, 0.35), rgba(255, 105, 180, 0.2));
+  color: #2F0A1E;
+}
+
+.segment-speak-b {
+  background: linear-gradient(135deg, rgba(199, 125, 255, 0.35), rgba(199, 125, 255, 0.2));
+  color: #251133;
+}
+
+.segment-transition {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.5), rgba(245, 158, 11, 0.3));
+  color: #2B1604;
+}
+
+.segment-closing-a,
+.segment-closing-b {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(16, 185, 129, 0.25));
+  color: #0E241D;
+}
+
+.segment-cooldown {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.35), rgba(14, 165, 233, 0.2));
+  color: #0C1F2B;
+}
+
+.timeline-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.legend-a {
+  border-color: rgba(255, 105, 180, 0.5);
+}
+
+.legend-b {
+  border-color: rgba(199, 125, 255, 0.5);
+}
+
+.legend-transition {
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+.legend-closing {
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.legend-cooldown {
+  border-color: rgba(14, 165, 233, 0.5);
+}
+
 /* Start Session Button */
 .start-session-btn {
   width: 100%;
