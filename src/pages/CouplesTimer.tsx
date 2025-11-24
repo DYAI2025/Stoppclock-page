@@ -407,7 +407,10 @@ export default function CouplesTimer() {
     setState(prev => ({
       ...prev,
       currentPreset: preset,
-      transitionDurationMs: preset.transitionDurationMs
+      transitionDurationMs:
+        prev.transitionDurationMs === prev.currentPreset?.transitionDurationMs
+          ? preset.transitionDurationMs
+          : prev.transitionDurationMs
     }));
   }, []);
 
