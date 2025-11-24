@@ -125,12 +125,12 @@ html[data-theme="light"] .home-page {
   </div>
 
   <div className="home-section home-section-timers">
-    <!-- Timer grid (Countdown, Stopwatch, etc.) -->
+    <!-- Timer grid (Countdown, Stopwatch, etc.) with inline microcopy -->
   </div>
 
   <div className="home-section">
     <h2 className="section-title">About the Timers</h2>
-    <!-- Timer descriptions -->
+    <!-- Dedicated descriptions (single source, reused inside cards) -->
   </div>
 
   <div className="home-section">
@@ -139,6 +139,12 @@ html[data-theme="light"] .home-page {
   </div>
 </div>
 ```
+
+### Combined timer tiles + descriptions (Redesign direction)
+- **Single source of truth**: Keep the existing "About the Timers" text blocks as canonical content and surface a condensed version inside each card (title + one-liner + shortcut chip).
+- **Progressive disclosure**: Default card state shows label + icon + a 1–2 line value prop. Hover/focus reveals an expanded state with shortcuts (`Space = Start/Pause`, `R = Reset`) and the primary use case. On touch devices, expansion is triggered on first tap without shifting surrounding cards.
+- **Grid consistency**: Cards stay uniform in height; expansion overlays within the card to avoid layout shifts. Reuse the existing golden-ratio spacing tokens for internal padding and gap.
+- **Content parity**: When descriptions change in the About section, cards consume the same strings via shared data to avoid drift between sections.
 
 ### Files Involved
 

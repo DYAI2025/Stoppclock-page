@@ -25,3 +25,7 @@ Kurzüberblick über den realen Produktzustand der Stoppclock SPA.
 - Vite Build (`npm run build`) erzeugt statischen Output in `dist/` (inkl. Sitemap-Generator aus `scripts/gen-sitemap.mjs`).
 - Service Worker wird in `src/main.tsx` beim `load`-Event registriert (silent fail erlaubt).
 - Hash-Routen erfordern ein 200er-Fallback auf `index.html` (Pages/Static-Hosting konfigurieren).
+
+## Nächste Schritte (Redesign-Fokus)
+- Home-Kacheln und "About the Timers" sollen zusammengeführt werden: Beschreibungen und Shortcut-Hinweise wandern in die Karten, damit Nutzer ohne Scroll-Jumps Kontext bekommen.
+- Für Hover/Focus Zustände kurze Checklisten anzeigen ("Space = Start/Pause", "R = Reset") und den vorhandenen Beschreibungs-Content wiederverwenden, damit keine Text-Divergenzen entstehen.
