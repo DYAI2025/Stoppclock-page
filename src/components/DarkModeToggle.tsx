@@ -16,7 +16,7 @@ const DarkModeToggle: React.FC = () => {
     html.dataset.theme = dark ? 'dark' : 'light';
 
     // Apply background to home-page element
-    if (homePage) {
+    if (homePage && homePage instanceof HTMLElement) {
       if (dark) {
         homePage.style.background = 'linear-gradient(180deg, #1a2332 0%, #0f1419 100%)';
       } else {

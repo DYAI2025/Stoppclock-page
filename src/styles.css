@@ -181,6 +181,70 @@ body{
   overscroll-behavior-y: none;
 }
 
+/* ============================================
+ * ACCESSIBILITY - Skip to Content Link
+ * ============================================ */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  background: var(--aurora-cyan);
+  color: var(--ocean-deep);
+  padding: 12px 24px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: top 0.3s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid var(--aurora-lavender);
+  outline-offset: 2px;
+}
+
+/* ============================================
+ * ACCESSIBILITY - Focus Indicators
+ * ============================================ */
+*:focus-visible {
+  outline: 3px solid var(--aurora-cyan);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Enhanced focus for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--aurora-cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.2);
+}
+
+/* ============================================
+ * APP SHELL LAYOUT
+ * ============================================ */
+.app-header {
+  position: relative;
+  z-index: 100;
+}
+
+.app-main {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
 /* Mobile performance optimizations */
 @media (max-width: 768px) {
   * {
