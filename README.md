@@ -18,7 +18,10 @@ flowchart TD
   C --> E[Content pages]\n(#/time-philosophy ...)
   B --> F[Contexts]\n(PinnedTimers)
   B --> G[Shared components]\n(DarkModeToggle, Consent, Ads)
-  D --> H[Hooks & utils]\n(useKeyboardShortcuts, useAutoFitText, beep/flash)
+  D --> H[Hooks & utils]
+  H --> H1[useKeyboardShortcuts]
+  H --> H2[useAutoFitText]
+  H --> H3[beep/flash]
   B --> I[Styles]\n(design-tokens.css, styles.css)
   B --> J[Service worker]\n(public/sw.js)
 ```
