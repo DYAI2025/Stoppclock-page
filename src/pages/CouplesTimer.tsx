@@ -637,7 +637,7 @@ export default function CouplesTimer() {
                 <div className="transition-copy">
                   <h3>Transitions &amp; Sammelzeit</h3>
                   <p>
-                    Nach jedem 10-Minuten-Timebox startet automatisch eine stille Übergabe-Phase.
+                    Nach jeder Sprech-Phase startet automatisch eine stille Übergabe-Phase.
                     Standard sind 60 Sekunden, anpassbar zwischen 5 Sekunden und 5 Minuten, damit
                     niemand spricht, gesammelt wird und Emotionen sich beruhigen können.
                   </p>
