@@ -13,7 +13,7 @@ export const SESSION_PRESETS: SessionPreset[] = [
     prepDurationMs: 5 * 60 * 1000,   // 5 minutes preparation
     slotDurationMs: 15 * 60 * 1000,  // 15 minutes per speaking slot
     slotsPerPerson: 3,                // 3 slots per person (A→B→A→B→A→B)
-    transitionDurationMs: 5 * 1000,   // 5 seconds transition
+    transitionDurationMs: 60 * 1000,  // 1 minute transition buffer
     closingDurationMs: 2 * 60 * 1000, // 2 minutes closing per person
     cooldownDurationMs: 30 * 60 * 1000 // 30 minutes no-follow-up cooldown
   },
@@ -25,7 +25,7 @@ export const SESSION_PRESETS: SessionPreset[] = [
     prepDurationMs: 3 * 60 * 1000,   // 3 minutes preparation
     slotDurationMs: 10 * 60 * 1000,  // 10 minutes per speaking slot
     slotsPerPerson: 2,                // 2 slots per person (A→B→A→B)
-    transitionDurationMs: 5 * 1000,   // 5 seconds transition
+    transitionDurationMs: 60 * 1000,  // 1 minute transition buffer
     closingDurationMs: 1 * 60 * 1000, // 1 minute closing per person
     cooldownDurationMs: 20 * 60 * 1000 // 20 minutes no-follow-up cooldown
   },
@@ -37,7 +37,7 @@ export const SESSION_PRESETS: SessionPreset[] = [
     prepDurationMs: 3 * 60 * 1000,   // 3 minutes preparation
     slotDurationMs: 10 * 60 * 1000,  // 10 minutes per speaking slot
     slotsPerPerson: 2,                // 2 slots per person
-    transitionDurationMs: 5 * 1000,   // 5 seconds transition
+    transitionDurationMs: 60 * 1000,  // 1 minute transition buffer
     closingDurationMs: 1 * 60 * 1000, // 1 minute closing per person
     cooldownDurationMs: 15 * 60 * 1000 // 15 minutes no-follow-up cooldown
   }
