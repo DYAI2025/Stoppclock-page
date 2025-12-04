@@ -27,6 +27,9 @@ import PomodoroVsCountdown from "./pages/blog/PomodoroVsCountdown";
 import TimerForStudents from "./pages/TimerForStudents";
 import TimerForProductivity from "./pages/TimerForProductivity";
 import TimerForFitness from "./pages/TimerForFitness";
+import CustomSessionsLanding from "./pages/CustomSessionsLanding";
+import SessionBuilder from "./pages/SessionBuilder";
+import SessionRunner from "./pages/SessionRunner";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -149,6 +152,7 @@ function Home() {
     { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
     { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
     { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
+    { route: "#/custom-sessions", label: "Custom Sessions", color: "#8B5CF6", colorRgb: "139, 92, 246" },
     { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
     { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
@@ -258,6 +262,7 @@ function App() {
   const isAbout = route.startsWith('/about/');
   const isWissen = route.startsWith('/wissen/');
   const isBlog = route.startsWith('/blog/');
+  const isCustomSessions = route.startsWith('/custom-sessions');
 
   return (
     <>
@@ -280,6 +285,9 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {route === "/custom-sessions" && <CustomSessionsLanding />}
+      {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
+      {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}
@@ -295,7 +303,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
