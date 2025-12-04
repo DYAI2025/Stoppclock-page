@@ -4,6 +4,7 @@ import { HomeButton } from '../components/HomeButton';
 import { KanbanBoard } from '../components/KanbanBoard';
 import { playSingingBowl } from '../utils/singing-bowl';
 import type { PomodoroState, PomodoroTask, PomodoroPhase } from '../types/timer-types';
+import { PomodoroGuide } from '../components/PomodoroGuide';
 
 const LS_KEY = 'sc.v1.pomodoro';
 
@@ -118,6 +119,15 @@ export default function Pomodoro() {
   const [st, setSt] = useState<PomodoroState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   const currentTime = st.running && st.startedAt
     ? Math.max(0, st.remainingMs - (Date.now() - st.startedAt))
@@ -236,6 +246,18 @@ export default function Pomodoro() {
     } else {
       el.requestFullscreen?.().catch(() => {});
     }
+  }, []);
+
+  const handlePomodoroPreset = useCallback((workMinutes: number, breakMinutes: number, label: string) => {
+    const workMs = workMinutes * 60 * 1000;
+    setSt(s => ({
+      ...s,
+      remainingMs: workMs,
+      running: false,
+      startedAt: null,
+      phase: 'work'
+    }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // Kanban handlers
@@ -360,6 +382,11 @@ export default function Pomodoro() {
         onMoveTask={moveTask}
         onDeleteTask={deleteTask}
       />
+
+      {/* Guide - hidden when running or fullscreen */}
+      {!st.running && !isFullscreen && (
+        <PomodoroGuide onPresetSelect={handlePomodoroPreset} />
+      )}
     </div>
   );
 }
