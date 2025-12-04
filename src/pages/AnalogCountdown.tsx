@@ -44,8 +44,8 @@ function load(): Persist {
   } catch {
     return {
       version:1,
-      durationMs: 30*60_000,
-      remainingMs: 30*60_000,
+      durationMs: 5*60_000,
+      remainingMs: 5*60_000,
       running:false,
       endAt:null,
       warnAtMs:60_000,
@@ -285,6 +285,10 @@ export default function AnalogCountdown() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const warned = useRef(false);
 
+  const formattedRemaining = fmt(st.remainingMs);
+  const formattedDuration = fmt(st.durationMs);
+  const statusLabel = st.running ? 'Running' : 'Paused';
+
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
@@ -452,21 +456,30 @@ export default function AnalogCountdown() {
         <HomeButton />
       </header>
 
+      {/* Digital readout for tests & accessibility */}
+      <div className="analog-time-display" aria-live="polite">
+        <div className="hms">{formattedRemaining}</div>
+        <div className="analog-time-meta">
+          <span>Duration: {formattedDuration}</span>
+          <span>Status: {statusLabel}</span>
+        </div>
+      </div>
+
       {/* Canvas (colors preserved in drawing code) */}
       <div className="analog-canvas-container">
         <canvas ref={cnvRef} className="analog-canvas" width={800} height={800} />
       </div>
 
       {/* Controls */}
-      <div className="analog-controls">
+      <div className="analog-controls controls">
         {!st.running ? (
-          <button type="button" className="analog-btn" onClick={start}>Start</button>
+          <button type="button" className="analog-btn btn primary" onClick={start}>Start</button>
         ) : (
-          <button type="button" className="analog-btn" onClick={pause}>Pause</button>
+          <button type="button" className="analog-btn btn primary" onClick={pause}>Pause</button>
         )}
-        <button type="button" className="analog-btn secondary" onClick={reset}>Reset</button>
-        <button type="button" className="analog-btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
-        <button type="button" className="analog-btn secondary" onClick={handlePin}>Pin to Main Page</button>
+        <button type="button" className="analog-btn btn secondary" onClick={reset}>Reset</button>
+        <button type="button" className="analog-btn btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
+        <button type="button" className="analog-btn btn secondary" onClick={handlePin}>Pin to Main Page</button>
       </div>
 
       {/* Presets */}
@@ -481,10 +494,12 @@ export default function AnalogCountdown() {
 
       {/* Time Adjustments */}
       <div className="analog-presets">
-        <button type="button" className="analog-preset" onClick={() => plus(5 * 60_000)}>+5</button>
-        <button type="button" className="analog-preset" onClick={() => plus(10 * 60_000)}>+10</button>
-        <button type="button" className="analog-preset" onClick={() => plus(-5 * 60_000)}>-5</button>
-        <button type="button" className="analog-preset" onClick={() => plus(-10 * 60_000)}>-10</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(60_000)}>+1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-60_000)}>−1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(5 * 60_000)}>+5</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(10 * 60_000)}>+10</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-5 * 60_000)}>-5</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-10 * 60_000)}>-10</button>
       </div>
 
       {/* Custom Duration Input */}
