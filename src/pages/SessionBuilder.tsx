@@ -15,6 +15,8 @@ import {
   validateElement,
   createSession,
   createPresetSession,
+  createElementTemplate,
+  listElementTemplates,
 } from '../utils/session-helpers';
 
 export default function SessionBuilder() {
@@ -265,6 +267,43 @@ export default function SessionBuilder() {
             ))}
           </div>
 
+          {/* Quick Add Templates */}
+          {!showAddForm && (
+            <div style={{ marginBottom: '1rem' }}>
+              <div style={{ fontSize: '0.875rem', color: '#708090', marginBottom: '0.5rem' }}>Quick Add:</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '0.5rem' }}>
+                {listElementTemplates().map((template) => (
+                  <button
+                    key={template.id}
+                    onClick={() => {
+                      const templateData = createElementTemplate(template.id);
+                      const newElement: SessionElement = {
+                        id: generateUUID(),
+                        type: templateData.type || 'SPEAK',
+                        durationMs: templateData.durationMs || 5 * 60 * 1000,
+                        focusText: templateData.focusText || '',
+                        createdAt: Date.now(),
+                      };
+                      setElements([...elements, newElement]);
+                    }}
+                    style={{
+                      padding: '0.5rem',
+                      background: ELEMENT_COLORS[template.type],
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '0.75rem',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {template.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Add Element Button */}
           {!showAddForm && (
             <button
@@ -280,7 +319,7 @@ export default function SessionBuilder() {
                 fontSize: '1rem',
               }}
             >
-              + Add Element
+              + Add Custom Element
             </button>
           )}
 
