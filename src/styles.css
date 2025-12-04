@@ -2373,3 +2373,86 @@ h1{ margin:0; font-size:clamp(24px,6vw,52px); }
     text-align: center;
   }
 }
+
+/* ============================================
+ * ACCESSIBILITY - Focus Indicators & Screen Reader Support
+ * WCAG 2.1 AA Compliance
+ * ============================================ */
+
+/* Visible focus indicators for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--aurora-cyan, #00D9FF);
+  outline-offset: 2px;
+  transition: outline 0.2s ease;
+}
+
+/* High contrast focus for dark backgrounds */
+button:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.5);
+}
+
+/* Remove default focus for mouse users (but keep for keyboard) */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Screen Reader Only class (visually hidden but accessible) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--aurora-cyan);
+  color: var(--ocean-deep);
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 10000;
+  font-weight: bold;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  button,
+  a {
+    outline: 2px solid currentColor;
+  }
+
+  button:focus-visible,
+  a:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

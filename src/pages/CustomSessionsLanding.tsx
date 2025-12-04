@@ -31,6 +31,21 @@ export default function CustomSessionsLanding() {
     window.location.hash = `#/custom-sessions/builder?preset=${presetId}`;
   };
 
+  const handlePreviewSession = (sessionId: string) => {
+    window.location.hash = `#/custom-sessions/preview/${sessionId}`;
+  };
+
+  const handlePreviewPreset = (presetId: string) => {
+    // Create temporary session from preset for preview
+    const { createPresetSession } = require('../utils/session-helpers');
+    const preset = createPresetSession(presetId);
+    if (preset) {
+      // Save temporarily and preview
+      createSession(preset);
+      window.location.hash = `#/custom-sessions/preview/${preset.id}`;
+    }
+  };
+
   // Export/Import handlers
   const handleExportAll = () => {
     const data = {
@@ -211,21 +226,38 @@ export default function CustomSessionsLanding() {
                   <p style={{ margin: '0 0 1rem 0', color: '#A0A0A0', fontSize: '0.875rem' }}>
                     {preset.description}
                   </p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <span style={{ color: '#708090', fontSize: '0.875rem' }}>{preset.duration}</span>
-                    <button
-                      onClick={() => handleUsePreset(preset.id)}
-                      style={{
-                        padding: '0.5rem 1rem',
-                        background: '#2196F3',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Use Template
-                    </button>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button
+                        onClick={() => handlePreviewPreset(preset.id)}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          background: 'transparent',
+                          color: '#FFD700',
+                          border: '1px solid #FFD700',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '0.875rem',
+                        }}
+                      >
+                        👁 Preview
+                      </button>
+                      <button
+                        onClick={() => handleUsePreset(preset.id)}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          background: '#2196F3',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '0.875rem',
+                        }}
+                      >
+                        Use Template
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -302,6 +334,19 @@ export default function CustomSessionsLanding() {
                       }}
                     >
                       ▶ Start
+                    </button>
+                    <button
+                      onClick={() => handlePreviewSession(session.id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: 'transparent',
+                        color: '#FFD700',
+                        border: '1px solid #FFD700',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      👁 Preview
                     </button>
                     <button
                       onClick={() => handleEditSession(session.id)}
