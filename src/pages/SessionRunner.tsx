@@ -361,6 +361,8 @@ export default function SessionRunner() {
 
   return (
     <div
+      role="application"
+      aria-label={`Custom Session: ${session.name}`}
       style={{
         minHeight: '100vh',
         background: '#0b1220',
@@ -369,7 +371,7 @@ export default function SessionRunner() {
         flexDirection: 'column',
       }}
     >
-      {/* Header with Progress */}
+      {/* Header with Progress & Phase Info */}
       <header
         style={{
           background: '#1a2332',
@@ -378,12 +380,28 @@ export default function SessionRunner() {
         }}
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          {/* Session Name & Element Counter */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
             <h1 style={{ fontSize: '1.5rem', margin: 0 }}>{session.name}</h1>
             <span style={{ fontSize: '1rem', color: '#A0A0A0' }}>
               Element {runtime.currentElementIndex + 1} / {session.elements.length}
             </span>
           </div>
+
+          {/* Phase Title (if element has custom name) */}
+          {currentElement?.name && (
+            <div style={{ marginBottom: '0.5rem' }}>
+              <span
+                style={{
+                  fontSize: '1.125rem',
+                  color: ELEMENT_COLORS[currentElement.type],
+                  fontWeight: 'bold',
+                }}
+              >
+                {currentElement.name}
+              </span>
+            </div>
+          )}
 
           {/* Progress Bar */}
           <div
@@ -409,6 +427,8 @@ export default function SessionRunner() {
 
       {/* Focus Zone */}
       <main
+        role="main"
+        aria-label="Timer focus area"
         style={{
           flex: 1,
           display: 'flex',
@@ -436,6 +456,10 @@ export default function SessionRunner() {
 
         {/* Timer Display */}
         <div
+          role="timer"
+          aria-live="polite"
+          aria-atomic="true"
+          aria-label={`Time remaining: ${formatTime(runtime.remainingMs)}`}
           style={{
             fontSize: 'clamp(4rem, 15vw, 8rem)',
             fontWeight: 'bold',
@@ -456,11 +480,33 @@ export default function SessionRunner() {
               maxWidth: '900px',
               lineHeight: 1.4,
               color: '#fff',
-              margin: '0 auto',
+              margin: '0 auto 1rem auto',
             }}
           >
             {currentElement.focusText}
           </p>
+        )}
+
+        {/* Phase Guidance */}
+        {currentElement && runtime.phase === 'RUNNING' && (
+          <div
+            style={{
+              maxWidth: '700px',
+              margin: '0 auto 2rem auto',
+              padding: '0.75rem 1.5rem',
+              background: `${ELEMENT_COLORS[currentElement.type]}22`,
+              border: `1px solid ${ELEMENT_COLORS[currentElement.type]}`,
+              borderRadius: '8px',
+              fontSize: '1rem',
+              color: '#A0A0A0',
+              textAlign: 'center',
+            }}
+          >
+            {currentElement.type === 'SPEAK' && '💬 Active speaking phase'}
+            {currentElement.type === 'TRANSITION' && '⏸️ Transition time - prepare for next phase'}
+            {currentElement.type === 'COOLDOWN' && '🧘 Wind down and reflect'}
+            {currentElement.type === 'CUSTOM' && '🎯 Custom phase'}
+          </div>
         )}
 
         {/* Phase Indicator */}
@@ -480,6 +526,8 @@ export default function SessionRunner() {
 
       {/* Controls */}
       <footer
+        role="contentinfo"
+        aria-label="Timer controls"
         style={{
           background: '#1a2332',
           padding: '1.5rem 2rem',
@@ -498,6 +546,7 @@ export default function SessionRunner() {
         >
           <button
             onClick={handleStartPause}
+            aria-label={runtime.phase === 'IDLE' ? 'Start session' : runtime.running ? 'Pause timer' : 'Resume timer'}
             style={{
               padding: '1rem 2rem',
               fontSize: '1.125rem',
@@ -515,6 +564,7 @@ export default function SessionRunner() {
 
           <button
             onClick={handleNext}
+            aria-label="Skip to next element"
             style={{
               padding: '1rem 2rem',
               fontSize: '1.125rem',
@@ -531,6 +581,7 @@ export default function SessionRunner() {
 
           <button
             onClick={handleReset}
+            aria-label="Reset session to beginning"
             style={{
               padding: '1rem 2rem',
               fontSize: '1.125rem',
@@ -547,6 +598,7 @@ export default function SessionRunner() {
 
           <button
             onClick={handleFullscreen}
+            aria-label="Toggle fullscreen mode"
             style={{
               padding: '1rem 2rem',
               fontSize: '1.125rem',
@@ -563,6 +615,7 @@ export default function SessionRunner() {
 
           <button
             onClick={() => window.location.hash = '#/custom-sessions'}
+            aria-label="Exit session and return to sessions list"
             style={{
               padding: '1rem 2rem',
               fontSize: '1.125rem',

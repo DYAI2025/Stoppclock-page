@@ -30,6 +30,7 @@ import TimerForFitness from "./pages/TimerForFitness";
 import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 import SessionBuilder from "./pages/SessionBuilder";
 import SessionRunner from "./pages/SessionRunner";
+import SessionPreview from "./pages/SessionPreview";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -288,6 +289,7 @@ function App() {
       {route === "/custom-sessions" && <CustomSessionsLanding />}
       {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
       {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
+      {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}

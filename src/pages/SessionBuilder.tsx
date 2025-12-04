@@ -36,6 +36,7 @@ export default function SessionBuilder() {
   const [formMinutes, setFormMinutes] = useState(5);
   const [formSeconds, setFormSeconds] = useState(0);
   const [formText, setFormText] = useState('');
+  const [formName, setFormName] = useState(''); // Optional phase name
   const [formErrors, setFormErrors] = useState<string[]>([]);
 
   // Load existing session or preset
@@ -76,6 +77,7 @@ export default function SessionBuilder() {
       type: formType!,
       durationMs,
       focusText: formText.trim(),
+      ...(formName.trim() && { name: formName.trim() }), // Add name if provided
       createdAt: Date.now(),
     };
 
@@ -86,6 +88,7 @@ export default function SessionBuilder() {
     setFormMinutes(5);
     setFormSeconds(0);
     setFormText('');
+    setFormName('');
     setFormErrors([]);
     setShowAddForm(false);
   };
@@ -407,6 +410,31 @@ export default function SessionBuilder() {
                     <span style={{ marginLeft: '0.5rem' }}>sec</span>
                   </div>
                 </div>
+              </div>
+
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem' }}>
+                  Phase Name (optional):
+                </label>
+                <input
+                  type="text"
+                  value={formName}
+                  onChange={(e) => setFormName(e.target.value)}
+                  maxLength={100}
+                  placeholder="e.g., Opening Circle - Round 1 (optional)"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    background: '#0b1220',
+                    color: '#fff',
+                    border: '1px solid #708090',
+                    borderRadius: '4px',
+                    fontSize: '1rem',
+                  }}
+                />
+                <span style={{ fontSize: '0.75rem', color: '#708090' }}>
+                  Displayed in header during session
+                </span>
               </div>
 
               <div style={{ marginBottom: '1rem' }}>
