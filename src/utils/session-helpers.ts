@@ -399,6 +399,86 @@ export function getDefaultFocusText(type: SessionElement['type']): string {
 }
 
 // ============================================================================
+// Element Templates (Quick Add)
+// ============================================================================
+
+/**
+ * Create element from template
+ *
+ * Pre-configured element types for quick creation.
+ */
+export function createElementTemplate(templateId: string): Partial<SessionElement> {
+  const now = Date.now();
+
+  switch (templateId) {
+    case 'speak-5min':
+      return {
+        type: 'SPEAK',
+        durationMs: 5 * 60 * 1000,
+        focusText: 'Share your thoughts on...',
+      };
+
+    case 'speak-10min':
+      return {
+        type: 'SPEAK',
+        durationMs: 10 * 60 * 1000,
+        focusText: 'Deep dive into...',
+      };
+
+    case 'break-1min':
+      return {
+        type: 'TRANSITION',
+        durationMs: 1 * 60 * 1000,
+        focusText: 'Quick pause. Breathe.',
+      };
+
+    case 'break-5min':
+      return {
+        type: 'TRANSITION',
+        durationMs: 5 * 60 * 1000,
+        focusText: 'Break: Step away from your screen.',
+      };
+
+    case 'cooldown-2min':
+      return {
+        type: 'COOLDOWN',
+        durationMs: 2 * 60 * 1000,
+        focusText: 'Wind down. Silent reflection.',
+      };
+
+    case 'cooldown-5min':
+      return {
+        type: 'COOLDOWN',
+        durationMs: 5 * 60 * 1000,
+        focusText: 'Closing thoughts. Review what you learned.',
+      };
+
+    default:
+      return {
+        type: 'SPEAK',
+        durationMs: 5 * 60 * 1000,
+        focusText: '',
+      };
+  }
+}
+
+/**
+ * List all available element templates
+ *
+ * @returns Array of element template metadata
+ */
+export function listElementTemplates(): Array<{ id: string; label: string; type: SessionElement['type']; duration: string }> {
+  return [
+    { id: 'speak-5min', label: 'Speak (5 min)', type: 'SPEAK', duration: '5:00' },
+    { id: 'speak-10min', label: 'Speak (10 min)', type: 'SPEAK', duration: '10:00' },
+    { id: 'break-1min', label: 'Break (1 min)', type: 'TRANSITION', duration: '1:00' },
+    { id: 'break-5min', label: 'Break (5 min)', type: 'TRANSITION', duration: '5:00' },
+    { id: 'cooldown-2min', label: 'Cooldown (2 min)', type: 'COOLDOWN', duration: '2:00' },
+    { id: 'cooldown-5min', label: 'Cooldown (5 min)', type: 'COOLDOWN', duration: '5:00' },
+  ];
+}
+
+// ============================================================================
 // Preset Sessions (Quick Start)
 // ============================================================================
 
@@ -501,6 +581,261 @@ export function createPresetSession(presetId: string): CustomSession | null {
         }
       );
 
+    case 'meditation':
+      return createSession(
+        'Guided Meditation',
+        [
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Settle into a comfortable position. Close your eyes. Breathe naturally.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 10 * 60 * 1000,
+            focusText: 'Focus on your breath. Notice each inhale and exhale. When your mind wanders, gently return to the breath.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Slowly bring awareness back to your body. Wiggle fingers and toes. Open your eyes when ready.',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Simple mindfulness meditation (15 minutes)',
+        }
+      );
+
+    case 'standup':
+      return createSession(
+        'Team Stand-Up Meeting',
+        [
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Person 1: What did you do yesterday? What will you do today? Any blockers?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Person 2: What did you do yesterday? What will you do today? Any blockers?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Person 3: What did you do yesterday? What will you do today? Any blockers?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Person 4: What did you do yesterday? What will you do today? Any blockers?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Person 5: What did you do yesterday? What will you do today? Any blockers?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Any quick announcements or follow-up items?',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Daily stand-up for 5-person team (12 minutes)',
+        }
+      );
+
+    case 'presentation':
+      return createSession(
+        'Presentation Timer (20 min)',
+        [
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 15 * 60 * 1000,
+            focusText: 'Main presentation content. Deliver your key points.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 3 * 60 * 1000,
+            focusText: '⚠️ 3 minutes remaining! Wrap up your main points.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Final thoughts and call to action.',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Conference talk timer with 3-minute warning (20 min)',
+        }
+      );
+
+    case 'study-session':
+      return createSession(
+        'Study Session (50-10)',
+        [
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 50 * 60 * 1000,
+            focusText: 'Study block: Focus on learning. No distractions.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 10 * 60 * 1000,
+            focusText: 'Break: Move around, get a snack, rest your eyes.',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'University study pattern: 50 min focus, 10 min break (60 min)',
+        }
+      );
+
+    case 'breathing':
+      return createSession(
+        'Box Breathing Exercise',
+        [
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 1 * 60 * 1000,
+            focusText: 'Get comfortable. Sit upright with feet flat on the floor.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 4 * 60 * 1000,
+            focusText: 'Box breathing: Inhale 4 counts, Hold 4, Exhale 4, Hold 4. Repeat.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 1 * 60 * 1000,
+            focusText: 'Return to natural breathing. Notice how you feel.',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Quick stress-relief breathing technique (6 min)',
+        }
+      );
+
+    case 'lightning-talks':
+      return createSession(
+        'Lightning Talks (5×3 min)',
+        [
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Speaker 1: Share your idea in 3 minutes.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 30 * 1000,
+            focusText: 'Transition: Next speaker get ready.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Speaker 2: Share your idea in 3 minutes.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 30 * 1000,
+            focusText: 'Transition: Next speaker get ready.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Speaker 3: Share your idea in 3 minutes.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 30 * 1000,
+            focusText: 'Transition: Next speaker get ready.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Speaker 4: Share your idea in 3 minutes.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 30 * 1000,
+            focusText: 'Transition: Next speaker get ready.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Speaker 5: Share your idea in 3 minutes.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Wrap-up and final thoughts.',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: '5 quick presentations with transitions (19 min)',
+        }
+      );
+
     default:
       return null;
   }
@@ -524,6 +859,42 @@ export function listPresets(): Array<{ id: string; name: string; description: st
       name: 'Deep Work Focus Session',
       description: 'Pomodoro-style focus session with breaks',
       duration: '65 min',
+    },
+    {
+      id: 'meditation',
+      name: 'Guided Meditation',
+      description: 'Simple mindfulness meditation',
+      duration: '15 min',
+    },
+    {
+      id: 'standup',
+      name: 'Team Stand-Up Meeting',
+      description: 'Daily stand-up for 5-person team',
+      duration: '12 min',
+    },
+    {
+      id: 'presentation',
+      name: 'Presentation Timer (20 min)',
+      description: 'Conference talk timer with 3-minute warning',
+      duration: '20 min',
+    },
+    {
+      id: 'study-session',
+      name: 'Study Session (50-10)',
+      description: 'University study pattern: 50 min focus, 10 min break',
+      duration: '60 min',
+    },
+    {
+      id: 'breathing',
+      name: 'Box Breathing Exercise',
+      description: 'Quick stress-relief breathing technique',
+      duration: '6 min',
+    },
+    {
+      id: 'lightning-talks',
+      name: 'Lightning Talks (5×3 min)',
+      description: '5 quick presentations with transitions',
+      duration: '19 min',
     },
   ];
 }

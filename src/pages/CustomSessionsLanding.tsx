@@ -3,13 +3,15 @@
  * Shows list of saved sessions and templates
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-import { formatDuration, listPresets } from '../utils/session-helpers';
+import { formatDuration, listPresets, validateSession } from '../utils/session-helpers';
+import type { CustomSession } from '../types/custom-session-types';
 
 export default function CustomSessionsLanding() {
-  const { sessions, templates } = useSessionStorage();
+  const { sessions, templates, createSession, deleteSession } = useSessionStorage();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const presets = listPresets();
 
@@ -29,12 +31,144 @@ export default function CustomSessionsLanding() {
     window.location.hash = `#/custom-sessions/builder?preset=${presetId}`;
   };
 
+  // Export/Import handlers
+  const handleExportAll = () => {
+    const data = {
+      version: 1,
+      exportedAt: Date.now(),
+      sessions: sessions,
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `stoppclock-sessions-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportSession = (session: CustomSession) => {
+    const blob = new Blob([JSON.stringify(session, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${session.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const data = JSON.parse(content);
+
+        // Check if it's a bulk export or single session
+        if (data.sessions && Array.isArray(data.sessions)) {
+          // Bulk import
+          let imported = 0;
+          let skipped = 0;
+
+          data.sessions.forEach((session: CustomSession) => {
+            const validation = validateSession(session);
+            if (validation.valid) {
+              // Generate new ID to avoid conflicts
+              const newSession = { ...session, id: crypto.randomUUID(), updatedAt: Date.now() };
+              createSession(newSession);
+              imported++;
+            } else {
+              skipped++;
+            }
+          });
+
+          alert(`Import complete!\n✓ Imported: ${imported}\n✗ Skipped: ${skipped}`);
+        } else {
+          // Single session import
+          const validation = validateSession(data);
+          if (validation.valid) {
+            const newSession = { ...data, id: crypto.randomUUID(), updatedAt: Date.now() };
+            createSession(newSession);
+            alert('Session imported successfully!');
+          } else {
+            alert('Invalid session file:\n' + validation.errors.map(e => e.message).join('\n'));
+          }
+        }
+      } catch (error) {
+        alert('Failed to import: Invalid JSON file');
+      }
+
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  const handleDeleteSession = (sessionId: string, sessionName: string) => {
+    const confirmed = window.confirm(`Delete "${sessionName}"?`);
+    if (confirmed) {
+      deleteSession(sessionId);
+    }
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: '#0b1220', color: '#fff', padding: '2rem' }}>
+      {/* Hidden file input for import */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
+
       <header style={{ maxWidth: '1200px', margin: '0 auto', marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
           <h1 style={{ fontSize: '2rem', margin: 0 }}>Custom Sessions</h1>
-          <HomeButton />
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <button
+              onClick={handleImport}
+              style={{
+                padding: '0.5rem 1rem',
+                background: '#2196F3',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+              }}
+            >
+              📥 Import
+            </button>
+            <button
+              onClick={handleExportAll}
+              disabled={sessions.length === 0}
+              style={{
+                padding: '0.5rem 1rem',
+                background: sessions.length === 0 ? '#708090' : '#2196F3',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: sessions.length === 0 ? 'not-allowed' : 'pointer',
+                fontSize: '0.875rem',
+                opacity: sessions.length === 0 ? 0.5 : 1,
+              }}
+            >
+              📤 Export All
+            </button>
+            <HomeButton />
+          </div>
         </div>
       </header>
 
@@ -155,7 +289,20 @@ export default function CustomSessionsLanding() {
                       )}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={() => handleRunSession(session.id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: '#4CAF50',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ▶ Start
+                    </button>
                     <button
                       onClick={() => handleEditSession(session.id)}
                       style={{
@@ -170,17 +317,30 @@ export default function CustomSessionsLanding() {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleRunSession(session.id)}
+                      onClick={() => handleExportSession(session)}
                       style={{
                         padding: '0.5rem 1rem',
-                        background: '#4CAF50',
-                        color: '#fff',
-                        border: 'none',
+                        background: 'transparent',
+                        color: '#2196F3',
+                        border: '1px solid #2196F3',
                         borderRadius: '4px',
                         cursor: 'pointer',
                       }}
                     >
-                      ▶ Start
+                      Export
+                    </button>
+                    <button
+                      onClick={() => handleDeleteSession(session.id, session.name)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: 'transparent',
+                        color: '#DC143C',
+                        border: '1px solid #DC143C',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
