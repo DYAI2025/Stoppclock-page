@@ -2,7 +2,7 @@
 
 **Last Updated:** 2025-12-04
 **Branch:** `claude/ai-agent-implementation-plan-01UHreKwNYSnnmUNjiBWpAsm`
-**Commit:** 94d59b8
+**Commit:** 86a540c
 
 ---
 
@@ -11,12 +11,12 @@
 | Phase | Status | Tasks Complete | Tasks Remaining |
 |-------|--------|----------------|-----------------|
 | **Phase 0: Discovery** | ✅ Complete | 3/3 (100%) | 0 |
-| **Phase 1: Product/UX Spec** | 🟡 In Progress | 1/4 (25%) | 3 |
-| **Phase 2: Technical Architecture** | ⏸️ Pending | 0/3 (0%) | 3 |
+| **Phase 1: Product/UX Spec** | ✅ Complete | 4/4 (100%) | 0 |
+| **Phase 2: Technical Architecture** | 🟡 In Progress | 0/3 (0%) | 3 |
 | **Phase 3: Implementation** | ⏸️ Pending | 0/5 (0%) | 5 |
 | **Phase 4: Testing** | ⏸️ Pending | 0/3 (0%) | 3 |
 | **Phase 5: Rollout** | ⏸️ Pending | 0/3 (0%) | 3 |
-| **TOTAL** | 🟡 21% Complete | 4/21 tasks | 17 |
+| **TOTAL** | 🟡 38% Complete | 7/21 tasks | 14 |
 
 ---
 
@@ -93,19 +93,83 @@
   - Preview mode critical for validation before running full session
   - Migration from Couples Timer needed for adoption (SC-4)
 
+#### T1.2: User Stories & Akzeptanzkriterien formulieren ✅
+- **File:** `docs/custom-session-user-stories.md`
+- **Deliverables:**
+  - **22 user stories** covering all FR-1 to FR-9 + NFRs
+  - Each story has 3-7 testable acceptance criteria (Given-When-Then format)
+  - Story points estimated: 72 total (18-36 days, 1 developer)
+  - Coverage matrix: All functional requirements mapped to stories
+  - Prioritization: MVP (48 pts), Post-MVP (16 pts), Future (8 pts)
+  - Testing strategy: Automated (T4.1) and Manual (T4.2) tests mapped to stories
+- **Key Stories:**
+  - US-001: Create Custom Session (SC-1 target: <3 min)
+  - US-008: Display Focus Text (SC-2 target: readable from 5m)
+  - US-007: Run Session (SC-3 target: ≥95% success, <1s drift/30min)
+
+#### T1.3: UX-Konzept Session-Builder (Konfiguration) ✅
+- **File:** `docs/session-builder-ux.md`
+- **Deliverables:**
+  - Complete text-based UX specification for Session Builder (configuration interface)
+  - **Desktop layout:** Sidebar (30%) + Element List (70%)
+  - **Mobile layout:** Stacked, collapsible forms, sticky footer
+  - **Component specs:**
+    - Session Header (editable name, quick actions)
+    - Sidebar (templates, settings - desktop only)
+    - Element List (CRUD operations, drag-drop reordering)
+    - Add Element Form (modal/inline, validation feedback)
+    - Timeline Preview (visual session structure, color-coded)
+    - Footer Actions (Start Session, Save, Discard)
+  - **User flows:** Add element, Edit, Delete, Reorder (drag-drop + arrow buttons)
+  - **Validation rules:** Inline errors (duration 30s-30min, text 1-500 chars)
+  - **Responsive behavior:** xs/sm/md/lg/xl breakpoints (320px - 1280px+)
+  - **Accessibility:** Keyboard nav, ARIA labels, screen reader support
+  - **Visual design:** Color palette, typography (Golden Ratio spacing), shadows, animations
+- **Key Design Decisions:**
+  - Progressive disclosure (complexity shown only when needed)
+  - Inline validation (real-time feedback, 300ms debounce)
+  - Auto-save (150ms debounce)
+  - Drag-drop on desktop, arrow buttons on mobile
+
+#### T1.4: UX-Konzept Fokus-View (Live-Ansicht) ✅
+- **File:** `docs/focus-view-ux.md`
+- **Deliverables:**
+  - Complete text-based UX specification for Focus View (live session interface)
+  - **Desktop/Projector layout:** Header (10vh) + Focus Zone (70vh) + Controls (10vh)
+  - **Mobile layout:** Stacked, compact header, persistent controls
+  - **Component specs:**
+    - Phase Header (auto-hide, progress dots, exit button)
+    - Focus Text Display (4rem/64px on projector, auto-scaling for long text)
+    - Timer Display (8rem/128px on projector, color warnings: white → yellow → red)
+    - Control Buttons (Pause, Next, Reset, Fullscreen - auto-hide in fullscreen)
+    - Phase Transition Overlay (1s animation + audio chime)
+    - Completion Screen (stats, actions, feedback survey)
+  - **Responsive behavior:** 5 breakpoints (xs to xl), orientation handling (portrait/landscape)
+  - **Fullscreen mode:** Auto-hide controls, 20% font size boost, show on hover
+  - **Accessibility:** Keyboard shortcuts (Space, R, F, N, Esc), screen reader (live regions, ARIA)
+  - **Audio cues:** Web Audio API (high/low tones: 660 Hz / 196 Hz)
+  - **Visual design:** Typography, colors, shadows, animations (fade, pulse, transition)
+  - **Edge cases:** Network loss (state restoration), timer drift (Date.now() adjustment), audio blocked (silent mode)
+- **Key Design Principles:**
+  - Maximum readability (focus text readable from 5-10m on projector)
+  - Minimal distraction (clean layout, auto-hide UI)
+  - Prominence (timer + text dominate screen, 70% of viewport)
+  - Context awareness (clear phase indicators, progress feedback)
+
 ---
 
 ## 🚧 In Progress
 
-### Phase 1: Product & UX Specification
+### Phase 2: Technical Architecture & Datenmodell
 
-#### T1.2: User Stories & Akzeptanzkriterien formulieren 🟡
+#### T2.1: Domain- und Datenmodell definieren 🟡
 - **Status:** Next task
 - **Planned Deliverables:**
-  - User stories in "As [role] I want [function] so that [benefit]" format
-  - Map all FR-1 to FR-9 to ≥1 user story
-  - 3-7 testable acceptance criteria per story
-- **Dependencies:** T1.1 (flows)
+  - `SessionElement` interface (type, durationMs, focusText)
+  - `CustomSession` interface (id, name, elements[], createdAt, isTemplate)
+  - JSON schema, min/max validation rules
+  - Migration strategy from existing Couples Timer data
+- **Dependencies:** T1.2 (user stories)
 
 ---
 
