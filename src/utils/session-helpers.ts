@@ -742,7 +742,7 @@ export function createPresetSession(presetId: string): CustomSession | null {
 
     case 'presentation':
       return createSession(
-        'Presentation Timer (20 min)',
+        'Presentation Timer (23 min)',
         [
           {
             id: generateUUID(),
