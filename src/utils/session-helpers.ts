@@ -736,7 +736,7 @@ export function createPresetSession(presetId: string): CustomSession | null {
         ],
         {
           isTemplate: true,
-          description: 'Scrum Stand-Up mit Parking Lot (3-5 Personen, 13 min)',
+          description: 'Scrum Stand-Up mit Parking Lot (3-5 Personen, 11.5 min)',
         }
       );
 
