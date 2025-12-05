@@ -102,7 +102,7 @@ Phase 3: COOLDOWN (5 min) → "Review"
 ### 3. Guided Meditation
 
 **Aktuell:** 15 min | Generische Atemfokus-Meditation
-**Problem:** Keine Body Scan, zu abrupte Übergänge, fehlende Phasenstruktur
+**Problem:** Kein Body Scan, zu abrupte Übergänge, fehlende Phasenstruktur
 
 **Verbessert:** 16 min | Klassische Vipassana-Struktur
 
