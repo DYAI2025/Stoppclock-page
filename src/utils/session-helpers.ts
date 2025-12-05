@@ -495,50 +495,57 @@ export function createPresetSession(presetId: string): CustomSession | null {
         [
           {
             id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Willkommen. Findet einen Sitzkreis. Erklärt die Regeln: Jeder spricht der Reihe nach, keine Unterbrechungen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 5 * 60 * 1000,
-            focusText: 'Round 1: Share your current state and what brought you here today.',
+            durationMs: 6 * 60 * 1000,
+            focusText: 'Runde 1 - Vorstellungsrunde: Name, was bringt mich heute hierher, eine Hoffnung für heute.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
             durationMs: 1 * 60 * 1000,
-            focusText: 'Pause. Reflect on what you just heard.',
+            focusText: 'Kurze Pause. Atmet durch.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 5 * 60 * 1000,
-            focusText: 'Round 2: What are you hoping to get out of this session?',
+            durationMs: 6 * 60 * 1000,
+            focusText: 'Runde 2 - Vertiefung: Was beschäftigt mich gerade? Wo stehe ich im Moment?',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
             durationMs: 1 * 60 * 1000,
-            focusText: 'Pause. Reflect on what you just heard.',
+            focusText: 'Letzte Pause vor der Schlussrunde.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 3 * 60 * 1000,
-            focusText: 'Round 3: Quick closing thoughts.',
+            durationMs: 4 * 60 * 1000,
+            focusText: 'Runde 3 - Intention: Was nehme ich mir für heute vor? Eine kleine konkrete Handlung.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'COOLDOWN',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Silent reflection. No conversation.',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Stille Reflexion. Jeder für sich: Was hat mich berührt?',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: 'Quick check-in for workshops or team meetings (20 minutes total)',
+          description: 'Strukturierter Check-In mit stufenweiser Vertiefung (23 min)',
         }
       );
 
@@ -548,36 +555,75 @@ export function createPresetSession(presetId: string): CustomSession | null {
         [
           {
             id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Vorbereitung: Räume den Schreibtisch auf. Definiere EINE Hauptaufgabe für diese Session.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 25 * 60 * 1000,
-            focusText: 'Deep work block: Focus on your most important task.',
+            durationMs: 45 * 60 * 1000,
+            focusText: 'Deep Work Block 1: Volle Konzentration auf die Hauptaufgabe. Kein Multitasking.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
-            durationMs: 5 * 60 * 1000,
-            focusText: 'Break: Step away from your desk. Stretch. Hydrate.',
+            durationMs: 10 * 60 * 1000,
+            focusText: 'Aktive Pause: Steh auf, geh raus, bewege dich. Kein Handy!',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 25 * 60 * 1000,
-            focusText: 'Deep work block 2: Continue or start a new task.',
+            durationMs: 45 * 60 * 1000,
+            focusText: 'Deep Work Block 2: Weiterarbeiten oder neue Aufgabe starten.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'COOLDOWN',
-            durationMs: 10 * 60 * 1000,
-            focusText: 'Review your progress. Plan next steps.',
+            durationMs: 7 * 60 * 1000,
+            focusText: 'Review: Was habe ich geschafft? Was sind die nächsten 3 Schritte? Notiere Erfolge.',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: 'Pomodoro-style focus session (65 minutes total)',
+          description: "Cal Newport's Deep Work: 2× 45-min Blöcke (110 min)",
+        }
+      );
+
+    case 'focus-session-short':
+      return createSession(
+        'Deep Work Focus Session (Kurz)',
+        [
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Setup: Eine Aufgabe wählen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 50 * 60 * 1000,
+            focusText: 'Ungestörte Arbeitszeit - Deep Work.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 5 * 60 * 1000,
+            focusText: 'Review und nächste Schritte.',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Schnelle Deep Work Session: 50-min Block (57 min)',
         }
       );
 
@@ -588,28 +634,42 @@ export function createPresetSession(presetId: string): CustomSession | null {
           {
             id: generateUUID(),
             type: 'TRANSITION',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Settle into a comfortable position. Close your eyes. Breathe naturally.',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Ankommen: Setze dich bequem hin. Schließe die Augen. Keine Leistung erwarten.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 10 * 60 * 1000,
-            focusText: 'Focus on your breath. Notice each inhale and exhale. When your mind wanders, gently return to the breath.',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Phase 1 - Atem beobachten: Folge deinem natürlichen Atemfluss. Zähle nicht, beobachte nur.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 4 * 60 * 1000,
+            focusText: 'Phase 2 - Body Scan: Wandere mit Aufmerksamkeit durch den Körper. Füße → Beine → Rumpf → Arme → Kopf.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 4 * 60 * 1000,
+            focusText: 'Phase 3 - Offenes Gewahrsein: Lass den Fokus los. Nimm wahr, was auftaucht - Gedanken, Geräusche, Gefühle.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'COOLDOWN',
             durationMs: 3 * 60 * 1000,
-            focusText: 'Slowly bring awareness back to your body. Wiggle fingers and toes. Open your eyes when ready.',
+            focusText: 'Rückführung: Vertiefe den Atem. Bewege Finger und Zehen. Öffne langsam die Augen.',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: 'Simple mindfulness meditation (15 minutes)',
+          description: 'Vipassana-Struktur: Ankern → Scannen → Öffnen (16 min)',
         }
       );
 
@@ -619,82 +679,149 @@ export function createPresetSession(presetId: string): CustomSession | null {
         [
           {
             id: generateUUID(),
-            type: 'SPEAK',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Person 1: What did you do yesterday? What will you do today? Any blockers?',
+            type: 'TRANSITION',
+            durationMs: 1 * 60 * 1000,
+            focusText: 'Stand-Up Regeln: Nur 3 Fragen - Was gestern? Was heute? Blocker? Lange Diskussionen → Parking Lot.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Person 2: What did you do yesterday? What will you do today? Any blockers?',
+            durationMs: 90 * 1000,
+            focusText: 'Person 1: Gestern | Heute | Blocker',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Person 3: What did you do yesterday? What will you do today? Any blockers?',
+            durationMs: 90 * 1000,
+            focusText: 'Person 2: Gestern | Heute | Blocker',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Person 4: What did you do yesterday? What will you do today? Any blockers?',
+            durationMs: 90 * 1000,
+            focusText: 'Person 3: Gestern | Heute | Blocker',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Person 5: What did you do yesterday? What will you do today? Any blockers?',
+            durationMs: 90 * 1000,
+            focusText: 'Person 4 (optional): Gestern | Heute | Blocker',
             createdAt: Date.now(),
           },
-          {
-            id: generateUUID(),
-            type: 'COOLDOWN',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Any quick announcements or follow-up items?',
-            createdAt: Date.now(),
-          },
-        ],
-        {
-          isTemplate: true,
-          description: 'Daily stand-up for 5-person team (12 minutes)',
-        }
-      );
-
-    case 'presentation':
-      return createSession(
-        'Presentation Timer (20 min)',
-        [
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 15 * 60 * 1000,
-            focusText: 'Main presentation content. Deliver your key points.',
+            durationMs: 90 * 1000,
+            focusText: 'Person 5 (optional): Gestern | Heute | Blocker',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
-            durationMs: 3 * 60 * 1000,
-            focusText: '⚠️ 3 minutes remaining! Wrap up your main points.',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Parking Lot Topics: Wer muss mit wem nach dem Meeting sprechen?',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'COOLDOWN',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Final thoughts and call to action.',
+            durationMs: 1 * 60 * 1000,
+            focusText: 'Sprint-Ziel Check: Sind wir noch auf Kurs?',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: 'Conference talk timer with 3-minute warning (20 min)',
+          description: 'Scrum Stand-Up mit Parking Lot (3-5 Personen, 11.5 min)',
+        }
+      );
+
+    case 'presentation':
+      return createSession(
+        'Presentation Timer (23 min)',
+        [
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Tech-Check: Slides funktionieren? Mikro ok? Atme tief durch.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 12 * 60 * 1000,
+            focusText: 'Hauptteil: Eröffnung → Problem → Lösung → Beispiele',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: '⏰ WARNUNG: Noch 2 Minuten! Übergang zur Schlussfolie.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Schluss: Zusammenfassung + Call-to-Action',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 5 * 60 * 1000,
+            focusText: 'Q&A: Fragen aus dem Publikum',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'TED-Talk-Format mit Tech-Check und Q&A (23 min)',
+        }
+      );
+
+    case 'pitch-deck':
+      return createSession(
+        'Pitch Deck (13 min)',
+        [
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 1 * 60 * 1000,
+            focusText: 'Pitch-Setup: Selbstvertrauen aufbauen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 7 * 60 * 1000,
+            focusText: 'Pitch: Problem → Lösung → Markt → Team → Ask',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 1 * 60 * 1000,
+            focusText: '⏰ WRAP UP!',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 4 * 60 * 1000,
+            focusText: 'Investor Q&A',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Startup Pitch mit Investor Q&A (13 min)',
         }
       );
 
@@ -704,22 +831,43 @@ export function createPresetSession(presetId: string): CustomSession | null {
         [
           {
             id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Lernziel definieren: Was will ich in 50 min schaffen?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 50 * 60 * 1000,
-            focusText: 'Study block: Focus on learning. No distractions.',
+            durationMs: 40 * 60 * 1000,
+            focusText: 'Fokus-Lernen: Lesen, Notizen machen, verstehen. Kein passives Konsumieren.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
+            durationMs: 5 * 60 * 1000,
+            focusText: 'Active Recall: Buch zu! Was kann ich aus dem Gedächtnis aufschreiben?',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 5 * 60 * 1000,
+            focusText: 'Feynman-Technik: Erkläre das Gelernte laut (als würdest du es jemand anderem beibringen).',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
             durationMs: 10 * 60 * 1000,
-            focusText: 'Break: Move around, get a snack, rest your eyes.',
+            focusText: 'Pause: Bewegung, frische Luft, Snack. Kein Social Media!',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: 'University study pattern: 50 min focus, 10 min break (60 min)',
+          description: 'Evidenzbasiert: Active Recall + Feynman-Technik (62 min)',
         }
       );
 
@@ -730,28 +878,35 @@ export function createPresetSession(presetId: string): CustomSession | null {
           {
             id: generateUUID(),
             type: 'TRANSITION',
-            durationMs: 1 * 60 * 1000,
-            focusText: 'Get comfortable. Sit upright with feet flat on the floor.',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Setup: Aufrecht sitzen. Füße flach auf dem Boden. Hände auf den Knien.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
-            durationMs: 4 * 60 * 1000,
-            focusText: 'Box breathing: Inhale 4 counts, Hold 4, Exhale 4, Hold 4. Repeat.',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Box Breathing (4-4-4-4): Einatmen 4s → Halten 4s → Ausatmen 4s → Halten 4s. 6 Zyklen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 3 * 60 * 1000,
+            focusText: '4-7-8 Atmung (tiefe Entspannung): Einatmen 4s → Halten 7s → Ausatmen 8s. 4 Zyklen.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'COOLDOWN',
-            durationMs: 1 * 60 * 1000,
-            focusText: 'Return to natural breathing. Notice how you feel.',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Natürlicher Atem: Rückkehr zum normalen Rhythmus. Spüre die Ruhe.',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: 'Quick stress-relief breathing technique (6 min)',
+          description: 'Huberman-Protokoll: Box → 4-7-8 Atmung (9 min)',
         }
       );
 
@@ -761,78 +916,138 @@ export function createPresetSession(presetId: string): CustomSession | null {
         [
           {
             id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Moderator: Begrüßung + Regeln erklären. Speaker 1 bereitmachen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
             type: 'SPEAK',
             durationMs: 3 * 60 * 1000,
-            focusText: 'Speaker 1: Share your idea in 3 minutes.',
+            focusText: 'Speaker 1: Problem → Lösung → Takeaway',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
             durationMs: 30 * 1000,
-            focusText: 'Transition: Next speaker get ready.',
+            focusText: '⏰ Zeit! Speaker wechselt.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
             durationMs: 3 * 60 * 1000,
-            focusText: 'Speaker 2: Share your idea in 3 minutes.',
+            focusText: 'Speaker 2: Problem → Lösung → Takeaway',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
             durationMs: 30 * 1000,
-            focusText: 'Transition: Next speaker get ready.',
+            focusText: '⏰ Zeit! Speaker wechselt.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
             durationMs: 3 * 60 * 1000,
-            focusText: 'Speaker 3: Share your idea in 3 minutes.',
+            focusText: 'Speaker 3: Problem → Lösung → Takeaway',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
             durationMs: 30 * 1000,
-            focusText: 'Transition: Next speaker get ready.',
+            focusText: '⏰ Zeit! Speaker wechselt.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
             durationMs: 3 * 60 * 1000,
-            focusText: 'Speaker 4: Share your idea in 3 minutes.',
+            focusText: 'Speaker 4: Problem → Lösung → Takeaway',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'TRANSITION',
             durationMs: 30 * 1000,
-            focusText: 'Transition: Next speaker get ready.',
+            focusText: '⏰ Zeit! Speaker wechselt.',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'SPEAK',
             durationMs: 3 * 60 * 1000,
-            focusText: 'Speaker 5: Share your idea in 3 minutes.',
+            focusText: 'Speaker 5: Problem → Lösung → Takeaway',
             createdAt: Date.now(),
           },
           {
             id: generateUUID(),
             type: 'COOLDOWN',
-            durationMs: 2 * 60 * 1000,
-            focusText: 'Wrap-up and final thoughts.',
+            durationMs: 4 * 60 * 1000,
+            focusText: 'Speed Feedback: 30 Sekunden pro Speaker - Was war dein Highlight?',
             createdAt: Date.now(),
           },
         ],
         {
           isTemplate: true,
-          description: '5 quick presentations with transitions (19 min)',
+          description: 'Ignite-Format mit Speed Feedback (23.5 min)',
+        }
+      );
+
+    case 'creative-brainstorming':
+      return createSession(
+        'Kreatives Brainstorming',
+        [
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Regel: Keine Kritik in Phase 1! Quantität > Qualität.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 10 * 60 * 1000,
+            focusText: 'Divergentes Denken: Ideen wild sammeln. Post-its nutzen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'TRANSITION',
+            durationMs: 2 * 60 * 1000,
+            focusText: 'Pause: Bewegung, um den Kopf freizubekommen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 8 * 60 * 1000,
+            focusText: 'Konvergentes Denken: Gruppieren, bewerten, Top 3 auswählen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'SPEAK',
+            durationMs: 5 * 60 * 1000,
+            focusText: 'Prototyping: Erste Schritte für Top-Idee planen.',
+            createdAt: Date.now(),
+          },
+          {
+            id: generateUUID(),
+            type: 'COOLDOWN',
+            durationMs: 3 * 60 * 1000,
+            focusText: 'Action Items: Wer macht was bis wann?',
+            createdAt: Date.now(),
+          },
+        ],
+        {
+          isTemplate: true,
+          description: 'Design Thinking Brainstorming (Stanford d.school, 30 min)',
         }
       );
 
@@ -851,50 +1066,68 @@ export function listPresets(): Array<{ id: string; name: string; description: st
     {
       id: 'workshop-checkin',
       name: 'Workshop Check-In (3 rounds)',
-      description: 'Quick check-in for workshops or team meetings',
-      duration: '20 min',
+      description: 'Strukturierter Check-In mit stufenweiser Vertiefung',
+      duration: '23 min',
     },
     {
       id: 'focus-session',
       name: 'Deep Work Focus Session',
-      description: 'Pomodoro-style focus session with breaks',
-      duration: '65 min',
+      description: "Cal Newport's Deep Work: 2× 45-min Blöcke",
+      duration: '110 min',
+    },
+    {
+      id: 'focus-session-short',
+      name: 'Deep Work Focus Session (Kurz)',
+      description: 'Schnelle Deep Work Session: 50-min Block',
+      duration: '57 min',
     },
     {
       id: 'meditation',
       name: 'Guided Meditation',
-      description: 'Simple mindfulness meditation',
-      duration: '15 min',
+      description: 'Vipassana-Struktur: Ankern → Scannen → Öffnen',
+      duration: '16 min',
     },
     {
       id: 'standup',
       name: 'Team Stand-Up Meeting',
-      description: 'Daily stand-up for 5-person team',
-      duration: '12 min',
+      description: 'Scrum Stand-Up mit Parking Lot (3-5 Personen)',
+      duration: '13 min',
     },
     {
       id: 'presentation',
       name: 'Presentation Timer (20 min)',
-      description: 'Conference talk timer with 3-minute warning',
-      duration: '20 min',
+      description: 'TED-Talk-Format mit Tech-Check und Q&A',
+      duration: '23 min',
+    },
+    {
+      id: 'pitch-deck',
+      name: 'Pitch Deck (10 min)',
+      description: 'Startup Pitch mit Investor Q&A',
+      duration: '13 min',
     },
     {
       id: 'study-session',
       name: 'Study Session (50-10)',
-      description: 'University study pattern: 50 min focus, 10 min break',
-      duration: '60 min',
+      description: 'Evidenzbasiert: Active Recall + Feynman-Technik',
+      duration: '62 min',
     },
     {
       id: 'breathing',
       name: 'Box Breathing Exercise',
-      description: 'Quick stress-relief breathing technique',
-      duration: '6 min',
+      description: 'Huberman-Protokoll: Box → 4-7-8 Atmung',
+      duration: '9 min',
     },
     {
       id: 'lightning-talks',
       name: 'Lightning Talks (5×3 min)',
-      description: '5 quick presentations with transitions',
-      duration: '19 min',
+      description: 'Ignite-Format mit Speed Feedback',
+      duration: '22 min',
+    },
+    {
+      id: 'creative-brainstorming',
+      name: 'Kreatives Brainstorming',
+      description: 'Design Thinking Brainstorming (Stanford d.school)',
+      duration: '30 min',
     },
   ];
 }
