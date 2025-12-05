@@ -994,7 +994,7 @@ export function createPresetSession(presetId: string): CustomSession | null {
         ],
         {
           isTemplate: true,
-          description: 'Ignite-Format mit Speed Feedback (22 min)',
+          description: 'Ignite-Format mit Speed Feedback (23.5 min)',
         }
       );
 
