@@ -454,7 +454,8 @@ body:has(.legal-page) {
   padding:clamp(24px, 3.82vw, 61.8px); /* Golden ratio padding */
 }
 
-.home-grid{
+.home-grid,
+.pillar-grid{
   background: 
     linear-gradient(135deg, 
       rgba(0, 217, 255, 0.03) 0%, 
@@ -485,7 +486,8 @@ body:has(.legal-page) {
 }
 
 /* Animated gradient border */
-.home-grid::before {
+.home-grid::before,
+.pillar-grid::before {
   content: '';
   position: absolute;
   inset: -2px;
@@ -499,7 +501,8 @@ body:has(.legal-page) {
 }
 
 /* Shimmer effect overlay */
-.home-grid::after {
+.home-grid::after,
+.pillar-grid::after {
   content: '';
   position: absolute;
   top: 0;
@@ -518,7 +521,8 @@ body:has(.legal-page) {
 
 
 @media (max-width: 900px) {
-  .home-grid{
+  .home-grid,
+  .pillar-grid{
     grid-template-columns:repeat(2, 1fr);
     gap:20px;
     padding:30px;
@@ -526,7 +530,8 @@ body:has(.legal-page) {
 }
 
 @media (max-width: 500px) {
-  .home-grid{
+  .home-grid,
+  .pillar-grid{
     grid-template-columns:1fr;
     gap:20px;
     padding:24px;

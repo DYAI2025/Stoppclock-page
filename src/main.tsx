@@ -214,7 +214,7 @@ function Home() {
       {/* BLOG/PILLAR SECTION */}
       <div className="home-section home-section-pillars">
         <div className="section-title">Explore Further</div>
-        <div className="home-grid">
+        <div className="pillar-grid">
           {pillars.map(({ route, label, color, colorRgb }) => (
             <a
               key={route}
