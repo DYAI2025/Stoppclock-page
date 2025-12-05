@@ -64,7 +64,7 @@ Diese Dokumentation fasst die aktuelle Funktionsweise aller Timer zusammen. Jede
 - **Persistenz:** Fortschritt und aktive Phase werden gesichert; Ton/Flash am Phasenende.
 
 ## Custom Sessions (`#/custom-sessions` & `#/session-builder` → `#/session-runner`)
-- **Zweck:** Eigene Sequenzen aus beliebigen Blöcken (Arbeits-, Pausen-, Warmup-Phasen) zusammenstellen.
+- **Zweck:** Eigene Sequenzen aus beliebigen Blöcken (Arbeits-, Pausen-, Warm-up-Phasen) zusammenstellen.
 - **Bedienung:** Im Builder Schritte definieren und speichern; im Runner werden Phasen nacheinander mit Restzeit, Überspringen/Zurück und Fullscreen abgespielt.
 - **Persistenz:** Sessions werden lokal gespeichert und können wiederverwendet oder dupliziert werden.
 
