@@ -277,7 +277,7 @@ Phase 12: COOLDOWN (4 min)
 
 ---
 
-### 9. NEUES PRESET-Vorschlag: "Kreatives Brainstorming" (30 min)
+### 9. Neuer Preset-Vorschlag: "Kreatives Brainstorming" (30 min)
 
 **Grund:** Fehlt aktuell, aber häufiger Use Case
 
