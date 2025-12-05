@@ -495,7 +495,7 @@ export default function AnalogCountdown() {
       {/* Time Adjustments */}
       <div className="analog-presets">
         <button type="button" className="analog-preset btn" onClick={() => plus(60_000)}>+1m</button>
-        <button type="button" className="analog-preset btn" onClick={() => plus(-60_000)}>−1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-60_000)}>-1m</button>
         <button type="button" className="analog-preset btn" onClick={() => plus(5 * 60_000)}>+5</button>
         <button type="button" className="analog-preset btn" onClick={() => plus(10 * 60_000)}>+10</button>
         <button type="button" className="analog-preset btn" onClick={() => plus(-5 * 60_000)}>-5</button>
