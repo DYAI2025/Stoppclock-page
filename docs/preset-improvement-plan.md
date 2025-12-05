@@ -353,7 +353,7 @@ Phase 6: COOLDOWN (3 min)
 ## ✅ Nächste Schritte
 
 1. [ ] Review dieses Plans mit Stakeholdern
-2. [ ] Prioritisierung: Welche Presets zuerst verbessern?
+2. [ ] Priorisierung: Welche Presets zuerst verbessern?
 3. [ ] Code-Implementation (geschätzt: 4-6 Stunden)
 4. [ ] Testing (geschätzt: 2 Stunden)
 5. [ ] User Feedback sammeln nach Deployment
