@@ -253,10 +253,11 @@ export const ELEMENT_COLORS: Record<ElementType, string> = {
 
 /**
  * Element type labels (user-facing)
+ * Neutral labels that work for all use cases (speaking, meditation, work, etc.)
  */
 export const ELEMENT_TYPE_LABELS: Record<ElementType, string> = {
-  SPEAK: 'Speaking Phase',
-  TRANSITION: 'Transition / Break',
-  COOLDOWN: 'Cooldown / Reflection',
+  SPEAK: 'Focus Phase',
+  TRANSITION: 'Transition',
+  COOLDOWN: 'Wind Down',
   CUSTOM: 'Custom',
 } as const;

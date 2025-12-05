@@ -502,10 +502,10 @@ export default function SessionRunner() {
               textAlign: 'center',
             }}
           >
-            {currentElement.type === 'SPEAK' && '💬 Active speaking phase'}
-            {currentElement.type === 'TRANSITION' && '⏸️ Transition time - prepare for next phase'}
-            {currentElement.type === 'COOLDOWN' && '🧘 Wind down and reflect'}
-            {currentElement.type === 'CUSTOM' && '🎯 Custom phase'}
+            {currentElement.type === 'SPEAK' && '🎯 Focus phase - give this your full attention'}
+            {currentElement.type === 'TRANSITION' && '⏸️ Transition - prepare for what comes next'}
+            {currentElement.type === 'COOLDOWN' && '🧘 Wind down - reflect and release'}
+            {currentElement.type === 'CUSTOM' && '✨ Custom phase'}
           </div>
         )}
 
