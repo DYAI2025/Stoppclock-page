@@ -788,7 +788,7 @@ export function createPresetSession(presetId: string): CustomSession | null {
 
     case 'pitch-deck':
       return createSession(
-        'Pitch Deck (10 min)',
+        'Pitch Deck (13 min)',
         [
           {
             id: generateUUID(),
