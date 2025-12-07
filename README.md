@@ -32,6 +32,11 @@ flowchart TD
 - **Styling**: Global tokens in `src/design-tokens.css` and `src/styles.css`; per-page styles live alongside components.
 - **Ads & consent**: `ConsentBanner` gates `AdSenseScript` so ad code only loads after explicit consent.
 
+## Design direction (home page)
+- **Unify timer grid + descriptions**: The next redesign aims to merge the home timer tiles with the "About the Timers" blurbs. Each tile should surface its microcopy (what it does, ideal use case, key shortcut) directly inside the card, reducing the scroll between the hero grid and the descriptive section.
+- **Progressive detail**: Default view shows icon + label + one-liner; hover/focus expands to a short checklist (e.g., "Space = Start/Pause, R = Reset") without shifting layout on touch devices.
+- **Content reuse**: Descriptions are sourced from the existing "About the Timers" content so cards and the dedicated section stay in sync while the redesign is phased in.
+
 ## Key behaviors
 - **Keyboard shortcuts**: Centralized in `src/hooks/useKeyboardShortcuts.ts` (Space start/pause, `R` reset, `F` fullscreen, `L` laps on stopwatch) and auto-disabled when typing in inputs.
 - **Timer UX**: Countdown/analog timers cap durations (digital up to 12h, analog up to 4h) and emit optional beep/flash warnings. Stopwatch records laps; pomodoro persists custom durations; metronome drives audio ticks; chess clock swaps active player.

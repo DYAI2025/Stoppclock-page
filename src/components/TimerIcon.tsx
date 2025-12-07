@@ -8,7 +8,7 @@ export type TimerIconType =
   | "Pomodoro"
   | "Cooking Timer"
   | "Couples Timer"
-  | "Time Since"
+  | "Custom Sessions"
   | "World Clock"
   | "Alarm"
   | "Metronome"
@@ -71,15 +71,14 @@ export function TimerIcon({ type }: { type: TimerIconType }) {
         <path d="M12 9v3l2 2" />
       </svg>
     ),
-    "Time Since": (
+    "Custom Sessions": (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-        <line x1="3" y1="9" x2="21" y2="9" />
-        <circle cx="12" cy="15" r="3" />
-        <polyline points="12 13 12 15 13.5 16.5" />
-        <polyline points="12 2 12 4" />
-        <polyline points="16 2 16 4" />
-        <polyline points="8 2 8 4" />
+        <rect x="3" y="4" width="18" height="4" rx="1" />
+        <rect x="3" y="10" width="18" height="4" rx="1" />
+        <rect x="3" y="16" width="18" height="4" rx="1" />
+        <circle cx="7" cy="6" r="1" fill="currentColor" />
+        <circle cx="7" cy="12" r="1" fill="currentColor" />
+        <circle cx="7" cy="18" r="1" fill="currentColor" />
       </svg>
     ),
     "World Clock": (

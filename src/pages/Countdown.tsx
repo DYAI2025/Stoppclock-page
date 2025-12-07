@@ -3,6 +3,7 @@ import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
+import { CountdownGuide } from '../components/CountdownGuide';
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -87,6 +88,15 @@ export default function Countdown() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
   const lastSecondRef = useRef<number>(-1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -194,6 +204,18 @@ export default function Countdown() {
     }
   }, []);
 
+  const handlePresetSelect = useCallback((minutes: number) => {
+    const ms = minutes * 60 * 1000;
+    setSt(s => ({
+      ...s,
+      durationMs: ms,
+      remainingMs: ms,
+      running: false,
+      endAt: null
+    }));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Use centralized keyboard shortcuts hook
   useKeyboardShortcuts({
     onSpace: () => st.running ? pause() : start(),
@@ -290,6 +312,11 @@ export default function Countdown() {
           Flash
         </label>
       </div>
+
+      {/* Guide - hidden when running or fullscreen */}
+      {!st.running && !isFullscreen && (
+        <CountdownGuide onPresetSelect={handlePresetSelect} />
+      )}
     </div>
   );
 }

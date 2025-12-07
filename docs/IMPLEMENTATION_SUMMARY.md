@@ -19,3 +19,4 @@ This document captures the actual code that exists in the repository today.
 - Deployments need a 200 fallback for hash routing and to serve `index.html` for deep links.
 - Service worker intentionally uses network-first asset loading; offline support is limited to cached shell/manifest.
 - Additional timers or content pages should mirror the shared shortcut + persistence patterns to stay consistent.
+- Home layout is slated to merge timer tiles with the "About the Timers" copy; reuse the existing descriptions inside cards and expose shortcuts on hover/focus so content stays single-sourced.

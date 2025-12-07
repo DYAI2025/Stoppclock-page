@@ -26,7 +26,19 @@ export function getDefaultConsent(): ConsentPreference {
 export function loadConsent(): ConsentPreference {
   try {
     const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return getDefaultConsent();
+    if (!raw) {
+      const legacy = localStorage.getItem('sc.adsConsent');
+      if (legacy === 'yes' || legacy === 'no') {
+        return {
+          version: 1,
+          adsEnabled: legacy === 'yes',
+          analyticsEnabled: false,
+          timestamp: Date.now(),
+          consentVersion: CONSENT_VERSION
+        };
+      }
+      return getDefaultConsent();
+    }
 
     const stored = JSON.parse(raw);
 
