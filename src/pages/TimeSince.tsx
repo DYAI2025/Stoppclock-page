@@ -158,11 +158,10 @@ export default function TimeSince() {
       } else if (e.key === "f" || e.key === "F") {
         e.preventDefault();
         toggleFullscreen();
-      } else if (e.key === "Escape") {
-        if (state.running) {
-          setShowEventSelector(true);
-        }
-      }
+      } else if (e.key === "Escape" && state.running) {
+                   setShowEventSelector(true);
+             }
+
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
