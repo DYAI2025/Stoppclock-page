@@ -13,6 +13,7 @@ import CookingTimer from "./pages/CookingTimer";
 import CouplesTimer from "./pages/CouplesTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
+import TimeSince from "./pages/TimeSince";
 import Wissen from "./pages/Wissen";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
@@ -151,6 +152,7 @@ function Home() {
     { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
     { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
     { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
+    { route: "#/timesince", label: "Time Since", color: "#9333EA", colorRgb: "147, 51, 234" },
     { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
     { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
     { route: "#/custom-sessions", label: "Custom Sessions", color: "#8B5CF6", colorRgb: "139, 92, 246" },
@@ -278,6 +280,7 @@ function App() {
       {route === "/analog" && <AnalogCountdown />}
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
+      {route === "/timesince" && <TimeSince />}
       {route === "/pomodoro" && <Pomodoro />}
       {route === "/cooking" && <CookingTimer />}
       {route === "/couples" && <CouplesTimer />}
