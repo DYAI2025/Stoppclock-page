@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { ChevronRight, Clock, Coffee, Heart, Info, Play, Shield, Wind } from 'lucide-react';
 import { SESSION_PRESETS, PHASE_GUIDANCE, getPresetById } from '../config/couples-presets';
 import type {
   CouplesTimerState,
@@ -8,7 +9,7 @@ import type {
   SessionPhase,
   PresetId
 } from '../types/timer-types';
-import '../styles/couples-timer.css';
+import '../styles/couples-swiss.css';
 
 const LS_KEY_STATE = 'sc.v1.couples';
 const LS_KEY_PROFILES = 'sc.v1.couples.profiles';
@@ -108,13 +109,13 @@ type TimelineSegment = {
   label: string;
   duration: number;
   type:
-    | 'prep'
-    | 'speak-a'
-    | 'speak-b'
-    | 'transition'
-    | 'closing-a'
-    | 'closing-b'
-    | 'cooldown';
+  | 'prep'
+  | 'speak-a'
+  | 'speak-b'
+  | 'transition'
+  | 'closing-a'
+  | 'closing-b'
+  | 'cooldown';
 };
 
 // Singing-bowl style bell tone for cues
@@ -198,8 +199,22 @@ function useRaf(on: boolean, cb: () => void) {
   }, [on, cb]);
 }
 
-export default function CouplesTimer() {
-  const [state, setState] = useState<CouplesTimerState>(loadState);
+export function CoupleTimerPlayer({ onExit, initialPresetId }: { onExit?: () => void; initialPresetId?: PresetId }) {
+  const [state, setState] = useState<CouplesTimerState>(() => {
+    const loaded = loadState();
+    // If an initial preset is provided and we're in SETUP, pre-select it
+    if (initialPresetId && loaded.phase === 'SETUP') {
+      const preset = getPresetById(initialPresetId);
+      if (preset) {
+        return {
+          ...loaded,
+          currentPreset: preset,
+          transitionDurationMs: preset.transitionDurationMs
+        };
+      }
+    }
+    return loaded;
+  });
   const [profiles, setProfiles] = useState<CoupleProfile[]>(loadProfiles);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -471,9 +486,9 @@ export default function CouplesTimer() {
     const el = wrapRef.current;
     if (!el) return;
     if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen().catch(() => { });
     } else {
-      el.requestFullscreen?.().catch(() => {});
+      el.requestFullscreen?.().catch(() => { });
     }
   }, []);
 
@@ -556,7 +571,13 @@ export default function CouplesTimer() {
       {/* Header */}
       <header className="couples-header">
         <h1 className="couples-title">Couples Timer</h1>
-        <HomeButton />
+        {onExit ? (
+          <button onClick={(e) => { e.preventDefault(); onExit(); }} className="btn-home">
+            Back to Story
+          </button>
+        ) : (
+          <HomeButton />
+        )}
       </header>
 
       {/* Setup View */}
@@ -799,4 +820,312 @@ export default function CouplesTimer() {
       )}
     </div>
   );
+}
+
+// ============================================
+// COUPLE WORLD PAGE (Story Layer)
+// ============================================
+function CoupleWorld({ onStart }: { onStart: (presetId?: PresetId) => void }) {
+  return (
+    <div className="couples-timer-page">
+      {/* App Bar / Nav */}
+      <header className="couples-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>
+          <Clock size={20} /> Stoppclock
+        </div>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <HomeButton showLabel={false} />
+        </div>
+      </header>
+
+      <div className="couples-world">
+        {/* HERO */}
+        <section className="ct-section ct-hero">
+          <div className="ct-container ct-hero-content">
+            <span className="ct-hero-eyebrow">Couple timer</span>
+            <h1 className="ct-h1">Small frames for<br />the two of you</h1>
+            <p className="ct-tagline">Tiny pockets of time to talk, listen, and breathe together.</p>
+            <div className="ct-body" style={{ maxWidth: '600px' }}>
+              I'm a gentle timekeeper for two people who share a life. When you start me, I hold a small frame for your voices, your silence, and the things that are easy to postpone.
+            </div>
+            <div className="ct-hero-actions">
+              <button onClick={() => onStart()} className="ct-btn-primary">
+                <Play size={18} /> Start couple timer
+              </button>
+              <button onClick={() => onStart()} className="ct-btn-ghost">Open full-screen</button>
+            </div>
+          </div>
+        </section>
+
+        {/* CHARACTER – The Zwiegespräch Philosophy */}
+        <section className="ct-section" style={{ background: 'var(--ct-bg-surface)' }}>
+          <div className="ct-container-narrow">
+            <h2 className="ct-h2">Character – a quiet frame for the two of you</h2>
+            <p className="ct-body">
+              Most days, life doesn't shout "Now is a good moment to talk." Messages pop up, someone is late, dishes wait, notifications blink. It's easy for important conversations to stay "for later".
+            </p>
+            <p className="ct-body">
+              I'm here for those small, honest moments between you two. I don't take sides. I don't tell you what to say. I simply hold a little frame of time that belongs to you and no one else.
+            </p>
+            <p className="ct-body">
+              When you start me, you're not promising to solve everything. You're just saying: <em>"For this short moment, we're here. Together. On purpose."</em> I count gently in the background, so you can focus on words, looks, and the small signals that say "I'm still with you."
+            </p>
+
+            {/* Research insight box */}
+            <div className="ct-insight-box">
+              <Info size={20} className="ct-insight-icon" />
+              <div>
+                <strong>Based on Zwiegespräch</strong>
+                <p style={{ margin: '0.5rem 0 0', fontSize: '0.9rem', opacity: 0.9 }}>
+                  This timer is inspired by the "Zwiegespräch" method developed by psychoanalyst Michael Lukas Moeller. The core idea: speak in turns, not in dialogue. When one person speaks, the other only listens – no interruptions, no comments, no corrections.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* THE METHOD – Key Principles */}
+        <section className="ct-section">
+          <div className="ct-container">
+            <h2 className="ct-h2" style={{ textAlign: 'center' }}>The method – how structured time helps</h2>
+            <div className="ct-principles-grid">
+              <div className="ct-principle-card">
+                <Wind size={28} className="ct-principle-icon" />
+                <h3 className="ct-h3">Speak for yourself</h3>
+                <p className="ct-body-sm">
+                  Use "I" statements only. Talk about your feelings, your experience, your perspective. No analyzing or interpreting your partner's behavior.
+                </p>
+              </div>
+              <div className="ct-principle-card">
+                <Heart size={28} className="ct-principle-icon" />
+                <h3 className="ct-h3">Listen without reacting</h3>
+                <p className="ct-body-sm">
+                  When it's not your turn, you only listen. No questions, no comments, no raised eyebrows. Just receive what your partner shares.
+                </p>
+              </div>
+              <div className="ct-principle-card">
+                <Shield size={28} className="ct-principle-icon" />
+                <h3 className="ct-h3">Let it sit</h3>
+                <p className="ct-body-sm">
+                  After the session, don't immediately discuss what was said. Let the words settle. This prevents defensive reactions and allows insight to emerge.
+                </p>
+              </div>
+              <div className="ct-principle-card">
+                <Coffee size={28} className="ct-principle-icon" />
+                <h3 className="ct-h3">Short and regular</h3>
+                <p className="ct-body-sm">
+                  A few minutes each day often works better than one long conversation per month. Rituals grow through repetition, not through size.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* RITUALS */}
+        <section className="ct-section" style={{ background: 'var(--ct-bg-surface)' }}>
+          <div className="ct-container">
+            <h2 className="ct-h2" style={{ textAlign: 'center' }}>Rituals – ways to be together on purpose</h2>
+            <div className="ct-rituals-grid">
+              {/* Ritual 1: Tiny Check-in */}
+              <div className="ct-ritual-card" onClick={() => onStart('tiny-check-in')}>
+                <div className="ct-ritual-badge">~7 min</div>
+                <h3 className="ct-h3">Tiny check-in</h3>
+                <p className="ct-body" style={{ fontSize: '0.95rem' }}>
+                  A small daily space to hear each other properly, even when the day was loud.
+                </p>
+                <ul className="ct-ritual-steps">
+                  <li>3 minutes per person to share</li>
+                  <li>The other one only listens – no comments</li>
+                  <li>When the bell rings, switch roles</li>
+                  <li>End with 1 minute together in silence</li>
+                </ul>
+                <button className="ct-ritual-cta">
+                  <Play size={14} /> Start this ritual
+                </button>
+              </div>
+
+              {/* Ritual 2: Conflict Cooldown */}
+              <div className="ct-ritual-card" onClick={() => onStart('conflict-cooldown')}>
+                <div className="ct-ritual-badge">~10 min</div>
+                <h3 className="ct-h3">Cool-down pause</h3>
+                <p className="ct-body" style={{ fontSize: '0.95rem' }}>
+                  When things get heated. A structured pause based on relationship research.
+                </p>
+                <ul className="ct-ritual-steps">
+                  <li>2 min breathing: no talking, just calm down</li>
+                  <li>4 min each to speak without interruption</li>
+                  <li>The listener only listens – no defense</li>
+                  <li>Resume talking after both have been heard</li>
+                </ul>
+                <button className="ct-ritual-cta">
+                  <Play size={14} /> Start this ritual
+                </button>
+              </div>
+
+              {/* Ritual 3: Screen-free Tea */}
+              <div className="ct-ritual-card" onClick={() => onStart('screen-free-tea')}>
+                <div className="ct-ritual-badge">15 min</div>
+                <h3 className="ct-h3">Screen-free tea</h3>
+                <p className="ct-body" style={{ fontSize: '0.95rem' }}>
+                  A small island without notifications. Share a drink, a snack, or just presence.
+                </p>
+                <ul className="ct-ritual-steps">
+                  <li>Phones away, screens face-down</li>
+                  <li>15 minutes of undivided presence</li>
+                  <li>Talk, be silent, or share something small</li>
+                  <li>When the bell rings: another round, or back to life</li>
+                </ul>
+                <button className="ct-ritual-cta">
+                  <Play size={14} /> Start this ritual
+                </button>
+              </div>
+            </div>
+
+            {/* Classic Format Link */}
+            <div className="ct-classic-link">
+              <span>Looking for the full 90-minute Zwiegespräch format?</span>
+              <button onClick={() => onStart('klassisch-90')} className="ct-btn-text">
+                Open classic session <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* EFFECTS – Research-backed benefits */}
+        <section className="ct-section" style={{ background: '#FFF5F5' }}>
+          <div className="ct-container">
+            <h2 className="ct-h2">Effects – what changes when you give time a frame</h2>
+            <div className="ct-effects-split">
+              <div>
+                <h3 className="ct-h3">Practical effects</h3>
+                <ul className="ct-effect-list">
+                  <li>Conversations get a clear beginning and end, so they feel easier to start.</li>
+                  <li>Both of you get space to speak and space to listen – no talking over each other.</li>
+                  <li>The timer becomes a neutral third party: it ends the turn, not you.</li>
+                  <li>You can try new communication habits in very small doses.</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="ct-h3">Psychological effects</h3>
+                <ul className="ct-effect-list">
+                  <li>It can feel safer to talk when you know the intense part won't last forever.</li>
+                  <li>Short, regular check-ins often feel lighter than one big "we need to talk".</li>
+                  <li>You update your mental image of your partner – reducing assumptions.</li>
+                  <li>You build a quiet ritual that says: "We matter to each other."</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Research callout */}
+            <div className="ct-research-callout">
+              <h3 className="ct-h3">Why no interruptions matter</h3>
+              <p className="ct-body">
+                Research by relationship scientist John Gottman shows that how couples argue matters more than whether they argue. Four patterns predict relationship breakdown: criticism, defensiveness, stonewalling, and – most destructive of all – contempt.
+              </p>
+              <p className="ct-body" style={{ marginBottom: 0 }}>
+                Structured speaking time interrupts these patterns. When one person speaks and the other only listens, there's no space for the automatic attack-defend cycle. Both partners' realities can coexist without immediate judgment.
+              </p>
+            </div>
+
+            <div className="ct-experiment-block">
+              <h3 className="ct-h3">A small experiment</h3>
+              <p className="ct-body" style={{ marginBottom: 0 }}>
+                Try this for one week: one tiny check-in each day (just 3–5 minutes). At the end of the week, ask yourselves: Did anything feel different – in how you talk, or how tense your evenings feel?
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* TIME FACTS */}
+        <section className="ct-section">
+          <div className="ct-container">
+            <h2 className="ct-h2" style={{ textAlign: 'center' }}>Time facts – small truths about shared minutes</h2>
+            <div className="ct-facts-grid">
+              <div className="ct-fact-plaque">
+                <span className="ct-fact-label">Everyday life</span>
+                <p className="ct-body" style={{ fontSize: '0.95rem', margin: 0 }}>
+                  Many couples say they "don't have time" to talk – but often it's more that time is unframed. A few minutes with a clear start and end can feel very different from "some time later".
+                </p>
+              </div>
+              <div className="ct-fact-plaque">
+                <span className="ct-fact-label">The 20-minute rule</span>
+                <p className="ct-body" style={{ fontSize: '0.95rem', margin: 0 }}>
+                  When emotions run high, it takes about 20 minutes for stress hormones to clear your system. That's why a proper timeout works – your brain needs time to come back online.
+                </p>
+              </div>
+              <div className="ct-fact-plaque">
+                <span className="ct-fact-label">Silence counts too</span>
+                <p className="ct-body" style={{ fontSize: '0.95rem', margin: 0 }}>
+                  Shared silence can also be quality time. A timer that holds the boundary can help both of you stay in that quiet space without rushing back to tasks.
+                </p>
+              </div>
+              <div className="ct-fact-plaque">
+                <span className="ct-fact-label">Two truths</span>
+                <p className="ct-body" style={{ fontSize: '0.95rem', margin: 0 }}>
+                  In every relationship, two subjective realities coexist. Structured conversation helps you accept this: listening doesn't mean agreeing, just acknowledging.
+                </p>
+              </div>
+            </div>
+            <div className="ct-footer-note">
+              This is not a replacement for professional support. If you feel unsafe in your relationship, please reach out for help.
+            </div>
+          </div>
+        </section>
+
+        {/* FINAL CTA */}
+        <section className="ct-section ct-final-cta">
+          <div className="ct-container" style={{ textAlign: 'center' }}>
+            <h2 className="ct-h2">Ready to try?</h2>
+            <p className="ct-tagline" style={{ marginBottom: '2rem' }}>
+              Start with a tiny check-in. Just 7 minutes.
+            </p>
+            <button onClick={() => onStart('tiny-check-in')} className="ct-btn-primary ct-btn-large">
+              <Play size={20} /> Start couple timer
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// MAIN EXPORT (Wrapper)
+// ============================================
+export default function CouplesTimer() {
+  const [mode, setMode] = useState<'world' | 'player'>('world');
+  const [selectedPresetId, setSelectedPresetId] = useState<PresetId | undefined>(undefined);
+
+  // Check for active session on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('sc.v1.couples');
+      if (raw) {
+        const state = JSON.parse(raw);
+        // If explicitly running or inside a session phase, auto-open player
+        if (state.running || (state.phase && state.phase !== 'SETUP' && state.phase !== 'COMPLETED')) {
+          setMode('player');
+        }
+      }
+    } catch { }
+  }, []);
+
+  const handleStartFromWorld = (presetId?: PresetId) => {
+    setSelectedPresetId(presetId);
+    setMode('player');
+  };
+
+  if (mode === 'player') {
+    return (
+      <CoupleTimerPlayer
+        onExit={() => {
+          setSelectedPresetId(undefined);
+          setMode('world');
+        }}
+        initialPresetId={selectedPresetId}
+      />
+    );
+  }
+
+  return <CoupleWorld onStart={handleStartFromWorld} />;
 }

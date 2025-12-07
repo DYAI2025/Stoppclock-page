@@ -165,7 +165,7 @@ export interface CookingTimerState {
   nextColorIndex: number; // For auto-rotation through color palette
 }
 
- // Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
+// Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
 export type SessionPhase =
   | 'SETUP'           // Initial setup before session starts
   | 'PREP'            // Preparation phase (3-5 minutes)
@@ -177,7 +177,7 @@ export type SessionPhase =
   | 'COOLDOWN'        // Post-session cooldown (no follow-up conversation)
   | 'COMPLETED';      // Session completed
 
-export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60';
+export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60' | 'tiny-check-in' | 'conflict-cooldown' | 'screen-free-tea';
 
 export interface SessionPreset {
   id: PresetId;

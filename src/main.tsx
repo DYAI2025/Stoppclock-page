@@ -40,6 +40,8 @@ import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import LanguageToggle from "./components/LanguageToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
 import TimerIcon, { TimerIconType } from "./components/TimerIcon";
+import LandingPage from "./pages/LandingPage";
+import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -200,9 +202,9 @@ function Home() {
               style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
             >
               <div className="timer-card-inner">
-              <div className="timer-icon-container">
-                <TimerIcon type={label} />
-              </div>
+                <div className="timer-icon-container">
+                  <TimerIcon type={label} />
+                </div>
                 <span className="timer-label">{label}</span>
               </div>
             </a>
@@ -225,9 +227,9 @@ function Home() {
               style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
             >
               <div className="timer-card-inner">
-              <div className="timer-icon-container">
-                <TimerIcon type={label} />
-              </div>
+                <div className="timer-icon-container">
+                  <TimerIcon type={label} />
+                </div>
                 <span className="timer-label">{label}</span>
               </div>
             </a>
@@ -276,7 +278,7 @@ function App() {
       <ConsentBanner />
 
       {/* Route content */}
-      {route === "/" && <Home />}
+      {route === "/" && <LandingPage />}
       {route === "/analog" && <AnalogCountdown />}
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
