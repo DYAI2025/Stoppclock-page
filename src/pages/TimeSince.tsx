@@ -62,7 +62,7 @@ function calculateTimeSince(targetDate: Date): TimeBreakdown {
   const years = Math.floor(totalDays / 365.25);
   const remainingDaysAfterYears = totalDays - Math.floor(years * 365.25);
   const months = Math.floor(remainingDaysAfterYears / 30.44);
-  const days = Math.floor(remainingDaysAfterYears - (months * 30.44));
+  const days = Math.max(0, Math.floor(remainingDaysAfterYears - (months * 30.44)));
 
   const hours = totalHours % 24;
   const minutes = totalMinutes % 60;
