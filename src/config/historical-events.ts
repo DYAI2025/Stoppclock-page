@@ -44,9 +44,9 @@ export const HISTORICAL_EVENTS: HistoricalEvent[] = [
   {
     id: 'pyramids',
     name: 'Great Pyramid of Giza',
-    date: new Date('-2560-01-01T00:00:00Z'), // ~2560 BCE
+    date: new Date('1900-01-01T00:00:00Z'), // Symbolic date; actual completion ~2560 BCE
     category: 'history',
-    description: 'Construction completed around 2560 BCE',
+    description: 'Construction completed around 2560 BCE (symbolic date used for timer calculations)',
     color: '#F59E0B', // Amber
   },
   {
