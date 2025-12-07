@@ -35,6 +35,8 @@ import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import LanguageToggle from "./components/LanguageToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
 import TimerIcon, { TimerIconType } from "./components/TimerIcon";
+import LandingPage from "./pages/LandingPage";
+import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -193,9 +195,9 @@ function Home() {
               style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
             >
               <div className="timer-card-inner">
-              <div className="timer-icon-container">
-                <TimerIcon type={label} />
-              </div>
+                <div className="timer-icon-container">
+                  <TimerIcon type={label} />
+                </div>
                 <span className="timer-label">{label}</span>
               </div>
             </a>
@@ -218,9 +220,9 @@ function Home() {
               style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
             >
               <div className="timer-card-inner">
-              <div className="timer-icon-container">
-                <TimerIcon type={label} />
-              </div>
+                <div className="timer-icon-container">
+                  <TimerIcon type={label} />
+                </div>
                 <span className="timer-label">{label}</span>
               </div>
             </a>
@@ -258,6 +260,7 @@ function App() {
   const isAbout = route.startsWith('/about/');
   const isWissen = route.startsWith('/wissen/');
   const isBlog = route.startsWith('/blog/');
+  const isCustomSessions = route.startsWith('/custom-sessions');
 
   return (
     <>
@@ -268,7 +271,7 @@ function App() {
       <ConsentBanner />
 
       {/* Route content */}
-      {route === "/" && <Home />}
+      {route === "/" && <LandingPage />}
       {route === "/analog" && <AnalogCountdown />}
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
@@ -280,6 +283,7 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {isCustomSessions && <CustomSessionsLanding />}
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}
@@ -295,7 +299,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
