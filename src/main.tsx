@@ -13,6 +13,7 @@ import CookingTimer from "./pages/CookingTimer";
 import CouplesTimer from "./pages/CouplesTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
+import TimeSince from "./pages/TimeSince";
 import Wissen from "./pages/Wissen";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
@@ -27,6 +28,10 @@ import PomodoroVsCountdown from "./pages/blog/PomodoroVsCountdown";
 import TimerForStudents from "./pages/TimerForStudents";
 import TimerForProductivity from "./pages/TimerForProductivity";
 import TimerForFitness from "./pages/TimerForFitness";
+import CustomSessionsLanding from "./pages/CustomSessionsLanding";
+import SessionBuilder from "./pages/SessionBuilder";
+import SessionRunner from "./pages/SessionRunner";
+import SessionPreview from "./pages/SessionPreview";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -149,8 +154,10 @@ function Home() {
     { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
     { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
     { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
+    { route: "#/timesince", label: "Time Since", color: "#9333EA", colorRgb: "147, 51, 234" },
     { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
     { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
+    { route: "#/custom-sessions", label: "Custom Sessions", color: "#8B5CF6", colorRgb: "139, 92, 246" },
     { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
     { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
@@ -211,7 +218,7 @@ function Home() {
       {/* BLOG/PILLAR SECTION */}
       <div className="home-section home-section-pillars">
         <div className="section-title">Explore Further</div>
-        <div className="home-grid">
+        <div className="pillar-grid">
           {pillars.map(({ route, label, color, colorRgb }) => (
             <a
               key={route}
@@ -275,6 +282,7 @@ function App() {
       {route === "/analog" && <AnalogCountdown />}
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
+      {route === "/timesince" && <TimeSince />}
       {route === "/pomodoro" && <Pomodoro />}
       {route === "/cooking" && <CookingTimer />}
       {route === "/couples" && <CouplesTimer />}
@@ -283,7 +291,10 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
-      {isCustomSessions && <CustomSessionsLanding />}
+      {route === "/custom-sessions" && <CustomSessionsLanding />}
+      {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
+      {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
+      {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}

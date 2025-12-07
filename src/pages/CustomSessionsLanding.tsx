@@ -1,213 +1,391 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Play, Edit, Trash2, Download, Upload, Copy } from 'lucide-react';
+/**
+ * Custom Sessions - Landing Page
+ * Shows list of saved sessions and templates
+ */
+
+import React, { useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
-import type { CustomSession, SessionPreset } from '../types/custom-session-types';
-
-const LS_KEY = 'sc.v1.custom-sessions';
-const LS_PRESETS_KEY = 'sc.v1.custom-session-presets';
-
-// Default presets
-const DEFAULT_PRESETS: SessionPreset[] = [
-  {
-    id: 'preset-pomodoro',
-    name: 'Pomodoro Focus',
-    description: '4 work sessions with breaks',
-    category: 'Focus',
-    elements: [
-      { type: 'work', durationMs: 25 * 60 * 1000, focusText: 'Focus Work', phaseName: 'Work 1', sound: 'beep' },
-      { type: 'break', durationMs: 5 * 60 * 1000, focusText: 'Short Break', phaseName: 'Break 1', sound: 'chime' },
-      { type: 'work', durationMs: 25 * 60 * 1000, focusText: 'Focus Work', phaseName: 'Work 2', sound: 'beep' },
-      { type: 'break', durationMs: 5 * 60 * 1000, focusText: 'Short Break', phaseName: 'Break 2', sound: 'chime' },
-      { type: 'work', durationMs: 25 * 60 * 1000, focusText: 'Focus Work', phaseName: 'Work 3', sound: 'beep' },
-      { type: 'break', durationMs: 5 * 60 * 1000, focusText: 'Short Break', phaseName: 'Break 3', sound: 'chime' },
-      { type: 'work', durationMs: 25 * 60 * 1000, focusText: 'Focus Work', phaseName: 'Work 4', sound: 'beep' },
-      { type: 'break', durationMs: 15 * 60 * 1000, focusText: 'Long Break', phaseName: 'Long Break', sound: 'bell' },
-    ]
-  },
-  {
-    id: 'preset-study',
-    name: 'Study Session',
-    description: '2 long study blocks with breaks',
-    category: 'Learning',
-    elements: [
-      { type: 'work', durationMs: 45 * 60 * 1000, focusText: 'Study Block', phaseName: 'Study 1', sound: 'beep' },
-      { type: 'break', durationMs: 10 * 60 * 1000, focusText: 'Break', phaseName: 'Break 1', sound: 'chime' },
-      { type: 'work', durationMs: 45 * 60 * 1000, focusText: 'Study Block', phaseName: 'Study 2', sound: 'beep' },
-      { type: 'break', durationMs: 15 * 60 * 1000, focusText: 'Long Break', phaseName: 'Long Break', sound: 'bell' },
-    ]
-  },
-  {
-    id: 'preset-workout',
-    name: 'Workout Timer',
-    description: 'HIIT workout intervals',
-    category: 'Fitness',
-    elements: [
-      { type: 'custom', durationMs: 5 * 60 * 1000, focusText: 'Warm Up', phaseName: 'Warm Up', sound: 'chime' },
-      { type: 'work', durationMs: 30 * 1000, focusText: 'High Intensity', phaseName: 'Work 1', sound: 'beep' },
-      { type: 'break', durationMs: 15 * 1000, focusText: 'Rest', phaseName: 'Rest 1', sound: 'chime' },
-      { type: 'work', durationMs: 30 * 1000, focusText: 'High Intensity', phaseName: 'Work 2', sound: 'beep' },
-      { type: 'break', durationMs: 15 * 1000, focusText: 'Rest', phaseName: 'Rest 2', sound: 'chime' },
-      { type: 'work', durationMs: 30 * 1000, focusText: 'High Intensity', phaseName: 'Work 3', sound: 'beep' },
-      { type: 'break', durationMs: 15 * 1000, focusText: 'Rest', phaseName: 'Rest 3', sound: 'chime' },
-      { type: 'custom', durationMs: 3 * 60 * 1000, focusText: 'Cool Down', phaseName: 'Cool Down', sound: 'bell' },
-    ]
-  }
-];
-
-function loadSessions(): CustomSession[] {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-function saveSessions(sessions: CustomSession[]) {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(sessions));
-  } catch {
-    // Silently fail
-  }
-}
-
-function formatDuration(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  
-  if (hours > 0) {
-    return `${hours}h ${minutes}m`;
-  }
-  return `${minutes}m`;
-}
+import { useSessionStorage } from '../hooks/useSessionStorage';
+import { formatDuration, listPresets, validateSession } from '../utils/session-helpers';
+import type { CustomSession } from '../types/custom-session-types';
 
 export default function CustomSessionsLanding() {
-  const [sessions, setSessions] = useState<CustomSession[]>([]);
-  const [presets] = useState<SessionPreset[]>(DEFAULT_PRESETS);
+  const { sessions, templates, createSession, deleteSession } = useSessionStorage();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    setSessions(loadSessions());
-  }, []);
+  const presets = listPresets();
 
-  const handleDelete = (id: string) => {
-    if (confirm('Delete this session?')) {
-      const updated = sessions.filter(s => s.id !== id);
-      setSessions(updated);
-      saveSessions(updated);
+  const handleNewSession = () => {
+    window.location.hash = '#/custom-sessions/builder';
+  };
+
+  const handleEditSession = (sessionId: string) => {
+    window.location.hash = `#/custom-sessions/builder/${sessionId}`;
+  };
+
+  const handleRunSession = (sessionId: string) => {
+    window.location.hash = `#/custom-sessions/run/${sessionId}`;
+  };
+
+  const handleUsePreset = (presetId: string) => {
+    window.location.hash = `#/custom-sessions/builder?preset=${presetId}`;
+  };
+
+  const handlePreviewSession = (sessionId: string) => {
+    window.location.hash = `#/custom-sessions/preview/${sessionId}`;
+  };
+
+  const handlePreviewPreset = (presetId: string) => {
+    // Create temporary session from preset for preview
+    const { createPresetSession } = require('../utils/session-helpers');
+    const preset = createPresetSession(presetId);
+    if (preset) {
+      // Save temporarily and preview
+      createSession(preset);
+      window.location.hash = `#/custom-sessions/preview/${preset.id}`;
     }
   };
 
-  const handleDuplicate = (session: CustomSession) => {
-    const newSession: CustomSession = {
-      ...session,
-      id: `session-${Date.now()}`,
-      name: `${session.name} (Copy)`,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
+  // Export/Import handlers
+  const handleExportAll = () => {
+    const data = {
+      version: 1,
+      exportedAt: Date.now(),
+      sessions: sessions,
     };
-    const updated = [...sessions, newSession];
-    setSessions(updated);
-    saveSessions(updated);
-  };
 
-  const handleExport = (session: CustomSession) => {
-    const dataStr = JSON.stringify(session, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${session.name.replace(/\s+/g, '-')}.json`;
-    link.click();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `stoppclock-sessions-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
     URL.revokeObjectURL(url);
   };
 
-  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleExportSession = (session: CustomSession) => {
+    const blob = new Blob([JSON.stringify(session, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${session.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImport = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = (e) => {
       try {
-        const imported = JSON.parse(event.target?.result as string) as CustomSession;
-        imported.id = `session-${Date.now()}`;
-        imported.updatedAt = Date.now();
-        const updated = [...sessions, imported];
-        setSessions(updated);
-        saveSessions(updated);
-        alert('Session imported successfully!');
-      } catch {
-        alert('Failed to import session. Invalid file format.');
+        const content = e.target?.result as string;
+        const data = JSON.parse(content);
+
+        // Check if it's a bulk export or single session
+        if (data.sessions && Array.isArray(data.sessions)) {
+          // Bulk import
+          let imported = 0;
+          let skipped = 0;
+
+          data.sessions.forEach((session: CustomSession) => {
+            const validation = validateSession(session);
+            if (validation.valid) {
+              // Generate new ID to avoid conflicts
+              const newSession = { ...session, id: crypto.randomUUID(), updatedAt: Date.now() };
+              createSession(newSession);
+              imported++;
+            } else {
+              skipped++;
+            }
+          });
+
+          alert(`Import complete!\n✓ Imported: ${imported}\n✗ Skipped: ${skipped}`);
+        } else {
+          // Single session import
+          const validation = validateSession(data);
+          if (validation.valid) {
+            const newSession = { ...data, id: crypto.randomUUID(), updatedAt: Date.now() };
+            createSession(newSession);
+            alert('Session imported successfully!');
+          } else {
+            alert('Invalid session file:\n' + validation.errors.map(e => e.message).join('\n'));
+          }
+        }
+      } catch (error) {
+        alert('Failed to import: Invalid JSON file');
+      }
+
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
     };
+
     reader.readAsText(file);
-    e.target.value = '';
   };
 
-  const handleUsePreset = (preset: SessionPreset) => {
-    window.location.hash = `#/custom-sessions/builder?preset=${preset.id}`;
-  };
-
-  const totalDuration = (elements: { durationMs: number }[]) => {
-    return elements.reduce((sum, el) => sum + el.durationMs, 0);
+  const handleDeleteSession = (sessionId: string, sessionName: string) => {
+    const confirmed = window.confirm(`Delete "${sessionName}"?`);
+    if (confirmed) {
+      deleteSession(sessionId);
+    }
   };
 
   return (
-    <div className="custom-sessions-page">
-      <header className="cs-header">
-        <h1 className="cs-title">Custom Session Timer</h1>
-        <HomeButton />
+    <div style={{ minHeight: '100vh', background: '#0b1220', color: '#fff', padding: '2rem' }}>
+      {/* Hidden file input for import */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
+
+      <header style={{ maxWidth: '1200px', margin: '0 auto', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h1 style={{ fontSize: '2rem', margin: 0 }}>Custom Sessions</h1>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <button
+              onClick={handleImport}
+              style={{
+                padding: '0.5rem 1rem',
+                background: '#2196F3',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '0.875rem',
+              }}
+            >
+              📥 Import
+            </button>
+            <button
+              onClick={handleExportAll}
+              disabled={sessions.length === 0}
+              style={{
+                padding: '0.5rem 1rem',
+                background: sessions.length === 0 ? '#708090' : '#2196F3',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: sessions.length === 0 ? 'not-allowed' : 'pointer',
+                fontSize: '0.875rem',
+                opacity: sessions.length === 0 ? 0.5 : 1,
+              }}
+            >
+              📤 Export All
+            </button>
+            <HomeButton />
+          </div>
+        </div>
       </header>
 
-      <div className="cs-container">
-        {/* Actions */}
-        <div className="cs-actions">
-          <a href="#/custom-sessions/builder" className="cs-btn cs-btn-primary">
-            <Plus size={20} />
-            <span>New Session</span>
-          </a>
-          <label className="cs-btn cs-btn-secondary">
-            <Upload size={20} />
-            <span>Import</span>
-            <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
-          </label>
-        </div>
+      <main style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* New Session Button */}
+        <button
+          onClick={handleNewSession}
+          style={{
+            width: '100%',
+            padding: '1.5rem',
+            fontSize: '1.25rem',
+            background: '#00D9FF',
+            color: '#0b1220',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            marginBottom: '2rem',
+            fontWeight: 'bold',
+          }}
+        >
+          + Create New Session
+        </button>
 
-        {/* Saved Sessions */}
-        <section className="cs-section">
-          <h2 className="cs-section-title">Your Sessions ({sessions.length})</h2>
+        {/* Preset Templates */}
+        {presets.length > 0 && (
+          <section style={{ marginBottom: '3rem' }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Quick Start Templates</h2>
+            <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+              {presets.map((preset) => (
+                <div
+                  key={preset.id}
+                  style={{
+                    background: '#1a2332',
+                    padding: '1.5rem',
+                    borderRadius: '8px',
+                    border: '1px solid #708090',
+                  }}
+                >
+                  <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.125rem' }}>{preset.name}</h3>
+                  <p style={{ margin: '0 0 1rem 0', color: '#A0A0A0', fontSize: '0.875rem' }}>
+                    {preset.description}
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <span style={{ color: '#708090', fontSize: '0.875rem' }}>{preset.duration}</span>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <button
+                        onClick={() => handlePreviewPreset(preset.id)}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          background: 'transparent',
+                          color: '#FFD700',
+                          border: '1px solid #FFD700',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '0.875rem',
+                        }}
+                      >
+                        👁 Preview
+                      </button>
+                      <button
+                        onClick={() => handleUsePreset(preset.id)}
+                        style={{
+                          padding: '0.5rem 1rem',
+                          background: '#2196F3',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: 'pointer',
+                          fontSize: '0.875rem',
+                        }}
+                      >
+                        Use Template
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* My Sessions */}
+        <section>
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>My Sessions ({sessions.length})</h2>
+
           {sessions.length === 0 ? (
-            <div className="cs-empty">
-              <p>No saved sessions yet. Create your first custom timer!</p>
+            <div
+              style={{
+                background: '#1a2332',
+                padding: '3rem',
+                borderRadius: '8px',
+                textAlign: 'center',
+                border: '2px dashed #708090',
+              }}
+            >
+              <p style={{ fontSize: '1.125rem', color: '#A0A0A0', margin: 0 }}>
+                No sessions yet. Create your first session!
+              </p>
             </div>
           ) : (
-            <div className="cs-grid">
-              {sessions.map(session => (
-                <div key={session.id} className="cs-card">
-                  <div className="cs-card-header">
-                    <h3 className="cs-card-title">{session.name}</h3>
-                    <span className="cs-card-count">{session.elements.length} phases</span>
+            <div style={{ display: 'grid', gap: '1rem' }}>
+              {sessions.map((session) => (
+                <div
+                  key={session.id}
+                  style={{
+                    background: '#1a2332',
+                    padding: '1.5rem',
+                    borderRadius: '8px',
+                    border: '1px solid #708090',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div>
+                    <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem' }}>
+                      {session.name}
+                      {session.isTemplate && (
+                        <span
+                          style={{
+                            marginLeft: '0.5rem',
+                            padding: '0.25rem 0.5rem',
+                            background: '#2196F3',
+                            fontSize: '0.75rem',
+                            borderRadius: '4px',
+                          }}
+                        >
+                          Template
+                        </span>
+                      )}
+                    </h3>
+                    <div style={{ color: '#708090', fontSize: '0.875rem' }}>
+                      {session.elements.length} elements • {formatDuration(
+                        session.elements.reduce((sum, el) => sum + el.durationMs, 0)
+                      )}
+                    </div>
                   </div>
-                  <div className="cs-card-info">
-                    <span className="cs-card-duration">{formatDuration(totalDuration(session.elements))}</span>
-                  </div>
-                  <div className="cs-card-actions">
-                    <a href={`#/custom-sessions/run/${session.id}`} className="cs-card-btn cs-card-btn-primary">
-                      <Play size={16} />
-                      <span>Start</span>
-                    </a>
-                    <a href={`#/custom-sessions/builder?id=${session.id}`} className="cs-card-btn">
-                      <Edit size={16} />
-                    </a>
-                    <button onClick={() => handleDuplicate(session)} className="cs-card-btn">
-                      <Copy size={16} />
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={() => handleRunSession(session.id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: '#4CAF50',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      ▶ Start
                     </button>
-                    <button onClick={() => handleExport(session)} className="cs-card-btn">
-                      <Download size={16} />
+                    <button
+                      onClick={() => handlePreviewSession(session.id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: 'transparent',
+                        color: '#FFD700',
+                        border: '1px solid #FFD700',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      👁 Preview
                     </button>
-                    <button onClick={() => handleDelete(session.id)} className="cs-card-btn cs-card-btn-danger">
-                      <Trash2 size={16} />
+                    <button
+                      onClick={() => handleEditSession(session.id)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: 'transparent',
+                        color: '#00D9FF',
+                        border: '1px solid #00D9FF',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleExportSession(session)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: 'transparent',
+                        color: '#2196F3',
+                        border: '1px solid #2196F3',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Export
+                    </button>
+                    <button
+                      onClick={() => handleDeleteSession(session.id, session.name)}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: 'transparent',
+                        color: '#DC143C',
+                        border: '1px solid #DC143C',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -215,31 +393,7 @@ export default function CustomSessionsLanding() {
             </div>
           )}
         </section>
-
-        {/* Presets */}
-        <section className="cs-section">
-          <h2 className="cs-section-title">Templates</h2>
-          <div className="cs-grid">
-            {presets.map(preset => (
-              <div key={preset.id} className="cs-card cs-card-preset">
-                <div className="cs-card-header">
-                  <h3 className="cs-card-title">{preset.name}</h3>
-                  <span className="cs-card-category">{preset.category}</span>
-                </div>
-                <p className="cs-card-description">{preset.description}</p>
-                <div className="cs-card-info">
-                  <span className="cs-card-count">{preset.elements.length} phases</span>
-                  <span className="cs-card-duration">{formatDuration(totalDuration(preset.elements))}</span>
-                </div>
-                <button onClick={() => handleUsePreset(preset)} className="cs-card-btn cs-card-btn-primary">
-                  <Plus size={16} />
-                  <span>Use Template</span>
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+      </main>
     </div>
   );
 }

@@ -223,3 +223,21 @@ export interface CouplesTimerState {
   completedSessions: number;     // Total completed sessions for this profile
   schedule: SessionSchedule | null;
 }
+
+// Time Since state - Counts elapsed time from historic events
+export interface HistoricalEvent {
+  id: string;
+  name: string;
+  date: Date;
+  category: 'space' | 'history' | 'science' | 'culture' | 'personal';
+  description: string;
+  color: string;
+}
+
+export interface TimeSinceState {
+  version: 1;
+  selectedEventId: string | null;
+  customEventDate: number | null; // Unix timestamp for custom events
+  customEventName: string | null;
+  running: boolean;
+}

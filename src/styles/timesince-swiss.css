@@ -1,0 +1,428 @@
+/* ============================================
+ * TIME SINCE TIMER - Futuristic Digital Display
+ * Swiss/Bauhaus modular scale system
+ * Inspired by sci-fi interfaces and digital displays
+ * ============================================ */
+
+.timesince-page {
+  min-height: 100vh;
+  background: var(--ocean-deep);
+  color: var(--neutral-white);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg);
+}
+
+/* ============================================
+ * HEADER
+ * ============================================ */
+.timesince-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--ocean-mid);
+}
+
+.timesince-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--aurora-cyan), var(--aurora-lavender));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+/* ============================================
+ * EVENT SELECTOR
+ * ============================================ */
+.timesince-selector {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+}
+
+.timesince-selector-intro {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.timesince-selector-intro h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--neutral-white);
+}
+
+.timesince-selector-intro p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--ocean-bright);
+  margin: 0;
+}
+
+/* ============================================
+ * CATEGORIES
+ * ============================================ */
+.timesince-categories {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.timesince-category {
+  background: rgba(26, 41, 66, 0.5);
+  border: 1px solid var(--ocean-mid);
+  border-radius: 12px;
+  padding: var(--spacing-xl);
+  transition: transform 0.2s ease;
+}
+
+.timesince-category:hover {
+  transform: translateY(-2px);
+  border-color: var(--aurora-cyan);
+}
+
+.timesince-category-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  margin: 0 0 var(--spacing-lg) 0;
+  color: var(--neutral-white);
+  letter-spacing: 0.025em;
+}
+
+/* ============================================
+ * EVENTS GRID
+ * ============================================ */
+.timesince-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.timesince-event-btn {
+  background: rgba(10, 22, 40, 0.8);
+  border: 2px solid var(--event-color, var(--ocean-mid));
+  border-radius: 8px;
+  padding: var(--spacing-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.timesince-event-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent, var(--event-color, var(--ocean-mid)));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.timesince-event-btn:hover::before {
+  opacity: 0.1;
+}
+
+.timesince-event-btn:hover {
+  transform: translateY(-4px);
+  border-color: var(--event-color, var(--aurora-cyan));
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 20px var(--event-color, var(--aurora-cyan));
+}
+
+.timesince-event-btn:active {
+  transform: translateY(-2px);
+}
+
+.timesince-event-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--neutral-white);
+  position: relative;
+  z-index: 1;
+}
+
+.timesince-event-desc {
+  font-size: 0.875rem;
+  color: var(--ocean-bright);
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+ * TIME DISPLAY
+ * ============================================ */
+.timesince-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+  padding: var(--spacing-md);
+}
+
+.timesince-event-banner {
+  background: linear-gradient(135deg, rgba(10, 22, 40, 0.95), rgba(26, 41, 66, 0.8));
+  border: 2px solid var(--event-color, var(--aurora-cyan));
+  border-radius: 16px;
+  padding: var(--spacing-2xl);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 40px var(--event-color, var(--aurora-cyan));
+}
+
+.timesince-event-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent, var(--event-color, var(--aurora-cyan)));
+  opacity: 0.05;
+  z-index: 0;
+}
+
+.timesince-event-info {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.timesince-event-title {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 800;
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--neutral-white);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px var(--event-color, var(--aurora-cyan));
+}
+
+.timesince-event-description {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--ocean-bright);
+  margin: 0 0 var(--spacing-sm) 0;
+  font-style: italic;
+}
+
+.timesince-event-date {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  color: var(--ocean-bright);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ============================================
+ * FUTURISTIC TIME GRID
+ * ============================================ */
+.timesince-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.timesince-unit {
+  background: linear-gradient(135deg, rgba(10, 22, 40, 0.95), rgba(26, 41, 66, 0.8));
+  border: 2px solid var(--aurora-cyan);
+  border-radius: 12px;
+  padding: var(--spacing-xl);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 0 20px rgba(0, 217, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.timesince-unit::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent,
+    rgba(0, 217, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+  z-index: 0;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+}
+
+.timesince-unit:hover {
+  transform: translateY(-4px);
+  border-color: var(--aurora-lavender);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px rgba(0, 217, 255, 0.2),
+    0 0 30px rgba(0, 217, 255, 0.3);
+}
+
+.timesince-number {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--aurora-cyan);
+  margin: 0 0 var(--spacing-sm) 0;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+  text-shadow:
+    0 0 10px var(--aurora-cyan),
+    0 0 20px var(--aurora-cyan),
+    0 0 30px rgba(0, 217, 255, 0.5);
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+}
+
+.timesince-label {
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+  font-weight: 600;
+  color: var(--ocean-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+ * CONTROLS
+ * ============================================ */
+.timesince-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: var(--spacing-xl);
+}
+
+.timesince-btn {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid transparent;
+}
+
+.timesince-btn.secondary {
+  background: rgba(26, 41, 66, 0.8);
+  border-color: var(--ocean-mid);
+  color: var(--neutral-white);
+}
+
+.timesince-btn.secondary:hover {
+  background: rgba(26, 41, 66, 1);
+  border-color: var(--aurora-cyan);
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.timesince-btn.secondary:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+ * HELP TEXT
+ * ============================================ */
+.timesince-help {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-md);
+  background: rgba(26, 41, 66, 0.3);
+  border-radius: 8px;
+  border: 1px solid var(--ocean-mid);
+}
+
+.timesince-help p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ocean-bright);
+}
+
+.timesince-help strong {
+  color: var(--aurora-cyan);
+  font-weight: 700;
+  padding: 2px 6px;
+  background: rgba(0, 217, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* ============================================
+ * RESPONSIVE
+ * ============================================ */
+@media (max-width: 768px) {
+  .timesince-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .timesince-events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .timesince-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+ * FULLSCREEN MODE
+ * ============================================ */
+.timesince-page:fullscreen {
+  padding: var(--spacing-2xl);
+}
+
+.timesince-page:fullscreen .timesince-header {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.timesince-page:fullscreen .timesince-grid {
+  gap: var(--spacing-2xl);
+}
+
+.timesince-page:fullscreen .timesince-number {
+  font-size: clamp(3rem, 8vw, 6rem);
+}
