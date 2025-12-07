@@ -236,11 +236,13 @@ export default function TimeSince() {
                 <h2 className="timesince-event-title">{currentEvent.name}</h2>
                 <p className="timesince-event-description">{currentEvent.description}</p>
                 <p className="timesince-event-date">
-                  {currentEvent.date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
+                  {isNaN(currentEvent.date.getTime())
+                    ? "Date not available"
+                    : currentEvent.date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
                 </p>
               </div>
             </div>
