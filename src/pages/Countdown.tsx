@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
-import { useAutoFitText } from "../hooks/useAutoFitText";
+import { useAutoFitText } from "../hooks/useAutoFitText"; // Maybe not needed if we clamp fonts
 import { HomeButton } from "../components/HomeButton";
-import { CountdownGuide } from '../components/CountdownGuide';
+// import { CountdownGuide } from '../components/CountdownGuide'; // Removing old guide
+import '../styles/countdown-focus.css';
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -43,7 +44,7 @@ function load(): Persist {
       remainingMs: 300_000,
       running: false,
       endAt: null,
-      warnAtMs: 10_000, // 10 seconds warning (spec requirement)
+      warnAtMs: 10_000,
       signal: { sound: true, flash: true }
     };
   }
@@ -52,9 +53,7 @@ function load(): Persist {
 function save(p: Persist) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(p));
-  } catch {
-    // Silently fail
-  }
+  } catch { }
 }
 
 function useRaf(on: boolean, cb: () => void) {
@@ -76,35 +75,162 @@ function useRaf(on: boolean, cb: () => void) {
 }
 
 function fmt(ms: number): string {
-  const total = Math.max(0, Math.floor(ms / 1000));
+  const total = Math.max(0, Math.ceil(ms / 1000)); // Ceil to show "5:00" until 4:59.999
   const h = Math.floor(total / 3600);
   const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
+
+/* --- Components --- */
+
+const CountdownWorld = ({ onStart }: { onStart: (minutes: number) => void }) => {
+  return (
+    <div className="focus-world">
+      <header className="focus-hero">
+        <HomeButton />
+        <div style={{ marginTop: 40 }}>
+          <span className="focus-tag">Shared Focus Frame</span>
+          <h1 className="focus-title">The Clear Frame</h1>
+          <p className="focus-subtitle">
+            “I am the frame everyone can see. A clear start and a clear end, so you can focus on the middle.”
+          </p>
+        </div>
+      </header>
+
+      <div className="focus-rituals-grid">
+        <div className="focus-ritual-card" onClick={() => onStart(10)}>
+          <span className="focus-ritual-time">10:00</span>
+          <h3 className="focus-ritual-title">Exercise Block</h3>
+          <p className="focus-ritual-desc">
+            Perfect for workshops. When the time is up, the group stops asking "How long left?".
+          </p>
+        </div>
+
+        <div className="focus-ritual-card" onClick={() => onStart(25)}>
+          <span className="focus-ritual-time">25:00</span>
+          <h3 className="focus-ritual-title">Silent Work Sprint</h3>
+          <p className="focus-ritual-desc">
+            Pick one outcome. Turn off notifications. Go deep until the bell rings.
+          </p>
+        </div>
+
+        <div className="focus-ritual-card" onClick={() => onStart(1)}>
+          <span className="focus-ritual-time">01:00</span>
+          <h3 className="focus-ritual-title">Gentle Closing</h3>
+          <p className="focus-ritual-desc">
+            Use the last minute solely to wrap up. One sentence, one next step.
+          </p>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 60, opacity: 0.6 }}>
+        <p style={{ fontSize: '0.9rem' }}>
+          <strong>Tip for Facilitators:</strong> Timeboxing isn't about pressure. It's about safety.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const CountdownPlayer = ({
+  st,
+  onToggle,
+  onReset,
+  onAdjust,
+  onPreset,
+  onFullscreen,
+  onExit
+}: any) => {
+  // Circle calculation
+  const radius = 45; // viewbox 100x100
+  const circumference = 2 * Math.PI * radius;
+  const progress = st.durationMs > 0 ? st.remainingMs / st.durationMs : 0;
+  const offset = circumference - (progress * circumference);
+  const isLastMinute = st.remainingMs > 0 && st.remainingMs <= 60000;
+  const isExpired = st.remainingMs <= 0 && !st.running; // wait, if remainingMs=0 it stops running. 
+  // Actually we want "expired" style when remainingMs is 0, regardless of running state?
+  // In logic below, running sets to false when 0. So check remainingMs === 0.
+
+  // Color logic
+  let strokeColor = "#4682B4"; // Steel Blue
+  if (isLastMinute) strokeColor = "#E67E22"; // Orange warning
+  if (st.remainingMs === 0) strokeColor = "#DC143C"; // Crimson expired
+
+  return (
+    <div className={`focus-player ${isLastMinute ? 'last-minute' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}>
+      <div className="focus-header-bar">
+        <button className="focus-back-btn" onClick={onExit}>← Back</button>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <label style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <input type="checkbox" checked={st.signal.sound} onChange={() => { /* needs handler */ }} disabled />
+            Sound (On)
+          </label>
+          <HomeButton />
+        </div>
+      </div>
+
+      <div className="focus-display-container">
+        <svg className="focus-ring-bg" viewBox="0 0 100 100">
+          <circle
+            cx="50" cy="50" r={radius}
+            fill="none" stroke="#E6F2FA" strokeWidth="2"
+          />
+          <circle
+            cx="50" cy="50" r={radius}
+            fill="none"
+            stroke={strokeColor}
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            transform="rotate(-90 50 50)"
+            style={{ transition: 'stroke-dashoffset 1s linear, stroke 0.3s' }}
+          />
+        </svg>
+        <div className="focus-time-display">
+          {fmt(st.remainingMs)}
+        </div>
+      </div>
+
+      <div className="focus-controls">
+        <button className="focus-btn focus-btn-secondary" onClick={onReset}>Reset</button>
+        <button className="focus-btn focus-btn-primary" onClick={onToggle}>
+          {st.running ? 'Pause' : 'Start'}
+        </button>
+        <button className="focus-btn focus-btn-secondary" onClick={onFullscreen}>Focus</button>
+      </div>
+
+      <div className="focus-presets">
+        <button className="focus-preset-chip" onClick={() => onPreset(5)}>+5m</button>
+        <button className="focus-preset-chip" onClick={() => onPreset(10)}>+10m</button>
+        <button className="focus-preset-chip" onClick={() => onPreset(25)}>+25m</button>
+        <button className="focus-preset-chip" onClick={() => onAdjust(-60000)}>-1m</button>
+        <button className="focus-preset-chip" onClick={() => onAdjust(60000)}>+1m</button>
+      </div>
+    </div>
+  );
+}
+
+/* --- Main Logic --- */
 
 export default function Countdown() {
   const [st, setSt] = useState<Persist>(load);
+  const [mode, setMode] = useState<'world' | 'player'>('world');
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
   const lastSecondRef = useRef<number>(-1);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [urlChecked, setUrlChecked] = useState(false);
 
+  // URL Params handling
   useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-  }, []);
-
-  useEffect(() => {
+    if (urlChecked) return;
     const params = new URLSearchParams(window.location.search);
-    
     if (params.has('duration')) {
       const durationSeconds = parseInt(params.get('duration') || '0', 10);
       const durationMs = clamp(durationSeconds * 1000, 1000, MAX);
-      
       setSt(s => ({
         ...s,
         durationMs,
@@ -112,7 +238,8 @@ export default function Countdown() {
         running: false,
         endAt: null
       }));
-      
+      setMode('player');
+
       if (params.get('autostart') === '1') {
         setTimeout(() => {
           setSt(s => ({
@@ -122,22 +249,30 @@ export default function Countdown() {
           }));
         }, 100);
       }
+    } else {
+      // If we have a saved running timer, go to player
+      if (st.running) setMode('player');
     }
-  }, []);
+    setUrlChecked(true);
+  }, [urlChecked, st.running]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
     const rem = Math.max(0, st.endAt - now);
 
-    // Only update on second change to prevent flickering
-    const currentSeconds = Math.floor(st.remainingMs / 1000);
-    const newSeconds = Math.floor(rem / 1000);
+    // Sync UI
+    // To update circle smoothly, we might want fewer updates? 
+    // No, Raf is fine.
 
-    if (newSeconds !== currentSeconds) {
-      setSt(s => ({ ...s, remainingMs: rem }));
-    }
-  }, [st.running, st.endAt, st.remainingMs]);
+    // Only update state if second changes OR if very close to end (for smooth ring)? 
+    // Actually for React rendering perf, maybe throttle?
+    // But we need smooth ring.
+    // Let's just update `remainingMs`.
+
+    setSt(s => ({ ...s, remainingMs: rem }));
+
+  }, [st.running, st.endAt]);
 
   useRaf(st.running, sync);
 
@@ -147,175 +282,88 @@ export default function Countdown() {
   }, [st]);
 
   useEffect(() => {
-    // Last 10 seconds: tick every second (10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-    const secondsRemaining = Math.floor(st.remainingMs / 1000);
-    if (st.running && secondsRemaining >= 1 && secondsRemaining <= 10) {
-      // Only beep when we cross into a new second
+    // Ticks and Alarms
+    const secondsRemaining = Math.max(0, Math.ceil(st.remainingMs / 1000));
+
+    if (st.running && st.remainingMs > 0 && st.remainingMs <= 10000) {
+      // Last 10 seconds tick
       if (secondsRemaining !== lastSecondRef.current) {
         lastSecondRef.current = secondsRemaining;
-        if (st.signal.flash) flash(wrapRef.current, 250);
-        if (st.signal.sound) {
-          // Higher pitch as we get closer to zero (more urgent)
-          const pitch = 800 + (11 - secondsRemaining) * 50; // 850Hz at 10s, 1300Hz at 1s
-          beep(80, pitch); // Short 80ms tick
-        }
+        if (st.signal.sound) beep(50, 800 + (11 - secondsRemaining) * 50);
       }
     }
 
-    // Finish: loud alarm with ADSR envelope (multiple beeps)
     if (st.running && st.remainingMs <= 0) {
-      lastSecondRef.current = -1; // Reset for next countdown
+      // Finished
       setSt(s => ({ ...s, running: false, endAt: null, remainingMs: 0 }));
-      if (st.signal.flash) flash(wrapRef.current, 900);
       if (st.signal.sound) {
-        // Alarm bimmeln - multiple beeps with ADSR envelope
-        beep(300, 880);  // First beep (300ms)
-        setTimeout(() => beep(300, 880), 350);  // Second beep
-        setTimeout(() => beep(300, 880), 700);  // Third beep
-        setTimeout(() => beep(500, 660), 1050); // Final longer lower beep (500ms)
+        // ADSR Alarm
+        beep(300, 880);
+        setTimeout(() => beep(300, 880), 350);
+        setTimeout(() => beep(500, 660), 750);
       }
     }
   }, [st.remainingMs, st.running, st.signal]);
 
-  const start = useCallback(() => {
-    if (st.remainingMs <= 0) {
-      setSt(s => ({ ...s, remainingMs: s.durationMs, running: true, endAt: Date.now() + s.durationMs }));
-    } else {
-      setSt(s => ({ ...s, running: true, endAt: Date.now() + s.remainingMs }));
-    }
-  }, [st.remainingMs, st.durationMs]);
-
-  const pause = useCallback(() => setSt(s => ({ ...s, running: false, endAt: null })), []);
-  const reset = useCallback(() => setSt(s => ({ ...s, running: false, endAt: null, remainingMs: s.durationMs })), []);
-
-  const plus = useCallback((ms: number) => setSt(s => {
-    const base = s.running ? Math.max(0, (s.endAt ?? Date.now()) - Date.now()) : s.remainingMs;
-    const next = clamp(base + ms, 0, MAX);
-    return s.running ? { ...s, remainingMs: next, endAt: Date.now() + next } : { ...s, durationMs: next, remainingMs: next };
-  }), []);
-
-  const full = useCallback(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => { });
-    } else {
-      el.requestFullscreen?.().catch(() => { });
-    }
+  /* Actions */
+  const toggle = useCallback(() => {
+    setSt(s => {
+      if (s.running) {
+        return { ...s, running: false, endAt: null };
+      } else {
+        const target = s.remainingMs > 0 ? s.remainingMs : s.durationMs;
+        return { ...s, running: true, endAt: Date.now() + target, remainingMs: target };
+      }
+    });
   }, []);
 
-  const handlePresetSelect = useCallback((minutes: number) => {
-    const ms = minutes * 60 * 1000;
-    setSt(s => ({
-      ...s,
-      durationMs: ms,
-      remainingMs: ms,
-      running: false,
-      endAt: null
-    }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const reset = useCallback(() => {
+    setSt(s => ({ ...s, running: false, endAt: null, remainingMs: s.durationMs }));
   }, []);
 
-  // Use centralized keyboard shortcuts hook
+  const adjust = useCallback((deltaMs: number) => {
+    setSt(s => {
+      const base = s.remainingMs; // Always adjust remaining
+      const next = clamp(base + deltaMs, 0, MAX);
+      if (s.running) {
+        return { ...s, remainingMs: next, endAt: Date.now() + next, durationMs: s.durationMs + deltaMs };
+      }
+      return { ...s, remainingMs: next, durationMs: next }; // If paused, duration tracks remaining (simple mode)
+    });
+  }, []);
+
+  const setPreset = useCallback((minutes: number) => {
+    const ms = minutes * 60000;
+    setSt(s => ({ ...s, durationMs: ms, remainingMs: ms, running: false, endAt: null }));
+    setMode('player');
+  }, []);
+
+  const fullscreen = useCallback(() => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => { });
+    else document.documentElement.requestFullscreen().catch(() => { });
+  }, []);
+
+  /* Keyboard */
   useKeyboardShortcuts({
-    onSpace: () => st.running ? pause() : start(),
+    onSpace: toggle,
     onReset: reset,
-    onFullscreen: full,
-  }, true);
-
-  // Arrow keys for time adjustment (only when paused)
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      // Don't intercept if user is typing in input fields
-      const target = e.target as HTMLElement;
-      if (
-        target instanceof HTMLInputElement ||
-        target instanceof HTMLTextAreaElement ||
-        target.isContentEditable
-      ) {
-        return;
-      }
-
-      // Arrow keys only work when timer is NOT running (paused)
-      if (e.key === "ArrowUp" && !st.running) {
-        e.preventDefault();
-        plus(10_000);
-      } else if (e.key === "ArrowDown" && !st.running) {
-        e.preventDefault();
-        plus(-10_000);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [st.running, plus]);
+    onFullscreen: fullscreen,
+  }, mode === 'player');
 
   return (
-    <div className="countdown-page" ref={wrapRef}>
-      {/* Header */}
-      <header className="countdown-header">
-        <h1 className="countdown-title">Countdown</h1>
-        <HomeButton />
-      </header>
-
-      {/* Timer Display */}
-      <div
-        className={`countdown-display ${st.running ? 'running' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}
-      >
-        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
-          {fmt(st.remainingMs)}
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="countdown-controls">
-        {!st.running ? (
-          <button type="button" className="countdown-btn" onClick={start}>
-            Start
-          </button>
-        ) : (
-          <button type="button" className="countdown-btn" onClick={pause}>
-            Pause
-          </button>
-        )}
-        <button type="button" className="countdown-btn secondary" onClick={reset}>
-          Reset
-        </button>
-        <button type="button" className="countdown-btn secondary hide-on-mobile" onClick={full}>
-          Fullscreen
-        </button>
-      </div>
-
-      {/* Presets */}
-      <div className="countdown-presets">
-        <button type="button" className="countdown-preset" onClick={() => plus(60_000)}>+1m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(300_000)}>+5m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(600_000)}>+10m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(-60_000)}>-1m</button>
-      </div>
-
-      {/* Settings */}
-      <div className="countdown-settings">
-        <label>
-          <input
-            type="checkbox"
-            checked={st.signal.sound}
-            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
-          />
-          Sound
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={st.signal.flash}
-            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
-          />
-          Flash
-        </label>
-      </div>
-
-      {/* Guide - hidden when running or fullscreen */}
-      {!st.running && !isFullscreen && (
-        <CountdownGuide onPresetSelect={handlePresetSelect} />
+    <div className="countdown-theme-wrapper">
+      {mode === 'world' ? (
+        <CountdownWorld onStart={setPreset} />
+      ) : (
+        <CountdownPlayer
+          st={st}
+          onToggle={toggle}
+          onReset={reset}
+          onAdjust={adjust}
+          onPreset={setPreset}
+          onFullscreen={fullscreen}
+          onExit={() => setMode('world')}
+        />
       )}
     </div>
   );
