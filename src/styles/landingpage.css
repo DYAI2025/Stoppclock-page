@@ -884,6 +884,30 @@ body:has(.landing-page)::after {
     letter-spacing: -0.02em;
 }
 
+.lp-world-city-select {
+    font-size: var(--lp-font-small);
+    color: var(--lp-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-s);
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-world-city-select:hover {
+    border-color: var(--lp-border-medium);
+    background: var(--lp-bg-subtle);
+}
+
+.lp-world-city-select:focus {
+    outline: 2px solid var(--lp-accent-primary);
+    outline-offset: 2px;
+}
+
 /* ============================================
  * COOKING TIMER MINI PREVIEW
  * Stacked timers sorted by remaining time

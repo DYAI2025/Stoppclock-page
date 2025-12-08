@@ -234,14 +234,14 @@ const CookingPlayer = ({
                 </div>
               ) : (
                 <div className="cook-controls">
-                  <button className="cook-btn cook-btn-secondary" onClick={() => onAdjust(timer.id, -1)}>-1m</button>
+                  <button className="cook-btn cook-btn-secondary" onClick={() => onAdjust(timer.id, -30)}>-30s</button>
                   <button
                     className={`cook-btn ${timer.running ? 'cook-btn-secondary' : 'cook-btn-primary'}`}
                     onClick={() => onToggle(timer.id)}
                   >
                     {timer.running ? 'Pause' : 'Start'}
                   </button>
-                  <button className="cook-btn cook-btn-secondary" onClick={() => onAdjust(timer.id, 1)}>+1m</button>
+                  <button className="cook-btn cook-btn-secondary" onClick={() => onAdjust(timer.id, 30)}>+30s</button>
                 </div>
               )}
             </div>
@@ -394,12 +394,12 @@ export default function CookingTimer() {
     setSt(s => ({ ...s, timers: s.timers.filter(t => t.id !== id) }));
   };
 
-  const adjustTimer = (id: string, mins: number) => {
+  const adjustTimer = (id: string, secs: number) => {
     setSt(s => ({
       ...s,
       timers: s.timers.map(t => {
         if (t.id !== id) return t;
-        const delta = mins * 60000;
+        const delta = secs * 1000; // Convert seconds to ms
         // If running, adjust relative to now? Or just remaining?
         // Standard behavior: adjust remaining.
         let newRem = t.remainingMs;

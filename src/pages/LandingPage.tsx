@@ -306,6 +306,58 @@ function MiniWorldClock({ timezone = 'Europe/Berlin' }: { timezone?: string }) {
     return <canvas ref={canvasRef} width={120} height={120} className="lp-mini-clock-canvas" />;
 }
 
+// Timezone options for World Clock selector
+const PINNED_TIMEZONE_OPTIONS = [
+    { value: 'Europe/Berlin', label: 'Berlin' },
+    { value: 'Europe/London', label: 'London' },
+    { value: 'Europe/Paris', label: 'Paris' },
+    { value: 'America/New_York', label: 'New York' },
+    { value: 'America/Los_Angeles', label: 'Los Angeles' },
+    { value: 'Asia/Tokyo', label: 'Tokyo' },
+    { value: 'Asia/Singapore', label: 'Singapore' },
+    { value: 'Australia/Sydney', label: 'Sydney' },
+    { value: 'UTC', label: 'UTC' }
+];
+
+// World Clock Pinned Preview with City Selector
+function WorldClockPinnedPreview() {
+    const [timezone, setTimezone] = React.useState('Europe/Berlin');
+    const [now, setNow] = React.useState(new Date());
+
+    React.useEffect(() => {
+        const interval = setInterval(() => setNow(new Date()), 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const cityLabel = PINNED_TIMEZONE_OPTIONS.find(t => t.value === timezone)?.label || 'Berlin';
+    const timeStr = now.toLocaleTimeString('en-US', {
+        timeZone: timezone,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    return (
+        <div className="lp-pinned-preview-world">
+            <MiniWorldClock timezone={timezone} />
+            <div className="lp-world-info">
+                <select
+                    className="lp-world-city-select"
+                    value={timezone}
+                    onChange={(e) => setTimezone(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label="Select city timezone"
+                >
+                    {PINNED_TIMEZONE_OPTIONS.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                </select>
+                <span className="lp-world-time">{timeStr}</span>
+            </div>
+        </div>
+    );
+}
+
 // ============================================
 // COOKING TIMER MINI PREVIEW
 // ============================================
@@ -974,22 +1026,7 @@ function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => 
     const renderPreview = () => {
         switch (timer.id) {
             case 'world':
-                return (
-                    <div className="lp-pinned-preview-world">
-                        <MiniWorldClock timezone="Europe/Berlin" />
-                        <div className="lp-world-info">
-                            <span className="lp-world-city">Berlin</span>
-                            <span className="lp-world-time">
-                                {new Date().toLocaleTimeString('en-US', {
-                                    timeZone: 'Europe/Berlin',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false
-                                })}
-                            </span>
-                        </div>
-                    </div>
-                );
+                return <WorldClockPinnedPreview />;
             case 'cooking':
                 return <CookingTimerMiniPreview />;
             case 'countdown':
