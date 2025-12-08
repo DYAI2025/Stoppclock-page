@@ -228,7 +228,7 @@ export default function SessionRunner() {
   // ============================================================================
 
   useKeyboardShortcuts({
-    onStartPause: handleStartPause,
+    onSpace: handleStartPause,
     onReset: handleReset,
     onFullscreen: handleFullscreen,
   });

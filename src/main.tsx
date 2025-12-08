@@ -41,7 +41,6 @@ import LanguageToggle from "./components/LanguageToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
 import TimerIcon, { TimerIconType } from "./components/TimerIcon";
 import LandingPage from "./pages/LandingPage";
-import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);

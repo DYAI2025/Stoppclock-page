@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { beep } from "../utils";
 import { HomeButton } from "../components/HomeButton";
+import { RotateCcw } from "lucide-react";
 
 const LS_KEY = "sc.v1.chessclock";
 const DEFAULT_TIME = 5 * 60 * 1000; // 5 minutes
@@ -55,13 +56,21 @@ export default function ChessClock() {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const [showSettings, setShowSettings] = useState(false);
-  const [tempMinutes, setTempMinutes] = useState(5);
+  const [rotateOpponent, setRotateOpponent] = useState(false);
+  const [tempMinutes, setTempMinutes] = useState('');
   const rafRef = useRef<number | undefined>();
 
   useEffect(() => {
     const t = setTimeout(() => save(st), 150);
     return () => clearTimeout(t);
   }, [st]);
+
+  useEffect(() => {
+    if (showSettings) {
+      // Initialize with current P1 time in minutes
+      setTempMinutes(String(Math.floor(st.player1Time / 60000) || 5));
+    }
+  }, [showSettings]);
 
   useEffect(() => {
     if (st.activePlayer && st.startedAt) {
@@ -134,7 +143,11 @@ export default function ChessClock() {
   };
 
   const applyTimeSettings = () => {
-    const newTime = tempMinutes * 60 * 1000;
+    let mins = parseInt(tempMinutes);
+    if (isNaN(mins) || mins < 1) mins = 1;
+    if (mins > 1440) mins = 1440; // Max 24 hours
+
+    const newTime = mins * 60 * 1000;
     setSt({
       version: 1,
       player1Time: newTime,
@@ -168,9 +181,9 @@ export default function ChessClock() {
                 id="chess-minutes"
                 type="number"
                 min="1"
-                max="180"
+                max="1440"
                 value={tempMinutes}
-                onChange={(e) => setTempMinutes(Math.max(1, Math.min(180, parseInt(e.target.value) || 1)))}
+                onChange={(e) => setTempMinutes(e.target.value)}
               />
             </div>
             <div className="chess-settings-buttons">
@@ -188,6 +201,7 @@ export default function ChessClock() {
       <div
         className={`player player-1 ${st.activePlayer === 1 ? 'active' : ''}`}
         onClick={() => switchToPlayer(1)}
+        style={{ transform: rotateOpponent ? 'rotate(180deg)' : undefined }}
       >
         <div className="chess-piece">♔</div>
         <div className="player-label">Player 1</div>
@@ -197,6 +211,9 @@ export default function ChessClock() {
       <div className="chess-controls">
         <button type="button" className="btn" onClick={reset}>Reset</button>
         <button type="button" className="btn" onClick={() => setShowSettings(true)}>Time</button>
+        <button type="button" className="btn" onClick={() => setRotateOpponent(prev => !prev)} title="Rotate Opponent">
+          <RotateCcw size={20} />
+        </button>
       </div>
 
       <div

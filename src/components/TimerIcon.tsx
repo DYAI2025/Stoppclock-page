@@ -14,6 +14,7 @@ export type TimerIconType =
   | "Metronome"
   | "Chess Clock"
   | "Digital Clock"
+  | "Time Since"
   | "Raum für Zeit";
 
 export function TimerIcon({ type }: { type: TimerIconType }) {
@@ -121,6 +122,13 @@ export function TimerIcon({ type }: { type: TimerIconType }) {
         <path d="M17 10h.01" />
         <path d="M17 14h.01" />
         <path d="M12 10v4" />
+      </svg>
+    ),
+    "Time Since": (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+        <path d="M4 4l4 4" />
       </svg>
     ),
     "Raum für Zeit": (

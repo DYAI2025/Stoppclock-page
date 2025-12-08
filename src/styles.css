@@ -536,11 +536,11 @@ body:has(.legal-page) {
 }
 
 .home-grid,
-.pillar-grid{
-  background: 
-    linear-gradient(135deg, 
-      rgba(0, 217, 255, 0.03) 0%, 
-      transparent 50%, 
+.pillar-grid {
+  background:
+    linear-gradient(135deg,
+      rgba(0, 217, 255, 0.03) 0%,
+      transparent 50%,
       rgba(199, 125, 255, 0.03) 100%),
     var(--ocean-dark);
   border-radius: 32px;
@@ -607,20 +607,22 @@ body:has(.legal-page) {
 
 
 @media (max-width: 900px) {
+
   .home-grid,
-  .pillar-grid{
-    grid-template-columns:repeat(2, 1fr);
-    gap:20px;
-    padding:30px;
+  .pillar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 30px;
   }
 }
 
 @media (max-width: 500px) {
+
   .home-grid,
-  .pillar-grid{
-    grid-template-columns:1fr;
-    gap:20px;
-    padding:24px;
+  .pillar-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px;
   }
 }
 
@@ -1998,6 +2000,33 @@ h1 {
   justify-content: center;
 }
 
+@media (orientation: landscape) {
+  .chess-wrap {
+    flex-direction: row;
+  }
+
+  .chess-controls {
+    flex-direction: column;
+    padding: 24px 16px;
+  }
+
+  /* Adjust player sizing/orientation if needed */
+  .player {
+    height: 100%;
+    flex: 1;
+    width: auto;
+  }
+
+  /* Ensure text doesn't get too massive in landscape width */
+  .player-time {
+    font-size: clamp(40px, 12vw, 120px);
+  }
+
+  .chess-piece {
+    font-size: clamp(60px, 12vw, 140px);
+  }
+}
+
 /* Cycle Timer styles - uses same layout as countdown but with different background */
 .cycle-wrap {
   height: 100%;
@@ -2565,6 +2594,7 @@ a:focus:not(:focus-visible) {
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
+
   button,
   a {
     outline: 2px solid currentColor;
@@ -2578,6 +2608,7 @@ a:focus:not(:focus-visible) {
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

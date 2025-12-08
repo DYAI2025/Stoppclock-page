@@ -730,6 +730,241 @@ function CustomSessionMiniPreview() {
 }
 
 // ============================================
+// CHESS CLOCK MINI PREVIEW
+// ============================================
+function ChessClockMiniPreview() {
+    const [state, setState] = React.useState<{
+        player1Time: number;
+        player2Time: number;
+        activePlayer: 1 | 2 | null;
+        startedAt: number | null;
+    }>({ player1Time: 300000, player2Time: 300000, activePlayer: null, startedAt: null });
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.chessclock');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    setState({
+                        player1Time: parsed.player1Time ?? 300000,
+                        player2Time: parsed.player2Time ?? 300000,
+                        activePlayer: parsed.activePlayer ?? null,
+                        startedAt: parsed.startedAt ?? null
+                    });
+                }
+            } catch { }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    React.useEffect(() => {
+        if (state.activePlayer && state.startedAt) {
+            const interval = setInterval(forceUpdate, 100);
+            return () => clearInterval(interval);
+        }
+    }, [state.activePlayer, state.startedAt]);
+
+    const elapsed = state.startedAt ? Date.now() - state.startedAt : 0;
+    const p1Time = state.activePlayer === 1 ? Math.max(0, state.player1Time - elapsed) : state.player1Time;
+    const p2Time = state.activePlayer === 2 ? Math.max(0, state.player2Time - elapsed) : state.player2Time;
+
+    const fmtShort = (ms: number) => {
+        const total = Math.max(0, Math.floor(ms / 1000));
+        const m = Math.floor(total / 60);
+        const s = total % 60;
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    };
+
+    return (
+        <div className={`lp-timer-preview lp-chess-preview ${state.activePlayer ? 'running' : ''}`}>
+            <div className="lp-chess-clocks">
+                <div className={`lp-chess-player ${state.activePlayer === 1 ? 'active' : ''}`}>
+                    <span className="lp-chess-icon">♔</span>
+                    <span className="lp-chess-time">{fmtShort(p1Time)}</span>
+                </div>
+                <div className={`lp-chess-player ${state.activePlayer === 2 ? 'active' : ''}`}>
+                    <span className="lp-chess-icon">♚</span>
+                    <span className="lp-chess-time">{fmtShort(p2Time)}</span>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ============================================
+// COUPLES TIMER MINI PREVIEW
+// ============================================
+function CouplesMiniPreview() {
+    const [state, setState] = React.useState<{
+        phase: string;
+        remainingMs: number;
+        running: boolean;
+        startedAt: number | null;
+    }>({ phase: 'SETUP', remainingMs: 0, running: false, startedAt: null });
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.couples');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    setState({
+                        phase: parsed.phase ?? 'SETUP',
+                        remainingMs: parsed.remainingMs ?? 0,
+                        running: parsed.running ?? false,
+                        startedAt: parsed.startedAt ?? null
+                    });
+                }
+            } catch { }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    React.useEffect(() => {
+        if (state.running && state.startedAt) {
+            const interval = setInterval(forceUpdate, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [state.running, state.startedAt]);
+
+    const displayMs = state.running && state.startedAt
+        ? Math.max(0, state.remainingMs - (Date.now() - state.startedAt))
+        : state.remainingMs;
+
+    const phaseLabels: Record<string, string> = {
+        'SETUP': 'Ready',
+        'PREP': 'Preparing',
+        'A_SPEAKS': 'A speaks',
+        'TRANSITION': 'Pause',
+        'B_SPEAKS': 'B speaks',
+        'A_CLOSING': 'A closing',
+        'B_CLOSING': 'B closing',
+        'COOLDOWN': 'Cooldown',
+        'COMPLETED': 'Done'
+    };
+
+    const fmtShort = (ms: number) => {
+        const total = Math.max(0, Math.floor(ms / 1000));
+        const m = Math.floor(total / 60);
+        const s = total % 60;
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    };
+
+    return (
+        <div className={`lp-timer-preview lp-couples-preview ${state.running ? 'running' : ''}`}>
+            <span className="lp-timer-preview-label">{phaseLabels[state.phase] || state.phase}</span>
+            <span className="lp-timer-preview-time">{fmtShort(displayMs)}</span>
+        </div>
+    );
+}
+
+// ============================================
+// ALARM MINI PREVIEW
+// ============================================
+function AlarmMiniPreview() {
+    const [nextAlarm, setNextAlarm] = React.useState<{ time: string; label: string } | null>(null);
+
+    React.useEffect(() => {
+        const loadAlarm = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.alarm');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed.alarmTime) {
+                        setNextAlarm({
+                            time: parsed.alarmTime,
+                            label: parsed.label || 'Alarm'
+                        });
+                    } else {
+                        setNextAlarm(null);
+                    }
+                } else {
+                    setNextAlarm(null);
+                }
+            } catch {
+                setNextAlarm(null);
+            }
+        };
+
+        loadAlarm();
+        const interval = setInterval(loadAlarm, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="lp-timer-preview lp-alarm-preview">
+            {nextAlarm ? (
+                <>
+                    <span className="lp-timer-preview-time">{nextAlarm.time}</span>
+                    <span className="lp-timer-preview-label">{nextAlarm.label}</span>
+                </>
+            ) : (
+                <span className="lp-timer-preview-label">No alarm set</span>
+            )}
+        </div>
+    );
+}
+
+// ============================================
+// ANALOG COUNTDOWN MINI PREVIEW
+// ============================================
+function AnalogMiniPreview() {
+    const [state, setState] = React.useState<{
+        remainingMs: number;
+        running: boolean;
+        endAt: number | null;
+    }>({ remainingMs: 300000, running: false, endAt: null });
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.analog');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    setState({
+                        remainingMs: parsed.remainingMs ?? 300000,
+                        running: parsed.running ?? false,
+                        endAt: parsed.endAt ?? null
+                    });
+                }
+            } catch { }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    React.useEffect(() => {
+        if (state.running && state.endAt) {
+            const interval = setInterval(forceUpdate, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [state.running, state.endAt]);
+
+    const displayMs = state.running && state.endAt
+        ? Math.max(0, state.endAt - Date.now())
+        : state.remainingMs;
+
+    return (
+        <div className={`lp-timer-preview lp-analog-mini-preview ${state.running ? 'running' : ''}`}>
+            <span className="lp-timer-preview-time">{formatTime(displayMs)}</span>
+            <span className="lp-timer-preview-label">Analog</span>
+        </div>
+    );
+}
+
+// ============================================
 // GENERIC LIVE TIMER PREVIEW
 // ============================================
 function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => void }) {
@@ -769,13 +1004,24 @@ function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => 
                 return <DigitalClockMiniPreview />;
             case 'custom-session':
                 return <CustomSessionMiniPreview />;
-            default:
+            case 'chess':
+                return <ChessClockMiniPreview />;
+            case 'couples':
+                return <CouplesMiniPreview />;
+            case 'alarm':
+                return <AlarmMiniPreview />;
+            case 'analog':
+                return <AnalogMiniPreview />;
+            default: {
+                // Fallback for any unhandled timer types
+                const timerData = timer as TimerDef;
                 return (
                     <div className="lp-timer-preview lp-timer-preview-default">
-                        <Icon size={24} style={{ color: timer.color }} />
-                        <span className="lp-timer-preview-label">{timer.label}</span>
+                        <Icon size={24} style={{ color: timerData.color }} />
+                        <span className="lp-timer-preview-label">{timerData.label}</span>
                     </div>
                 );
+            }
         }
     };
 
@@ -948,20 +1194,7 @@ function Footer() {
 // MAIN LANDING PAGE
 // ============================================
 export default function LandingPage() {
-    const { pinnedTimers, addPinnedTimer, removePinnedTimer, isPinned } = usePinnedTimers();
-
-    const handlePinToggle = (timerId: string) => {
-        if (isPinned(timerId)) {
-            removePinnedTimer(timerId);
-        } else {
-            // Enforce max 3 pinned timers
-            if (pinnedTimers.length >= 3) {
-                alert('Maximum 3 timers can be pinned at once. Unpin a timer first.');
-                return;
-            }
-            addPinnedTimer(timerId);
-        }
-    };
+    const { togglePin, isPinned } = usePinnedTimers();
 
     return (
         <div className="landing-page">
@@ -981,7 +1214,7 @@ export default function LandingPage() {
                         <TimerIconCard
                             key={timer.id}
                             timer={timer}
-                            onPin={() => handlePinToggle(timer.id)}
+                            onPin={() => togglePin(timer.id)}
                             isPinned={isPinned(timer.id)}
                         />
                     ))}

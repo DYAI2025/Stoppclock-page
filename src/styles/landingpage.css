@@ -323,7 +323,7 @@ body:has(.landing-page)::after {
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: var(--lp-spacing-l);
     padding-bottom: var(--lp-spacing-xs);
-    min-height: 280px;
+    min-height: 180px;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -337,7 +337,7 @@ body:has(.landing-page)::after {
 @media (max-width: 768px) {
     .lp-pinned-cards {
         grid-template-columns: 1fr;
-        min-height: 240px;
+        min-height: 160px;
     }
 }
 
@@ -354,12 +354,12 @@ body:has(.landing-page)::after {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 280px;
+    min-height: 220px;
 }
 
 @media (max-width: 768px) {
     .lp-pinned-card {
-        min-height: 240px;
+        min-height: 200px;
     }
 }
 
@@ -470,10 +470,10 @@ body:has(.landing-page)::after {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: var(--lp-spacing-xs);
+    gap: var(--lp-spacing-s);
     color: var(--lp-text-disabled);
     text-align: center;
-    padding: var(--lp-spacing-m) 0;
+    padding: var(--lp-spacing-xl) var(--lp-spacing-m);
 }
 
 .lp-pinned-empty-text {
@@ -612,32 +612,34 @@ body:has(.landing-page)::after {
     right: 8px;
     width: 28px;
     height: 28px;
-    background: var(--lp-bg-subtle);
+    background: var(--lp-bg-surface);
     border: 1px solid var(--lp-border-subtle);
     border-radius: var(--lp-radius-full);
     display: grid;
     place-items: center;
     cursor: pointer;
     color: var(--lp-text-muted);
-    opacity: 0;
+    opacity: 0.6;
     transition: all var(--lp-transition-fast);
 }
 
 .lp-icon-card:hover .lp-icon-card-pin {
     opacity: 1;
+    transform: scale(1.1);
 }
 
 .lp-icon-card-pin:hover {
-    background: var(--lp-text-main);
+    background: var(--lp-accent-primary);
     color: white;
-    border-color: var(--lp-text-main);
+    border-color: var(--lp-accent-primary);
+    transform: scale(1.15);
 }
 
 .lp-icon-card-pin.pinned {
     opacity: 1;
-    background: var(--lp-accent-primary);
+    background: var(--lp-accent-success);
     color: white;
-    border-color: var(--lp-accent-primary);
+    border-color: var(--lp-accent-success);
 }
 
 /* ============================================
@@ -647,18 +649,20 @@ body:has(.landing-page)::after {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(135deg, var(--lp-bg-subtle) 0%, var(--lp-bg-surface) 100%);
-    border: 1px solid var(--lp-border-subtle);
+    background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+    border: 2px solid #0EA5E9;
     border-radius: var(--lp-radius-l);
-    padding: var(--lp-spacing-l) var(--lp-spacing-xl);
+    padding: var(--lp-spacing-xl) var(--lp-spacing-xl);
     text-decoration: none;
     color: inherit;
     transition: all var(--lp-transition-base);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
 }
 
 .lp-worlds-banner:hover {
-    border-color: var(--lp-border-medium);
-    box-shadow: var(--lp-shadow-sm);
+    border-color: #0284C7;
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
+    transform: translateY(-2px);
 }
 
 .lp-worlds-banner-content {
@@ -669,14 +673,14 @@ body:has(.landing-page)::after {
 
 .lp-worlds-banner-title {
     font-size: var(--lp-font-h2);
-    font-weight: 600;
-    color: var(--lp-text-main);
+    font-weight: 700;
+    color: #0369A1;
     margin: 0;
 }
 
 .lp-worlds-banner-text {
     font-size: var(--lp-font-small);
-    color: var(--lp-text-muted);
+    color: #075985;
     margin: 0;
 }
 
@@ -712,14 +716,15 @@ body:has(.landing-page)::after {
 
 .lp-footer-hint kbd {
     display: inline-block;
-    padding: 2px 8px;
-    background: var(--lp-bg-subtle);
-    border: 1px solid var(--lp-border-subtle);
+    padding: 4px 10px;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-medium);
     border-radius: 6px;
-    font-family: inherit;
+    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
     font-size: var(--lp-font-xs);
-    font-weight: 500;
-    color: var(--lp-text-secondary);
+    font-weight: 600;
+    color: var(--lp-text-main);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), inset 0 -2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .lp-footer-links {
