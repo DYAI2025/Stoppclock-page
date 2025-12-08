@@ -499,6 +499,18 @@ body:has(.landing-page)::after {
 .lp-hero {
     text-align: center;
     margin-bottom: var(--lp-spacing-2xl);
+    animation: hero-fade-in 0.8s ease-out;
+}
+
+@keyframes hero-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .lp-hero-title {
@@ -507,6 +519,20 @@ body:has(.landing-page)::after {
     color: var(--lp-text-main);
     letter-spacing: -0.03em;
     margin: 0 0 var(--lp-spacing-s) 0;
+    position: relative;
+    display: inline-block;
+}
+
+.lp-hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--lp-accent-primary), transparent);
+    opacity: 0.6;
 }
 
 .lp-hero-text {
@@ -515,6 +541,7 @@ body:has(.landing-page)::after {
     max-width: 400px;
     margin: 0 auto;
     line-height: 1.6;
+    animation: hero-fade-in 0.8s ease-out 0.2s both;
 }
 
 /* ============================================
@@ -560,16 +587,32 @@ body:has(.landing-page)::after {
     border-radius: var(--lp-radius-l);
     padding: var(--lp-spacing-l) var(--lp-spacing-m);
     transition: all var(--lp-transition-slow);
+    cursor: pointer;
+}
+
+.lp-icon-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--lp-radius-l);
+    background: var(--card-gradient, linear-gradient(135deg, var(--lp-bg-subtle) 0%, var(--lp-bg-surface) 100%));
+    opacity: 0;
+    transition: opacity var(--lp-transition-slow);
+    z-index: -1;
 }
 
 .lp-icon-card:hover {
     border-color: var(--card-accent, var(--lp-border-medium));
-    box-shadow: var(--lp-shadow-md);
-    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--card-accent, var(--lp-border-medium));
+    transform: translateY(-6px) scale(1.02);
+}
+
+.lp-icon-card:hover::before {
+    opacity: 0.08;
 }
 
 .lp-icon-card:active {
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.01);
 }
 
 .lp-icon-card-icon {
@@ -581,11 +624,28 @@ body:has(.landing-page)::after {
     place-items: center;
     color: white;
     margin-bottom: var(--lp-spacing-s);
-    transition: transform var(--lp-transition-slow);
+    transition: all var(--lp-transition-slow);
+    position: relative;
+}
+
+.lp-icon-card-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: calc(var(--lp-radius-m) + 4px);
+    background: var(--card-gradient, var(--lp-bg-subtle));
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity var(--lp-transition-slow);
+    z-index: -1;
 }
 
 .lp-icon-card:hover .lp-icon-card-icon {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(-5deg);
+}
+
+.lp-icon-card:hover .lp-icon-card-icon::after {
+    opacity: 0.6;
 }
 
 .lp-icon-card-content {
@@ -598,11 +658,22 @@ body:has(.landing-page)::after {
     font-size: var(--lp-font-body);
     font-weight: 600;
     color: var(--lp-text-main);
+    transition: color var(--lp-transition-fast);
+}
+
+.lp-icon-card:hover .lp-icon-card-label {
+    color: var(--card-accent, var(--lp-text-main));
 }
 
 .lp-icon-card-tagline {
     font-size: var(--lp-font-xs);
     color: var(--lp-text-muted);
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-icon-card:hover .lp-icon-card-tagline {
+    color: var(--lp-text-secondary);
+    transform: translateY(-1px);
 }
 
 /* Pin Button on Card */
@@ -620,7 +691,8 @@ body:has(.landing-page)::after {
     cursor: pointer;
     color: var(--lp-text-muted);
     opacity: 0.6;
-    transition: all var(--lp-transition-fast);
+    transition: all var(--lp-transition-base);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .lp-icon-card:hover .lp-icon-card-pin {
@@ -632,7 +704,8 @@ body:has(.landing-page)::after {
     background: var(--lp-accent-primary);
     color: white;
     border-color: var(--lp-accent-primary);
-    transform: scale(1.15);
+    transform: scale(1.2) rotate(15deg);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
 }
 
 .lp-icon-card-pin.pinned {
@@ -640,6 +713,16 @@ body:has(.landing-page)::after {
     background: var(--lp-accent-success);
     color: white;
     border-color: var(--lp-accent-success);
+    animation: pinned-pulse 2s ease-in-out infinite;
+}
+
+@keyframes pinned-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.5);
+    }
 }
 
 /* ============================================
