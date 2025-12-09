@@ -14,6 +14,7 @@ import CouplesTimer from "./pages/CouplesTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
 import TimeSince from "./pages/TimeSince";
+import TimeLab from "./pages/TimeLab";
 import Wissen from "./pages/Wissen";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
@@ -282,6 +283,7 @@ function App() {
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
       {route === "/timesince" && <TimeSince />}
+      {route === "/timelab" && <TimeLab />}
       {route === "/pomodoro" && <Pomodoro />}
       {route === "/cooking" && <CookingTimer />}
       {route === "/couples" && <CouplesTimer />}
@@ -309,7 +311,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timesince", "/timelab"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>

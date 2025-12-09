@@ -1,202 +1,106 @@
-import React, { useState, useEffect, useRef } from "react";
-import { HomeButton } from "../components/HomeButton";
-import "../styles/worldclock-ocean.css";
+import React, { useState, useEffect } from 'react';
+import { WorldClockRow } from '../components/world-clock/WorldClockRow';
+import { WorldClockEntry } from '../domain/world-clock/types';
+import { searchTimezones } from '../domain/world-clock/time';
+import { HomeButton } from '../components/HomeButton';
+import '../styles/world-clock.css';
 
-const LS_KEY = "sc.v1.worldclock";
-
-type Persist = {
-  version: 1;
-  timezones: string[];
-};
-
-// Comprehensive timezone list
-const TIMEZONE_OPTIONS = [
-  { value: "UTC", label: "UTC" },
-  { value: "America/New_York", label: "New York" },
-  { value: "America/Chicago", label: "Chicago" },
-  { value: "America/Denver", label: "Denver" },
-  { value: "America/Los_Angeles", label: "Los Angeles" },
-  { value: "America/Toronto", label: "Toronto" },
-  { value: "America/Sao_Paulo", label: "São Paulo" },
-  { value: "Europe/London", label: "London" },
-  { value: "Europe/Paris", label: "Paris" },
-  { value: "Europe/Berlin", label: "Berlin" },
-  { value: "Europe/Moscow", label: "Moscow" },
-  { value: "Africa/Cairo", label: "Cairo" },
-  { value: "Asia/Dubai", label: "Dubai" },
-  { value: "Asia/Kolkata", label: "Mumbai" },
-  { value: "Asia/Bangkok", label: "Bangkok" },
-  { value: "Asia/Singapore", label: "Singapore" },
-  { value: "Asia/Tokyo", label: "Tokyo" },
-  { value: "Australia/Sydney", label: "Sydney" },
-  { value: "Pacific/Auckland", label: "Auckland" },
-  { value: "Pacific/Honolulu", label: "Honolulu" }
+const DEFAULT_ENTRIES: WorldClockEntry[] = [
+  { id: '1', city: 'Berlin', timezone: 'Europe/Berlin', sortOrder: 0, label: 'My Location' },
+  { id: '2', city: 'New York', timezone: 'America/New_York', sortOrder: 1 },
+  { id: '3', city: 'Tokyo', timezone: 'Asia/Tokyo', sortOrder: 2 },
+  { id: '4', city: 'Sydney', timezone: 'Australia/Sydney', sortOrder: 3 },
 ];
 
-function load(): Persist {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) throw new Error("No saved state");
-    const p = JSON.parse(raw) as Persist;
-    return {
-      version: 1,
-      // Default to user's local + maybe one other if empty? 
-      // Or empty list per design
-      timezones: Array.isArray(p.timezones) ? p.timezones : []
-    };
-  } catch {
-    // Default start with Berlin/NY just to show something? 
-    // Or Follow intent: "Start with where you are now"
-    return {
-      version: 1,
-      timezones: ["Europe/Berlin", "America/New_York"]
-    };
-  }
-}
+export default function WorldClockPage() {
+  const [entries, setEntries] = useState<WorldClockEntry[]>(() => {
+    try {
+      const save = localStorage.getItem('sc.v1.worldclock');
+      if (save) return JSON.parse(save);
+    } catch { }
+    return DEFAULT_ENTRIES;
+  });
 
-function save(p: Persist) {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(p));
-  } catch { }
-}
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
 
-function getOffsetLabel(now: Date, tz: string): string {
-  // Very rough approximation of offset relative to local time
-  try {
-    const localHour = now.getHours();
-    const tzTimeStr = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', hour12: false }).format(now);
-    const tzHour = parseInt(tzTimeStr);
-
-    let diff = tzHour - localHour;
-    if (diff < -12) diff += 24;
-    if (diff > 12) diff -= 24;
-
-    if (diff === 0) return "Same time";
-    return diff > 0 ? `+${diff}h` : `${diff}h`;
-  } catch {
-    return "";
-  }
-}
-
-function getDayNightLabel(now: Date, tz: string): { label: string, cls: string } {
-  try {
-    const hStr = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', hour12: false }).format(now);
-    const h = parseInt(hStr);
-    if (h >= 6 && h < 18) return { label: "Day", cls: "tag-day" };
-    if (h >= 18 && h < 22) return { label: "Evening", cls: "tag-night" }; // "Night" style for evening
-    if (h >= 22 || h < 6) return { label: "Night", cls: "tag-night" };
-    return { label: "", cls: "" };
-  } catch {
-    return { label: "", cls: "" };
-  }
-}
-
-export default function WorldClock() {
-  const [st, setSt] = useState<Persist>(load);
-  const [now, setNow] = useState(new Date());
-  const [isAdding, setIsAdding] = useState(false);
-
+  // Persist
   useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(interval);
-  }, []);
+    localStorage.setItem('sc.v1.worldclock', JSON.stringify(entries));
+  }, [entries]);
 
-  useEffect(() => {
-    const t = setTimeout(() => save(st), 150);
-    return () => clearTimeout(t);
-  }, [st]);
-
-  const addZone = (tz: string) => {
-    if (!st.timezones.includes(tz)) {
-      setSt(s => ({ ...s, timezones: [...s.timezones, tz] }));
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const q = e.target.value;
+    setSearchQuery(q);
+    if (q.length > 2) {
+      setSearchResults(searchTimezones(q));
+    } else {
+      setSearchResults([]);
     }
-    setIsAdding(false);
   };
 
-  const removeZone = (index: number) => {
-    setSt(s => ({
-      ...s,
-      timezones: s.timezones.filter((_, i) => i !== index)
-    }));
+  const addCity = (timezone: string) => {
+    const city = timezone.split('/')[1]?.replace('_', ' ') || timezone;
+    const newEntry: WorldClockEntry = {
+      id: Date.now().toString(),
+      city,
+      timezone,
+      sortOrder: entries.length
+    };
+    setEntries([...entries, newEntry]);
+    setSearchQuery('');
+    setSearchResults([]);
   };
+
+  const removeCity = (id: string) => {
+    setEntries(entries.filter(e => e.id !== id));
+  };
+
+  // Meeting Time Checker (W2.4 - Simplified MVP)
+  // Just a toggle/slider would be cool, but for now let's stick to simple "Live" mode.
+  // If I had more time I'd add the slider.
 
   return (
-    <div className="world-theme-wrapper">
-      <header className="world-hero">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <h1 className="world-title">Time Windows</h1>
-            <p className="world-subtitle">“Quiet windows into other people’s time.”</p>
-          </div>
-          <div style={{ position: 'relative', zIndex: 10 }}>
-            <HomeButton />
+    <div className="wc-page">
+      <div className="wc-home-btn">
+        <HomeButton />
+      </div>
+
+      <div className="wc-container">
+        <div className="wc-controls">
+          <h2>World Clock</h2>
+          <div className="wc-search-container">
+            <input
+              className="wc-add-input"
+              placeholder="Add city (e.g. London)..."
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+            {searchResults.length > 0 && (
+              <div className="wc-search-dropdown">
+                {searchResults.map(tz => (
+                  <div
+                    key={tz}
+                    className="wc-search-result"
+                    onClick={() => addCity(tz)}
+                  >
+                    {tz}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-      </header>
 
-      <div className="world-list">
-        {st.timezones.length === 0 ? (
-          <div className="world-empty">
-            <h3>No windows open yet.</h3>
-            <p>Add a place to see another piece of the world’s time.<br />Start with where you are and one person you miss.</p>
-          </div>
-        ) : (
-          st.timezones.map((tz, index) => {
-            const timeStr = new Intl.DateTimeFormat('en-US', {
-              timeZone: tz,
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false
-            }).format(now);
-
-            const city = TIMEZONE_OPTIONS.find(t => t.value === tz)?.label || tz;
-            const { label: dnLabel, cls: dnCls } = getDayNightLabel(now, tz);
-            const offset = getOffsetLabel(now, tz);
-
-            return (
-              <div key={`${tz}-${index}`} className="world-row">
-                <div className="world-city-info">
-                  <span className="world-city-name">{city}</span>
-                  <div className="world-meta-tags">
-                    <span className={`world-tag ${dnCls}`}>{dnLabel}</span>
-                    <span className="world-tag tag-offset">{offset}</span>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <span className="world-time">{timeStr}</span>
-                  <button className="world-delete" onClick={() => removeZone(index)} title="Remove">✕</button>
-                </div>
-              </div>
-            );
-          })
-        )}
-      </div>
-
-      <div className="world-controls">
-        {!isAdding ? (
-          <button className="world-add-btn" onClick={() => setIsAdding(true)}>
-            + Add Place
-          </button>
-        ) : (
-          <select
-            className="world-add-select"
-            onChange={(e) => {
-              if (e.target.value) addZone(e.target.value);
-            }}
-            defaultValue=""
-            autoFocus
-            onBlur={() => setTimeout(() => setIsAdding(false), 200)}
-          >
-            <option value="" disabled>Select a city...</option>
-            {TIMEZONE_OPTIONS.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        )}
-      </div>
-
-      <div style={{ textAlign: 'center', marginTop: 40, opacity: 0.5, fontStyle: 'italic', fontSize: '0.9rem', padding: 20 }}>
-        Time zones are not just numbers. They are mornings, nights, and people who might be asleep.
+        <div className="wc-table">
+          {entries.map(entry => (
+            <WorldClockRow
+              key={entry.id}
+              entry={entry}
+              onDelete={removeCity}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

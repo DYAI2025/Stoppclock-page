@@ -224,6 +224,18 @@ export interface CouplesTimerState {
   schedule: SessionSchedule | null;
 }
 
+// Visual theme configuration for contextual design
+export type ParticleEffect = 'stars' | 'dust' | 'bubbles' | 'leaves' | 'sparkles' | 'none';
+export type FontStyle = 'modern' | 'archival' | 'futuristic' | 'organic';
+
+export interface VisualTheme {
+  ambientGradient?: string;      // Background gradient overlay
+  particleEffect?: ParticleEffect;
+  accentGlow?: string;           // Subtle glow color (rgba)
+  fontStyle?: FontStyle;
+  icon?: string;                 // Emoji or icon identifier
+}
+
 // Time Since state - Counts elapsed time from historic events
 export interface HistoricalEvent {
   id: string;
@@ -232,6 +244,15 @@ export interface HistoricalEvent {
   category: 'space' | 'history' | 'science' | 'culture' | 'personal';
   description: string;
   color: string;
+  // NEW: Visual theming for contextual design
+  visualTheme?: VisualTheme;
+  // NEW: Fun fact or time curiosity displayed after a few seconds
+  timeFact?: string;
+  // NEW: For symbolic/ancient events that can't be represented with JS Date
+  // If set, this overrides the years calculation
+  symbolicYearsAgo?: number;
+  // NEW: Flag to indicate this is an approximate/symbolic date
+  isSymbolic?: boolean;
 }
 
 export interface TimeSinceState {

@@ -9,7 +9,7 @@ import React from 'react';
 import {
     Clock, Settings, Menu, Plus, ChevronRight, Pin, X,
     Timer, Hourglass, CircleDot, Coffee, Heart, Crown,
-    Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered
+    Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered, Clock4
 } from 'lucide-react';
 import { usePinnedTimers } from '../contexts/PinnedTimersContext';
 
@@ -46,6 +46,16 @@ const TIMERS = [
         gradient: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)',
         color: '#8B5CF6',
         lsKey: 'sc.v1.analog'
+    },
+    {
+        id: 'timesince',
+        route: '#/timesince',
+        label: 'Time Since',
+        tagline: 'Track elapsed time',
+        icon: Clock4,
+        gradient: 'linear-gradient(135deg, #9333EA 0%, #A855F7 100%)',
+        color: '#9333EA',
+        lsKey: 'sc.v1.timesince'
     },
     {
         id: 'pomodoro',
@@ -1017,6 +1027,69 @@ function AnalogMiniPreview() {
 }
 
 // ============================================
+// TIME SINCE MINI PREVIEW
+// ============================================
+function TimeSinceMiniPreview() {
+    const [eventName, setEventName] = React.useState<string>('');
+    const [elapsedTime, setElapsedTime] = React.useState<string>('');
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.timesince');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed.selectedEventId || parsed.customEventName) {
+                        setEventName(parsed.customEventName || 'Event');
+                        // Calculate elapsed time if we have a date
+                        if (parsed.customEventDate) {
+                            const targetDate = new Date(parsed.customEventDate);
+                            const now = new Date();
+                            const diff = now.getTime() - targetDate.getTime();
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const years = Math.floor(days / 365);
+                            if (years > 0) {
+                                setElapsedTime(`${years}y ${days % 365}d`);
+                            } else {
+                                setElapsedTime(`${days} days`);
+                            }
+                        }
+                    } else {
+                        setEventName('');
+                        setElapsedTime('');
+                    }
+                } else {
+                    setEventName('');
+                    setElapsedTime('');
+                }
+            } catch {
+                setEventName('');
+                setElapsedTime('');
+            }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    if (!eventName) {
+        return (
+            <div className="lp-timer-preview">
+                <span className="lp-timer-preview-label">No event selected</span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="lp-timer-preview">
+            <span className="lp-timer-preview-label">{eventName}</span>
+            <span className="lp-timer-preview-time" style={{ fontSize: 'clamp(32px, 6vw, 48px)' }}>{elapsedTime}</span>
+        </div>
+    );
+}
+
+// ============================================
 // GENERIC LIVE TIMER PREVIEW
 // ============================================
 function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => void }) {
@@ -1049,6 +1122,8 @@ function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => 
                 return <AlarmMiniPreview />;
             case 'analog':
                 return <AnalogMiniPreview />;
+            case 'timesince':
+                return <TimeSinceMiniPreview />;
             default: {
                 // Fallback for any unhandled timer types
                 const timerData = timer as TimerDef;
