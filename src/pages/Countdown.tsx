@@ -223,7 +223,7 @@ export default function Countdown() {
     onFullscreen: full,
   }, true);
 
-  // Arrow keys for time adjustment (only when paused)
+  // Arrow keys for time adjustment (works while running or paused)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       // Don't intercept if user is typing in input fields
@@ -236,11 +236,11 @@ export default function Countdown() {
         return;
       }
 
-      // Arrow keys only work when timer is NOT running (paused)
-      if (e.key === "ArrowUp" && !st.running) {
+      // Arrow keys work anytime (US1: fix P0 blocker)
+      if (e.key === "ArrowUp") {
         e.preventDefault();
         plus(10_000);
-      } else if (e.key === "ArrowDown" && !st.running) {
+      } else if (e.key === "ArrowDown") {
         e.preventDefault();
         plus(-10_000);
       }

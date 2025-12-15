@@ -174,6 +174,13 @@ export default function CycleTimer() {
             aria-label="Hours"
             disabled={st.running}
             onChange={e => setTime(Number(e.target.value) || 0, m, s)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 12) setTime(12, m, s);
+              else if (val < 0) setTime(0, m, s);
+            }}
           />
         </label>
         <span className="sep">:</span>
@@ -187,6 +194,13 @@ export default function CycleTimer() {
             aria-label="Minutes"
             disabled={st.running}
             onChange={e => setTime(h, Number(e.target.value) || 0, s)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 59) setTime(h, 59, s);
+              else if (val < 0) setTime(h, 0, s);
+            }}
           />
         </label>
         <span className="sep">:</span>
@@ -200,6 +214,13 @@ export default function CycleTimer() {
             aria-label="Seconds"
             disabled={st.running}
             onChange={e => setTime(h, m, Number(e.target.value) || 0)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 59) setTime(h, m, 59);
+              else if (val < 0) setTime(h, m, 0);
+            }}
           />
         </label>
       </div>
