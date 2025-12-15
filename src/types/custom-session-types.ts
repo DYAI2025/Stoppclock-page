@@ -20,6 +20,19 @@
 export type ElementType = 'SPEAK' | 'TRANSITION' | 'COOLDOWN' | 'CUSTOM';
 
 /**
+ * Alarm sound types for session transitions
+ *
+ * - BELL: Default bell tone (660 Hz)
+ * - GONG: Deep resonant gong
+ * - SINGING_BOWL: Tibetan singing bowl
+ * - SIREN: Alert siren
+ * - ALARM: Classic alarm sound
+ * - WOOSH: Soft whoosh transition
+ * - HORN: Loud horn/trumpet
+ */
+export type SoundType = 'BELL' | 'GONG' | 'SINGING_BOWL' | 'SIREN' | 'ALARM' | 'WOOSH' | 'HORN';
+
+/**
  * Core building block of a custom session
  *
  * Validation rules:
@@ -41,6 +54,9 @@ export interface SessionElement {
 
   /** Optional custom name for this element */
   name?: string;
+
+  /** Sound to play when element completes (defaults to BELL) */
+  soundType?: SoundType;
 
   /** Creation timestamp */
   createdAt: number;
@@ -253,10 +269,11 @@ export const ELEMENT_COLORS: Record<ElementType, string> = {
 
 /**
  * Element type labels (user-facing)
+ * Neutral labels that work for all use cases (speaking, meditation, work, etc.)
  */
 export const ELEMENT_TYPE_LABELS: Record<ElementType, string> = {
-  SPEAK: 'Speaking Phase',
-  TRANSITION: 'Transition / Break',
-  COOLDOWN: 'Cooldown / Reflection',
+  SPEAK: 'Focus Phase',
+  TRANSITION: 'Transition',
+  COOLDOWN: 'Wind Down',
   CUSTOM: 'Custom',
 } as const;

@@ -736,13 +736,13 @@ export function createPresetSession(presetId: string): CustomSession | null {
         ],
         {
           isTemplate: true,
-          description: 'Scrum Stand-Up mit Parking Lot (3-5 Personen, 13 min)',
+          description: 'Scrum Stand-Up mit Parking Lot (3-5 Personen, 11.5 min)',
         }
       );
 
     case 'presentation':
       return createSession(
-        'Presentation Timer (20 min)',
+        'Presentation Timer (23 min)',
         [
           {
             id: generateUUID(),
@@ -788,7 +788,7 @@ export function createPresetSession(presetId: string): CustomSession | null {
 
     case 'pitch-deck':
       return createSession(
-        'Pitch Deck (10 min)',
+        'Pitch Deck (13 min)',
         [
           {
             id: generateUUID(),
@@ -994,7 +994,7 @@ export function createPresetSession(presetId: string): CustomSession | null {
         ],
         {
           isTemplate: true,
-          description: 'Ignite-Format mit Speed Feedback (22 min)',
+          description: 'Ignite-Format mit Speed Feedback (23.5 min)',
         }
       );
 

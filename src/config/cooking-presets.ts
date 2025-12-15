@@ -24,17 +24,18 @@ export const COOKING_PRESETS: PresetConfig[] = [
 
 // Soft color palette (10 colors) for auto-rotation
 // Pastel colors that work well on dark ocean background
+// "Warm Everyday Rituals" palette (Golden Hour + Botanical Garden)
 export const SOFT_COLORS = [
-  '#FFB3BA', // Soft pink
-  '#FFDFBA', // Soft peach
-  '#FFFFBA', // Soft yellow
-  '#BAFFC9', // Soft mint
-  '#BAE1FF', // Soft blue
-  '#E0BBE4', // Soft lavender
-  '#FFD6A5', // Soft orange
-  '#CAFFBF', // Soft green
-  '#A0C4FF', // Soft periwinkle
-  '#FFC6FF'  // Soft rose
+  '#E3B505', // Mustard Yellow
+  '#CC5803', // Terracotta
+  '#4F7942', // Fern Green
+  '#EAA221', // Marigold
+  '#8A9A5B', // Sage Green
+  '#C2B280', // Sand
+  '#E6D2B5', // Warm Graphite/Beige
+  '#D97D54', // Burnt Orange
+  '#556B2F', // Dark Olive
+  '#F4A460'  // Sandy Brown
 ];
 
 // Helper function to get preset by ID

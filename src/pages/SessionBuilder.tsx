@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-import type { SessionElement, ElementType, CustomSession } from '../types/custom-session-types';
+import type { SessionElement, ElementType, CustomSession, SoundType } from '../types/custom-session-types';
 import { ELEMENT_COLORS, ELEMENT_TYPE_LABELS } from '../types/custom-session-types';
 import {
   generateUUID,
@@ -18,6 +18,7 @@ import {
   createElementTemplate,
   listElementTemplates,
 } from '../utils/session-helpers';
+import { getAllSoundTypes, getSoundLabel, playSound } from '../utils/sound-generator';
 
 export default function SessionBuilder() {
   const { getSession, createSession: saveSession, updateSession } = useSessionStorage();
@@ -37,6 +38,7 @@ export default function SessionBuilder() {
   const [formSeconds, setFormSeconds] = useState(0);
   const [formText, setFormText] = useState('');
   const [formName, setFormName] = useState(''); // Optional phase name
+  const [formSoundType, setFormSoundType] = useState<SoundType>('BELL'); // Default sound
   const [formErrors, setFormErrors] = useState<string[]>([]);
 
   // Load existing session or preset
@@ -78,6 +80,7 @@ export default function SessionBuilder() {
       durationMs,
       focusText: formText.trim(),
       ...(formName.trim() && { name: formName.trim() }), // Add name if provided
+      soundType: formSoundType, // Add sound type
       createdAt: Date.now(),
     };
 
@@ -89,6 +92,7 @@ export default function SessionBuilder() {
     setFormSeconds(0);
     setFormText('');
     setFormName('');
+    setFormSoundType('BELL'); // Reset to default
     setFormErrors([]);
     setShowAddForm(false);
   };
@@ -461,6 +465,40 @@ export default function SessionBuilder() {
                 />
                 <div style={{ fontSize: '0.75rem', color: '#708090', marginTop: '0.25rem' }}>
                   {formText.length}/500 characters
+                </div>
+              </div>
+
+              {/* Sound Selection */}
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem' }}>
+                  Completion Sound:
+                </label>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {getAllSoundTypes().map((soundType) => (
+                    <button
+                      key={soundType}
+                      type="button"
+                      onClick={() => {
+                        setFormSoundType(soundType);
+                        playSound(soundType); // Preview sound on click
+                      }}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        background: formSoundType === soundType ? '#2196F3' : '#1a2332',
+                        color: formSoundType === soundType ? '#fff' : '#A0A0A0',
+                        border: `1px solid ${formSoundType === soundType ? '#2196F3' : '#708090'}`,
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {getSoundLabel(soundType)}
+                    </button>
+                  ))}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#708090', marginTop: '0.25rem' }}>
+                  Click to preview sound (plays when phase completes)
                 </div>
               </div>
 

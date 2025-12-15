@@ -11,6 +11,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import type { CustomSession, SessionRuntimeState, SessionPhase } from '../types/custom-session-types';
 import { STORAGE_KEYS, ELEMENT_COLORS, ELEMENT_TYPE_LABELS } from '../types/custom-session-types';
 import { formatTime, calculateTotalDuration, calculateElapsedTime } from '../utils/session-helpers';
+import { playSound } from '../utils/sound-generator';
 
 export default function SessionRunner() {
   // Parse sessionId from URL hash (#/custom-sessions/run/:id)
@@ -26,7 +27,6 @@ export default function SessionRunner() {
   );
 
   const rafIdRef = useRef<number | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
 
   // Load session on mount
   useEffect(() => {
@@ -56,35 +56,6 @@ export default function SessionRunner() {
   }, [sessionId, getSession]);
 
   // ============================================================================
-  // Audio Cues
-  // ============================================================================
-
-  const playBellTone = useCallback((frequency: number, duration: number = 200) => {
-    if (!audioContextRef.current) {
-      audioContextRef.current = new AudioContext();
-    }
-
-    const ctx = audioContextRef.current;
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    oscillator.frequency.value = frequency;
-    oscillator.type = 'sine';
-
-    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration / 1000);
-
-    oscillator.start(ctx.currentTime);
-    oscillator.stop(ctx.currentTime + duration / 1000);
-  }, []);
-
-  const playHighTone = useCallback(() => playBellTone(660, 200), [playBellTone]); // E5
-  const playLowTone = useCallback(() => playBellTone(196, 300), [playBellTone]); // G3
-
-  // ============================================================================
   // Timer Engine (RAF-based, drift-resistant)
   // ============================================================================
 
@@ -103,7 +74,7 @@ export default function SessionRunner() {
         phase: 'COMPLETED',
         startedAt: null,
       });
-      playHighTone();
+      playSound('BELL'); // Final completion sound
       return;
     }
 
@@ -114,7 +85,9 @@ export default function SessionRunner() {
       const nextIndex = runtime.currentElementIndex + 1;
 
       if (nextIndex >= session.elements.length) {
-        // Session complete
+        // Session complete - play last element's sound
+        const lastElement = session.elements[session.elements.length - 1];
+        playSound(lastElement.soundType || 'BELL');
         setRuntime({
           ...runtime,
           running: false,
@@ -124,12 +97,11 @@ export default function SessionRunner() {
           remainingMs: 0,
           startedAt: null,
         });
-        playHighTone();
         return;
       }
 
-      // Advance to next element
-      playLowTone();
+      // Advance to next element - play completed element's sound
+      playSound(currentElement.soundType || 'BELL');
       setRuntime({
         ...runtime,
         currentElementIndex: nextIndex,
@@ -147,7 +119,7 @@ export default function SessionRunner() {
 
     // Continue RAF loop
     rafIdRef.current = requestAnimationFrame(tick);
-  }, [runtime, session, setRuntime, playHighTone, playLowTone]);
+  }, [runtime, session, setRuntime]);
 
   // Start/stop RAF loop based on running state
   useEffect(() => {
@@ -182,7 +154,7 @@ export default function SessionRunner() {
         phase: 'RUNNING',
         startedAt: Date.now(),
       });
-      playHighTone();
+      playSound('BELL'); // UI feedback - simple bell for start
     } else if (runtime.phase === 'RUNNING') {
       // Pause
       setRuntime({
@@ -192,15 +164,17 @@ export default function SessionRunner() {
         startedAt: null,
       });
     }
-  }, [runtime, setRuntime, playHighTone]);
+  }, [runtime, setRuntime]);
 
   const handleNext = useCallback(() => {
     if (!runtime || !session) return;
 
+    const currentElement = session.elements[runtime.currentElementIndex];
     const nextIndex = runtime.currentElementIndex + 1;
 
     if (nextIndex >= session.elements.length) {
       // Already at last element - complete session
+      playSound(currentElement.soundType || 'BELL'); // Play current element's sound
       setRuntime({
         ...runtime,
         running: false,
@@ -209,10 +183,9 @@ export default function SessionRunner() {
         remainingMs: 0,
         startedAt: null,
       });
-      playHighTone();
     } else {
-      // Advance to next element
-      playLowTone();
+      // Advance to next element - play current element's sound
+      playSound(currentElement.soundType || 'BELL');
       setRuntime({
         ...runtime,
         currentElementIndex: nextIndex,
@@ -221,7 +194,7 @@ export default function SessionRunner() {
         startedAt: runtime.running ? Date.now() : null,
       });
     }
-  }, [runtime, session, setRuntime, playHighTone, playLowTone]);
+  }, [runtime, session, setRuntime]);
 
   const handleReset = useCallback(() => {
     if (!session) return;
@@ -255,7 +228,7 @@ export default function SessionRunner() {
   // ============================================================================
 
   useKeyboardShortcuts({
-    onStartPause: handleStartPause,
+    onSpace: handleStartPause,
     onReset: handleReset,
     onFullscreen: handleFullscreen,
   });
@@ -502,10 +475,10 @@ export default function SessionRunner() {
               textAlign: 'center',
             }}
           >
-            {currentElement.type === 'SPEAK' && '💬 Active speaking phase'}
-            {currentElement.type === 'TRANSITION' && '⏸️ Transition time - prepare for next phase'}
-            {currentElement.type === 'COOLDOWN' && '🧘 Wind down and reflect'}
-            {currentElement.type === 'CUSTOM' && '🎯 Custom phase'}
+            {currentElement.type === 'SPEAK' && '💡 Focus phase - give this your full attention'}
+            {currentElement.type === 'TRANSITION' && '⏸️ Transition - prepare for what comes next'}
+            {currentElement.type === 'COOLDOWN' && '🧘 Wind down - reflect and release'}
+            {currentElement.type === 'CUSTOM' && '✨ Custom phase'}
           </div>
         )}
 

@@ -165,7 +165,7 @@ export interface CookingTimerState {
   nextColorIndex: number; // For auto-rotation through color palette
 }
 
- // Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
+// Couples Timer state - Structured dialogue timer based on Moeller's Zwiegespräch
 export type SessionPhase =
   | 'SETUP'           // Initial setup before session starts
   | 'PREP'            // Preparation phase (3-5 minutes)
@@ -177,7 +177,7 @@ export type SessionPhase =
   | 'COOLDOWN'        // Post-session cooldown (no follow-up conversation)
   | 'COMPLETED';      // Session completed
 
-export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60';
+export type PresetId = 'klassisch-90' | 'einsteiger-60' | 'eltern-kind-60' | 'tiny-check-in' | 'conflict-cooldown' | 'screen-free-tea';
 
 export interface SessionPreset {
   id: PresetId;
@@ -222,4 +222,43 @@ export interface CouplesTimerState {
   startedAt: number | null;
   completedSessions: number;     // Total completed sessions for this profile
   schedule: SessionSchedule | null;
+}
+
+// Visual theme configuration for contextual design
+export type ParticleEffect = 'stars' | 'dust' | 'bubbles' | 'leaves' | 'sparkles' | 'none';
+export type FontStyle = 'modern' | 'archival' | 'futuristic' | 'organic';
+
+export interface VisualTheme {
+  ambientGradient?: string;      // Background gradient overlay
+  particleEffect?: ParticleEffect;
+  accentGlow?: string;           // Subtle glow color (rgba)
+  fontStyle?: FontStyle;
+  icon?: string;                 // Emoji or icon identifier
+}
+
+// Time Since state - Counts elapsed time from historic events
+export interface HistoricalEvent {
+  id: string;
+  name: string;
+  date: Date;
+  category: 'space' | 'history' | 'science' | 'culture' | 'personal';
+  description: string;
+  color: string;
+  // NEW: Visual theming for contextual design
+  visualTheme?: VisualTheme;
+  // NEW: Fun fact or time curiosity displayed after a few seconds
+  timeFact?: string;
+  // NEW: For symbolic/ancient events that can't be represented with JS Date
+  // If set, this overrides the years calculation
+  symbolicYearsAgo?: number;
+  // NEW: Flag to indicate this is an approximate/symbolic date
+  isSymbolic?: boolean;
+}
+
+export interface TimeSinceState {
+  version: 1;
+  selectedEventId: string | null;
+  customEventDate: number | null; // Unix timestamp for custom events
+  customEventName: string | null;
+  running: boolean;
 }

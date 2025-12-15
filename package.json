@@ -8,8 +8,8 @@
     "build": "vite build && node scripts/gen-sitemap.mjs",
     "preview": "vite preview",
     "doctor": "node scripts/doctor.mjs",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e": "npx playwright test",
+    "test:e2e:ui": "npx playwright test --ui"
   },
   "dependencies": {
     "lucide-react": "^0.552.0",

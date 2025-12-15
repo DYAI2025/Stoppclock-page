@@ -1,0 +1,279 @@
+/* ============================================
+ * CUSTOM SESSIONS - LANDING PAGE
+ * ============================================ */
+
+.custom-sessions-page {
+  min-height: 100vh;
+  background: var(--mono-white, #FAFAFA);
+  padding: var(--space-8, 2rem) var(--space-4, 1rem);
+}
+
+.cs-header {
+  max-width: 1200px;
+  margin: 0 auto var(--space-12, 3rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cs-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--mono-black, #1A1A1A);
+  margin: 0;
+}
+
+.cs-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Actions */
+.cs-actions {
+  display: flex;
+  gap: var(--space-4, 1rem);
+  margin-bottom: var(--space-8, 2rem);
+  flex-wrap: wrap;
+}
+
+.cs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cs-btn-primary {
+  background: var(--accent-primary, #0EA5E9);
+  color: white;
+}
+
+.cs-btn-primary:hover {
+  background: var(--accent-primary-dark, #0284C7);
+  transform: translateY(-1px);
+}
+
+.cs-btn-secondary {
+  background: var(--mono-light, #F5F5F5);
+  color: var(--mono-black, #1A1A1A);
+  border: 1px solid var(--mono-border, #E0E0E0);
+}
+
+.cs-btn-secondary:hover {
+  background: var(--mono-white, #FFFFFF);
+}
+
+/* Sections */
+.cs-section {
+  margin-bottom: var(--space-12, 3rem);
+}
+
+.cs-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--mono-black, #1A1A1A);
+  margin: 0 0 var(--space-8, 2rem);
+}
+
+.cs-empty {
+  text-align: center;
+  padding: var(--space-12, 3rem);
+  color: var(--mono-muted, #6B6B6B);
+  background: var(--mono-white, #FFFFFF);
+  border-radius: 12px;
+  border: 2px dashed var(--mono-border, #E0E0E0);
+}
+
+/* Grid */
+.cs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-8, 2rem);
+}
+
+@media (max-width: 768px) {
+  .cs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards with Glassmorphism */
+.cs-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  padding: var(--space-8, 2rem);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 1rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient glow behind cards */
+.cs-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 18px;
+  opacity: 0.2;
+  transition: opacity 0.3s;
+}
+
+.cs-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.cs-card:hover::before {
+  opacity: 0.4;
+}
+
+/* Three color variants rotating via nth-child */
+.cs-grid .cs-card:nth-child(3n+1)::before {
+  background: linear-gradient(135deg, #06B6D4, #0EA5E9);
+  /* Cyan/Blue */
+}
+
+.cs-grid .cs-card:nth-child(3n+2)::before {
+  background: linear-gradient(135deg, #8B5CF6, #A855F7);
+  /* Purple */
+}
+
+.cs-grid .cs-card:nth-child(3n+3)::before {
+  background: linear-gradient(135deg, #F59E0B, #F97316);
+  /* Amber/Orange */
+}
+
+/* Subtle inner glow matching the color */
+.cs-grid .cs-card:nth-child(3n+1) {
+  box-shadow: inset 0 1px 1px rgba(6, 182, 212, 0.1);
+}
+
+.cs-grid .cs-card:nth-child(3n+2) {
+  box-shadow: inset 0 1px 1px rgba(139, 92, 246, 0.1);
+}
+
+.cs-grid .cs-card:nth-child(3n+3) {
+  box-shadow: inset 0 1px 1px rgba(245, 158, 11, 0.1);
+}
+
+.cs-card-preset {
+  border-color: var(--accent-primary, #0EA5E9);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(14, 165, 233, 0.02) 100%);
+}
+
+.cs-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4, 1rem);
+}
+
+.cs-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--mono-black, #1A1A1A);
+  margin: 0;
+  flex: 1;
+}
+
+.cs-card-count {
+  font-size: 0.875rem;
+  color: var(--mono-muted, #6B6B6B);
+  background: var(--mono-light, #F5F5F5);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.cs-card-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-primary, #0EA5E9);
+  background: rgba(14, 165, 233, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cs-card-description {
+  font-size: 0.875rem;
+  color: var(--mono-muted, #6B6B6B);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cs-card-info {
+  display: flex;
+  gap: var(--space-4, 1rem);
+  align-items: center;
+  padding-top: var(--space-4, 1rem);
+  border-top: 1px solid var(--mono-border, #E0E0E0);
+}
+
+.cs-card-duration {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mono-black, #1A1A1A);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cs-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--mono-border, #E0E0E0);
+  background: var(--mono-white, #FFFFFF);
+  color: var(--mono-black, #1A1A1A);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cs-card-btn:hover {
+  background: var(--mono-light, #F5F5F5);
+}
+
+.cs-card-btn-primary {
+  background: var(--accent-primary, #0EA5E9);
+  color: white;
+  border-color: var(--accent-primary, #0EA5E9);
+  flex: 1;
+}
+
+.cs-card-btn-primary:hover {
+  background: var(--accent-primary-dark, #0284C7);
+}
+
+.cs-card-btn-danger {
+  color: var(--error, #EF4444);
+  border-color: var(--error, #EF4444);
+}
+
+.cs-card-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+}

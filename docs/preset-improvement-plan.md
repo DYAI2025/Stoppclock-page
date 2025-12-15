@@ -102,7 +102,7 @@ Phase 3: COOLDOWN (5 min) → "Review"
 ### 3. Guided Meditation
 
 **Aktuell:** 15 min | Generische Atemfokus-Meditation
-**Problem:** Keine Body Scan, zu abrupte Übergänge, fehlende Phasenstruktur
+**Problem:** Kein Body Scan, zu abrupte Übergänge, fehlende Phasenstruktur
 
 **Verbessert:** 16 min | Klassische Vipassana-Struktur
 
@@ -277,7 +277,7 @@ Phase 12: COOLDOWN (4 min)
 
 ---
 
-### 9. NEUES PRESET-Vorschlag: "Kreatives Brainstorming" (30 min)
+### 9. Neuer Preset-Vorschlag: "Kreatives Brainstorming" (30 min)
 
 **Grund:** Fehlt aktuell, aber häufiger Use Case
 
@@ -353,7 +353,7 @@ Phase 6: COOLDOWN (3 min)
 ## ✅ Nächste Schritte
 
 1. [ ] Review dieses Plans mit Stakeholdern
-2. [ ] Prioritisierung: Welche Presets zuerst verbessern?
+2. [ ] Priorisierung: Welche Presets zuerst verbessern?
 3. [ ] Code-Implementation (geschätzt: 4-6 Stunden)
 4. [ ] Testing (geschätzt: 2 Stunden)
 5. [ ] User Feedback sammeln nach Deployment

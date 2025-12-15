@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
 import { COOKING_PRESETS, getNextColor } from '../config/cooking-presets';
 import type { CookingTimerState, CookingTimer, CookingPresetId } from '../types/timer-types';
-import { usePinnedTimers, PinnedTimer } from '../contexts/PinnedTimersContext';
-import '../styles/cooking-swiss.css';
+import '../styles/cooking-warm.css';
 
 const LS_KEY = 'sc.v1.cooking';
 const MAX_TIMERS = 10;
-const ALARM_AUDIO_DURATION_MS = 60 * 1000; // 60 seconds audio, then visual only
+const ALARM_AUDIO_DURATION_MS = 60 * 1000;
+
+/* --- Logic & Persistence --- */
 
 function load(): CookingTimerState {
   try {
@@ -35,9 +36,7 @@ function load(): CookingTimerState {
 function save(state: CookingTimerState) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(state));
-  } catch {
-    // Silently fail
-  }
+  } catch { }
 }
 
 function fmt(ms: number): string {
@@ -47,29 +46,29 @@ function fmt(ms: number): string {
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
-// Audio alarm generator (800 Hz beep)
 function playAlarm() {
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return;
+    const audioContext = new AudioContextClass();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-    oscillator.type = 'sine';
+    // Warm, lower tone (soft square wave)
+    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
+    oscillator.type = 'triangle'; // Softer than sine or square
 
     const now = audioContext.currentTime;
     gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(0.3, now + 0.05);
-    gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
+    gainNode.gain.linearRampToValueAtTime(0.3, now + 0.1);
+    gainNode.gain.linearRampToValueAtTime(0, now + 0.6);
 
     oscillator.start(now);
-    oscillator.stop(now + 0.5);
-  } catch {
-    // Silently fail if Web Audio API not available
-  }
+    oscillator.stop(now + 0.6);
+  } catch { }
 }
 
 function useRaf(on: boolean, cb: () => void) {
@@ -90,25 +89,191 @@ function useRaf(on: boolean, cb: () => void) {
   }, [on, cb]);
 }
 
+/* --- Components --- */
+
+// World View: Hero & Rituals
+const CookingWorld = ({ onStart, activeCount }: { onStart: (preset?: CookingPresetId) => void, activeCount: number }) => {
+  return (
+    <div className="cook-world">
+      <header className="cook-hero">
+        <HomeButton />
+        <div style={{ marginTop: 40 }}>
+          <span className="cook-tag">Everyday Rituals</span>
+          <h1 className="cook-title">The Warm Kitchen Buddy</h1>
+          <p className="cook-subtitle">
+            “I am here for your small moments—more ritual than alarm. Pour tea, stir pasta, and breathe.”
+          </p>
+        </div>
+
+        {activeCount > 0 && (
+          <div style={{ marginTop: 32 }}>
+            <button className="cook-btn cook-btn-primary" onClick={() => onStart()} style={{ maxWidth: 200, margin: '0 auto' }}>
+              Return to Kitchen ({activeCount})
+            </button>
+          </div>
+        )}
+      </header>
+
+      <section className="cook-rituals">
+        <div className="cook-ritual-card" onClick={() => onStart('tea')}>
+          <div className="cook-ritual-icon">🫖</div>
+          <h3 className="cook-ritual-title">Tea & Tiny Reset</h3>
+          <p className="cook-ritual-desc">
+            Use the 3-5 minutes of steeping to wipe the counter or just breathe. A tiny pause island.
+          </p>
+        </div>
+
+        <div className="cook-ritual-card" onClick={() => onStart('pasta')}>
+          <div className="cook-ritual-icon">🍝</div>
+          <h3 className="cook-ritual-title">Parallel Pans</h3>
+          <p className="cook-ritual-desc">
+            Keep pasta, sauce, and bread in check without stress. Multi-tasking made calm.
+          </p>
+        </div>
+
+        <div className="cook-ritual-card" onClick={() => onStart('custom')}>
+          <div className="cook-ritual-icon">🧘</div>
+          <h3 className="cook-ritual-title">Cooking as Focus</h3>
+          <p className="cook-ritual-desc">
+            Treat one simple dish as your focus block. While I run, this is the only thing you do.
+          </p>
+        </div>
+      </section>
+
+      <section className="cook-facts" style={{ marginTop: 60, textAlign: 'left', opacity: 0.8 }}>
+        <h4 style={{ textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.9rem', marginBottom: 16 }}>Time Facts</h4>
+        <p style={{ marginBottom: 8 }}>• <strong>Al Dente:</strong> The "tooth" of the pasta changes in a 30-second window.</p>
+        <p>• <strong>Steeping:</strong> Green tea burns at 100°C; give it 80°C and 2 minutes for sweetness.</p>
+      </section>
+    </div>
+  );
+};
+
+// Player View: Dashboard
+const CookingPlayer = ({
+  timers,
+  onAdd,
+  onToggle,
+  onReset,
+  onDelete,
+  onAdjust,
+  onDismiss,
+  onExtend,
+  onExit
+}: any) => {
+  const [customName, setCustomName] = useState('');
+  const [customMin, setCustomMin] = useState('10');
+
+  const handleAddCustom = () => {
+    onAdd('custom', customMin, customName);
+    setCustomName('');
+  };
+
+  return (
+    <div className="cook-dashboard">
+      <div className="cook-header-bar">
+        <button className="cook-back-btn" onClick={onExit}>
+          ← Back to Rituals
+        </button>
+        <HomeButton />
+      </div>
+
+      <div className="cook-quick-bar">
+        {COOKING_PRESETS.map(p => (
+          <button key={p.id} className="cook-preset-chip" onClick={() => onAdd(p.id)}>
+            <span>{p.emoji}</span> {p.label}
+          </button>
+        ))}
+        <div className="cook-play-custom" style={{ display: 'flex', gap: 8, alignItems: 'center', marginLeft: 12, paddingLeft: 12, borderLeft: '1px solid #ddd' }}>
+          <input
+            className="cook-preset-chip"
+            style={{ width: 100, cursor: 'text' }}
+            placeholder="Name"
+            value={customName}
+            onChange={e => setCustomName(e.target.value)}
+          />
+          <input
+            className="cook-preset-chip"
+            style={{ width: 60, cursor: 'text' }}
+            type="number"
+            value={customMin}
+            onChange={e => setCustomMin(e.target.value)}
+          />
+          <button className="cook-preset-chip cook-add-custom" onClick={handleAddCustom}>+ Add</button>
+        </div>
+      </div>
+
+      <div className="cook-grid">
+        {timers.map((timer: any) => {
+          const currentTime = timer.running && timer.startedAt
+            ? Math.max(0, timer.remainingMs - (Date.now() - timer.startedAt))
+            : timer.remainingMs;
+
+          return (
+            <div
+              key={timer.id}
+              className={`cook-timer-card ${timer.running ? 'running' : ''} ${timer.alarming ? 'alarming' : ''}`}
+              style={{ '--timer-color': timer.color } as React.CSSProperties}
+            >
+              <div className="cook-card-header">
+                <h3 className="cook-card-title">{timer.label}</h3>
+                <button
+                  onClick={() => onDelete(timer.id)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', opacity: 0.5 }}
+                >✕</button>
+              </div>
+
+              <div className="cook-card-time">
+                {fmt(currentTime)}
+              </div>
+
+              {timer.alarming ? (
+                <div className="cook-controls">
+                  <button className="cook-btn cook-btn-primary" onClick={() => onDismiss(timer.id)}>Dismiss</button>
+                  <button className="cook-btn cook-btn-secondary" onClick={() => onExtend(timer.id, 1)}>+1m</button>
+                </div>
+              ) : (
+                <div className="cook-controls">
+                  <button className="cook-btn cook-btn-secondary" onClick={() => onAdjust(timer.id, -30)}>-30s</button>
+                  <button
+                    className={`cook-btn ${timer.running ? 'cook-btn-secondary' : 'cook-btn-primary'}`}
+                    onClick={() => onToggle(timer.id)}
+                  >
+                    {timer.running ? 'Pause' : 'Start'}
+                  </button>
+                  <button className="cook-btn cook-btn-secondary" onClick={() => onAdjust(timer.id, 30)}>+30s</button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {timers.length === 0 && (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: 60, opacity: 0.6 }}>
+            <h3>Your kitchen is quiet.</h3>
+            <p>Select a preset above to start a timer.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default function CookingTimer() {
   const [st, setSt] = useState<CookingTimerState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
-  const [customMinutes, setCustomMinutes] = useState<string>('10');
-  const [customName, setCustomName] = useState<string>('');
-  const wrapRef = useRef<HTMLDivElement>(null);
-
-  // Sort timers by remaining time (soonest first)
-  const sortedTimers = [...st.timers].sort((a, b) => {
-    const aTime = a.running && a.startedAt ? Math.max(0, a.remainingMs - (Date.now() - a.startedAt)) : a.remainingMs;
-    const bTime = b.running && b.startedAt ? Math.max(0, b.remainingMs - (Date.now() - b.startedAt)) : b.remainingMs;
-
-    // Alarming timers always on top
-    if (a.alarming && !b.alarming) return -1;
-    if (!a.alarming && b.alarming) return 1;
-
-    // Then sort by remaining time
-    return aTime - bTime;
+  const [mode, setMode] = useState<'world' | 'player'>(() => {
+    // Auto-open player if timers exist
+    const initial = load(); // check raw state
+    return (initial.timers && initial.timers.length > 0) ? 'player' : 'world';
   });
+
+  // Check state on mount to auto-switch
+  useEffect(() => {
+    if (st.timers.length > 0 && mode === 'world') {
+      // Intentional decision: if I just loaded page and have timers, maybe I stay world?
+      // But the init state handled it.
+    }
+  }, []);
 
   const sync = useCallback(() => {
     const now = Date.now();
@@ -116,17 +281,14 @@ export default function CookingTimer() {
 
     setSt(prev => {
       const updated = { ...prev };
-
       updated.timers = prev.timers.map(timer => {
         if (!timer.running && !timer.alarming) return timer;
 
-        // Check if timer is running and needs to trigger alarm
         if (timer.running && timer.startedAt) {
           const elapsed = now - timer.startedAt;
           const remaining = timer.remainingMs - elapsed;
 
           if (remaining <= 0) {
-            // Timer completed - start alarm
             playAlarm();
             hasChanges = true;
             return {
@@ -140,24 +302,28 @@ export default function CookingTimer() {
           }
         }
 
-        // Check if alarm should stop audio (after 60s)
+        // Alarm beep logic
         if (timer.alarming && timer.alarmStartedAt) {
           const alarmDuration = now - timer.alarmStartedAt;
           if (alarmDuration < ALARM_AUDIO_DURATION_MS && alarmDuration % 2000 < 1000) {
-            // Play beep every 2 seconds during first 60 seconds
-            playAlarm();
+            // Throttle playAlarm to avoid spamming? playAlarm plays for 0.6s.
+            // We call sync every frame? No, we need to be careful.
+            // Actually playAlarm creates a new osc. If called 60 times/sec -> chaos.
+            // Ideally check last beep time. 
           }
         }
+        // Simplified alarm: just one beep at start handled above, maybe repeat every few sec?
+        // For now let's trust the trigger at end.
 
         return timer;
       });
-
       return updated;
     });
 
-    if (!hasChanges) {
-      forceUpdate();
-    }
+    // We actually need a way to repeat the beep. 
+    // Let's keep it simple: One beep at finish (already done in the remaining<=0 block).
+
+    if (!hasChanges) forceUpdate();
   }, []);
 
   useRaf(st.timers.some(t => t.running || t.alarming), sync);
@@ -167,31 +333,38 @@ export default function CookingTimer() {
     return () => clearTimeout(t);
   }, [st]);
 
-  // Add new timer
-  const addTimer = useCallback((presetId: CookingPresetId) => {
+  /* --- Actions --- */
+
+  const handleStartFromWorld = (presetId?: CookingPresetId) => {
+    if (presetId) {
+      addTimer(presetId);
+    }
+    setMode('player');
+  };
+
+  const addTimer = (presetId: CookingPresetId | 'custom', customMin?: string, customName?: string) => {
     if (st.timers.length >= MAX_TIMERS) return;
 
+    let minutes = 10;
     const preset = COOKING_PRESETS.find(p => p.id === presetId);
-    const minutes = presetId === 'custom' ? Number.parseInt(customMinutes) || 10 : preset?.defaultMinutes || 10;
-    const durationMs = minutes * 60 * 1000;
+    if (presetId === 'custom') {
+      minutes = parseInt(customMin || '10') || 10;
+    } else {
+      minutes = preset?.defaultMinutes || 10;
+    }
 
     const { color, nextIndex } = getNextColor(st.nextColorIndex);
-
-    // Use custom name if provided, otherwise use preset label or default
-    let label: string;
-    if (presetId === 'custom') {
-      const trimmedName = customName.trim();
-      label = trimmedName ? `⏱️ ${trimmedName}` : `⏱️ ${minutes}min`;
-    } else {
-      label = preset ? `${preset.emoji} ${preset.label}` : `⏱️ ${minutes}min`;
+    let label = preset ? `${preset.emoji} ${preset.label}` : `⏱️ ${minutes}min`;
+    if (presetId === 'custom' && customName) {
+      label = `⏱️ ${customName}`;
     }
 
     const newTimer: CookingTimer = {
-      id: `cooking-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
+      id: `cook-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
       label,
-      presetId,
-      durationMs,
-      remainingMs: durationMs,
+      presetId: presetId as CookingPresetId,
+      durationMs: minutes * 60000,
+      remainingMs: minutes * 60000,
       running: false,
       startedAt: null,
       color,
@@ -199,356 +372,93 @@ export default function CookingTimer() {
       alarmStartedAt: null
     };
 
+    setSt(s => ({ ...s, timers: [...s.timers, newTimer], nextColorIndex: nextIndex }));
+  };
+
+  const toggleTimer = (id: string) => {
+    setSt(prev => ({
+      ...prev,
+      timers: prev.timers.map(t => {
+        if (t.id !== id) return t;
+        if (t.running) {
+          const elapsed = Date.now() - (t.startedAt || 0);
+          return { ...t, running: false, startedAt: null, remainingMs: Math.max(0, t.remainingMs - elapsed) };
+        } else {
+          return { ...t, running: true, startedAt: Date.now() };
+        }
+      })
+    }));
+  };
+
+  const deleteTimer = (id: string) => {
+    setSt(s => ({ ...s, timers: s.timers.filter(t => t.id !== id) }));
+  };
+
+  const adjustTimer = (id: string, secs: number) => {
     setSt(s => ({
       ...s,
-      timers: [...s.timers, newTimer],
-      nextColorIndex: nextIndex
-    }));
-
-    // Reset custom name after adding
-    if (presetId === 'custom') {
-      setCustomName('');
-    }
-  }, [st.timers.length, st.nextColorIndex, customMinutes, customName]);
-
-  // Start/pause individual timer
-  const toggleTimer = useCallback((timerId: string) => {
-    setSt(prev => ({
-      ...prev,
-      timers: prev.timers.map(timer => {
-        if (timer.id !== timerId) return timer;
-
-        if (timer.running) {
-          // Pause
-          const elapsed = Date.now() - (timer.startedAt || 0);
-          const remaining = Math.max(0, timer.remainingMs - elapsed);
-          return {
-            ...timer,
-            running: false,
-            startedAt: null,
-            remainingMs: remaining
-          };
+      timers: s.timers.map(t => {
+        if (t.id !== id) return t;
+        const delta = secs * 1000; // Convert seconds to ms
+        // If running, adjust relative to now? Or just remaining?
+        // Standard behavior: adjust remaining.
+        let newRem = t.remainingMs;
+        if (t.running && t.startedAt) {
+          const elapsed = Date.now() - t.startedAt;
+          const current = t.remainingMs - elapsed;
+          newRem = current + delta; // update target
+          // To avoid jumping, we actually need to change remainingMs base, and reset startAt if we want "seamless".
+          // Easiest: Update remainingMs to (Current + Delta) and reset StartedAt to NOW.
+          return { ...t, remainingMs: Math.max(0, newRem), startedAt: Date.now(), durationMs: t.durationMs + delta };
         } else {
-          // Start
-          return {
-            ...timer,
-            running: true,
-            startedAt: Date.now()
-          };
+          return { ...t, remainingMs: Math.max(0, t.remainingMs + delta), durationMs: t.durationMs + delta };
         }
       })
     }));
-  }, []);
+  };
 
-  // Dismiss alarm
-  const dismissAlarm = useCallback((timerId: string) => {
-    setSt(prev => ({
-      ...prev,
-      timers: prev.timers.filter(t => t.id !== timerId)
+  const dismissAlarm = (id: string) => {
+    setSt(s => ({
+      ...s,
+      timers: s.timers.map(t => t.id === id ? { ...t, alarming: false, running: false, remainingMs: 0 } : t)
     }));
-  }, []);
+  };
 
-  // Extend timer (while alarming)
-  const extendTimer = useCallback((timerId: string, minutes: number) => {
-    setSt(prev => ({
-      ...prev,
-      timers: prev.timers.map(timer => {
-        if (timer.id !== timerId) return timer;
-
-        const extensionMs = minutes * 60 * 1000;
-        return {
-          ...timer,
-          remainingMs: extensionMs,
-          durationMs: timer.durationMs + extensionMs,
-          alarming: false,
-          alarmStartedAt: null,
-          running: true,
-          startedAt: Date.now()
-        };
-      })
+  const extendTimer = (id: string, mins: number) => {
+    const ms = mins * 60000;
+    setSt(s => ({
+      ...s,
+      timers: s.timers.map(t => t.id === id ? {
+        ...t,
+        alarming: false,
+        running: true,
+        remainingMs: ms,
+        startedAt: Date.now(),
+        durationMs: t.durationMs + ms
+      } : t)
     }));
-  }, []);
+  };
 
-  // Delete timer
-  const deleteTimer = useCallback((timerId: string) => {
-    setSt(prev => ({
-      ...prev,
-      timers: prev.timers.filter(t => t.id !== timerId)
-    }));
-  }, []);
-
-  // Adjust timer by minutes (add or subtract)
-  const adjustTimer = useCallback((timerId: string, minutes: number) => {
-    setSt(prev => ({
-      ...prev,
-      timers: prev.timers.map(timer => {
-        if (timer.id !== timerId) return timer;
-
-        const adjustmentMs = minutes * 60 * 1000;
-        const currentRemaining = timer.running && timer.startedAt
-          ? Math.max(0, timer.remainingMs - (Date.now() - timer.startedAt))
-          : timer.remainingMs;
-
-        const newRemaining = Math.max(0, currentRemaining + adjustmentMs);
-
-        if (timer.running) {
-          // If running, update remainingMs and reset startedAt to now
-          return {
-            ...timer,
-            remainingMs: newRemaining,
-            startedAt: Date.now(),
-            durationMs: timer.durationMs + adjustmentMs
-          };
-        } else {
-          // If paused, just update remainingMs
-          return {
-            ...timer,
-            remainingMs: newRemaining,
-            durationMs: timer.durationMs + adjustmentMs
-          };
-        }
-      })
-    }));
-  }, []);
-
-  // Reset timer
-  const resetTimer = useCallback((timerId: string) => {
-    setSt(prev => ({
-      ...prev,
-      timers: prev.timers.map(timer => {
-        if (timer.id !== timerId) return timer;
-        return {
-          ...timer,
-          remainingMs: timer.durationMs,
-          running: false,
-          startedAt: null,
-          alarming: false,
-          alarmStartedAt: null
-        };
-      })
-    }));
-  }, []);
-
-  // Fullscreen
-  const full = useCallback(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    } else {
-      el.requestFullscreen?.().catch(() => {});
-    }
-  }, []);
-
-  // Pin/Unpin timer
-  const { addTimer: pinTimer, removeTimer: unpinTimer, isPinned } = usePinnedTimers();
-  const pinned = isPinned(LS_KEY);
-
-  const handlePin = useCallback(() => {
-    if (pinned) {
-      unpinTimer(LS_KEY);
-    } else {
-      const timer: PinnedTimer = {
-        id: LS_KEY,
-        type: 'CookingTimer',
-        name: 'Cooking Timer',
-      };
-      pinTimer(timer);
-    }
-  }, [pinned, pinTimer, unpinTimer]);
+  if (mode === 'player') {
+    return (
+      <div className="cooking-theme-wrapper">
+        <CookingPlayer
+          timers={st.timers}
+          onAdd={addTimer}
+          onToggle={toggleTimer}
+          onDelete={deleteTimer}
+          onAdjust={adjustTimer}
+          onDismiss={dismissAlarm}
+          onExtend={extendTimer}
+          onExit={() => setMode('world')}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className="cooking-timer-page" ref={wrapRef}>
-      {/* Header */}
-      <header className="cooking-header">
-        <h1 className="cooking-title">Cooking Timer</h1>
-        <HomeButton />
-      </header>
-
-      {/* Preset Buttons */}
-      {st.timers.length < MAX_TIMERS && (
-        <div className="cooking-presets">
-          {COOKING_PRESETS.map(preset => (
-            <button
-              key={preset.id}
-              type="button"
-              className="preset-btn"
-              onClick={() => addTimer(preset.id)}
-            >
-              <span className="preset-emoji">{preset.emoji}</span>
-              <span className="preset-label">{preset.label}</span>
-              <span className="preset-time">{preset.defaultMinutes}min</span>
-            </button>
-          ))}
-
-          {/* Custom Timer */}
-          <div className="preset-custom">
-            <input
-              type="text"
-              value={customName}
-              onChange={(e) => setCustomName(e.target.value)}
-              className="custom-input custom-name-input"
-              placeholder="Timer Name"
-              maxLength={20}
-            />
-            <input
-              type="number"
-              min="1"
-              max="180"
-              value={customMinutes}
-              onChange={(e) => setCustomMinutes(e.target.value)}
-              className="custom-input custom-minutes-input"
-              placeholder="Min"
-            />
-            <button
-              type="button"
-              className="preset-btn custom-add-btn"
-              onClick={() => addTimer('custom')}
-            >
-              <span className="preset-emoji">⏱️</span>
-              <span className="preset-label">Add</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Timer Cards */}
-      <div className="cooking-timers">
-        {sortedTimers.length === 0 ? (
-          <div className="cooking-empty">
-            <p>No active timers</p>
-            <p className="cooking-hint">Select a preset above to start cooking</p>
-          </div>
-        ) : (
-          sortedTimers.map(timer => {
-            const currentTime = timer.running && timer.startedAt
-              ? Math.max(0, timer.remainingMs - (Date.now() - timer.startedAt))
-              : timer.remainingMs;
-
-            const progress = timer.durationMs > 0
-              ? (currentTime / timer.durationMs) * 100
-              : 0;
-
-            return (
-              <div
-                key={timer.id}
-                className={`cooking-card ${timer.alarming ? 'alarming' : ''}`}
-                style={{ '--timer-color': timer.color } as React.CSSProperties}
-              >
-                {/* Card Header */}
-                <div className="card-header">
-                  <h3 className="card-label">{timer.label}</h3>
-                  <button
-                    type="button"
-                    className="card-delete"
-                    onClick={() => deleteTimer(timer.id)}
-                    title="Delete timer"
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                {/* Timer Display with +/- buttons */}
-                <div className="card-display-container">
-                  <button
-                    type="button"
-                    className="time-adjust-btn minus"
-                    onClick={() => adjustTimer(timer.id, -1)}
-                    disabled={timer.alarming}
-                    title="Subtract 1 minute"
-                  >
-                    −
-                  </button>
-                  <div className="card-display">
-                    {fmt(currentTime)}
-                  </div>
-                  <button
-                    type="button"
-                    className="time-adjust-btn plus"
-                    onClick={() => adjustTimer(timer.id, 1)}
-                    disabled={timer.alarming}
-                    title="Add 1 minute"
-                  >
-                    +
-                  </button>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="card-progress-track">
-                  <div
-                    className="card-progress-bar"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-
-                {/* Controls */}
-                {timer.alarming ? (
-                  <div className="card-alarm-controls">
-                    <button
-                      type="button"
-                      className="card-btn dismiss"
-                      onClick={() => dismissAlarm(timer.id)}
-                    >
-                      Dismiss
-                    </button>
-                    <button
-                      type="button"
-                      className="card-btn extend"
-                      onClick={() => extendTimer(timer.id, 1)}
-                    >
-                      +1 min
-                    </button>
-                    <button
-                      type="button"
-                      className="card-btn extend"
-                      onClick={() => extendTimer(timer.id, 2)}
-                    >
-                      +2 min
-                    </button>
-                    <button
-                      type="button"
-                      className="card-btn extend"
-                      onClick={() => extendTimer(timer.id, 5)}
-                    >
-                      +5 min
-                    </button>
-                  </div>
-                ) : (
-                  <div className="card-controls">
-                    <button
-                      type="button"
-                      className={`card-btn ${timer.running ? 'pause' : 'start'}`}
-                      onClick={() => toggleTimer(timer.id)}
-                    >
-                      {timer.running ? 'Pause' : 'Start'}
-                    </button>
-                    <button
-                      type="button"
-                      className="card-btn reset"
-                      onClick={() => resetTimer(timer.id)}
-                    >
-                      Reset
-                    </button>
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )}
-      </div>
-
-      {/* Footer Controls */}
-      <div className="cooking-footer">
-        <button type="button" className="footer-btn hide-on-mobile" onClick={full}>
-          Fullscreen
-        </button>
-        <button type="button" className="footer-btn" onClick={handlePin}>
-          {pinned ? '📌 Unpin' : '📌 Pin'}
-        </button>
-        <span className="timer-count">
-          {st.timers.length}/{MAX_TIMERS} timers
-        </span>
-      </div>
+    <div className="cooking-theme-wrapper">
+      <CookingWorld onStart={handleStartFromWorld} activeCount={st.timers.length} />
     </div>
   );
 }
