@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 
 const LS_KEY = "sc.v1.stopwatch";
 
@@ -131,6 +132,23 @@ export default function Stopwatch() {
     }
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'Stopwatch',
+        name: 'Stopwatch',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === " " || e.key === "Spacebar") {
@@ -196,6 +214,9 @@ export default function Stopwatch() {
         </button>
         <button type="button" className="stopwatch-btn secondary hide-on-mobile" onClick={full}>
           Fullscreen
+        </button>
+        <button type="button" className="stopwatch-btn secondary" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
         </button>
       </div>
 

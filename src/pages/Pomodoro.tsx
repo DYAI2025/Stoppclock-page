@@ -5,6 +5,7 @@ import { KanbanBoard } from '../components/KanbanBoard';
 import { playSingingBowl } from '../utils/singing-bowl';
 import type { PomodoroState, PomodoroTask, PomodoroPhase } from '../types/timer-types';
 import { PomodoroGuide } from '../components/PomodoroGuide';
+import { usePinnedTimers, PinnedTimer } from '../contexts/PinnedTimersContext';
 
 const LS_KEY = 'sc.v1.pomodoro';
 
@@ -248,6 +249,23 @@ export default function Pomodoro() {
     }
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'Pomodoro',
+        name: 'Pomodoro Timer',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   const handlePomodoroPreset = useCallback((workMinutes: number, breakMinutes: number, label: string) => {
     const workMs = workMinutes * 60 * 1000;
     setSt(s => ({
@@ -359,6 +377,9 @@ export default function Pomodoro() {
           </button>
           <button type="button" className="pomodoro-btn secondary hide-on-mobile" onClick={full}>
             Fullscreen
+          </button>
+          <button type="button" className="pomodoro-btn secondary" onClick={handlePin}>
+            {pinned ? '📌 Unpin' : '📌 Pin'}
           </button>
         </div>
 

@@ -4,6 +4,7 @@ import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
 import { CountdownGuide } from '../components/CountdownGuide';
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -216,6 +217,23 @@ export default function Countdown() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'Countdown',
+        name: 'Countdown Timer',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   // Use centralized keyboard shortcuts hook
   useKeyboardShortcuts({
     onSpace: () => st.running ? pause() : start(),
@@ -282,6 +300,9 @@ export default function Countdown() {
         </button>
         <button type="button" className="countdown-btn secondary hide-on-mobile" onClick={full}>
           Fullscreen
+        </button>
+        <button type="button" className="countdown-btn secondary" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
         </button>
       </div>
 

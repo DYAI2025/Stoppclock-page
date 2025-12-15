@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
 import { COOKING_PRESETS, getNextColor } from '../config/cooking-presets';
 import type { CookingTimerState, CookingTimer, CookingPresetId } from '../types/timer-types';
+import { usePinnedTimers, PinnedTimer } from '../contexts/PinnedTimersContext';
 import '../styles/cooking-swiss.css';
 
 const LS_KEY = 'sc.v1.cooking';
@@ -339,6 +340,23 @@ export default function CookingTimer() {
     }
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer: pinTimer, removeTimer: unpinTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      unpinTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'CookingTimer',
+        name: 'Cooking Timer',
+      };
+      pinTimer(timer);
+    }
+  }, [pinned, pinTimer, unpinTimer]);
+
   return (
     <div className="cooking-timer-page" ref={wrapRef}>
       {/* Header */}
@@ -523,6 +541,9 @@ export default function CookingTimer() {
       <div className="cooking-footer">
         <button type="button" className="footer-btn hide-on-mobile" onClick={full}>
           Fullscreen
+        </button>
+        <button type="button" className="footer-btn" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
         </button>
         <span className="timer-count">
           {st.timers.length}/{MAX_TIMERS} timers

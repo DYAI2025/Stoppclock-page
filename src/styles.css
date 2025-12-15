@@ -2461,3 +2461,306 @@ a:focus:not(:focus-visible) {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================
+   PINNED TIMERS BOARD
+   ============================================ */
+
+/* Board Container */
+.pinned-timers-board {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Board Header */
+.pinned-timers-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.pinned-timers-board-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pinned-timers-count {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent-red);
+  background: rgba(220, 20, 60, 0.15);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(220, 20, 60, 0.3);
+}
+
+/* Responsive Grid - Dynamically adjusts for 1-3 timers */
+.pinned-timers-grid {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+/* 1 Timer: Full width centered */
+.pinned-timers-grid-1 {
+  grid-template-columns: 1fr;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 2 Timers: Two columns */
+.pinned-timers-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* 3 Timers: Three columns on desktop, adjusts on mobile */
+.pinned-timers-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Pinned Timer Card */
+.pinned-timer-card {
+  background: linear-gradient(135deg, #1a2332 0%, #0b1220 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pinned-timer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #DC143C 0%, #7B2CBF 50%, #00D9FF 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pinned-timer-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(220, 20, 60, 0.4);
+  box-shadow: 0 8px 24px rgba(220, 20, 60, 0.2);
+}
+
+.pinned-timer-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Header */
+.pinned-timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.pinned-timer-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+  flex: 1;
+}
+
+/* Unpin Button */
+.pinned-timer-unpin {
+  background: rgba(220, 20, 60, 0.15);
+  border: 1px solid rgba(220, 20, 60, 0.3);
+  color: var(--accent-red);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.125rem;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pinned-timer-unpin:hover {
+  background: var(--accent-red);
+  color: var(--white);
+  transform: rotate(90deg);
+  border-color: var(--accent-red);
+}
+
+/* Timer Display */
+.pinned-timer-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--white);
+  text-align: center;
+  margin: 1.5rem 0;
+  letter-spacing: 0.05em;
+  font-family: 'Courier New', monospace;
+}
+
+/* Status Indicator */
+.pinned-timer-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.75rem;
+}
+
+.status-icon {
+  font-size: 1rem;
+}
+
+.status-text {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Hint Text */
+.pinned-timer-hint {
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pinned-timer-card:hover .pinned-timer-hint {
+  opacity: 1;
+}
+
+/* Tablet Breakpoint */
+@media (max-width: 768px) {
+  .pinned-timers-board {
+    padding: 0 1rem;
+    margin: 1.5rem auto;
+  }
+
+  .pinned-timers-board-title {
+    font-size: 1.25rem;
+  }
+
+  /* 3 timers: 2 columns on tablet */
+  .pinned-timers-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pinned-timer-display {
+    font-size: 2rem;
+  }
+}
+
+/* Mobile Breakpoint */
+@media (max-width: 480px) {
+  .pinned-timers-board {
+    padding: 0 0.75rem;
+    margin: 1rem auto;
+  }
+
+  .pinned-timers-board-title {
+    font-size: 1.125rem;
+  }
+
+  .pinned-timers-count {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* All grids: Single column on mobile */
+  .pinned-timers-grid-2,
+  .pinned-timers-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .pinned-timer-card {
+    padding: 1.25rem;
+  }
+
+  .pinned-timer-display {
+    font-size: 1.75rem;
+    margin: 1rem 0;
+  }
+
+  .pinned-timer-title {
+    font-size: 0.875rem;
+  }
+
+  .pinned-timer-status {
+    font-size: 0.75rem;
+  }
+}
+
+/* Dark Mode Support (if theme toggle is used) */
+@media (prefers-color-scheme: light) {
+  .pinned-timer-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .pinned-timer-title,
+  .pinned-timer-display {
+    color: #0b1220;
+  }
+
+  .pinned-timer-status {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .pinned-timer-hint {
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .pinned-timers-board {
+    animation: none;
+  }
+
+  .pinned-timer-card {
+    transition: none;
+  }
+
+  .pinned-timer-card:hover {
+    transform: none;
+  }
+
+  .pinned-timer-unpin:hover {
+    transform: none;
+  }
+}

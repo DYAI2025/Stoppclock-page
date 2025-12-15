@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 
 const LS_KEY = "sc.v1.cycle";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -149,6 +150,23 @@ export default function CycleTimer() {
     }));
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'CycleTimer',
+        name: 'Cycle Timer',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   const totalSec = Math.floor(st.remainingMs / 1000);
   const h = Math.floor(totalSec / 3600);
   const m = Math.floor((totalSec % 3600) / 60);
@@ -236,6 +254,9 @@ export default function CycleTimer() {
           {st.running ? "Stop" : "Start"}
         </button>
         <button type="button" className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
+        </button>
       </div>
 
       <div className="countdown-settings">
