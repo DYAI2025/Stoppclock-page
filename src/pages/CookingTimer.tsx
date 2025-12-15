@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
 import { COOKING_PRESETS, getNextColor } from '../config/cooking-presets';
 import type { CookingTimerState, CookingTimer, CookingPresetId } from '../types/timer-types';
+import { usePinnedTimers, PinnedTimer } from '../contexts/PinnedTimersContext';
 import '../styles/cooking-warm.css';
 
 const LS_KEY = 'sc.v1.cooking';
@@ -159,7 +160,9 @@ const CookingPlayer = ({
   onAdjust,
   onDismiss,
   onExtend,
-  onExit
+  onExit,
+  onPin,
+  isPinned
 }: any) => {
   const [customName, setCustomName] = useState('');
   const [customMin, setCustomMin] = useState('10');
@@ -217,10 +220,26 @@ const CookingPlayer = ({
             >
               <div className="cook-card-header">
                 <h3 className="cook-card-title">{timer.label}</h3>
-                <button
-                  onClick={() => onDelete(timer.id)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', opacity: 0.5 }}
-                >✕</button>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <button
+                    onClick={() => onPin(timer)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '1.2rem',
+                      opacity: isPinned(`${LS_KEY}:${timer.id}`) ? 1 : 0.5,
+                      transition: 'opacity 0.2s'
+                    }}
+                    title={isPinned(`${LS_KEY}:${timer.id}`) ? 'Unpin from main page' : 'Pin to main page'}
+                  >
+                    {isPinned(`${LS_KEY}:${timer.id}`) ? '📌' : '📍'}
+                  </button>
+                  <button
+                    onClick={() => onDelete(timer.id)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', opacity: 0.5 }}
+                  >✕</button>
+                </div>
               </div>
 
               <div className="cook-card-time">
@@ -266,6 +285,9 @@ export default function CookingTimer() {
     const initial = load(); // check raw state
     return (initial.timers && initial.timers.length > 0) ? 'player' : 'world';
   });
+
+  // Pin functionality
+  const { addTimer: addPinnedTimer, removeTimer: removePinnedTimer, isPinned } = usePinnedTimers();
 
   // Check state on mount to auto-switch
   useEffect(() => {
@@ -439,6 +461,22 @@ export default function CookingTimer() {
     }));
   };
 
+  const handlePinIndividualTimer = useCallback((timer: CookingTimer) => {
+    const timerPinId = `${LS_KEY}:${timer.id}`;
+
+    if (isPinned(timerPinId)) {
+      removePinnedTimer(timerPinId);
+    } else {
+      const pinnedTimer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'CookingTimer',
+        name: timer.label || `${Math.floor(timer.durationMs / 60000)}m`,
+        subTimerId: timer.id,
+      };
+      addPinnedTimer(pinnedTimer);
+    }
+  }, [addPinnedTimer, removePinnedTimer, isPinned]);
+
   if (mode === 'player') {
     return (
       <div className="cooking-theme-wrapper">
@@ -451,6 +489,8 @@ export default function CookingTimer() {
           onDismiss={dismissAlarm}
           onExtend={extendTimer}
           onExit={() => setMode('world')}
+          onPin={handlePinIndividualTimer}
+          isPinned={isPinned}
         />
       </div>
     );
