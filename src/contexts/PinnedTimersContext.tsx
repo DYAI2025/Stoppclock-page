@@ -4,6 +4,7 @@ export type PinnedTimer = {
   id: string;
   type: string;
   name: string;
+  subTimerId?: string; // For Cooking Timer individual timers
 };
 
 type PinnedTimersContextType = {
