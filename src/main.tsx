@@ -38,6 +38,7 @@ import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
+import { PinnedTimersBoard } from "./components/PinnedTimersBoard";
 import LanguageToggle from "./components/LanguageToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
 import TimerIcon, { TimerIconType } from "./components/TimerIcon";
@@ -185,6 +186,9 @@ function Home() {
 
       {/* Digital-style facts board above the timers */}
       <ClockFactsBoard />
+
+      {/* Pinned Timers Board */}
+      <PinnedTimersBoard />
 
       {/* TIMER SECTION */}
       <div className="home-section home-section-timers">
