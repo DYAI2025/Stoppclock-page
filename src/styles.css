@@ -2619,3 +2619,74 @@ a:focus:not(:focus-visible) {
     scroll-behavior: auto !important;
   }
 }
+
+/* Pinned Timer Controls */
+.pinned-timer-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pinned-control-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.pinned-control-btn.start {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+}
+
+.pinned-control-btn.start:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.pinned-control-btn.pause {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: white;
+}
+
+.pinned-control-btn.pause:hover {
+  background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.pinned-control-btn.reset {
+  background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
+  color: white;
+}
+
+.pinned-control-btn.reset:hover {
+  background: linear-gradient(135deg, #4B5563 0%, #374151 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.pinned-control-btn:active {
+  transform: scale(0.98);
+}
+
+/* Mobile adjustments for controls */
+@media (max-width: 480px) {
+  .pinned-timer-controls {
+    gap: 0.375rem;
+  }
+
+  .pinned-control-btn {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
