@@ -163,7 +163,7 @@ const CountdownPlayer = ({
   return (
     <div className={`focus-player ${isLastMinute ? 'last-minute' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}>
       <div className="focus-header-bar">
-        <button className="focus-back-btn" onClick={onExit}>← Back</button>
+        <button className="focus-back-btn" onClick={onExit}>← About this timer</button>
         <div style={{ display: 'flex', gap: 12 }}>
           <label style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 4 }}>
             <input type="checkbox" checked={st.signal.sound} onChange={() => { /* needs handler */ }} disabled />
@@ -219,7 +219,7 @@ const CountdownPlayer = ({
 
 export default function Countdown() {
   const [st, setSt] = useState<Persist>(load);
-  const [mode, setMode] = useState<'world' | 'player'>('world');
+  const [mode, setMode] = useState<'world' | 'player'>('player'); // Start directly in player mode
   const wrapRef = useRef<HTMLDivElement>(null);
   const lastSecondRef = useRef<number>(-1);
   const [urlChecked, setUrlChecked] = useState(false);
@@ -249,12 +249,9 @@ export default function Countdown() {
           }));
         }, 100);
       }
-    } else {
-      // If we have a saved running timer, go to player
-      if (st.running) setMode('player');
     }
     setUrlChecked(true);
-  }, [urlChecked, st.running]);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
