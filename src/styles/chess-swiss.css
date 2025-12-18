@@ -1,0 +1,559 @@
+/* ============================================
+ * CHESS TIMER - SWISS MINIMAL DESIGN
+ * ============================================ */
+
+/* ============================================
+ * DESIGN TOKENS (Inherited from LandingPage)
+ * ============================================ */
+:root {
+    /* Extending LandingPage tokens */
+    --ch-bg-page: #F5F7F9;
+    --ch-bg-surface: #FFFFFF;
+    --ch-bg-subtle: #E8EEF2;
+    --ch-text-main: #1A202C;
+    --ch-text-muted: #4A5568;
+    --ch-border: #CBD5E0;
+
+    /* Semantic Colors - Chess */
+    --ch-color-accent: #2C5282; /* Deep Blue - Authority/Referee */
+    --ch-color-secondary: #38A169; /* Green - Fair Play/Go */
+    --ch-color-alert: #E53E3E; /* Red - Time Trouble */
+    
+    /* Player Colors */
+    --ch-color-p1: #2B6CB0; /* Strong Blue */
+    --ch-color-p2: #2D3748; /* Dark Grey/Black */
+
+    --ch-radius-l: 12px;
+    --ch-radius-xl: 20px;
+    
+    --ch-shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --ch-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+
+/* ============================================
+ * PAGE LAYOUT
+ * ============================================ */
+.chess-world-page {
+    min-height: 100vh;
+    background: var(--ch-bg-page);
+    color: var(--ch-text-main);
+    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ============================================
+ * WORLD PAGE LAYOUT (The Story Layer)
+ * ============================================ */
+.chess-world {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ch-section {
+    width: 100%;
+    padding: 5rem 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.ch-section-alt {
+    background: var(--ch-bg-subtle);
+}
+
+.ch-container {
+    max-width: 960px;
+    width: 100%;
+}
+
+.ch-container-narrow {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Typography */
+.ch-h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--ch-text-main);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
+}
+
+.ch-h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ch-text-main);
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.ch-h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ch-text-main);
+    margin-bottom: 0.75rem;
+}
+
+.ch-body {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--ch-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.ch-tagline {
+    font-size: 1.25rem;
+    color: var(--ch-text-muted);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+/* HERO SECTION */
+.ch-hero {
+    padding-top: 8rem;
+    text-align: center;
+}
+
+.ch-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ch-hero-eyebrow {
+    color: var(--ch-color-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+.ch-hero-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    justify-content: center;
+}
+
+.ch-btn-primary {
+    background: var(--ch-color-accent);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 6px; /* Squarer for Chess */
+    font-weight: 600;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: var(--ch-shadow-md);
+}
+
+.ch-btn-primary:hover {
+    transform: translateY(-2px);
+    background: #2A4365;
+}
+
+.ch-btn-ghost {
+    background: transparent;
+    color: var(--ch-text-main);
+    padding: 1rem 2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 2px solid var(--ch-border);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ch-btn-ghost:hover {
+    border-color: var(--ch-text-main);
+    background: var(--ch-bg-surface);
+}
+
+/* RITUALS GRID */
+.ch-rituals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.ch-ritual-card {
+    background: var(--ch-bg-surface);
+    border: 1px solid var(--ch-border);
+    border-radius: var(--ch-radius-l);
+    padding: 2.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ch-ritual-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ch-shadow-md);
+    border-color: var(--ch-color-accent);
+}
+
+.ch-ritual-steps {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0 0;
+    counter-reset: step;
+    flex-grow: 1;
+}
+
+.ch-ritual-steps li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--ch-text-muted);
+    line-height: 1.5;
+}
+
+.ch-ritual-steps li::before {
+    counter-increment: step;
+    content: counter(step) ".";
+    position: absolute;
+    left: 0;
+    color: var(--ch-color-accent);
+    font-weight: 700;
+}
+
+/* EFFECTS SECTION */
+.ch-effects-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.ch-effect-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.ch-effect-list li {
+    margin-bottom: 1rem;
+    color: var(--ch-text-muted);
+    display: flex;
+    gap: 0.75rem;
+}
+
+.ch-effect-list li::before {
+    content: "•";
+    color: var(--ch-color-accent);
+    font-weight: bold;
+}
+
+.ch-experiment-block {
+    background: var(--ch-bg-surface);
+    border-left: 6px solid var(--ch-color-accent);
+    padding: 2.5rem;
+    border-radius: 0 var(--ch-radius-l) var(--ch-radius-l) 0;
+    box-shadow: var(--ch-shadow-sm);
+}
+
+/* TIME FACTS */
+.ch-facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.ch-fact-plaque {
+    background: var(--ch-bg-surface);
+    border: 1px solid var(--ch-border);
+    border-radius: var(--ch-radius-l);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.ch-fact-plaque::before {
+    content: ""; /* Decorative accent */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--ch-color-accent);
+    opacity: 0.5;
+}
+
+.ch-fact-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--ch-color-accent);
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+/* Footer Note */
+.ch-footer-note {
+    font-size: 0.95rem;
+    color: var(--ch-text-muted);
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--ch-border);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ch-back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--ch-color-accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ch-back-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ch-effects-split {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .ch-hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .ch-btn-primary, .ch-btn-ghost {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ============================================
+ * CHESS TIMER PLAYER (Functional View)
+ * ============================================ */
+.chess-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000;
+    overflow: hidden;
+    touch-action: none; /* Prevent scrolling on mobile */
+}
+
+/* Player Zones */
+.player {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.player-1 {
+    background-color: var(--ch-bg-surface);
+    color: var(--ch-text-main);
+}
+
+.player-2 {
+    background-color: var(--ch-text-main);
+    color: var(--ch-bg-surface);
+}
+
+/* Active State */
+.player.active {
+    flex: 1.2; /* Take up more space */
+}
+
+.player-1.active {
+    background-color: #E6FFFA; /* Light Teal for P1 active */
+    box-shadow: inset 0 0 40px rgba(56, 161, 105, 0.2);
+}
+
+.player-2.active {
+    background-color: #1A202C; /* Darker for P2 active */
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Typography */
+.player-time {
+    font-size: clamp(4rem, 15vw, 8rem);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.player-label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+}
+
+.chess-piece {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.player.active .chess-piece {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.player.active .player-time {
+    transform: scale(1.05);
+}
+
+/* Controls Bar */
+.chess-controls {
+    height: 60px;
+    background: var(--ch-bg-page);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 10;
+    border-top: 1px solid var(--ch-border);
+    border-bottom: 1px solid var(--ch-border);
+}
+
+.chess-controls .btn {
+    background: transparent;
+    border: 1px solid var(--ch-border);
+    border-radius: var(--ch-radius-s);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--ch-text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chess-controls .btn:hover {
+    background: var(--ch-bg-subtle);
+}
+
+/* Back Button */
+.btn-home {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #1A202C; /* Always dark text for high contrast */
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-home:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Settings Modal */
+.chess-settings-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.chess-settings-content {
+    background: var(--ch-bg-surface);
+    padding: 2rem;
+    border-radius: var(--ch-radius-l);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: var(--ch-shadow-md);
+}
+
+.chess-settings-content h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.time-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.time-input-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--ch-text-muted);
+}
+
+.time-input-group input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.25rem;
+    border: 1px solid var(--ch-border);
+    border-radius: var(--ch-radius-s);
+}
+
+.chess-settings-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.chess-settings-buttons .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--ch-radius-s);
+    border: 1px solid var(--ch-border);
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.chess-settings-buttons .btn.primary {
+    background: var(--ch-color-accent);
+    color: white;
+    border-color: var(--ch-color-accent);
+}
