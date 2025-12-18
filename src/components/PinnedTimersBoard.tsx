@@ -124,13 +124,13 @@ const PinnedTimerCard: React.FC<{ timer: PinnedTimer }> = ({ timer }) => {
     };
     window.addEventListener('storage', handleStorageChange);
 
-    // Update current time every 100ms for live display
+    // Update current time every 1000ms for live display (seconds precision is sufficient)
     const timeInterval = setInterval(() => {
       setCurrentTime(Date.now());
-    }, 100);
+    }, 1000);
 
-    // Poll for same-tab updates
-    const pollInterval = setInterval(loadState, 200);
+    // Poll for same-tab updates at a lower frequency to reduce load
+    const pollInterval = setInterval(loadState, 1000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
