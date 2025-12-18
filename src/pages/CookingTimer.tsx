@@ -173,7 +173,7 @@ const CookingPlayer = ({
     <div className="cook-dashboard">
       <div className="cook-header-bar">
         <button className="cook-back-btn" onClick={onExit}>
-          ← Back to Rituals
+          ← About this timer
         </button>
         <HomeButton />
       </div>
@@ -261,19 +261,8 @@ const CookingPlayer = ({
 export default function CookingTimer() {
   const [st, setSt] = useState<CookingTimerState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
-  const [mode, setMode] = useState<'world' | 'player'>(() => {
-    // Auto-open player if timers exist
-    const initial = load(); // check raw state
-    return (initial.timers && initial.timers.length > 0) ? 'player' : 'world';
-  });
-
-  // Check state on mount to auto-switch
-  useEffect(() => {
-    if (st.timers.length > 0 && mode === 'world') {
-      // Intentional decision: if I just loaded page and have timers, maybe I stay world?
-      // But the init state handled it.
-    }
-  }, []);
+  // Start directly in player mode - users expect to see the timer
+  const [mode, setMode] = useState<'world' | 'player'>('player');
 
   const sync = useCallback(() => {
     const now = Date.now();

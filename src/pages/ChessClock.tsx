@@ -333,7 +333,7 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
     <div className="chess-wrap" style={{ height: '100vh' }}>
       <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10 }}>
           <button onClick={onExit} className="btn-home">
-             Back to Story
+             About this timer
           </button>
       </div>
 
@@ -398,12 +398,8 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
 // --- MAIN PAGE COMPONENT ---
 
 export default function ChessClock() {
-  // Check if a game is currently active
-  const loaded = load();
-  // If active player is set and game was started, default to player view
-  const initialMode = (loaded.activePlayer && loaded.startedAt) ? 'player' : 'world';
-  
-  const [mode, setMode] = useState<'world' | 'player'>(initialMode);
+  // Start directly in player mode - users expect to see the timer
+  const [mode, setMode] = useState<'world' | 'player'>('player');
 
   if (mode === 'player') {
     return <ChessTimerPlayer onExit={() => setMode('world')} />;
