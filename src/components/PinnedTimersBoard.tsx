@@ -372,9 +372,12 @@ const PinnedTimerCard: React.FC<{ timer: PinnedTimer }> = ({ timer }) => {
     removeTimer(timer.id);
   };
 
-  const status = state?.running
-    ? { icon: '▶', text: 'Running', color: '#10B981' }
-    : { icon: '⏸', text: 'Paused', color: '#F59E0B' };
+  const status =
+    state == null
+      ? { icon: '⚠️', text: 'Not found', color: '#888' }
+      : state.running
+        ? { icon: '▶', text: 'Running', color: '#10B981' }
+        : { icon: '⏸', text: 'Paused', color: '#F59E0B' };
 
   return (
     <div className="pinned-timer-card" ref={cardRef}>
