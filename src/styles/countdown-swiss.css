@@ -189,3 +189,128 @@
     padding: var(--space-3);
   }
 }
+
+/* ========================================
+   COUNTDOWN RING STYLES
+   ======================================== */
+
+.countdown-ring-container {
+  position: relative;
+  width: min(90vw, 500px);
+  height: min(90vw, 500px);
+  margin: var(--space-8, 2rem) auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-ring-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(var(--glow, 0 0 8px var(--aurora-cyan)));
+  transition: filter 0.3s ease;
+}
+
+/* Progress ring smooth animation */
+.countdown-progress-ring {
+  transition: stroke-dashoffset 0.5s linear, stroke 0.3s ease;
+}
+
+/* Ticks */
+.countdown-tick {
+  transition: stroke 0.3s ease;
+}
+
+.countdown-tick.active {
+  stroke: var(--ring, var(--aurora-cyan));
+}
+
+/* Time display inside ring */
+.countdown-ring-time {
+  position: relative;
+  z-index: 1;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text-primary, #fff);
+  text-align: center;
+  user-select: none;
+  transition: font-size 0.2s ease, color 0.3s ease;
+}
+
+/* State: Running */
+.countdown-ring-container.running .countdown-ring-time {
+  color: var(--ring, var(--aurora-cyan));
+}
+
+/* State: Danger (≤20s) */
+.countdown-ring-container.danger .countdown-ring-svg {
+  filter: drop-shadow(var(--glow, 0 0 15px #ff6b00));
+}
+
+/* State: Critical (≤2s) - Pulse animation */
+.countdown-ring-container.critical .countdown-ring-time {
+  animation: countdown-pulse 0.5s ease-in-out infinite;
+}
+
+.countdown-ring-container.critical .countdown-ring-svg {
+  filter: drop-shadow(var(--glow, 0 0 25px #ef4444));
+  animation: countdown-glow-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes countdown-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes countdown-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 20px var(--semantic-error));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px var(--semantic-error));
+  }
+}
+
+/* State: Expired */
+.countdown-ring-container.expired .countdown-ring-time {
+  color: var(--semantic-error, #ef4444);
+}
+
+.countdown-ring-container.expired .countdown-ring-svg {
+  filter: drop-shadow(0 0 30px var(--semantic-error));
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .countdown-progress-ring {
+    transition: stroke 0.3s ease;
+  }
+
+  .countdown-ring-container.critical .countdown-ring-time,
+  .countdown-ring-container.critical .countdown-ring-svg {
+    animation: none;
+  }
+
+  .countdown-ring-svg {
+    filter: none !important;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .countdown-ring-container {
+    width: 85vw;
+    height: 85vw;
+    margin: var(--space-4, 1rem) auto;
+  }
+}

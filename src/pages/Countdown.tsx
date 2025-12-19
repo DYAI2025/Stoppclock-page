@@ -3,7 +3,8 @@ import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
-import { CountdownGuide } from '../components/CountdownGuide';
+import { CountdownGuide } from "../components/CountdownGuide";
+import { CountdownRing } from "../components/CountdownRing";
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -34,7 +35,7 @@ function load(): Persist {
       running: !!p.running,
       endAt: p.endAt ?? null,
       warnAtMs: p.warnAtMs ?? 60_000,
-      signal: { sound: !!p.signal?.sound, flash: !!p.signal?.flash }
+      signal: { sound: !!p.signal?.sound, flash: !!p.signal?.flash },
     };
   } catch {
     return {
@@ -44,7 +45,7 @@ function load(): Persist {
       running: false,
       endAt: null,
       warnAtMs: 10_000, // 10 seconds warning (spec requirement)
-      signal: { sound: true, flash: true }
+      signal: { sound: true, flash: true },
     };
   }
 }
@@ -80,7 +81,9 @@ function fmt(ms: number): string {
   const h = Math.floor(total / 3600);
   const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(
+    s
+  ).padStart(2, "0")}`;
 }
 
 export default function Countdown() {
@@ -94,31 +97,32 @@ export default function Countdown() {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    
-    if (params.has('duration')) {
-      const durationSeconds = parseInt(params.get('duration') || '0', 10);
+
+    if (params.has("duration")) {
+      const durationSeconds = parseInt(params.get("duration") || "0", 10);
       const durationMs = clamp(durationSeconds * 1000, 1000, MAX);
-      
-      setSt(s => ({
+
+      setSt((s) => ({
         ...s,
         durationMs,
         remainingMs: durationMs,
         running: false,
-        endAt: null
+        endAt: null,
       }));
-      
-      if (params.get('autostart') === '1') {
+
+      if (params.get("autostart") === "1") {
         setTimeout(() => {
-          setSt(s => ({
+          setSt((s) => ({
             ...s,
             running: true,
-            endAt: Date.now() + durationMs
+            endAt: Date.now() + durationMs,
           }));
         }, 100);
       }
@@ -135,7 +139,7 @@ export default function Countdown() {
     const newSeconds = Math.floor(rem / 1000);
 
     if (newSeconds !== currentSeconds) {
-      setSt(s => ({ ...s, remainingMs: rem }));
+      setSt((s) => ({ ...s, remainingMs: rem }));
     }
   }, [st.running, st.endAt, st.remainingMs]);
 
@@ -165,13 +169,13 @@ export default function Countdown() {
     // Finish: loud alarm with ADSR envelope (multiple beeps)
     if (st.running && st.remainingMs <= 0) {
       lastSecondRef.current = -1; // Reset for next countdown
-      setSt(s => ({ ...s, running: false, endAt: null, remainingMs: 0 }));
+      setSt((s) => ({ ...s, running: false, endAt: null, remainingMs: 0 }));
       if (st.signal.flash) flash(wrapRef.current, 900);
       if (st.signal.sound) {
         // Alarm bimmeln - multiple beeps with ADSR envelope
-        beep(300, 880);  // First beep (300ms)
-        setTimeout(() => beep(300, 880), 350);  // Second beep
-        setTimeout(() => beep(300, 880), 700);  // Third beep
+        beep(300, 880); // First beep (300ms)
+        setTimeout(() => beep(300, 880), 350); // Second beep
+        setTimeout(() => beep(300, 880), 700); // Third beep
         setTimeout(() => beep(500, 660), 1050); // Final longer lower beep (500ms)
       }
     }
@@ -179,49 +183,81 @@ export default function Countdown() {
 
   const start = useCallback(() => {
     if (st.remainingMs <= 0) {
-      setSt(s => ({ ...s, remainingMs: s.durationMs, running: true, endAt: Date.now() + s.durationMs }));
+      setSt((s) => ({
+        ...s,
+        remainingMs: s.durationMs,
+        running: true,
+        endAt: Date.now() + s.durationMs,
+      }));
     } else {
-      setSt(s => ({ ...s, running: true, endAt: Date.now() + s.remainingMs }));
+      setSt((s) => ({
+        ...s,
+        running: true,
+        endAt: Date.now() + s.remainingMs,
+      }));
     }
   }, [st.remainingMs, st.durationMs]);
 
-  const pause = useCallback(() => setSt(s => ({ ...s, running: false, endAt: null })), []);
-  const reset = useCallback(() => setSt(s => ({ ...s, running: false, endAt: null, remainingMs: s.durationMs })), []);
+  const pause = useCallback(
+    () => setSt((s) => ({ ...s, running: false, endAt: null })),
+    []
+  );
+  const reset = useCallback(
+    () =>
+      setSt((s) => ({
+        ...s,
+        running: false,
+        endAt: null,
+        remainingMs: s.durationMs,
+      })),
+    []
+  );
 
-  const plus = useCallback((ms: number) => setSt(s => {
-    const base = s.running ? Math.max(0, (s.endAt ?? Date.now()) - Date.now()) : s.remainingMs;
-    const next = clamp(base + ms, 0, MAX);
-    return s.running ? { ...s, remainingMs: next, endAt: Date.now() + next } : { ...s, durationMs: next, remainingMs: next };
-  }), []);
+  const plus = useCallback(
+    (ms: number) =>
+      setSt((s) => {
+        const base = s.running
+          ? Math.max(0, (s.endAt ?? Date.now()) - Date.now())
+          : s.remainingMs;
+        const next = clamp(base + ms, 0, MAX);
+        return s.running
+          ? { ...s, remainingMs: next, endAt: Date.now() + next }
+          : { ...s, durationMs: next, remainingMs: next };
+      }),
+    []
+  );
 
   const full = useCallback(() => {
     const el = wrapRef.current;
     if (!el) return;
     if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => { });
+      document.exitFullscreen().catch(() => {});
     } else {
-      el.requestFullscreen?.().catch(() => { });
+      el.requestFullscreen?.().catch(() => {});
     }
   }, []);
 
   const handlePresetSelect = useCallback((minutes: number) => {
     const ms = minutes * 60 * 1000;
-    setSt(s => ({
+    setSt((s) => ({
       ...s,
       durationMs: ms,
       remainingMs: ms,
       running: false,
-      endAt: null
+      endAt: null,
     }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   // Use centralized keyboard shortcuts hook
-  useKeyboardShortcuts({
-    onSpace: () => st.running ? pause() : start(),
-    onReset: reset,
-    onFullscreen: full,
-  }, true);
+  useKeyboardShortcuts(
+    {
+      onSpace: () => (st.running ? pause() : start()),
+      onReset: reset,
+      onFullscreen: full,
+    },
+    true
+  );
 
   // Arrow keys for time adjustment (only when paused)
   useEffect(() => {
@@ -257,14 +293,16 @@ export default function Countdown() {
         <HomeButton />
       </header>
 
-      {/* Timer Display */}
-      <div
-        className={`countdown-display ${st.running ? 'running' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}
-      >
-        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
-          {fmt(st.remainingMs)}
-        </div>
-      </div>
+      {/* Timer Display - Ring Visualization */}
+      <CountdownRing
+        totalMs={st.durationMs}
+        remainingMs={st.remainingMs}
+        running={st.running}
+        dangerThreshold={20000}
+        criticalThreshold={2000}
+        showProgressRing={true}
+        timeFormatter={fmt}
+      />
 
       {/* Controls */}
       <div className="countdown-controls">
@@ -277,20 +315,52 @@ export default function Countdown() {
             Pause
           </button>
         )}
-        <button type="button" className="countdown-btn secondary" onClick={reset}>
+        <button
+          type="button"
+          className="countdown-btn secondary"
+          onClick={reset}
+        >
           Reset
         </button>
-        <button type="button" className="countdown-btn secondary hide-on-mobile" onClick={full}>
+        <button
+          type="button"
+          className="countdown-btn secondary hide-on-mobile"
+          onClick={full}
+        >
           Fullscreen
         </button>
       </div>
 
       {/* Presets */}
       <div className="countdown-presets">
-        <button type="button" className="countdown-preset" onClick={() => plus(60_000)}>+1m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(300_000)}>+5m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(600_000)}>+10m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(-60_000)}>-1m</button>
+        <button
+          type="button"
+          className="countdown-preset"
+          onClick={() => plus(60_000)}
+        >
+          +1m
+        </button>
+        <button
+          type="button"
+          className="countdown-preset"
+          onClick={() => plus(300_000)}
+        >
+          +5m
+        </button>
+        <button
+          type="button"
+          className="countdown-preset"
+          onClick={() => plus(600_000)}
+        >
+          +10m
+        </button>
+        <button
+          type="button"
+          className="countdown-preset"
+          onClick={() => plus(-60_000)}
+        >
+          -1m
+        </button>
       </div>
 
       {/* Settings */}
@@ -299,7 +369,12 @@ export default function Countdown() {
           <input
             type="checkbox"
             checked={st.signal.sound}
-            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
+            onChange={(e) =>
+              setSt((s) => ({
+                ...s,
+                signal: { ...s.signal, sound: e.target.checked },
+              }))
+            }
           />
           Sound
         </label>
@@ -307,7 +382,12 @@ export default function Countdown() {
           <input
             type="checkbox"
             checked={st.signal.flash}
-            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
+            onChange={(e) =>
+              setSt((s) => ({
+                ...s,
+                signal: { ...s.signal, flash: e.target.checked },
+              }))
+            }
           />
           Flash
         </label>
