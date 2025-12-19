@@ -261,8 +261,11 @@ const CookingPlayer = ({
 export default function CookingTimer() {
   const [st, setSt] = useState<CookingTimerState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
-  // Start directly in player mode - users expect to see the timer
-  const [mode, setMode] = useState<'world' | 'player'>('player');
+  // Smart mode: player if timers exist, world if empty
+  const [mode, setMode] = useState<'world' | 'player'>(() => {
+    const initial = load();
+    return (initial.timers && initial.timers.length > 0) ? 'player' : 'world';
+  });
 
   const sync = useCallback(() => {
     const now = Date.now();
