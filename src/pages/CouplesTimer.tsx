@@ -29,12 +29,16 @@ function loadState(): CouplesTimerState {
       const elapsed = Date.now() - state.startedAt;
       adjustedRemainingMs = Math.max(0, state.remainingMs - elapsed);
     }
+    // Preserve running state only if session was started recently (< 1 hour)
+    const isRecentSession = typeof state.startedAt === 'number' && (Date.now() - state.startedAt) < 3600_000;
+    const shouldPreserveRunning = state.running && isRecentSession && adjustedRemainingMs > 0;
+
     return {
       ...state,
       transitionDurationMs: state.transitionDurationMs || state.currentPreset?.transitionDurationMs || DEFAULT_TRANSITION_MS,
       remainingMs: adjustedRemainingMs,
-      running: false, // Always start paused after reload
-      startedAt: null
+      running: shouldPreserveRunning,
+      startedAt: shouldPreserveRunning ? Date.now() : null
     };
   } catch {
     return {
@@ -220,6 +224,21 @@ export function CoupleTimerPlayer({ onExit, initialPresetId }: { onExit?: () => 
   const wrapRef = useRef<HTMLDivElement>(null);
 
   const transitionSeconds = Math.round(state.transitionDurationMs / 1000);
+
+  // Local state for free typing in the input field
+  const [transitionInput, setTransitionInput] = useState(String(transitionSeconds));
+
+  // Sync input when actual duration changes (e.g. via slider)
+  useEffect(() => {
+    setTransitionInput(String(transitionSeconds));
+  }, [transitionSeconds]);
+
+  const handleTransitionInputBlur = () => {
+    let val = parseInt(transitionInput);
+    if (isNaN(val)) val = MIN_TRANSITION_SECONDS;
+    updateTransitionSeconds(val); // This clamps automatically
+    // state update will trigger effect to re-sync input
+  };
 
   // New profile form
   const [newProfileNameA, setNewProfileNameA] = useState('');
@@ -682,8 +701,10 @@ export function CoupleTimerPlayer({ onExit, initialPresetId }: { onExit?: () => 
                       type="number"
                       min={MIN_TRANSITION_SECONDS}
                       max={MAX_TRANSITION_SECONDS}
-                      value={transitionSeconds}
-                      onChange={(e) => updateTransitionSeconds(Number(e.target.value))}
+                      value={transitionInput}
+                      onChange={(e) => setTransitionInput(e.target.value)}
+                      onBlur={handleTransitionInputBlur}
+                      onKeyDown={(e) => { if (e.key === 'Enter') handleTransitionInputBlur(); }}
                       className="transition-number"
                     />
                     <span className="transition-unit">Sekunden</span>

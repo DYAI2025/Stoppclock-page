@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { HomeButton } from "../components/HomeButton";
 import { HISTORICAL_EVENTS, CATEGORY_NAMES, getEventById } from "../config/historical-events";
-import type { TimeSinceState, HistoricalEvent } from "../types/timer-types";
+import type { TimeSinceState, HistoricalEvent, ParticleEffect } from "../types/timer-types";
+import "../styles/timesince-swiss.css";
+import "../styles/timesince-creative.css";
 
 const LS_KEY = "sc.v1.timesince";
 
@@ -43,11 +45,39 @@ interface TimeBreakdown {
   hours: number;
   minutes: number;
   seconds: number;
+  isSymbolic?: boolean; // Flag for events with symbolic years
 }
 
-function calculateTimeSince(targetDate: Date): TimeBreakdown {
+function calculateTimeSince(targetDate: Date, symbolicYearsAgo?: number): TimeBreakdown {
   const now = new Date();
   const diff = now.getTime() - targetDate.getTime();
+
+  // For symbolic events (like Big Bang), use the provided years
+  // but calculate months/days/hours/minutes/seconds based on current time
+  if (symbolicYearsAgo !== undefined) {
+    // For symbolic dates, we show the months/days/hours based on current year progress
+    // This gives the satisfying precision feel even for cosmic events
+    const startOfYear = new Date(now.getFullYear(), 0, 1);
+    const yearProgress = now.getTime() - startOfYear.getTime();
+
+    const totalSeconds = Math.floor(yearProgress / 1000);
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    const totalHours = Math.floor(totalMinutes / 60);
+    const totalDays = Math.floor(totalHours / 24);
+
+    const months = Math.floor(totalDays / 30.44);
+    const days = Math.floor(totalDays - (months * 30.44));
+
+    return {
+      years: symbolicYearsAgo,
+      months,
+      days,
+      hours: totalHours % 24,
+      minutes: totalMinutes % 60,
+      seconds: totalSeconds % 60,
+      isSymbolic: true,
+    };
+  }
 
   if (diff < 0) {
     return { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -71,6 +101,19 @@ function calculateTimeSince(targetDate: Date): TimeBreakdown {
   return { years, months, days, hours, minutes, seconds };
 }
 
+// Format large year numbers nicely (e.g., "13.8 billion")
+function formatYears(years: number): string {
+  if (years >= 1_000_000_000) {
+    const billions = years / 1_000_000_000;
+    return `${billions.toFixed(1)} billion`;
+  }
+  if (years >= 1_000_000) {
+    const millions = years / 1_000_000;
+    return `${millions.toFixed(1)} million`;
+  }
+  return years.toLocaleString();
+}
+
 function useRaf(on: boolean, cb: () => void) {
   const raf = useRef<number | undefined>();
   useEffect(() => {
@@ -89,10 +132,29 @@ function useRaf(on: boolean, cb: () => void) {
   }, [on, cb]);
 }
 
+// Particle effect component
+function ParticleLayer({ effect }: { effect?: ParticleEffect }) {
+  if (!effect || effect === 'none') return null;
+
+  return <div className={`timesince-particles-${effect}`} aria-hidden="true" />;
+}
+
+// Ambient gradient layer
+function AmbientLayer({ gradient, visible }: { gradient?: string; visible: boolean }) {
+  return (
+    <div
+      className={`timesince-ambient-layer ${visible ? 'visible' : ''}`}
+      style={{ background: gradient || 'transparent' }}
+      aria-hidden="true"
+    />
+  );
+}
+
 export default function TimeSince() {
   const [state, setState] = useState<TimeSinceState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const [showEventSelector, setShowEventSelector] = useState(!state.selectedEventId);
+  const [showFact, setShowFact] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -105,6 +167,15 @@ export default function TimeSince() {
     forceUpdate();
   });
 
+  // Reset fact visibility when event changes
+  useEffect(() => {
+    setShowFact(false);
+    if (state.selectedEventId) {
+      const timer = setTimeout(() => setShowFact(true), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [state.selectedEventId]);
+
   const currentEvent = state.selectedEventId
     ? getEventById(state.selectedEventId)
     : null;
@@ -112,10 +183,16 @@ export default function TimeSince() {
   const targetDate = currentEvent
     ? currentEvent.date
     : state.customEventDate
-    ? new Date(state.customEventDate)
+      ? new Date(state.customEventDate)
+      : null;
+
+  const timeBreakdown = targetDate
+    ? calculateTimeSince(targetDate, currentEvent?.symbolicYearsAgo)
     : null;
 
-  const timeBreakdown = targetDate ? calculateTimeSince(targetDate) : null;
+  // Get visual theme properties
+  const visualTheme = currentEvent?.visualTheme;
+  const fontStyleClass = visualTheme?.fontStyle ? `font-style-${visualTheme.fontStyle}` : '';
 
   const selectEvent = useCallback((event: HistoricalEvent) => {
     setState({
@@ -143,9 +220,9 @@ export default function TimeSince() {
     const el = wrapRef.current;
     if (!el) return;
     if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen().catch(() => { });
     } else {
-      el.requestFullscreen?.().catch(() => {});
+      el.requestFullscreen?.().catch(() => { });
     }
   }, []);
 
@@ -159,9 +236,8 @@ export default function TimeSince() {
         e.preventDefault();
         toggleFullscreen();
       } else if (e.key === "Escape" && state.running) {
-                   setShowEventSelector(true);
-             }
-
+        setShowEventSelector(true);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -180,131 +256,160 @@ export default function TimeSince() {
   }, []);
 
   return (
-    <div className="timesince-page" ref={wrapRef}>
-      {/* Header */}
-      <header className="timesince-header">
-        <h1 className="timesince-title">Time Since</h1>
-        <HomeButton />
-      </header>
+    <div className={`timesince-page ${fontStyleClass}`} ref={wrapRef}>
+      {/* Ambient background layer */}
+      <AmbientLayer
+        gradient={visualTheme?.ambientGradient}
+        visible={!showEventSelector && !!currentEvent}
+      />
 
-      {showEventSelector ? (
-        /* Event Selector */
-        <div className="timesince-selector">
-          <div className="timesince-selector-intro">
-            <h2>Choose a Historic Moment</h2>
-            <p>Watch time flow from events that shaped our world</p>
-          </div>
+      {/* Particle effects layer */}
+      {!showEventSelector && currentEvent && (
+        <ParticleLayer effect={visualTheme?.particleEffect} />
+      )}
 
-          <div className="timesince-categories">
-            {Object.entries(eventsByCategory).map(([category, events]) => (
-              <div key={category} className="timesince-category">
-                <h3 className="timesince-category-title">
-                  {CATEGORY_NAMES[category as HistoricalEvent['category']]}
-                </h3>
-                <div className="timesince-events-grid">
-                  {events.map(event => (
-                    <button
-                      key={event.id}
-                      className="timesince-event-btn"
-                      style={{
-                        '--event-color': event.color,
-                        borderColor: event.color,
-                      } as React.CSSProperties}
-                      onClick={() => selectEvent(event)}
-                    >
-                      <span className="timesince-event-name">{event.name}</span>
-                      <span className="timesince-event-desc">{event.description}</span>
-                    </button>
-                  ))}
+      {/* Content layer */}
+      <div className="timesince-content-layer">
+        {/* Header */}
+        <header className="timesince-header">
+          <h1 className="timesince-title">Time Since</h1>
+          <HomeButton />
+        </header>
+
+        {showEventSelector ? (
+          /* Event Selector */
+          <div className="timesince-selector">
+            <div className="timesince-selector-intro">
+              <h2>Choose a Historic Moment</h2>
+              <p>Watch time flow from events that shaped our world</p>
+            </div>
+
+            <div className="timesince-categories">
+              {Object.entries(eventsByCategory).map(([category, events]) => (
+                <div key={category} className="timesince-category">
+                  <h3 className="timesince-category-title">
+                    {CATEGORY_NAMES[category as HistoricalEvent['category']]}
+                  </h3>
+                  <div className="timesince-events-grid">
+                    {events.map(event => (
+                      <button
+                        key={event.id}
+                        className="timesince-event-btn"
+                        style={{
+                          '--event-color': event.color,
+                        } as React.CSSProperties}
+                        onClick={() => selectEvent(event)}
+                      >
+                        {event.visualTheme?.icon && (
+                          <span className="timesince-event-icon">{event.visualTheme.icon}</span>
+                        )}
+                        <span className="timesince-event-name">{event.name}</span>
+                        <span className="timesince-event-desc">{event.description}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      ) : (
-        /* Time Display */
-        <div className="timesince-display">
-          {currentEvent && (
-            <div
-              className="timesince-event-banner"
-              style={{
-                '--event-color': currentEvent.color,
-                borderColor: currentEvent.color,
-              } as React.CSSProperties}
-            >
-              <div className="timesince-event-info">
-                <h2 className="timesince-event-title">{currentEvent.name}</h2>
-                <p className="timesince-event-description">{currentEvent.description}</p>
-                <p className="timesince-event-date">
-                  {isNaN(currentEvent.date.getTime())
-                    ? "Date not available"
-                    : currentEvent.date.toLocaleDateString('en-US', {
+        ) : (
+          /* Time Display */
+          <div className="timesince-display">
+            {currentEvent && (
+              <div
+                className="timesince-event-banner themed"
+                style={{
+                  '--event-color': currentEvent.color,
+                  '--event-glow': visualTheme?.accentGlow || 'rgba(0, 217, 255, 0.3)',
+                } as React.CSSProperties}
+              >
+                <div className="timesince-event-info">
+                  {visualTheme?.icon && (
+                    <span className="timesince-banner-icon">{visualTheme.icon}</span>
+                  )}
+                  <h2 className="timesince-event-title">{currentEvent.name}</h2>
+                  <p className="timesince-event-description">{currentEvent.description}</p>
+                  <p className="timesince-event-date">
+                    {currentEvent.isSymbolic
+                      ? "≈ Symbolic / approximate date"
+                      : currentEvent.date.toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric'
                       })}
-                </p>
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {timeBreakdown && (
-            <div className="timesince-grid">
-              <div className="timesince-unit">
-                <div className="timesince-number">{timeBreakdown.years.toLocaleString()}</div>
-                <div className="timesince-label">Years</div>
+            {timeBreakdown && (
+              <div className="timesince-grid">
+                <div className={`timesince-unit ${timeBreakdown.isSymbolic ? 'symbolic' : ''}`}>
+                  <div className="timesince-number">{formatYears(timeBreakdown.years)}</div>
+                  <div className="timesince-label">Years</div>
+                </div>
+                <div className="timesince-unit">
+                  <div className="timesince-number">{timeBreakdown.months}</div>
+                  <div className="timesince-label">Months</div>
+                </div>
+                <div className="timesince-unit">
+                  <div className="timesince-number">{timeBreakdown.days}</div>
+                  <div className="timesince-label">Days</div>
+                </div>
+                <div className="timesince-unit">
+                  <div className="timesince-number">{String(timeBreakdown.hours).padStart(2, '0')}</div>
+                  <div className="timesince-label">Hours</div>
+                </div>
+                <div className="timesince-unit">
+                  <div className="timesince-number">{String(timeBreakdown.minutes).padStart(2, '0')}</div>
+                  <div className="timesince-label">Minutes</div>
+                </div>
+                <div className="timesince-unit highlight">
+                  <div className="timesince-number">{String(timeBreakdown.seconds).padStart(2, '0')}</div>
+                  <div className="timesince-label">Seconds</div>
+                </div>
               </div>
-              <div className="timesince-unit">
-                <div className="timesince-number">{timeBreakdown.months}</div>
-                <div className="timesince-label">Months</div>
-              </div>
-              <div className="timesince-unit">
-                <div className="timesince-number">{timeBreakdown.days}</div>
-                <div className="timesince-label">Days</div>
-              </div>
-              <div className="timesince-unit">
-                <div className="timesince-number">{timeBreakdown.hours}</div>
-                <div className="timesince-label">Hours</div>
-              </div>
-              <div className="timesince-unit">
-                <div className="timesince-number">{timeBreakdown.minutes}</div>
-                <div className="timesince-label">Minutes</div>
-              </div>
-              <div className="timesince-unit">
-                <div className="timesince-number">{timeBreakdown.seconds}</div>
-                <div className="timesince-label">Seconds</div>
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* Controls */}
-          <div className="timesince-controls">
-            <button
-              type="button"
-              className="timesince-btn secondary"
-              onClick={() => setShowEventSelector(true)}
-            >
-              Change Event
-            </button>
-            <button type="button" className="timesince-btn secondary" onClick={reset}>
-              Reset
-            </button>
-            <button
-              type="button"
-              className="timesince-btn secondary hide-on-mobile"
-              onClick={toggleFullscreen}
-            >
-              Fullscreen
-            </button>
+            {/* Fun Fact */}
+            {currentEvent?.timeFact && showFact && (
+              <div
+                className="timesince-fact"
+                style={{ '--event-color': currentEvent.color } as React.CSSProperties}
+              >
+                {currentEvent.timeFact}
+              </div>
+            )}
+
+            {/* Controls */}
+            <div className="timesince-controls">
+              <button
+                type="button"
+                className="timesince-btn secondary"
+                onClick={() => setShowEventSelector(true)}
+              >
+                Change Event
+              </button>
+              <button type="button" className="timesince-btn secondary" onClick={reset}>
+                Reset
+              </button>
+              <button
+                type="button"
+                className="timesince-btn secondary hide-on-mobile"
+                onClick={toggleFullscreen}
+              >
+                Fullscreen
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Help text */}
-      <div className="timesince-help">
-        <p>
-          <strong>R</strong> Reset • <strong>F</strong> Fullscreen • <strong>ESC</strong> Change Event
-        </p>
+        {/* Help text */}
+        <div className="timesince-help">
+          <p>
+            <strong>R</strong> Reset • <strong>F</strong> Fullscreen • <strong>ESC</strong> Change Event
+          </p>
+        </div>
       </div>
     </div>
   );

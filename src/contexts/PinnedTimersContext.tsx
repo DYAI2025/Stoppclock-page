@@ -4,6 +4,7 @@ export type PinnedTimer = {
   id: string;
   type: string;
   name: string;
+  subTimerId?: string; // For Cooking Timer individual timers
 };
 
 type PinnedTimersContextType = {
@@ -21,6 +22,8 @@ type PinnedTimersContextType = {
   removePinnedTimer: (id: string) => void;
   /** Check if timer is pinned */
   isPinned: (id: string) => boolean;
+  /** Toggle pin state (add if unpinned, remove if pinned) */
+  togglePin: (id: string) => void;
 };
 
 const PinnedTimersContext = createContext<PinnedTimersContextType | undefined>(undefined);
@@ -132,7 +135,9 @@ export const PinnedTimersProvider: React.FC<{ children: React.ReactNode }> = ({ 
         console.warn(`Maximum ${MAX_PINS} pins reached. Cannot add more.`);
         return prev;
       }
-      return [...prev, id];
+      const next = [...prev, id];
+      window.dispatchEvent(new CustomEvent('sc:pins-changed'));
+      return next;
     });
   };
 
@@ -150,6 +155,16 @@ export const PinnedTimersProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const removeTimer = (id: string) => {
     setPinnedTimerIds(prev => prev.filter(timerId => timerId !== id));
     setPinnedTimerObjects(prev => prev.filter(t => t.id !== id));
+    window.dispatchEvent(new CustomEvent('sc:pins-changed'));
+  };
+
+  // Toggle pin state
+  const togglePin = (id: string) => {
+    if (isPinned(id)) {
+      removeTimer(id);
+    } else {
+      addPinnedTimer(id);
+    }
   };
 
   // Check if timer is pinned
@@ -165,6 +180,7 @@ export const PinnedTimersProvider: React.FC<{ children: React.ReactNode }> = ({ 
     removeTimer,
     removePinnedTimer: removeTimer,
     isPinned,
+    togglePin,
   };
 
   return (

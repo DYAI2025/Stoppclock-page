@@ -9,7 +9,7 @@ import React from 'react';
 import {
     Clock, Settings, Menu, Plus, ChevronRight, Pin, X,
     Timer, Hourglass, CircleDot, Coffee, Heart, Crown,
-    Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered
+    Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered, Clock4
 } from 'lucide-react';
 import { usePinnedTimers } from '../contexts/PinnedTimersContext';
 
@@ -46,6 +46,16 @@ const TIMERS = [
         gradient: 'linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%)',
         color: '#8B5CF6',
         lsKey: 'sc.v1.analog'
+    },
+    {
+        id: 'timesince',
+        route: '#/timesince',
+        label: 'Time Since',
+        tagline: 'Track elapsed time',
+        icon: Clock4,
+        gradient: 'linear-gradient(135deg, #9333EA 0%, #A855F7 100%)',
+        color: '#9333EA',
+        lsKey: 'sc.v1.timesince'
     },
     {
         id: 'pomodoro',
@@ -304,6 +314,58 @@ function MiniWorldClock({ timezone = 'Europe/Berlin' }: { timezone?: string }) {
     }, [now, timezone]);
 
     return <canvas ref={canvasRef} width={120} height={120} className="lp-mini-clock-canvas" />;
+}
+
+// Timezone options for World Clock selector
+const PINNED_TIMEZONE_OPTIONS = [
+    { value: 'Europe/Berlin', label: 'Berlin' },
+    { value: 'Europe/London', label: 'London' },
+    { value: 'Europe/Paris', label: 'Paris' },
+    { value: 'America/New_York', label: 'New York' },
+    { value: 'America/Los_Angeles', label: 'Los Angeles' },
+    { value: 'Asia/Tokyo', label: 'Tokyo' },
+    { value: 'Asia/Singapore', label: 'Singapore' },
+    { value: 'Australia/Sydney', label: 'Sydney' },
+    { value: 'UTC', label: 'UTC' }
+];
+
+// World Clock Pinned Preview with City Selector
+function WorldClockPinnedPreview() {
+    const [timezone, setTimezone] = React.useState('Europe/Berlin');
+    const [now, setNow] = React.useState(new Date());
+
+    React.useEffect(() => {
+        const interval = setInterval(() => setNow(new Date()), 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const cityLabel = PINNED_TIMEZONE_OPTIONS.find(t => t.value === timezone)?.label || 'Berlin';
+    const timeStr = now.toLocaleTimeString('en-US', {
+        timeZone: timezone,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+
+    return (
+        <div className="lp-pinned-preview-world">
+            <MiniWorldClock timezone={timezone} />
+            <div className="lp-world-info">
+                <select
+                    className="lp-world-city-select"
+                    value={timezone}
+                    onChange={(e) => setTimezone(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label="Select city timezone"
+                >
+                    {PINNED_TIMEZONE_OPTIONS.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                </select>
+                <span className="lp-world-time">{timeStr}</span>
+            </div>
+        </div>
+    );
 }
 
 // ============================================
@@ -730,6 +792,304 @@ function CustomSessionMiniPreview() {
 }
 
 // ============================================
+// CHESS CLOCK MINI PREVIEW
+// ============================================
+function ChessClockMiniPreview() {
+    const [state, setState] = React.useState<{
+        player1Time: number;
+        player2Time: number;
+        activePlayer: 1 | 2 | null;
+        startedAt: number | null;
+    }>({ player1Time: 300000, player2Time: 300000, activePlayer: null, startedAt: null });
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.chessclock');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    setState({
+                        player1Time: parsed.player1Time ?? 300000,
+                        player2Time: parsed.player2Time ?? 300000,
+                        activePlayer: parsed.activePlayer ?? null,
+                        startedAt: parsed.startedAt ?? null
+                    });
+                }
+            } catch { }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    React.useEffect(() => {
+        if (state.activePlayer && state.startedAt) {
+            const interval = setInterval(forceUpdate, 100);
+            return () => clearInterval(interval);
+        }
+    }, [state.activePlayer, state.startedAt]);
+
+    const elapsed = state.startedAt ? Date.now() - state.startedAt : 0;
+    const p1Time = state.activePlayer === 1 ? Math.max(0, state.player1Time - elapsed) : state.player1Time;
+    const p2Time = state.activePlayer === 2 ? Math.max(0, state.player2Time - elapsed) : state.player2Time;
+
+    const fmtShort = (ms: number) => {
+        const total = Math.max(0, Math.floor(ms / 1000));
+        const m = Math.floor(total / 60);
+        const s = total % 60;
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    };
+
+    return (
+        <div className={`lp-timer-preview lp-chess-preview ${state.activePlayer ? 'running' : ''}`}>
+            <div className="lp-chess-clocks">
+                <div className={`lp-chess-player ${state.activePlayer === 1 ? 'active' : ''}`}>
+                    <span className="lp-chess-icon">♔</span>
+                    <span className="lp-chess-time">{fmtShort(p1Time)}</span>
+                </div>
+                <div className={`lp-chess-player ${state.activePlayer === 2 ? 'active' : ''}`}>
+                    <span className="lp-chess-icon">♚</span>
+                    <span className="lp-chess-time">{fmtShort(p2Time)}</span>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ============================================
+// COUPLES TIMER MINI PREVIEW
+// ============================================
+function CouplesMiniPreview() {
+    const [state, setState] = React.useState<{
+        phase: string;
+        remainingMs: number;
+        running: boolean;
+        startedAt: number | null;
+    }>({ phase: 'SETUP', remainingMs: 0, running: false, startedAt: null });
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.couples');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    setState({
+                        phase: parsed.phase ?? 'SETUP',
+                        remainingMs: parsed.remainingMs ?? 0,
+                        running: parsed.running ?? false,
+                        startedAt: parsed.startedAt ?? null
+                    });
+                }
+            } catch { }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    React.useEffect(() => {
+        if (state.running && state.startedAt) {
+            const interval = setInterval(forceUpdate, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [state.running, state.startedAt]);
+
+    const displayMs = state.running && state.startedAt
+        ? Math.max(0, state.remainingMs - (Date.now() - state.startedAt))
+        : state.remainingMs;
+
+    const phaseLabels: Record<string, string> = {
+        'SETUP': 'Ready',
+        'PREP': 'Preparing',
+        'A_SPEAKS': 'A speaks',
+        'TRANSITION': 'Pause',
+        'B_SPEAKS': 'B speaks',
+        'A_CLOSING': 'A closing',
+        'B_CLOSING': 'B closing',
+        'COOLDOWN': 'Cooldown',
+        'COMPLETED': 'Done'
+    };
+
+    const fmtShort = (ms: number) => {
+        const total = Math.max(0, Math.floor(ms / 1000));
+        const m = Math.floor(total / 60);
+        const s = total % 60;
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    };
+
+    return (
+        <div className={`lp-timer-preview lp-couples-preview ${state.running ? 'running' : ''}`}>
+            <span className="lp-timer-preview-label">{phaseLabels[state.phase] || state.phase}</span>
+            <span className="lp-timer-preview-time">{fmtShort(displayMs)}</span>
+        </div>
+    );
+}
+
+// ============================================
+// ALARM MINI PREVIEW
+// ============================================
+function AlarmMiniPreview() {
+    const [nextAlarm, setNextAlarm] = React.useState<{ time: string; label: string } | null>(null);
+
+    React.useEffect(() => {
+        const loadAlarm = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.alarm');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed.alarmTime) {
+                        setNextAlarm({
+                            time: parsed.alarmTime,
+                            label: parsed.label || 'Alarm'
+                        });
+                    } else {
+                        setNextAlarm(null);
+                    }
+                } else {
+                    setNextAlarm(null);
+                }
+            } catch {
+                setNextAlarm(null);
+            }
+        };
+
+        loadAlarm();
+        const interval = setInterval(loadAlarm, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="lp-timer-preview lp-alarm-preview">
+            {nextAlarm ? (
+                <>
+                    <span className="lp-timer-preview-time">{nextAlarm.time}</span>
+                    <span className="lp-timer-preview-label">{nextAlarm.label}</span>
+                </>
+            ) : (
+                <span className="lp-timer-preview-label">No alarm set</span>
+            )}
+        </div>
+    );
+}
+
+// ============================================
+// ANALOG COUNTDOWN MINI PREVIEW
+// ============================================
+function AnalogMiniPreview() {
+    const [state, setState] = React.useState<{
+        remainingMs: number;
+        running: boolean;
+        endAt: number | null;
+    }>({ remainingMs: 300000, running: false, endAt: null });
+    const [, forceUpdate] = React.useReducer(x => x + 1, 0);
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.analog');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    setState({
+                        remainingMs: parsed.remainingMs ?? 300000,
+                        running: parsed.running ?? false,
+                        endAt: parsed.endAt ?? null
+                    });
+                }
+            } catch { }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    React.useEffect(() => {
+        if (state.running && state.endAt) {
+            const interval = setInterval(forceUpdate, 1000);
+            return () => clearInterval(interval);
+        }
+    }, [state.running, state.endAt]);
+
+    const displayMs = state.running && state.endAt
+        ? Math.max(0, state.endAt - Date.now())
+        : state.remainingMs;
+
+    return (
+        <div className={`lp-timer-preview lp-analog-mini-preview ${state.running ? 'running' : ''}`}>
+            <span className="lp-timer-preview-time">{formatTime(displayMs)}</span>
+            <span className="lp-timer-preview-label">Analog</span>
+        </div>
+    );
+}
+
+// ============================================
+// TIME SINCE MINI PREVIEW
+// ============================================
+function TimeSinceMiniPreview() {
+    const [eventName, setEventName] = React.useState<string>('');
+    const [elapsedTime, setElapsedTime] = React.useState<string>('');
+
+    React.useEffect(() => {
+        const loadState = () => {
+            try {
+                const raw = localStorage.getItem('sc.v1.timesince');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (parsed.selectedEventId || parsed.customEventName) {
+                        setEventName(parsed.customEventName || 'Event');
+                        // Calculate elapsed time if we have a date
+                        if (parsed.customEventDate) {
+                            const targetDate = new Date(parsed.customEventDate);
+                            const now = new Date();
+                            const diff = now.getTime() - targetDate.getTime();
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const years = Math.floor(days / 365);
+                            if (years > 0) {
+                                setElapsedTime(`${years}y ${days % 365}d`);
+                            } else {
+                                setElapsedTime(`${days} days`);
+                            }
+                        }
+                    } else {
+                        setEventName('');
+                        setElapsedTime('');
+                    }
+                } else {
+                    setEventName('');
+                    setElapsedTime('');
+                }
+            } catch {
+                setEventName('');
+                setElapsedTime('');
+            }
+        };
+
+        loadState();
+        const interval = setInterval(loadState, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    if (!eventName) {
+        return (
+            <div className="lp-timer-preview">
+                <span className="lp-timer-preview-label">No event selected</span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="lp-timer-preview">
+            <span className="lp-timer-preview-label">{eventName}</span>
+            <span className="lp-timer-preview-time" style={{ fontSize: 'clamp(32px, 6vw, 48px)' }}>{elapsedTime}</span>
+        </div>
+    );
+}
+
+// ============================================
 // GENERIC LIVE TIMER PREVIEW
 // ============================================
 function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => void }) {
@@ -739,22 +1099,7 @@ function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => 
     const renderPreview = () => {
         switch (timer.id) {
             case 'world':
-                return (
-                    <div className="lp-pinned-preview-world">
-                        <MiniWorldClock timezone="Europe/Berlin" />
-                        <div className="lp-world-info">
-                            <span className="lp-world-city">Berlin</span>
-                            <span className="lp-world-time">
-                                {new Date().toLocaleTimeString('en-US', {
-                                    timeZone: 'Europe/Berlin',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    hour12: false
-                                })}
-                            </span>
-                        </div>
-                    </div>
-                );
+                return <WorldClockPinnedPreview />;
             case 'cooking':
                 return <CookingTimerMiniPreview />;
             case 'countdown':
@@ -769,13 +1114,26 @@ function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => 
                 return <DigitalClockMiniPreview />;
             case 'custom-session':
                 return <CustomSessionMiniPreview />;
-            default:
+            case 'chess':
+                return <ChessClockMiniPreview />;
+            case 'couples':
+                return <CouplesMiniPreview />;
+            case 'alarm':
+                return <AlarmMiniPreview />;
+            case 'analog':
+                return <AnalogMiniPreview />;
+            case 'timesince':
+                return <TimeSinceMiniPreview />;
+            default: {
+                // Fallback for any unhandled timer types
+                const timerData = timer as TimerDef;
                 return (
                     <div className="lp-timer-preview lp-timer-preview-default">
-                        <Icon size={24} style={{ color: timer.color }} />
-                        <span className="lp-timer-preview-label">{timer.label}</span>
+                        <Icon size={24} style={{ color: timerData.color }} />
+                        <span className="lp-timer-preview-label">{timerData.label}</span>
                     </div>
                 );
+            }
         }
     };
 
@@ -948,20 +1306,7 @@ function Footer() {
 // MAIN LANDING PAGE
 // ============================================
 export default function LandingPage() {
-    const { pinnedTimers, addPinnedTimer, removePinnedTimer, isPinned } = usePinnedTimers();
-
-    const handlePinToggle = (timerId: string) => {
-        if (isPinned(timerId)) {
-            removePinnedTimer(timerId);
-        } else {
-            // Enforce max 3 pinned timers
-            if (pinnedTimers.length >= 3) {
-                alert('Maximum 3 timers can be pinned at once. Unpin a timer first.');
-                return;
-            }
-            addPinnedTimer(timerId);
-        }
-    };
+    const { togglePin, isPinned } = usePinnedTimers();
 
     return (
         <div className="landing-page">
@@ -981,7 +1326,7 @@ export default function LandingPage() {
                         <TimerIconCard
                             key={timer.id}
                             timer={timer}
-                            onPin={() => handlePinToggle(timer.id)}
+                            onPin={() => togglePin(timer.id)}
                             isPinned={isPinned(timer.id)}
                         />
                     ))}

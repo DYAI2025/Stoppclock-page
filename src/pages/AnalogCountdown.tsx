@@ -155,13 +155,13 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   // Clean minimalist hour markers (only 12, 3, 6, 9)
   const hourNumbers = [12, 3, 6, 9];
   ctx.fillStyle = "#36454F";
-  ctx.font = `bold ${Math.floor(r * 0.15)}px 'Segoe UI', Arial, sans-serif`;
+  ctx.font = `bold ${Math.floor(r * 0.11)}px 'Segoe UI', Arial, sans-serif`; // Smaller font: 0.15 → 0.11
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
   hourNumbers.forEach(num => {
     const angle = ((num === 12 ? 0 : num) / 12) * Math.PI * 2 - Math.PI / 2;
-    const dist = r * 0.75;
+    const dist = r * 0.65; // Moved inward: 0.75 → 0.65
     const x = Math.cos(angle) * dist;
     const y = Math.sin(angle) * dist;
     ctx.fillText(num.toString(), x, y);
@@ -200,7 +200,7 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     const ringColor = `hsl(${hue}, 70%, 50%)`;
 
     const ringWidth = r * 0.12;
-    const baseRadius = r * 0.88;
+    const baseRadius = r * 0.96; // Larger ring: 0.88 → 0.96
 
     // Draw completed hour rings (inner rings, one per full hour)
     // Each completed hour = one full ring, moving inward
@@ -513,6 +513,15 @@ export default function AnalogCountdown() {
             max="180"
             value={customMinutes}
             onChange={(e) => setCustomMinutes(e.target.value)}
+            onBlur={(e) => {
+              // Auto-correct invalid values (US9: P2)
+              const val = parseInt(e.target.value, 10);
+              if (isNaN(val) || e.target.value === '') {
+                return; // Leave empty if invalid
+              }
+              if (val > 180) setCustomMinutes('180'); // Clamp to max
+              else if (val < 1) setCustomMinutes('1'); // Clamp to min
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleCustomMinutes();
             }}
