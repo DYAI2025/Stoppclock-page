@@ -35,7 +35,7 @@ function load(): Persist {
       running: !!p.running,
       endAt: p.endAt ?? null,
       warnAtMs: p.warnAtMs ?? 60_000,
-      signal: { sound: !!p.signal?.sound, flash: !!p.signal?.flash }
+      signal: { sound: !!p.signal?.sound, flash: !!p.signal?.flash },
     };
   } catch {
     return {
@@ -236,16 +236,16 @@ export default function Countdown() {
         durationMs,
         remainingMs: durationMs,
         running: false,
-        endAt: null
+        endAt: null,
       }));
       setMode('player');
 
       if (params.get('autostart') === '1') {
         setTimeout(() => {
-          setSt(s => ({
+          setSt((s) => ({
             ...s,
             running: true,
-            endAt: Date.now() + durationMs
+            endAt: Date.now() + durationMs,
           }));
         }, 100);
       }
