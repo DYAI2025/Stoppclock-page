@@ -35,7 +35,7 @@ function normalizeEntries(data: unknown): WorldClockEntry[] {
 
       const id = typeof (entry as any).id === 'string' ? (entry as any).id : `${Date.now()}-${index}`;
       const sortOrder = typeof (entry as any).sortOrder === 'number' ? (entry as any).sortOrder : index;
-      const cityFromTz = timezone.split('/')[1]?.replace('_', ' ') || timezone;
+      const cityFromTz = timezone.split('/')[1]?.replaceAll('_', ' ') || timezone;
       const city = typeof (entry as any).city === 'string' && (entry as any).city ? (entry as any).city : cityFromTz;
       const label = typeof (entry as any).label === 'string' ? (entry as any).label : undefined;
 
