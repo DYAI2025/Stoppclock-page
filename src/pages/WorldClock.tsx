@@ -88,7 +88,7 @@ export default function WorldClockPage() {
     if (!timezone || !isValidTimezone(timezone)) return;
     if (entries.some((entry) => entry.timezone === timezone)) return;
 
-    const city = timezone.split('/')[1]?.replace('_', ' ') || timezone;
+    const city = timezone.split('/')[1]?.replaceAll('_', ' ') || timezone;
     const newEntry: WorldClockEntry = {
       id: Date.now().toString(),
       city,
