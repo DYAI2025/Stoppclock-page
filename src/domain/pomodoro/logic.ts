@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { PomodoroPhase, PomodoroState, PomodoroPreset, POMODORO_PRESETS, DEFAULT_POMODORO_STATE } from './types';
+import { trackEvent } from '../../utils/stats';
 
 // Helper to get duration in seconds for a phase
 const getPhaseDuration = (phase: PomodoroPhase, preset: PomodoroPreset): number => {
@@ -63,13 +64,18 @@ export function usePomodoroLogic() {
 
             if (nextRemaining < 0) {
                 // Phase finished!
-                // We will handle phase transition in an effect or immediate logic?
-                // Let's handle it here effectively.
+                // Track completion for focus phases
+                if (prev.currentPhase === 'focus') {
+                    const preset = POMODORO_PRESETS[prev.activePresetId] || POMODORO_PRESETS['classic'];
+                    const durationMs = preset.focusDuration * 60 * 1000;
+                    trackEvent('pomodoro', 'complete', durationMs);
+                }
+
                 return {
                     ...prev,
                     remainingSeconds: 0,
-                    isRunning: false // Auto-pause at end of phase? Or auto-continue? 
-                    // FR-POMOspec doesn't explicitly say "Auto-advance". 
+                    isRunning: false // Auto-pause at end of phase? Or auto-continue?
+                    // FR-POMOspec doesn't explicitly say "Auto-advance".
                     // Usually Pomo apps wait for user to start break, or start focus.
                     // Let's auto-pause at 0 for now (Requires user action to start next phase usually).
                 };
@@ -140,6 +146,12 @@ export function usePomodoroLogic() {
                 // For now, let's assume they use "Skip/Next" button for that.
                 return prev;
             }
+
+            // Track timer start
+            if (!prev.isRunning) {
+                trackEvent('pomodoro', 'start');
+            }
+
             return { ...prev, isRunning: !prev.isRunning };
         });
     }, []);
