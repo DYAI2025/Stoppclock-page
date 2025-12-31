@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { beep } from "../utils";
 import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
 import { RotateCcw, Play, Clock, Info, ChevronRight, Shield, Award, Users } from "lucide-react";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
 import "../styles/chess-swiss.css";
 
 const LS_KEY = "sc.v1.chessclock";
@@ -221,7 +225,37 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
   const [showSettings, setShowSettings] = useState(false);
   const [rotateOpponent, setRotateOpponent] = useState(false);
   const [tempMinutes, setTempMinutes] = useState('');
+  const [urlChecked, setUrlChecked] = useState(false);
+  const [gameStartTime, setGameStartTime] = useState<number | null>(null);
   const rafRef = useRef<number | undefined>();
+
+  // Get current config for sharing/saving
+  const getCurrentConfig = useCallback(() => {
+    return {
+      player1Time: st.player1Time,
+      player2Time: st.player2Time,
+      initialTime: Math.floor(st.player1Time / 60000) // minutes
+    };
+  }, [st.player1Time, st.player2Time]);
+
+  // URL Preset Loading
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'chess') {
+      const config = sharedPreset.config;
+      const time = config.player1Time || config.initialTime * 60000 || DEFAULT_TIME;
+      setSt({
+        version: 1,
+        player1Time: time,
+        player2Time: time,
+        activePlayer: null,
+        startedAt: null
+      });
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   useEffect(() => {
     const t = setTimeout(() => save(st), 150);
@@ -245,15 +279,27 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
         if (st.activePlayer === 1) {
           const newTime = Math.max(0, st.player1Time - elapsed);
           if (newTime === 0) {
+            // Track game completion
+            if (gameStartTime) {
+              const gameDuration = now - gameStartTime;
+              trackEvent('chess', 'complete', gameDuration);
+            }
             beep(1000, 660);
             setSt(s => ({ ...s, activePlayer: null, startedAt: null, player1Time: 0 }));
+            setGameStartTime(null);
             return;
           }
         } else if (st.activePlayer === 2) {
           const newTime = Math.max(0, st.player2Time - elapsed);
           if (newTime === 0) {
+            // Track game completion
+            if (gameStartTime) {
+              const gameDuration = now - gameStartTime;
+              trackEvent('chess', 'complete', gameDuration);
+            }
             beep(1000, 660);
             setSt(s => ({ ...s, activePlayer: null, startedAt: null, player2Time: 0 }));
+            setGameStartTime(null);
             return;
           }
         }
@@ -275,6 +321,9 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
 
     if (!st.activePlayer) {
       // First click: start the clicked player's timer
+      // Track game start
+      trackEvent('chess', 'start');
+      setGameStartTime(now);
       setSt(s => ({ ...s, activePlayer: clickedPlayer, startedAt: now }));
       return;
     }
@@ -303,6 +352,7 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
       activePlayer: null,
       startedAt: null
     });
+    setGameStartTime(null);
   };
 
   const applyTimeSettings = () => {
@@ -381,6 +431,31 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
         <button type="button" className="btn" onClick={() => setRotateOpponent(prev => !prev)} title="Rotate Opponent">
           <RotateCcw size={20} />
         </button>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{
+        position: 'absolute',
+        bottom: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        display: 'flex',
+        gap: '8px',
+        zIndex: 20,
+        pointerEvents: 'none'
+      }}>
+        <div style={{ pointerEvents: 'auto' }}>
+          <SavePresetButton
+            timerType="chess"
+            getCurrentConfig={getCurrentConfig}
+          />
+        </div>
+        <div style={{ pointerEvents: 'auto' }}>
+          <ShareButton
+            timerType="chess"
+            getCurrentConfig={getCurrentConfig}
+          />
+        </div>
       </div>
 
       <div
