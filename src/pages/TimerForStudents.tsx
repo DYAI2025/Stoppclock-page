@@ -13,18 +13,55 @@ const TimerForStudents: React.FC = () => {
       );
     }
 
-    // Schema.org - LocalBusiness / Service
+    // Schema.org - WebPage + HowTo
     const schema = {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Timer für Studenten - Effizient Lernen",
-      "description": "Lerne effizient mit kostenlosen Online Timern für Studenten",
-      "url": "https://stoppclock.com/#/timer-for-students",
-      "mainEntity": {
-        "@type": "Service",
-        "name": "Online Timer für Studieren",
-        "description": "Kostenlose Timer-Tools optimiert für Studenten"
-      }
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "name": "Timer für Studenten - Effizient Lernen",
+          "description": "Lerne effizient mit kostenlosen Online Timern für Studenten",
+          "url": "https://stoppclock.com/#/timer-for-students",
+          "mainEntity": {
+            "@type": "Service",
+            "name": "Online Timer für Studieren",
+            "description": "Kostenlose Timer-Tools optimiert für Studenten"
+          }
+        },
+        {
+          "@type": "HowTo",
+          "name": "Wie studiere ich am besten mit Timer?",
+          "description": "5 Schritte zum erfolgreichen Lernen mit Pomodoro Timer und strukturierten Pausen",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Definiere dein Lernziel",
+              "text": "Setze ein konkretes Lernziel wie 'Kapitel 5 zusammenfassen' oder '10 Matheaufgaben lösen' – nicht 'alles machen'."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Wähle deinen Timer",
+              "text": "Kurze Session: Pomodoro (25 min). Prüfung trainieren: Countdown (90 min). Selbsttest: Stopwatch."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Lerne fokussiert",
+              "text": "Handy weg, Internet aus (wenn möglich). Konzentriere dich nur auf die Aufgabe bis der Timer läutet."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Mach echte Pausen",
+              "text": "Nicht am Handy scrollen. Stehe auf, geh spazieren, trink Wasser. Dein Gehirn braucht echte Erholung."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Wiederhole den Zyklus",
+              "text": "Nach der Pause: nächster Pomodoro. Nach 4 Pomodoros: längere Pause (15-30 Min). So bleibt dein Gehirn den ganzen Tag frisch."
+            }
+          ],
+          "totalTime": "PT25M"
+        }
+      ]
     };
 
     const scriptTag = document.createElement('script');

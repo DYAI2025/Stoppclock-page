@@ -13,20 +13,61 @@ const PomodoroVsCountdown: React.FC = () => {
       );
     }
 
-    // Schema.org BlogPosting
+    // Schema.org BlogPosting + FAQPage
     const schema = {
       "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "Pomodoro vs Countdown Timer – Der ultimative Vergleich",
-      "description": "Detaillierter Vergleich zwischen Pomodoro und Countdown Timern mit Tabelle, Use Cases und Empfehlungen.",
-      "image": "https://stoppclock.com/og/pomodoro-vs-countdown.png",
-      "author": {
-        "@type": "Organization",
-        "name": "Stoppclock"
-      },
-      "datePublished": "2025-11-04",
-      "dateModified": "2025-11-04",
-      "inLanguage": "de-DE"
+      "@graph": [
+        {
+          "@type": "BlogPosting",
+          "headline": "Pomodoro vs Countdown Timer – Der ultimative Vergleich",
+          "description": "Detaillierter Vergleich zwischen Pomodoro und Countdown Timern mit Tabelle, Use Cases und Empfehlungen.",
+          "image": "https://stoppclock.com/og/pomodoro-vs-countdown.png",
+          "author": {
+            "@type": "Organization",
+            "name": "Stoppclock"
+          },
+          "datePublished": "2025-11-04",
+          "dateModified": "2025-12-31",
+          "inLanguage": "de-DE"
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Kann ich Pomodoro und Countdown Timer kombinieren?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja, absolut! Viele nutzen Countdown Timer als äußere Deadline (z.B. 90 Min für Bericht) und arbeiten intern mit Pomodoros (3x 25 Min + Pausen). So kombinierst du die Struktur von Pomodoro mit der Flexibilität von Countdown."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Welcher Timer ist wissenschaftlich besser?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Pomodoro hat mehr wissenschaftliche Studien zur Produktivitätssteigerung (40-70% Boost). Countdown Timer sind universelle Tools ohne spezifische Forschung. Für kognitive Arbeit: Pomodoro ist überlegen."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Kann ich die Pomodoro-Dauer anpassen?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ja! Klassisch sind 25 Min, aber du kannst anpassen: 20 Min für ADHD, 30 Min für normale Aufgaben, 50 Min für Deep Work. Wichtig: Pausenstruktur beibehalten (Arbeit + kurze Pause)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Welcher Timer ist am einfachsten zu nutzen?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Countdown Timer ist einfacher: Dauer einstellen, Start drücken, fertig. Pomodoro braucht 2-3 Wochen Eingewöhnung für die Pausendisziplin, ist aber langfristig produktiver."
+              }
+            }
+          ]
+        }
+      ]
     };
 
     const scriptTag = document.createElement('script');
