@@ -4,6 +4,9 @@ import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useAutoFitText } from "../hooks/useAutoFitText"; // Maybe not needed if we clamp fonts
 import { HomeButton } from "../components/HomeButton";
 import { SavePresetButton } from "../components/SavePresetButton";
+import { ShareButton } from "../components/ShareButton";
+import { getPresetFromUrl } from "../utils/share";
+import { trackEvent } from "../utils/stats";
 // import { CountdownGuide } from '../components/CountdownGuide'; // Removing old guide
 import '../styles/countdown-focus.css';
 
@@ -214,8 +217,13 @@ const CountdownPlayer = ({
         <button className="focus-preset-chip" onClick={() => onAdjust(60000)}>+1m</button>
       </div>
 
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
         <SavePresetButton
+          timerType="countdown"
+          getCurrentConfig={getCurrentConfig}
+          className="focus-btn-secondary"
+        />
+        <ShareButton
           timerType="countdown"
           getCurrentConfig={getCurrentConfig}
           className="focus-btn-secondary"
@@ -237,6 +245,26 @@ export default function Countdown() {
   // URL Params handling
   useEffect(() => {
     if (urlChecked) return;
+
+    // Check for shared preset
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'countdown') {
+      const config = sharedPreset.config;
+      const durationMs = config.durationMs || 300000;
+      setSt(s => ({
+        ...s,
+        durationMs,
+        remainingMs: durationMs,
+        running: false,
+        endAt: null,
+        warnAtMs: config.warnAtMs || 10000
+      }));
+      setMode('player');
+      setUrlChecked(true);
+      return;
+    }
+
+    // Legacy URL params support
     const params = new URLSearchParams(window.location.search);
     if (params.has('duration')) {
       const durationSeconds = parseInt(params.get('duration') || '0', 10);
@@ -303,6 +331,10 @@ export default function Countdown() {
     if (st.running && st.remainingMs <= 0) {
       // Finished
       setSt(s => ({ ...s, running: false, endAt: null, remainingMs: 0 }));
+
+      // Track completion
+      trackEvent('countdown', 'complete', st.durationMs);
+
       if (st.signal.sound) {
         // ADSR Alarm
         beep(300, 880);
@@ -319,6 +351,10 @@ export default function Countdown() {
         return { ...s, running: false, endAt: null };
       } else {
         const target = s.remainingMs > 0 ? s.remainingMs : s.durationMs;
+
+        // Track timer start
+        trackEvent('countdown', 'start');
+
         return { ...s, running: true, endAt: Date.now() + target, remainingMs: target };
       }
     });

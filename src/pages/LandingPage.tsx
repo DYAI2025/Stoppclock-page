@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { usePinnedTimers } from '../contexts/PinnedTimersContext';
 import { PresetsSection } from '../components/PresetsSection';
+import { StatsCard } from '../components/StatsCard';
 
 // ============================================
 // TIMER DEFINITIONS
@@ -1323,6 +1324,8 @@ export default function LandingPage() {
                 </div>
 
                 <PresetsSection />
+
+                <StatsCard />
 
                 <div className="lp-icon-grid">
                     {TIMERS.map(timer => (
