@@ -12,6 +12,7 @@ import {
     Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered, Clock4
 } from 'lucide-react';
 import { usePinnedTimers } from '../contexts/PinnedTimersContext';
+import { PresetsSection } from '../components/PresetsSection';
 
 // ============================================
 // TIMER DEFINITIONS
@@ -1320,6 +1321,8 @@ export default function LandingPage() {
                         Projector-friendly timers for classrooms, workshops, and focus sessions.
                     </p>
                 </div>
+
+                <PresetsSection />
 
                 <div className="lp-icon-grid">
                     {TIMERS.map(timer => (

@@ -3,6 +3,7 @@ import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
 import { useAutoFitText } from "../hooks/useAutoFitText"; // Maybe not needed if we clamp fonts
 import { HomeButton } from "../components/HomeButton";
+import { SavePresetButton } from "../components/SavePresetButton";
 // import { CountdownGuide } from '../components/CountdownGuide'; // Removing old guide
 import '../styles/countdown-focus.css';
 
@@ -143,7 +144,8 @@ const CountdownPlayer = ({
   onAdjust,
   onPreset,
   onFullscreen,
-  onExit
+  onExit,
+  getCurrentConfig
 }: any) => {
   // Circle calculation
   const radius = 45; // viewbox 100x100
@@ -210,6 +212,14 @@ const CountdownPlayer = ({
         <button className="focus-preset-chip" onClick={() => onPreset(25)}>+25m</button>
         <button className="focus-preset-chip" onClick={() => onAdjust(-60000)}>-1m</button>
         <button className="focus-preset-chip" onClick={() => onAdjust(60000)}>+1m</button>
+      </div>
+
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <SavePresetButton
+          timerType="countdown"
+          getCurrentConfig={getCurrentConfig}
+          className="focus-btn-secondary"
+        />
       </div>
     </div>
   );
@@ -340,6 +350,22 @@ export default function Countdown() {
     else document.documentElement.requestFullscreen().catch(() => { });
   }, []);
 
+  const getCurrentConfig = useCallback(() => {
+    // Convert durationMs to hours, minutes, seconds for preset config
+    const totalSeconds = Math.floor(st.durationMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return {
+      durationMs: st.durationMs,
+      hours,
+      minutes,
+      seconds,
+      warnAtMs: st.warnAtMs
+    };
+  }, [st.durationMs, st.warnAtMs]);
+
   /* Keyboard */
   useKeyboardShortcuts({
     onSpace: toggle,
@@ -360,6 +386,7 @@ export default function Countdown() {
           onPreset={setPreset}
           onFullscreen={fullscreen}
           onExit={() => setMode('world')}
+          getCurrentConfig={getCurrentConfig}
         />
       )}
     </div>
