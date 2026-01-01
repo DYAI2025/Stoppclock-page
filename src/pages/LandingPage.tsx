@@ -14,6 +14,7 @@ import {
 import { usePinnedTimers } from '../contexts/PinnedTimersContext';
 import { PresetsSection } from '../components/PresetsSection';
 import { StatsCard } from '../components/StatsCard';
+import { RandomFactWidget } from '../components/RandomFactWidget';
 
 // ============================================
 // TIMER DEFINITIONS
@@ -1326,6 +1327,8 @@ export default function LandingPage() {
                 <PresetsSection />
 
                 <StatsCard />
+
+                <RandomFactWidget />
 
                 <div className="lp-icon-grid">
                     {TIMERS.map(timer => (

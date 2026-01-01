@@ -15,12 +15,12 @@ const OUTPUT_FILE = path.join(__dirname, '../public/data/facts.json');
 
 // Category detection based on keywords
 const CATEGORY_KEYWORDS = {
-  history: ['geschichte', 'history', 'historisch', 'jahrhundert', 'antike', 'ägypten', 'röm', 'griech'],
-  technology: ['technologie', 'technology', 'mechanisch', 'quarz', 'atom', 'innovation', 'erfindung'],
-  culture: ['kultur', 'culture', 'gesellschaft', 'ritual', 'tradition', 'sprache'],
-  science: ['wissenschaft', 'science', 'physik', 'relativität', 'atom', 'präzision'],
-  productivity: ['produktivität', 'productivity', 'pomodoro', 'zeitmanagement', 'fokus', 'konzentration'],
-  psychology: ['psychologie', 'psychology', 'verhalten', 'wahrnehmung', 'kognit']
+  history: ['geschichte', 'history', 'historical', 'historisch', 'jahrhundert', 'century', 'antike', 'ancient', 'ägypten', 'egypt', 'röm', 'roman', 'griech', 'greek', 'medieval', 'invented'],
+  technology: ['technologie', 'technology', 'technical', 'mechanisch', 'mechanical', 'quarz', 'quartz', 'atom', 'atomic', 'innovation', 'erfindung', 'invention', 'clock', 'watch', 'escapement', 'gear'],
+  culture: ['kultur', 'culture', 'cultural', 'gesellschaft', 'society', 'ritual', 'tradition', 'sprache', 'language'],
+  science: ['wissenschaft', 'science', 'scientific', 'physik', 'physics', 'relativität', 'relativity', 'atom', 'präzision', 'precision', 'accuracy'],
+  productivity: ['produktivität', 'productivity', 'pomodoro', 'zeitmanagement', 'time management', 'fokus', 'focus', 'konzentration', 'concentration', 'countdown'],
+  psychology: ['psychologie', 'psychology', 'psychological', 'verhalten', 'behavior', 'wahrnehmung', 'perception', 'kognit', 'cognitive']
 };
 
 function detectCategory(text) {
@@ -41,10 +41,16 @@ function detectCategory(text) {
 function extractTags(text) {
   const tags = new Set();
   const commonTags = [
+    // German
     'sonnenuhr', 'wasseruhr', 'mechanische uhr', 'quarzuhr', 'atomuhr',
     'pendel', 'hemmung', 'chronometer', 'chronograph',
     'countdown', 'pomodoro', 'zeitmanagement',
-    'eisenbahn', 'gps', 'relativität', 'präzision'
+    'eisenbahn', 'gps', 'relativität', 'präzision',
+    // English
+    'sundial', 'water clock', 'mechanical clock', 'quartz watch', 'atomic clock',
+    'pendulum', 'escapement', 'time management',
+    'railroad', 'precision', 'relativity',
+    'digital watch', 'analog watch', 'swiss'
   ];
 
   const lowerText = text.toLowerCase();
@@ -59,9 +65,71 @@ function parseFactFile(filename, content) {
   const language = filename.includes('English') ? 'en' : 'de';
   const lines = content.split('\n');
   const facts = [];
+  let factId = 0;
+
+  // Check if this file uses simple paragraph format (no numbered sections)
+  const hasNumberedSections = lines.some(line => /^\d+\.\d+\./.test(line.trim()));
+
+  // Simple paragraph format: "Title\n\n\nContent" (English and some German files)
+  if (language === 'en' || !hasNumberedSections) {
+    let currentTitle = null;
+    let currentContent = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      // Skip empty lines
+      if (line.length === 0) {
+        if (currentTitle && currentContent.length > 0) {
+          // Save fact
+          const content = currentContent.join(' ').trim();
+          if (content.length > 50) {
+            facts.push({
+              id: `${filename.replace(/\.\w+$/, '')}-fact-${factId++}`,
+              title: currentTitle,
+              content: content,
+              category: detectCategory(currentTitle + ' ' + content),
+              source: filename,
+              tags: extractTags(currentTitle + ' ' + content),
+              wordCount: content.split(/\s+/).length
+            });
+          }
+          currentTitle = null;
+          currentContent = [];
+        }
+        continue;
+      }
+
+      // First non-empty line after reset is title
+      if (!currentTitle && line.length > 10 && line.length < 150) {
+        currentTitle = line;
+      } else if (currentTitle) {
+        currentContent.push(line);
+      }
+    }
+
+    // Save last fact
+    if (currentTitle && currentContent.length > 0) {
+      const content = currentContent.join(' ').trim();
+      if (content.length > 50) {
+        facts.push({
+          id: `${filename.replace(/\.\w+$/, '')}-fact-${factId++}`,
+          title: currentTitle,
+          content: content,
+          category: detectCategory(currentTitle + ' ' + content),
+          source: filename,
+          tags: extractTags(currentTitle + ' ' + content),
+          wordCount: content.split(/\s+/).length
+        });
+      }
+    }
+
+    return { language, facts };
+  }
+
+  // German format: Structured with section numbers "1.1. Title"
   let currentSection = null;
   let currentContent = [];
-  let factId = 0;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
