@@ -605,7 +605,7 @@ Alle Features müssen folgende Prinzipien erfüllen:
 
 **Tech Stack Decisions:**
 - Keep it simple (avoid over-engineering)
-- Use React eco-system
+- Use React ecosystem
 - Prefer localStorage over Backend (where possible)
 - PWA-first approach
 
