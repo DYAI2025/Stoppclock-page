@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
 
 const LS_KEY = "sc.v1.stopwatch";
 
@@ -76,9 +81,29 @@ export default function Stopwatch() {
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const wrapRef = useRef<HTMLDivElement>(null);
   const lastSecondRef = useRef<number>(-1);
+  const [urlChecked, setUrlChecked] = useState(false);
 
   const currentTime = st.running && st.startedAt ? st.elapsedMs + (Date.now() - st.startedAt) : st.elapsedMs;
   const [textRef, autoFontSize] = useAutoFitText(fmt(currentTime), 8, 1.5);
+
+  // Get current config for sharing/saving (stopwatch has minimal config)
+  const getCurrentConfig = useCallback(() => {
+    return {
+      elapsedMs: currentTime
+    };
+  }, [currentTime]);
+
+  // URL Preset Loading (minimal for stopwatch)
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'stopwatch') {
+      // Stopwatch doesn't have much to configure from URL
+      // Could potentially set initial elapsed time, but that's unusual
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.startedAt) return;
@@ -101,12 +126,18 @@ export default function Stopwatch() {
   }, [st]);
 
   const start = useCallback(() => {
+    // Track timer start
+    trackEvent('stopwatch', 'start');
     setSt(s => ({ ...s, running: true, startedAt: Date.now() }));
   }, []);
 
   const pause = useCallback(() => {
     if (!st.startedAt) return;
     const elapsed = st.elapsedMs + (Date.now() - st.startedAt);
+
+    // Track completion with elapsed time
+    trackEvent('stopwatch', 'complete', elapsed);
+
     setSt(s => ({ ...s, running: false, startedAt: null, elapsedMs: elapsed }));
   }, [st.startedAt, st.elapsedMs]);
 
@@ -130,6 +161,23 @@ export default function Stopwatch() {
       el.requestFullscreen?.().catch(() => { });
     }
   }, []);
+
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'Stopwatch',
+        name: 'Stopwatch',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -197,6 +245,21 @@ export default function Stopwatch() {
         <button type="button" className="stopwatch-btn secondary hide-on-mobile" onClick={full}>
           Fullscreen
         </button>
+        <button type="button" className="stopwatch-btn secondary" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
+        </button>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '16px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="stopwatch"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="stopwatch"
+          getCurrentConfig={getCurrentConfig}
+        />
       </div>
 
       {/* Lap Times */}

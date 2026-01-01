@@ -703,22 +703,82 @@ body:has(.home-page)::after {
 }
 .timer-info-item {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 6px;
-  padding: 14px 16px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.04);
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
   border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.03);
   color: var(--neutral-white);
   text-decoration: none;
-  transition: transform .2s ease, background .2s ease;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
 }
 .timer-info-item:hover {
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.06);
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.22), inset 0 0 0 1px rgba(255,255,255,0.05);
 }
-.timer-info-name { font-weight: 700; letter-spacing: 0.02em; }
-.timer-info-desc { color: var(--ocean-bright); font-size: 0.95rem; }
+.timer-info-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.timer-info-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(var(--info-accent-rgb, 255,255,255), 0.18), rgba(var(--info-accent-rgb, 255,255,255), 0.08));
+  border: 1px solid rgba(var(--info-accent-rgb, 255,255,255), 0.4);
+  display: grid;
+  place-items: center;
+  color: var(--neutral-white);
+}
+.timer-info-icon svg { width: 26px; height: 26px; }
+.timer-info-title-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.timer-info-name {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+}
+.timer-info-purpose {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(var(--info-accent-rgb, 239,68,68), 0.12);
+  color: var(--neutral-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid rgba(var(--info-accent-rgb, 239,68,68), 0.35);
+}
+.timer-info-desc {
+  color: var(--ocean-bright);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+.timer-info-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.timer-info-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--neutral-white);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
 
 /* =============================
  * DIGITAL FACTS BOARD

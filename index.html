@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data:; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,6 +12,11 @@
     <meta name="description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more. Projector-friendly, offline-ready, minimal controls." />
     <link rel="canonical" href="https://www.stoppclock.com/"/>
     <meta name="google-adsense-account" content="ca-pub-1712273263687132" />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Open Graph (use your own hosted assets) -->
     <meta property="og:type" content="website"/>
@@ -28,7 +33,7 @@
 
     <!-- PWA -->
     <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="theme-color" content="#0b1220" />
+    <meta name="theme-color" content="#F5F5F8" />
 
     <!-- Browser-Support-Matrix (SSoT Hinweis)
          Target: last 2 Chrome/Edge/Firefox/Safari, iOS 15+ -->

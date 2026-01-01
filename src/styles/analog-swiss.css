@@ -34,6 +34,30 @@
   text-transform: uppercase;
 }
 
+.analog-time-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.analog-time-display .hms {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  letter-spacing: 0.06em;
+  font-weight: var(--font-semibold);
+  color: var(--mono-black);
+}
+
+.analog-time-meta {
+  display: flex;
+  gap: var(--space-4);
+  color: var(--mono-gray-600);
+  font-size: var(--type-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 /* Canvas container */
 .analog-canvas-container {
   margin: var(--space-12) 0;

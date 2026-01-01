@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
 import { useAutoFitText } from "../hooks/useAutoFitText";
 import { HomeButton } from "../components/HomeButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 
 const LS_KEY = "sc.v1.cycle";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -149,6 +150,23 @@ export default function CycleTimer() {
     }));
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'CycleTimer',
+        name: 'Cycle Timer',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   const totalSec = Math.floor(st.remainingMs / 1000);
   const h = Math.floor(totalSec / 3600);
   const m = Math.floor((totalSec % 3600) / 60);
@@ -174,6 +192,13 @@ export default function CycleTimer() {
             aria-label="Hours"
             disabled={st.running}
             onChange={e => setTime(Number(e.target.value) || 0, m, s)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 12) setTime(12, m, s);
+              else if (val < 0) setTime(0, m, s);
+            }}
           />
         </label>
         <span className="sep">:</span>
@@ -187,6 +212,13 @@ export default function CycleTimer() {
             aria-label="Minutes"
             disabled={st.running}
             onChange={e => setTime(h, Number(e.target.value) || 0, s)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 59) setTime(h, 59, s);
+              else if (val < 0) setTime(h, 0, s);
+            }}
           />
         </label>
         <span className="sep">:</span>
@@ -200,6 +232,13 @@ export default function CycleTimer() {
             aria-label="Seconds"
             disabled={st.running}
             onChange={e => setTime(h, m, Number(e.target.value) || 0)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 59) setTime(h, m, 59);
+              else if (val < 0) setTime(h, m, 0);
+            }}
           />
         </label>
       </div>
@@ -215,6 +254,9 @@ export default function CycleTimer() {
           {st.running ? "Stop" : "Start"}
         </button>
         <button type="button" className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
+        </button>
       </div>
 
       <div className="countdown-settings">

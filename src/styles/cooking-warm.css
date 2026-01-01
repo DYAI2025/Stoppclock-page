@@ -1,0 +1,281 @@
+/* Cooking Timer - Warm Everyday Rituals Theme */
+/* Combining Golden Hour (Warmth) & Botanical Garden (Organic) */
+
+.cooking-theme-wrapper {
+    --cook-bg: #FDF6E3;
+    /* Warm Beige */
+    --cook-text: #2C1A0B;
+    /* Deep Chocolate/Charcoal */
+    --cook-accent-primary: #E3B505;
+    /* Mustard Yellow */
+    --cook-accent-secondary: #CC5803;
+    /* Terracotta */
+    --cook-accent-organic: #4F7942;
+    /* Fern Green */
+    --cook-surface: #FFFFFF;
+    --cook-surface-subtle: #F5E6CC;
+    /* Slightly darker beige for cards */
+    --cook-border: #E6D2B5;
+
+    --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    background-color: var(--cook-bg);
+    color: var(--cook-text);
+    min-height: 100vh;
+    font-family: var(--font-family-base);
+}
+
+/* World View (Hero & Rituals) */
+.cook-world {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.cook-hero {
+    margin-bottom: 60px;
+}
+
+.cook-tag {
+    display: inline-block;
+    background-color: var(--cook-accent-primary);
+    color: var(--cook-text);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+}
+
+.cook-title {
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--cook-text);
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.cook-subtitle {
+    font-size: 1.25rem;
+    color: rgba(44, 26, 11, 0.7);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Ritual Grid */
+.cook-rituals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    text-align: left;
+}
+
+.cook-ritual-card {
+    background: var(--cook-surface);
+    border: 1px solid var(--cook-border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.cook-ritual-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(44, 26, 11, 0.08);
+    border-color: var(--cook-accent-secondary);
+}
+
+.cook-ritual-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+.cook-ritual-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--cook-text);
+}
+
+.cook-ritual-desc {
+    font-size: 1rem;
+    color: rgba(44, 26, 11, 0.7);
+    line-height: 1.5;
+}
+
+/* Player View (Dashboard) */
+.cook-dashboard {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.cook-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.cook-back-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: var(--cook-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.7;
+}
+
+.cook-back-btn:hover {
+    opacity: 1;
+}
+
+/* Timer Cards in Player */
+.cook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.cook-timer-card {
+    background: var(--cook-surface);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(44, 26, 11, 0.05);
+    border-top: 4px solid var(--timer-color, var(--cook-accent-primary));
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+}
+
+.cook-timer-card.running {
+    border-color: var(--cook-accent-organic);
+}
+
+.cook-timer-card.alarming {
+    border-color: var(--cook-accent-secondary);
+    animation: warmPulse 1s infinite;
+}
+
+@keyframes warmPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(204, 88, 3, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(204, 88, 3, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(204, 88, 3, 0);
+    }
+}
+
+.cook-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.cook-card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.cook-card-time {
+    font-size: 3rem;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 20px;
+    color: var(--cook-text);
+    text-align: center;
+}
+
+.cook-controls {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.cook-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.cook-btn-primary {
+    background-color: var(--cook-accent-primary);
+    color: var(--cook-text);
+}
+
+.cook-btn-primary:hover {
+    background-color: #D1A504;
+}
+
+.cook-btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--cook-border);
+    color: rgba(44, 26, 11, 0.7);
+}
+
+.cook-btn-secondary:hover {
+    border-color: var(--cook-text);
+    color: var(--cook-text);
+}
+
+.cook-btn-danger {
+    background-color: #EF4444;
+    color: white;
+}
+
+/* Preset Quick Bar */
+.cook-quick-bar {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(44, 26, 11, 0.1);
+}
+
+.cook-preset-chip {
+    background: var(--cook-surface);
+    border: 1px solid var(--cook-border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--cook-text);
+}
+
+.cook-preset-chip:hover {
+    border-color: var(--cook-accent-organic);
+    background: #FDFBF7;
+}
+
+.cook-add-custom {
+    background: rgba(79, 121, 66, 0.1);
+    border-color: transparent;
+    color: var(--cook-accent-organic);
+    font-weight: 600;
+}

@@ -1,0 +1,468 @@
+/* ============================================
+ * TIME LAB - Ocean Depths Theme
+ * Dark, cosmic aesthetic for time exploration
+ * ============================================ */
+
+:root {
+    --tl-bg-primary: #0A192F;
+    --tl-bg-secondary: #112240;
+    --tl-bg-card: rgba(17, 34, 64, 0.8);
+    --tl-bg-card-hover: rgba(30, 58, 95, 0.9);
+    --tl-text-primary: #E6F1FF;
+    --tl-text-secondary: #A8B2D1;
+    --tl-text-muted: #64748B;
+    --tl-accent-primary: #64FFDA;
+    --tl-accent-secondary: #0EA5E9;
+    --tl-border: rgba(100, 255, 218, 0.1);
+    --tl-glow: rgba(100, 255, 218, 0.15);
+}
+
+/* Page Container */
+.timelab-page {
+    min-height: 100vh;
+    background: var(--tl-bg-primary);
+    background-image:
+        radial-gradient(ellipse at top, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(100, 255, 218, 0.05) 0%, transparent 40%);
+    color: var(--tl-text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding-bottom: 60px;
+}
+
+/* Hero Section */
+.timelab-hero {
+    padding: 48px 24px 32px;
+    text-align: center;
+    position: relative;
+}
+
+.timelab-hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 24px;
+}
+
+.timelab-tag {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--tl-accent-primary);
+    background: rgba(100, 255, 218, 0.1);
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+}
+
+.timelab-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--tl-text-primary);
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+}
+
+.timelab-subtitle {
+    font-size: 1rem;
+    color: var(--tl-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Tab Navigation */
+.timelab-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 24px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.timelab-tab {
+    padding: 12px 24px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--tl-text-secondary);
+    background: var(--tl-bg-secondary);
+    border: 1px solid var(--tl-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.timelab-tab:hover {
+    color: var(--tl-text-primary);
+    background: var(--tl-bg-card-hover);
+    border-color: var(--tl-accent-primary);
+}
+
+.timelab-tab.active {
+    color: var(--tl-bg-primary);
+    background: var(--tl-accent-primary);
+    border-color: var(--tl-accent-primary);
+}
+
+/* Featured Event Display */
+.timelab-featured {
+    max-width: 800px;
+    margin: 0 auto 40px;
+    padding: 32px;
+    background: var(--tl-bg-card);
+    border: 1px solid var(--event-color, var(--tl-border));
+    border-radius: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow:
+        0 0 60px rgba(100, 255, 218, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.timelab-featured-header {
+    margin-bottom: 24px;
+}
+
+.timelab-featured-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--event-color, var(--tl-accent-primary));
+    margin: 0 0 8px;
+}
+
+.timelab-featured-header p {
+    font-size: 0.9375rem;
+    color: var(--tl-text-secondary);
+    margin: 0;
+}
+
+.timelab-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    color: var(--tl-text-muted);
+    background: transparent;
+    border: 1px solid var(--tl-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.timelab-close-btn:hover {
+    color: var(--tl-text-primary);
+    border-color: var(--tl-accent-primary);
+}
+
+.timelab-featured-date {
+    font-size: 0.875rem;
+    color: var(--tl-text-muted);
+    margin-top: 16px;
+}
+
+/* Time Grid */
+.timelab-time-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.timelab-time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+    padding: 16px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--tl-border);
+    border-radius: 12px;
+}
+
+.timelab-time-unit.highlight {
+    border-color: var(--tl-accent-primary);
+    background: rgba(100, 255, 218, 0.05);
+}
+
+.timelab-time-value {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--tl-text-primary);
+    line-height: 1;
+}
+
+.timelab-time-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--tl-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 6px;
+}
+
+/* Content Area */
+.timelab-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Events Section */
+.timelab-events-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.timelab-category {
+    /* Category group */
+}
+
+.timelab-category-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--tl-text-secondary);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--tl-border);
+}
+
+.timelab-events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+/* Event Card */
+.timelab-event-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    background: var(--tl-bg-card);
+    border: 1px solid var(--tl-border);
+    border-left: 3px solid var(--event-color, var(--tl-accent-secondary));
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    position: relative;
+}
+
+.timelab-event-card:hover {
+    background: var(--tl-bg-card-hover);
+    border-color: var(--event-color, var(--tl-accent-primary));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.timelab-event-card.selected {
+    border-color: var(--event-color, var(--tl-accent-primary));
+    box-shadow:
+        0 0 0 2px var(--event-color, var(--tl-accent-primary)),
+        0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.timelab-event-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.timelab-event-emoji {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.timelab-event-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.timelab-event-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--tl-text-primary);
+    margin: 0 0 4px;
+}
+
+.timelab-event-desc {
+    font-size: 0.8125rem;
+    color: var(--tl-text-muted);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.timelab-event-time {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.timelab-compact-time {
+    font-size: 1.125rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--event-color, var(--tl-accent-primary));
+}
+
+.timelab-time-suffix {
+    font-size: 0.75rem;
+    color: var(--tl-text-muted);
+}
+
+.timelab-symbolic-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--tl-text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* Season Section */
+.timelab-seasons-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .timelab-seasons-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+.timelab-season-card {
+    padding: 32px;
+    background: var(--tl-bg-card);
+    border: 1px solid var(--tl-border);
+    border-radius: 16px;
+}
+
+.timelab-season-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.timelab-season-emoji {
+    font-size: 3rem;
+}
+
+.timelab-season-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--tl-text-primary);
+    margin: 0;
+}
+
+.timelab-season-sub {
+    font-size: 0.875rem;
+    color: var(--tl-text-muted);
+    margin: 4px 0 0;
+}
+
+.timelab-season-progress {
+    /* Progress container */
+}
+
+.timelab-progress-bar {
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.timelab-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--tl-accent-secondary), var(--tl-accent-primary));
+    border-radius: 6px;
+    transition: width 0.5s ease;
+}
+
+.timelab-progress-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    color: var(--tl-text-muted);
+}
+
+.timelab-seasons-info {
+    padding: 32px;
+    background: var(--tl-bg-card);
+    border: 1px solid var(--tl-border);
+    border-radius: 16px;
+}
+
+.timelab-seasons-info h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--tl-text-primary);
+    margin: 0 0 12px;
+}
+
+.timelab-seasons-info p {
+    font-size: 0.9375rem;
+    color: var(--tl-text-secondary);
+    line-height: 1.6;
+    margin: 0 0 12px;
+}
+
+.timelab-seasons-info p:last-child {
+    margin-bottom: 0;
+}
+
+/* Footer */
+.timelab-footer {
+    max-width: 1200px;
+    margin: 48px auto 0;
+    padding: 24px;
+    text-align: center;
+}
+
+.timelab-footer p {
+    font-size: 0.875rem;
+    color: var(--tl-text-muted);
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .timelab-hero {
+        padding: 32px 16px 24px;
+    }
+
+    .timelab-tabs {
+        padding: 0 16px;
+    }
+
+    .timelab-tab {
+        padding: 10px 16px;
+        font-size: 0.875rem;
+    }
+
+    .timelab-featured {
+        margin: 0 16px 32px;
+        padding: 24px 16px;
+    }
+
+    .timelab-time-unit {
+        min-width: 50px;
+        padding: 12px 8px;
+    }
+
+    .timelab-content {
+        padding: 0 16px;
+    }
+
+    .timelab-events-grid {
+        grid-template-columns: 1fr;
+    }
+}

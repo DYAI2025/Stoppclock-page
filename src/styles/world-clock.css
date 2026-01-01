@@ -1,0 +1,233 @@
+/* World Clock Theme */
+
+:root {
+    --wc-bg: #f8f9fa;
+    /* Light mode default for 'professional' feeling? Or Dark? */
+    --wc-surface: #ffffff;
+    --wc-border: #e9ecef;
+    --wc-text-main: #212529;
+    --wc-text-muted: #adb5bd;
+
+    /* Period Colors (Subtle stripes) */
+    --wc-period-early: #e3f2fd;
+    --wc-period-morning: #fff3e0;
+    --wc-period-day: #ffffff;
+    --wc-period-evening: #f3e5f5;
+    --wc-period-night: #e8eaf6;
+    --wc-period-late: #263238;
+    /* Dark row for deep night? */
+    --wc-text-late: #cfd8dc;
+}
+
+/* Dark mode overrides would be needed if app is dark by default */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --wc-bg: #111;
+        --wc-surface: #1e1e1e;
+        --wc-border: #333;
+        --wc-text-main: #e0e0e0;
+        --wc-text-muted: #666;
+
+        --wc-period-early: #1a237e;
+        --wc-period-morning: #3e2723;
+        --wc-period-day: #1e1e1e;
+        --wc-period-evening: #311b92;
+        --wc-period-night: #000000;
+        --wc-period-late: #000;
+    }
+}
+
+.wc-page {
+    min-height: 100vh;
+    background: var(--wc-bg);
+    color: var(--wc-text-main);
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.wc-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--wc-surface);
+    border: 1px solid var(--wc-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.wc-controls {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--wc-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--wc-surface);
+}
+
+.wc-add-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--wc-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    background: var(--wc-bg);
+    color: var(--wc-text-main);
+    width: 300px;
+}
+
+.wc-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 0.5fr auto;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--wc-border);
+    transition: background-color 0.2s;
+}
+
+.wc-row:last-child {
+    border-bottom: none;
+}
+
+/* Period coloring */
+.wc-row.period-early {
+    background: var(--wc-period-early);
+}
+
+.wc-row.period-morning {
+    background: var(--wc-period-morning);
+}
+
+.wc-row.period-evening {
+    background: var(--wc-period-evening);
+}
+
+.wc-row.period-night {
+    background: var(--wc-period-night);
+}
+
+.wc-row.period-lateNight {
+    background: var(--wc-period-late);
+    color: var(--wc-text-late);
+}
+
+.wc-city {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.wc-city-sub {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--wc-text-muted);
+    text-transform: uppercase;
+}
+
+.wc-time-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.wc-time {
+    font-family: 'Courier New', monospace;
+    /* Tabular look */
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+}
+
+.wc-weekday {
+    font-size: 0.8rem;
+    color: var(--wc-text-muted);
+    text-transform: uppercase;
+}
+
+.wc-period-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+.wc-offset {
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: right;
+    color: var(--wc-text-muted);
+}
+
+.wc-delete-btn {
+    background: none;
+    border: none;
+    color: var(--wc-text-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.wc-delete-btn:hover {
+    opacity: 1;
+    color: #e53935;
+}
+
+.wc-home-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.wc-search-container {
+    position: relative;
+}
+
+.wc-search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--wc-surface);
+    border: 1px solid var(--wc-border);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 6px 6px;
+}
+
+.wc-search-result {
+    padding: 8px 12px;
+    cursor: pointer;
+    color: var(--wc-text-main);
+    transition: background 0.2s;
+}
+
+.wc-search-result:hover {
+    background: var(--wc-bg);
+}
+
+@media (max-width: 600px) {
+    .wc-row {
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+    }
+
+    .wc-city {
+        grid-column: 1;
+    }
+
+    .wc-time-group {
+        grid-column: 2;
+        text-align: right;
+    }
+
+    .wc-status,
+    .wc-offset {
+        display: none;
+    }
+
+    /* Simplify for mobile */
+}

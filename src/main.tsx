@@ -13,6 +13,8 @@ import CookingTimer from "./pages/CookingTimer";
 import CouplesTimer from "./pages/CouplesTimer";
 import DigitalClock from "./pages/DigitalClock";
 import Pomodoro from "./pages/Pomodoro";
+import TimeSince from "./pages/TimeSince";
+import TimeLab from "./pages/TimeLab";
 import Wissen from "./pages/Wissen";
 import ImprintEn from "./pages/ImprintEn";
 import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
@@ -27,13 +29,21 @@ import PomodoroVsCountdown from "./pages/blog/PomodoroVsCountdown";
 import TimerForStudents from "./pages/TimerForStudents";
 import TimerForProductivity from "./pages/TimerForProductivity";
 import TimerForFitness from "./pages/TimerForFitness";
+import CustomSessionsLanding from "./pages/CustomSessionsLanding";
+import SessionBuilder from "./pages/SessionBuilder";
+import SessionRunner from "./pages/SessionRunner";
+import SessionPreview from "./pages/SessionPreview";
+import FactsPage from "./pages/FactsPage";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
+import { PinnedTimersBoard } from "./components/PinnedTimersBoard";
 import LanguageToggle from "./components/LanguageToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
+import TimerIcon, { TimerIconType } from "./components/TimerIcon";
+import LandingPage from "./pages/LandingPage";
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -142,12 +152,14 @@ function HomeAnalogClock() {
 
 function Home() {
   // Timer definitions with per-card accent colors
-  const timers = [
+  const timers: { route: string; label: TimerIconType; color: string; colorRgb: string }[] = [
     { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
     { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
     { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
+    { route: "#/timesince", label: "Time Since", color: "#9333EA", colorRgb: "147, 51, 234" },
     { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
     { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
+    { route: "#/custom-sessions", label: "Custom Sessions", color: "#8B5CF6", colorRgb: "139, 92, 246" },
     { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
     { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
     { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
@@ -156,8 +168,8 @@ function Home() {
   ];
 
   // Pillar pages (Blog/Content section)
-  const pillars = [
-    { route: "#/time-philosophy", label: "Space for Time", color: "#A855F7", colorRgb: "168, 85, 247" },
+  const pillars: { route: string; label: TimerIconType; color: string; colorRgb: string }[] = [
+    { route: "#/time-philosophy", label: "Raum für Zeit", color: "#A855F7", colorRgb: "168, 85, 247" },
   ];
 
   return (
@@ -175,6 +187,9 @@ function Home() {
 
       {/* Digital-style facts board above the timers */}
       <ClockFactsBoard />
+
+      {/* Pinned Timers Board */}
+      <PinnedTimersBoard />
 
       {/* TIMER SECTION */}
       <div className="home-section home-section-timers">
@@ -208,7 +223,7 @@ function Home() {
       {/* BLOG/PILLAR SECTION */}
       <div className="home-section home-section-pillars">
         <div className="section-title">Explore Further</div>
-        <div className="home-grid">
+        <div className="pillar-grid">
           {pillars.map(({ route, label, color, colorRgb }) => (
             <a
               key={route}
@@ -257,6 +272,7 @@ function App() {
   const isAbout = route.startsWith('/about/');
   const isWissen = route.startsWith('/wissen/');
   const isBlog = route.startsWith('/blog/');
+  const isCustomSessions = route.startsWith('/custom-sessions');
 
   return (
     <>
@@ -267,10 +283,12 @@ function App() {
       <ConsentBanner />
 
       {/* Route content */}
-      {route === "/" && <Home />}
+      {route === "/" && <LandingPage />}
       {route === "/analog" && <AnalogCountdown />}
       {route === "/countdown" && <Countdown />}
       {route === "/stopwatch" && <Stopwatch />}
+      {route === "/timesince" && <TimeSince />}
+      {route === "/timelab" && <TimeLab />}
       {route === "/pomodoro" && <Pomodoro />}
       {route === "/cooking" && <CookingTimer />}
       {route === "/couples" && <CouplesTimer />}
@@ -279,6 +297,11 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {route === "/facts" && <FactsPage />}
+      {route === "/custom-sessions" && <CustomSessionsLanding />}
+      {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
+      {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
+      {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}
@@ -294,7 +317,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness"].includes(route) && !isAbout && !isWissen && !isBlog && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timesince", "/timelab"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
@@ -310,114 +333,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-// Minimalist SVG Timer Icons Component
-function TimerIcon({ type }: { type: string }) {
-  const icons: Record<string, JSX.Element> = {
-    "Stopwatch": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="13" r="8"/>
-        <path d="M12 9v4l2 2"/>
-        <path d="M10 2h4"/>
-        <path d="M12 2v2"/>
-      </svg>
-    ),
-    "Countdown": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 6v6l4 2"/>
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 2v2"/>
-        <path d="M2 12h2"/>
-        <path d="M22 12h-2"/>
-      </svg>
-    ),
-    "Analog": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-      </svg>
-    ),
-    "Analog Clock": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-      </svg>
-    ),
-    "Pomodoro": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 6v6l4 2"/>
-        <path d="M16.24 7.76l-1.5 1.5"/>
-        <path d="M19 12h-2"/>
-      </svg>
-    ),
-    "Cooking Timer": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="13" r="8"/>
-        <path d="M12 9v4l3 2"/>
-        <path d="M16.5 3.5L19 6"/>
-        <path d="M7.5 3.5L5 6"/>
-        <path d="M9 2h6"/>
-      </svg>
-    ),
-    "Couples Timer": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 9v3l2 2"/>
-      </svg>
-    ),
-    "World Clock": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-      </svg>
-    ),
-    "Alarm": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="13" r="8"/>
-        <path d="M12 9v4l2 2"/>
-        <path d="M5 3L2 6"/>
-        <path d="M22 6l-3-3"/>
-        <path d="M6 19l-2 2"/>
-        <path d="M18 19l2 2"/>
-      </svg>
-    ),
-    "Metronome": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 18V5l12-2v13"/>
-        <circle cx="6" cy="18" r="3"/>
-        <circle cx="18" cy="16" r="3"/>
-      </svg>
-    ),
-    "Chess Clock": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="8" width="18" height="12" rx="2"/>
-        <path d="M12 8V4"/>
-        <path d="M8 4h8"/>
-        <line x1="12" y1="8" x2="12" y2="16"/>
-      </svg>
-    ),
-    "Digital Clock": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="6" width="20" height="12" rx="2"/>
-        <path d="M7 10h.01"/>
-        <path d="M7 14h.01"/>
-        <path d="M17 10h.01"/>
-        <path d="M17 14h.01"/>
-        <path d="M12 10v4"/>
-      </svg>
-    ),
-    "Raum für Zeit": (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <circle cx="12" cy="12" r="4"/>
-      </svg>
-    )
-  };
-
-  return icons[type] || icons["Stopwatch"];
-}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

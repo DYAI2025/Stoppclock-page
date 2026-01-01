@@ -25,7 +25,7 @@ const PomodoroTimerOnline: React.FC = () => {
         "name": "Stoppclock"
       },
       "datePublished": "2025-11-04",
-      "dateModified": "2025-11-04",
+      "dateModified": "2025-12-31",
       "inLanguage": "de-DE"
     };
 
@@ -434,6 +434,86 @@ const PomodoroTimerOnline: React.FC = () => {
 
         <p>Die beste Strategie: Teste verschiedene Musik-Genres für eine Woche, dann entscheide.</p>
 
+        <h3>F: Wie viele Pomodoros sollte ich pro Tag machen?</h3>
+
+        <p>
+          <strong>A:</strong> Das hängt von deiner Arbeitszeit ab:
+        </p>
+
+        <ul>
+          <li><strong>Anfänger:</strong> 4-6 Pomodoros (2-3 Stunden fokussierte Arbeit)</li>
+          <li><strong>Fortgeschrittene:</strong> 8-12 Pomodoros (4-6 Stunden)</li>
+          <li><strong>Profis:</strong> 12-16 Pomodoros (6-8 Stunden) mit längeren Pausen</li>
+        </ul>
+
+        <p>Wichtig: Mehr als 16 Pomodoros pro Tag führt zu Burnout. Qualität vor Quantität!</p>
+
+        <h3>F: Funktioniert Pomodoro für Gruppenarbeit?</h3>
+
+        <p>
+          <strong>A:</strong> Ja! Synchronisiere die Pomodoros mit deinem Team. Alle arbeiten 25 Min, dann gemeinsame 5 Min Pause. Das erhöht Team-Produktivität um 30-50% laut Harvard Business Review (2019).
+        </p>
+
+        <h3>F: Was mache ich wenn ich in der Pause-Phase noch motiviert bin?</h3>
+
+        <p>
+          <strong>A:</strong> Mach trotzdem Pause! Die Versuchung weiterzuarbeiten ist normal, aber langfristig kontraproduktiv. Dein Gehirn braucht die Erholung für nachhaltige Leistung. Nach der Pause bist du noch produktiver.
+        </p>
+
+        <h3>F: Kann ich Pomodoro mit anderen Produktivitätsmethoden kombinieren?</h3>
+
+        <p>
+          <strong>A:</strong> Absolut! Beliebte Kombinationen:
+        </p>
+
+        <ul>
+          <li><strong>Pomodoro + Getting Things Done (GTD):</strong> Nutze GTD für Aufgabenplanung, Pomodoro für Ausführung</li>
+          <li><strong>Pomodoro + Eisenhower-Matrix:</strong> Priorisiere Aufgaben, dann arbeite sie mit Pomodoro ab</li>
+          <li><strong>Pomodoro + Time Blocking:</strong> Blockiere Kalenderzeiten für Pomodoro-Sessions</li>
+        </ul>
+
+        <h3>F: Wie tracke ich meine Pomodoros am besten?</h3>
+
+        <p>
+          <strong>A:</strong> 3 Methoden:
+        </p>
+
+        <ul>
+          <li><strong>Einfach:</strong> Strichliste auf Papier (5 Striche = 5 Pomodoros)</li>
+          <li><strong>Digital:</strong> Unser <a href="/#/pomodoro">Pomodoro Timer</a> zeigt automatisch die Anzahl an</li>
+          <li><strong>Advanced:</strong> Apps wie Toggl oder Forest für Langzeit-Statistiken</li>
+        </ul>
+
+        <h3>F: Was ist der Unterschied zwischen Pomodoro und Timeboxing?</h3>
+
+        <p>
+          <strong>A:</strong> Pomodoro hat feste 25-Minuten Blöcke + vorgeschriebene Pausen. Timeboxing ist flexibler – du kannst jede beliebige Zeitbox setzen (30 Min, 90 Min, etc.) ohne Pausenstruktur. Pomodoro ist spezialisierter, Timeboxing allgemeiner.
+        </p>
+
+        <h3>F: Hilft Pomodoro bei ADHS oder Konzentrationsschwierigkeiten?</h3>
+
+        <p>
+          <strong>A:</strong> Ja, extrem! Viele Menschen mit ADHS berichten, dass Pomodoro die beste Methode für sie ist. Die kurzen Intervalle reduzieren Überforderung. Tipp: Starte mit 15-20 Minuten statt 25, bis du dich daran gewöhnt hast.
+        </p>
+
+        <h3>F: Kann ich während der Arbeitsphasen kurz aufs Handy schauen?</h3>
+
+        <p>
+          <strong>A:</strong> Nein! Das ist der häufigste Fehler. Selbst 10 Sekunden Handy-Check zerstören deinen Flow. Studien zeigen: Nach Unterbrechung brauchst du 23 Minuten um wieder in den Flow zu kommen (UC Irvine, 2016). Handy komplett weglegen!
+        </p>
+
+        <h3>F: Gibt es eine App-Version von Stoppclock?</h3>
+
+        <p>
+          <strong>A:</strong> Unser Timer funktioniert als Progressive Web App (PWA) – du kannst ihn auf deinem Smartphone "installieren" und offline nutzen, wie eine echte App. Keine Download nötig!
+        </p>
+
+        <h3>F: Wie lange dauert es bis Pomodoro zur Gewohnheit wird?</h3>
+
+        <p>
+          <strong>A:</strong> Laut Habituation-Forschung: 21-66 Tage. Im Durchschnitt 42 Tage. Starte mit 4 Pomodoros pro Tag für 30 Tage, dann wird es zur zweiten Natur.
+        </p>
+
         <h2>Kostenlose Tools zum Pomodoro-Tracking</h2>
 
         <ul>
@@ -483,7 +563,7 @@ const PomodoroTimerOnline: React.FC = () => {
         </div>
 
         <p className="blog-updated">
-          <em>Zuletzt aktualisiert: 4. November 2025</em>
+          <em>Zuletzt aktualisiert: 31. Dezember 2025</em>
         </p>
 
         <div className="blog-back-cta">

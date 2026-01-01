@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
 import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
 
 type Persist = {
   version: 1;
@@ -44,8 +48,8 @@ function load(): Persist {
   } catch {
     return {
       version:1,
-      durationMs: 30*60_000,
-      remainingMs: 30*60_000,
+      durationMs: 5*60_000,
+      remainingMs: 5*60_000,
       running:false,
       endAt:null,
       warnAtMs:60_000,
@@ -155,13 +159,13 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   // Clean minimalist hour markers (only 12, 3, 6, 9)
   const hourNumbers = [12, 3, 6, 9];
   ctx.fillStyle = "#36454F";
-  ctx.font = `bold ${Math.floor(r * 0.15)}px 'Segoe UI', Arial, sans-serif`;
+  ctx.font = `bold ${Math.floor(r * 0.11)}px 'Segoe UI', Arial, sans-serif`; // Smaller font: 0.15 → 0.11
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
   hourNumbers.forEach(num => {
     const angle = ((num === 12 ? 0 : num) / 12) * Math.PI * 2 - Math.PI / 2;
-    const dist = r * 0.75;
+    const dist = r * 0.65; // Moved inward: 0.75 → 0.65
     const x = Math.cos(angle) * dist;
     const y = Math.sin(angle) * dist;
     ctx.fillText(num.toString(), x, y);
@@ -200,7 +204,7 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
     const ringColor = `hsl(${hue}, 70%, 50%)`;
 
     const ringWidth = r * 0.12;
-    const baseRadius = r * 0.88;
+    const baseRadius = r * 0.96; // Larger ring: 0.88 → 0.96
 
     // Draw completed hour rings (inner rings, one per full hour)
     // Each completed hour = one full ring, moving inward
@@ -281,9 +285,43 @@ function flash(el:HTMLElement|null, ms=500) {
 export default function AnalogCountdown() {
   const [st, setSt] = useState<Persist>(() => load());
   const [customMinutes, setCustomMinutes] = useState<string>('');
+  const [urlChecked, setUrlChecked] = useState(false);
   const cnvRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const warned = useRef(false);
+
+  const formattedRemaining = fmt(st.remainingMs);
+  const formattedDuration = fmt(st.durationMs);
+  const statusLabel = st.running ? 'Running' : 'Paused';
+
+  // Get current config for sharing/saving
+  const getCurrentConfig = useCallback(() => {
+    return {
+      durationMs: st.durationMs,
+      warnAtMs: st.warnAtMs,
+      signal: st.signal
+    };
+  }, [st.durationMs, st.warnAtMs, st.signal]);
+
+  // URL Preset Loading
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'analog') {
+      const config = sharedPreset.config;
+      setSt(s => ({
+        ...s,
+        durationMs: clamp(config.durationMs || s.durationMs, 1000, MAX),
+        remainingMs: clamp(config.durationMs || s.durationMs, 1000, MAX),
+        warnAtMs: config.warnAtMs !== undefined ? config.warnAtMs : s.warnAtMs,
+        signal: config.signal || s.signal,
+        running: false,
+        endAt: null
+      }));
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
@@ -336,6 +374,10 @@ export default function AnalogCountdown() {
     // Finish: loud bimmeln (multiple beeps like an alarm clock)
     if (st.running && st.remainingMs <= 0) {
       lastSecondRef.current = -1; // Reset for next countdown
+
+      // Track completion
+      trackEvent('analog', 'complete', st.durationMs);
+
       setSt(s => ({...s, running: false, endAt: null, remainingMs: 0}));
       if (st.signal.flash) flash(wrapRef.current, 900);
       if (st.signal.sound) {
@@ -371,6 +413,8 @@ export default function AnalogCountdown() {
   });
 
   const start = useCallback(() => {
+    // Track timer start
+    trackEvent('analog', 'start');
     if (st.remainingMs <= 0) {
       setSt(s => ({...s, remainingMs: s.durationMs, running: true, endAt: Date.now() + s.durationMs}));
     } else {
@@ -452,21 +496,42 @@ export default function AnalogCountdown() {
         <HomeButton />
       </header>
 
+      {/* Digital readout for tests & accessibility */}
+      <div className="analog-time-display" aria-live="polite">
+        <div className="hms">{formattedRemaining}</div>
+        <div className="analog-time-meta">
+          <span>Duration: {formattedDuration}</span>
+          <span>Status: {statusLabel}</span>
+        </div>
+      </div>
+
       {/* Canvas (colors preserved in drawing code) */}
       <div className="analog-canvas-container">
         <canvas ref={cnvRef} className="analog-canvas" width={800} height={800} />
       </div>
 
       {/* Controls */}
-      <div className="analog-controls">
+      <div className="analog-controls controls">
         {!st.running ? (
-          <button type="button" className="analog-btn" onClick={start}>Start</button>
+          <button type="button" className="analog-btn btn primary" onClick={start}>Start</button>
         ) : (
-          <button type="button" className="analog-btn" onClick={pause}>Pause</button>
+          <button type="button" className="analog-btn btn primary" onClick={pause}>Pause</button>
         )}
-        <button type="button" className="analog-btn secondary" onClick={reset}>Reset</button>
-        <button type="button" className="analog-btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
-        <button type="button" className="analog-btn secondary" onClick={handlePin}>Pin to Main Page</button>
+        <button type="button" className="analog-btn btn secondary" onClick={reset}>Reset</button>
+        <button type="button" className="analog-btn btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
+        <button type="button" className="analog-btn btn secondary" onClick={handlePin}>Pin to Main Page</button>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '16px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="analog"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="analog"
+          getCurrentConfig={getCurrentConfig}
+        />
       </div>
 
       {/* Presets */}
@@ -481,10 +546,12 @@ export default function AnalogCountdown() {
 
       {/* Time Adjustments */}
       <div className="analog-presets">
-        <button type="button" className="analog-preset" onClick={() => plus(5 * 60_000)}>+5</button>
-        <button type="button" className="analog-preset" onClick={() => plus(10 * 60_000)}>+10</button>
-        <button type="button" className="analog-preset" onClick={() => plus(-5 * 60_000)}>-5</button>
-        <button type="button" className="analog-preset" onClick={() => plus(-10 * 60_000)}>-10</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(60_000)}>+1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-60_000)}>-1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(5 * 60_000)}>+5</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(10 * 60_000)}>+10</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-5 * 60_000)}>-5</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-10 * 60_000)}>-10</button>
       </div>
 
       {/* Custom Duration Input */}
@@ -498,6 +565,15 @@ export default function AnalogCountdown() {
             max="180"
             value={customMinutes}
             onChange={(e) => setCustomMinutes(e.target.value)}
+            onBlur={(e) => {
+              // Auto-correct invalid values (US9: P2)
+              const val = parseInt(e.target.value, 10);
+              if (isNaN(val) || e.target.value === '') {
+                return; // Leave empty if invalid
+              }
+              if (val > 180) setCustomMinutes('180'); // Clamp to max
+              else if (val < 1) setCustomMinutes('1'); // Clamp to min
+            }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleCustomMinutes();
             }}
