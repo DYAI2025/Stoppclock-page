@@ -12,7 +12,8 @@ const routes = [
   "/world",
   "/alarm",
   "/metronome",
-  "/chess"
+  "/chess",
+  "/facts"
 ];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
