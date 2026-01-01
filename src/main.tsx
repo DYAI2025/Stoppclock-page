@@ -33,6 +33,7 @@ import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 import SessionBuilder from "./pages/SessionBuilder";
 import SessionRunner from "./pages/SessionRunner";
 import SessionPreview from "./pages/SessionPreview";
+import FactsPage from "./pages/FactsPage";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import TimerQuickInfo from "./components/TimerQuickInfo";
@@ -296,6 +297,7 @@ function App() {
       {route === "/alarm" && <Alarm />}
       {route === "/metronome" && <Metronome />}
       {route === "/chess" && <ChessClock />}
+      {route === "/facts" && <FactsPage />}
       {route === "/custom-sessions" && <CustomSessionsLanding />}
       {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
       {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
