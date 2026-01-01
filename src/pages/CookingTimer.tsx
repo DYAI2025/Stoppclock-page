@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { ShareButton } from '../components/ShareButton';
+import { SavePresetButton } from '../components/SavePresetButton';
 import { COOKING_PRESETS, getNextColor } from '../config/cooking-presets';
 import type { CookingTimerState, CookingTimer, CookingPresetId } from '../types/timer-types';
 import { usePinnedTimers, PinnedTimer } from '../contexts/PinnedTimersContext';
+import { trackEvent } from '../utils/stats';
+import { getPresetFromUrl } from '../utils/share';
 import '../styles/cooking-warm.css';
 
 const LS_KEY = 'sc.v1.cooking';
@@ -162,7 +166,8 @@ const CookingPlayer = ({
   onExtend,
   onExit,
   onPin,
-  isPinned
+  isPinned,
+  getCurrentConfig
 }: any) => {
   const [customName, setCustomName] = useState('');
   const [customMin, setCustomMin] = useState('10');
@@ -204,6 +209,18 @@ const CookingPlayer = ({
           />
           <button className="cook-preset-chip cook-add-custom" onClick={handleAddCustom}>+ Add</button>
         </div>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '16px', marginBottom: '16px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="cooking"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="cooking"
+          getCurrentConfig={getCurrentConfig}
+        />
       </div>
 
       <div className="cook-grid">
@@ -280,8 +297,48 @@ const CookingPlayer = ({
 export default function CookingTimer() {
   const [st, setSt] = useState<CookingTimerState>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
+  const [urlChecked, setUrlChecked] = useState(false);
   // Start directly in player mode - users expect to see the timer
   const [mode, setMode] = useState<'world' | 'player'>('player');
+
+  // Get current config for sharing/saving
+  const getCurrentConfig = useCallback(() => {
+    return {
+      timers: st.timers.map(t => ({
+        label: t.label,
+        durationMs: t.durationMs,
+        color: t.color,
+        presetId: t.presetId
+      })),
+      nextColorIndex: st.nextColorIndex
+    };
+  }, [st.timers, st.nextColorIndex]);
+
+  // URL Preset Loading
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'cooking') {
+      const config = sharedPreset.config;
+      if (config.timers && Array.isArray(config.timers)) {
+        const loadedTimers: CookingTimer[] = config.timers.map((t: any, idx: number) => ({
+          id: `cook-${Date.now()}-${idx}`,
+          label: t.label || '⏱️ Timer',
+          presetId: t.presetId || 'custom',
+          durationMs: t.durationMs || 600000,
+          remainingMs: t.durationMs || 600000,
+          running: false,
+          startedAt: null,
+          color: t.color || '#FFB6C1',
+          alarming: false,
+          alarmStartedAt: null
+        }));
+        setSt(s => ({ ...s, timers: loadedTimers, nextColorIndex: config.nextColorIndex || 0 }));
+      }
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     const now = Date.now();
@@ -297,6 +354,8 @@ export default function CookingTimer() {
           const remaining = timer.remainingMs - elapsed;
 
           if (remaining <= 0) {
+            // Track completion
+            trackEvent('cooking', 'complete', timer.durationMs);
             playAlarm();
             hasChanges = true;
             return {
@@ -392,6 +451,8 @@ export default function CookingTimer() {
           const elapsed = Date.now() - (t.startedAt || 0);
           return { ...t, running: false, startedAt: null, remainingMs: Math.max(0, t.remainingMs - elapsed) };
         } else {
+          // Track timer start
+          trackEvent('cooking', 'start');
           return { ...t, running: true, startedAt: Date.now() };
         }
       })
@@ -447,6 +508,8 @@ export default function CookingTimer() {
     }));
   };
 
+  const { addTimer: addPinnedTimer, removeTimer: removePinnedTimer, isPinned } = usePinnedTimers();
+
   const handlePinIndividualTimer = useCallback((timer: CookingTimer) => {
     const timerPinId = `${LS_KEY}:${timer.id}`;
 
@@ -477,6 +540,7 @@ export default function CookingTimer() {
           onExit={() => setMode('world')}
           onPin={handlePinIndividualTimer}
           isPinned={isPinned}
+          getCurrentConfig={getCurrentConfig}
         />
       </div>
     );

@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
 
 const LS_KEY = "sc.v1.metronome";
 const MIN_BPM = 40;
@@ -42,7 +46,33 @@ export default function Metronome() {
   const [st, setSt] = useState<Persist>(load);
   const [running, setRunning] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
+  const [urlChecked, setUrlChecked] = useState(false);
+  const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Get current config for sharing/saving
+  const getCurrentConfig = useCallback(() => {
+    return {
+      bpm: st.bpm,
+      accentFirst: st.accentFirst
+    };
+  }, [st.bpm, st.accentFirst]);
+
+  // URL Preset Loading
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'metronome') {
+      const config = sharedPreset.config;
+      setSt(s => ({
+        ...s,
+        bpm: Math.max(MIN_BPM, Math.min(MAX_BPM, config.bpm || s.bpm)),
+        accentFirst: config.accentFirst !== undefined ? config.accentFirst : s.accentFirst
+      }));
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   // Web Audio API lookahead scheduling
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -143,6 +173,23 @@ export default function Metronome() {
     setSt(s => ({ ...s, bpm: Math.max(MIN_BPM, Math.min(MAX_BPM, s.bpm + delta)) }));
   };
 
+  const toggleMetronome = () => {
+    if (!running) {
+      // Starting metronome
+      trackEvent('metronome', 'start');
+      setSessionStartTime(Date.now());
+      setRunning(true);
+    } else {
+      // Stopping metronome
+      if (sessionStartTime) {
+        const sessionDuration = Date.now() - sessionStartTime;
+        trackEvent('metronome', 'complete', sessionDuration);
+      }
+      setSessionStartTime(null);
+      setRunning(false);
+    }
+  };
+
   return (
     <div className="metronome-wrap" ref={wrapRef}>
       <HomeButton />
@@ -168,7 +215,7 @@ export default function Metronome() {
       </div>
 
       <div className="metronome-controls">
-        <button className="btn-primary-action" onClick={() => setRunning(!running)}>
+        <button className="btn-primary-action" onClick={toggleMetronome}>
           {running ? "Stop" : "Start"}
         </button>
         <label className="metronome-toggle">
@@ -179,6 +226,18 @@ export default function Metronome() {
           />
           <span>Accent first beat</span>
         </label>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="metronome"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="metronome"
+          getCurrentConfig={getCurrentConfig}
+        />
       </div>
 
       <div className="bpm-slider">

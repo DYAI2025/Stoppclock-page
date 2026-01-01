@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
 import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
 
 type Persist = {
   version: 1;
@@ -281,6 +285,7 @@ function flash(el:HTMLElement|null, ms=500) {
 export default function AnalogCountdown() {
   const [st, setSt] = useState<Persist>(() => load());
   const [customMinutes, setCustomMinutes] = useState<string>('');
+  const [urlChecked, setUrlChecked] = useState(false);
   const cnvRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const warned = useRef(false);
@@ -288,6 +293,35 @@ export default function AnalogCountdown() {
   const formattedRemaining = fmt(st.remainingMs);
   const formattedDuration = fmt(st.durationMs);
   const statusLabel = st.running ? 'Running' : 'Paused';
+
+  // Get current config for sharing/saving
+  const getCurrentConfig = useCallback(() => {
+    return {
+      durationMs: st.durationMs,
+      warnAtMs: st.warnAtMs,
+      signal: st.signal
+    };
+  }, [st.durationMs, st.warnAtMs, st.signal]);
+
+  // URL Preset Loading
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'analog') {
+      const config = sharedPreset.config;
+      setSt(s => ({
+        ...s,
+        durationMs: clamp(config.durationMs || s.durationMs, 1000, MAX),
+        remainingMs: clamp(config.durationMs || s.durationMs, 1000, MAX),
+        warnAtMs: config.warnAtMs !== undefined ? config.warnAtMs : s.warnAtMs,
+        signal: config.signal || s.signal,
+        running: false,
+        endAt: null
+      }));
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
@@ -340,6 +374,10 @@ export default function AnalogCountdown() {
     // Finish: loud bimmeln (multiple beeps like an alarm clock)
     if (st.running && st.remainingMs <= 0) {
       lastSecondRef.current = -1; // Reset for next countdown
+
+      // Track completion
+      trackEvent('analog', 'complete', st.durationMs);
+
       setSt(s => ({...s, running: false, endAt: null, remainingMs: 0}));
       if (st.signal.flash) flash(wrapRef.current, 900);
       if (st.signal.sound) {
@@ -375,6 +413,8 @@ export default function AnalogCountdown() {
   });
 
   const start = useCallback(() => {
+    // Track timer start
+    trackEvent('analog', 'start');
     if (st.remainingMs <= 0) {
       setSt(s => ({...s, remainingMs: s.durationMs, running: true, endAt: Date.now() + s.durationMs}));
     } else {
@@ -480,6 +520,18 @@ export default function AnalogCountdown() {
         <button type="button" className="analog-btn btn secondary" onClick={reset}>Reset</button>
         <button type="button" className="analog-btn btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
         <button type="button" className="analog-btn btn secondary" onClick={handlePin}>Pin to Main Page</button>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '16px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="analog"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="analog"
+          getCurrentConfig={getCurrentConfig}
+        />
       </div>
 
       {/* Presets */}
