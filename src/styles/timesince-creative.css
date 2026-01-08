@@ -1,0 +1,459 @@
+/* ============================================
+ * TIME SINCE TIMER - Creative Enhancements
+ * Contextual visual themes per historical event
+ * Ambient effects, particles, and smooth transitions
+ * ============================================ */
+
+/* ============================================
+ * BASE LAYOUT ENHANCEMENTS
+ * ============================================ */
+.timesince-page {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s ease-out;
+}
+
+/* Ambient gradient overlay layer */
+.timesince-ambient-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-out, background 0.8s ease-out;
+}
+
+.timesince-ambient-layer.visible {
+  opacity: 1;
+}
+
+/* Content layer above ambient */
+.timesince-content-layer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+ * PARTICLE EFFECTS (CSS-only, performant)
+ * ============================================ */
+
+/* Stars - for space/cosmic events */
+.timesince-particles-stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timesince-particles-stars::before,
+.timesince-particles-stars::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 50% 50%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(2px 2px at 80% 60%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 70% 20%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 10% 80%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(2px 2px at 90% 40%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 30% 90%, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 300% 300%;
+  animation: starDrift 60s linear infinite;
+}
+
+.timesince-particles-stars::after {
+  opacity: 0.5;
+  animation: starTwinkle 4s ease-in-out infinite alternate;
+}
+
+@keyframes starDrift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Bubbles - for ocean/water events */
+.timesince-particles-bubbles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.timesince-particles-bubbles::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  bottom: -100%;
+  background-image: 
+    radial-gradient(circle 8px at 15% 0%, rgba(59, 130, 246, 0.3), transparent 80%),
+    radial-gradient(circle 6px at 35% 10%, rgba(59, 130, 246, 0.25), transparent 80%),
+    radial-gradient(circle 4px at 55% 5%, rgba(59, 130, 246, 0.2), transparent 80%),
+    radial-gradient(circle 10px at 75% 15%, rgba(59, 130, 246, 0.15), transparent 80%),
+    radial-gradient(circle 5px at 90% 8%, rgba(59, 130, 246, 0.2), transparent 80%);
+  animation: bubbleRise 20s linear infinite;
+}
+
+@keyframes bubbleRise {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+/* Dust - for historic/archival events */
+.timesince-particles-dust {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timesince-particles-dust::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    radial-gradient(circle 2px at 10% 20%, rgba(245, 158, 11, 0.15), transparent),
+    radial-gradient(circle 1px at 30% 40%, rgba(245, 158, 11, 0.1), transparent),
+    radial-gradient(circle 1.5px at 50% 30%, rgba(245, 158, 11, 0.12), transparent),
+    radial-gradient(circle 1px at 70% 50%, rgba(245, 158, 11, 0.1), transparent),
+    radial-gradient(circle 2px at 80% 70%, rgba(245, 158, 11, 0.08), transparent);
+  animation: dustFloat 30s ease-in-out infinite;
+}
+
+@keyframes dustFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-2%, 1%) rotate(1deg); }
+  50% { transform: translate(-1%, -1%) rotate(-0.5deg); }
+  75% { transform: translate(1%, 0.5%) rotate(0.5deg); }
+}
+
+/* Leaves - for nature/peace events */
+.timesince-particles-leaves {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timesince-particles-leaves::before {
+  content: '🍃';
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.3;
+  animation: leafFall 15s ease-in-out infinite;
+}
+
+.timesince-particles-leaves::after {
+  content: '🍂';
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.25;
+  left: 60%;
+  animation: leafFall 18s ease-in-out infinite 3s;
+}
+
+@keyframes leafFall {
+  0% { transform: translate(0, -20px) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translate(30px, 100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Sparkles - for tech/innovation events */
+.timesince-particles-sparkles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timesince-particles-sparkles::before,
+.timesince-particles-sparkles::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(0, 217, 255, 0.6);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+.timesince-particles-sparkles::before {
+  top: 20%;
+  left: 30%;
+}
+
+.timesince-particles-sparkles::after {
+  top: 60%;
+  left: 70%;
+  animation-delay: 1.5s;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* ============================================
+ * EVENT CARD ENHANCEMENTS (Selection View)
+ * ============================================ */
+.timesince-event-btn {
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timesince-event-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 40%, var(--event-color, rgba(255,255,255,0.1)) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timesince-event-btn:hover::after {
+  opacity: 0.15;
+}
+
+.timesince-event-btn:hover {
+  transform: translateY(-6px);
+}
+
+/* Event icon display */
+.timesince-event-icon {
+  font-size: 2rem;
+  margin-right: var(--spacing-md);
+  filter: grayscale(20%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.timesince-event-btn:hover .timesince-event-icon {
+  filter: grayscale(0%);
+  transform: scale(1.1);
+}
+
+/* ============================================
+ * TIME DISPLAY ENHANCEMENTS
+ * ============================================ */
+
+/* Event banner with contextual styling */
+.timesince-event-banner {
+  transition: all 0.5s ease-out;
+}
+
+.timesince-event-banner.themed {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 60px var(--event-glow, var(--aurora-cyan));
+}
+
+/* Event icon in banner */
+.timesince-banner-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+  display: block;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Time unit enhancements */
+.timesince-unit {
+  transition: all 0.3s ease;
+}
+
+.timesince-unit.highlight {
+  animation: none; /* Override previous pulse */
+}
+
+.timesince-unit.highlight .timesince-number {
+  animation: subtlePulse 2s ease-in-out infinite;
+}
+
+@keyframes subtlePulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 10px var(--aurora-cyan),
+      0 0 20px var(--aurora-cyan);
+  }
+  50% { 
+    text-shadow: 
+      0 0 15px var(--aurora-cyan),
+      0 0 30px var(--aurora-cyan),
+      0 0 40px rgba(0, 217, 255, 0.3);
+  }
+}
+
+/* ============================================
+ * FUN FACT REVEAL
+ * ============================================ */
+.timesince-fact {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: 2.5s;
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: rgba(26, 41, 66, 0.6);
+  border-left: 3px solid var(--event-color, var(--aurora-cyan));
+  border-radius: 0 8px 8px 0;
+  font-size: var(--type-base);
+  color: var(--ocean-bright);
+  font-style: italic;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.timesince-fact::before {
+  content: '💡 ';
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+ * FONT STYLE VARIATIONS
+ * All variations now use consistent landing page typography
+ * ============================================ */
+.font-style-modern .timesince-event-title,
+.font-style-modern .timesince-number {
+  font-family: var(--lp-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  letter-spacing: -0.02em;
+}
+
+.font-style-futuristic .timesince-event-title,
+.font-style-futuristic .timesince-number {
+  font-family: var(--lp-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.font-style-archival .timesince-event-title {
+  font-family: var(--lp-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.font-style-archival .timesince-number {
+  font-family: var(--lp-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-style-organic .timesince-event-title,
+.font-style-organic .timesince-number {
+  font-family: var(--lp-font-family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+/* ============================================
+ * VIEW TRANSITIONS
+ * ============================================ */
+.timesince-selector,
+.timesince-display {
+  animation: viewFadeIn 0.4s ease-out;
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+ * RESPONSIVE ENHANCEMENTS
+ * ============================================ */
+@media (max-width: 768px) {
+  .timesince-banner-icon {
+    font-size: 2.5rem;
+  }
+  
+  .timesince-fact {
+    font-size: var(--type-sm);
+    padding: var(--spacing-md);
+  }
+  
+  /* Reduce particle intensity on mobile */
+  .timesince-particles-stars::before,
+  .timesince-particles-bubbles::before,
+  .timesince-particles-dust::before {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+ * REDUCED MOTION SUPPORT
+ * ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .timesince-particles-stars::before,
+  .timesince-particles-stars::after,
+  .timesince-particles-bubbles::before,
+  .timesince-particles-dust::before,
+  .timesince-particles-leaves::before,
+  .timesince-particles-leaves::after,
+  .timesince-particles-sparkles::before,
+  .timesince-particles-sparkles::after,
+  .timesince-banner-icon,
+  .timesince-unit.highlight .timesince-number {
+    animation: none;
+  }
+  
+  .timesince-fact {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .timesince-event-btn,
+  .timesince-ambient-layer {
+    transition: none;
+  }
+}

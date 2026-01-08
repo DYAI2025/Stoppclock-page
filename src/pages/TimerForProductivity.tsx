@@ -14,10 +14,51 @@ const TimerForProductivity: React.FC = () => {
 
     const schema = {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Timer für Produktivität",
-      "description": "Professionelle Timer für fokussiertes Arbeiten",
-      "url": "https://stoppclock.com/#/timer-for-productivity"
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "name": "Timer für Produktivität",
+          "description": "Professionelle Timer für fokussiertes Arbeiten",
+          "url": "https://stoppclock.com/#/timer-for-productivity"
+        },
+        {
+          "@type": "HowTo",
+          "name": "Produktivitäts-Strategien mit Timer",
+          "description": "6 bewährte Strategien um mit Timern maximale Produktivität zu erreichen",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Morning Deep Work Session",
+              "text": "Morgens: 2-3 Pomodoros (50-75 Min) für deine wichtigste Aufgabe. Danach: Meetings, Emails. Dein bester Arbeitsstoff ist frisch."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Timeboxing für Projekte",
+              "text": "Setze feste Zeitlimits für Projekte. Countdown starten. Constraints erzeugen Kreativität. Weniger Perfektionismus, mehr Fertigstellung."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Zeitmetriken tracken",
+              "text": "Stopwatch für jede Aufgabe. Nach 1 Woche kennst du dein eigenes Tempo und kannst besser planen."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Notification-Free Zones",
+              "text": "Während Pomodoro: Handy aus, Slack aus, Teams auf Do Not Disturb. Echte Konzentration steigert die Output-Qualität massiv."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Work-Life Balance aufbauen",
+              "text": "Mit Timer definierst du klare Grenzen: Nach 5 Pomodoros = Feierabend. Verhindert Burnout im Home Office."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Synchronisierte Team-Sessions",
+              "text": "Ganzes Team macht zusammen 1 Pomodoro. Danach gemeinsame Pause. Bessere Fokus, bessere Qualität, Team-Feeling."
+            }
+          ]
+        }
+      ]
     };
 
     const scriptTag = document.createElement('script');

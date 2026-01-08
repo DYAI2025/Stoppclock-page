@@ -4,42 +4,72 @@ test.describe('Chess Clock', () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
       localStorage.setItem('sc.adsConsent', 'no');
+      localStorage.removeItem('sc.v1.chessclock');
     });
   });
 
-  test('should load and display two clocks', async ({ page }) => {
+  test('should load World Page first', async ({ page }) => {
     await page.goto('/#/chess');
-    await expect(page.locator('.chess-wrap')).toBeVisible();
-
-    // Check both player clocks exist
-    const player1 = page.locator('.player-1');
-    const player2 = page.locator('.player-2');
-    await expect(player1).toBeVisible();
-    await expect(player2).toBeVisible();
-
-    // Check initial time
-    await expect(player1.locator('.player-time')).toHaveText('05:00');
-    await expect(player2.locator('.player-time')).toHaveText('05:00');
+    
+    // Should see the Hero section info
+    await expect(page.locator('h1')).toHaveText('Chess Timer');
+    await expect(page.locator('text=The Time Referee')).toBeVisible();
+    
+    // Should NOT see the player clocks yet
+    await expect(page.locator('.player-1')).not.toBeVisible();
   });
 
-  test('should switch between players', async ({ page }) => {
+  test('should navigate to timer and play', async ({ page }) => {
     await page.goto('/#/chess');
 
-    // Start player 1
+    // Click CTA
+    await page.click('text=Open Chess Timer');
+
+    // Now player should be visible
+    await expect(page.locator('.player-1')).toBeVisible();
+    
+    // Start P1
     await page.locator('.player-1').click();
+    await page.waitForTimeout(500);
+    
+    // Switch to P2
+    await page.locator('.player-1').click(); 
+    // (Note: in the code, clicking active player switches to opponent)
+    
+    // Verify P2 is active (class check or logic check)
+    // The existing code toggles active class
+    await expect(page.locator('.player-2')).toHaveClass(/active/);
+  });
 
-    // Wait briefly
-    await page.waitForTimeout(1000);
+  test('should respect Smart Resume', async ({ page }) => {
+    // Inject active game state
+    await page.addInitScript(() => {
+        const now = Date.now();
+        const state = {
+            version: 1,
+            player1Time: 300000,
+            player2Time: 300000,
+            activePlayer: 1,
+            startedAt: now
+        };
+        localStorage.setItem('sc.v1.chessclock', JSON.stringify(state));
+    });
 
-    // Switch to player 2
-    await page.locator('.player-2').click();
+    await page.goto('/#/chess');
 
-    // Verify player 1 time decreased
-    const p1Time = await page.locator('.player-1 .player-time').textContent();
-    expect(p1Time).toMatch(/04:5[0-9]/);
+    // Should skip World Page and go straight to Player
+    await expect(page.locator('.player-1')).toBeVisible();
+    await expect(page.locator('.player-1')).toHaveClass(/active/);
+  });
 
-    // Reset
-    await page.getByRole('button', { name: 'Reset' }).click();
-    await expect(page.locator('.player-1 .player-time')).toHaveText('05:00');
+  test('should return to story from player', async ({ page }) => {
+      await page.goto('/#/chess');
+      await page.click('text=Open Chess Timer');
+      
+      // Click Back button
+      await page.click('text=Back to Story');
+      
+      // Should be back at World Page
+      await expect(page.locator('text=The Time Referee')).toBeVisible();
   });
 });

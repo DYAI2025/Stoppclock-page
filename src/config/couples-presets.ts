@@ -13,7 +13,7 @@ export const SESSION_PRESETS: SessionPreset[] = [
     prepDurationMs: 5 * 60 * 1000,   // 5 minutes preparation
     slotDurationMs: 15 * 60 * 1000,  // 15 minutes per speaking slot
     slotsPerPerson: 3,                // 3 slots per person (A→B→A→B→A→B)
-    transitionDurationMs: 5 * 1000,   // 5 seconds transition
+    transitionDurationMs: 60 * 1000,  // 1 minute transition buffer
     closingDurationMs: 2 * 60 * 1000, // 2 minutes closing per person
     cooldownDurationMs: 30 * 60 * 1000 // 30 minutes no-follow-up cooldown
   },
@@ -25,7 +25,7 @@ export const SESSION_PRESETS: SessionPreset[] = [
     prepDurationMs: 3 * 60 * 1000,   // 3 minutes preparation
     slotDurationMs: 10 * 60 * 1000,  // 10 minutes per speaking slot
     slotsPerPerson: 2,                // 2 slots per person (A→B→A→B)
-    transitionDurationMs: 5 * 1000,   // 5 seconds transition
+    transitionDurationMs: 60 * 1000,  // 1 minute transition buffer
     closingDurationMs: 1 * 60 * 1000, // 1 minute closing per person
     cooldownDurationMs: 20 * 60 * 1000 // 20 minutes no-follow-up cooldown
   },
@@ -37,9 +37,45 @@ export const SESSION_PRESETS: SessionPreset[] = [
     prepDurationMs: 3 * 60 * 1000,   // 3 minutes preparation
     slotDurationMs: 10 * 60 * 1000,  // 10 minutes per speaking slot
     slotsPerPerson: 2,                // 2 slots per person
-    transitionDurationMs: 5 * 1000,   // 5 seconds transition
+    transitionDurationMs: 60 * 1000,  // 1 minute transition buffer
     closingDurationMs: 1 * 60 * 1000, // 1 minute closing per person
     cooldownDurationMs: 15 * 60 * 1000 // 15 minutes no-follow-up cooldown
+  },
+  {
+    id: 'tiny-check-in',
+    name: 'Tiny Check-in',
+    description: '3 Minuten pro Person + 1 Minute gemeinsam',
+    totalDurationMs: (3 * 2 + 1) * 60 * 1000,
+    prepDurationMs: 10 * 1000,
+    slotDurationMs: 3 * 60 * 1000,
+    slotsPerPerson: 1, // A then B
+    transitionDurationMs: 10 * 1000,
+    closingDurationMs: 0,
+    cooldownDurationMs: 60 * 1000 // 1 min joint time at end
+  },
+  {
+    id: 'conflict-cooldown',
+    name: 'Conflict Cooldown',
+    description: '2 Min Atmen, dann 4 Min Sprechzeit pro Person',
+    totalDurationMs: (2 + 4 * 2) * 60 * 1000,
+    prepDurationMs: 2 * 60 * 1000, // 2 min breathing
+    slotDurationMs: 4 * 60 * 1000,
+    slotsPerPerson: 1,
+    transitionDurationMs: 30 * 1000,
+    closingDurationMs: 0,
+    cooldownDurationMs: 0
+  },
+  {
+    id: 'screen-free-tea',
+    name: 'Screen-free Tea 15m',
+    description: '15 Minuten gemeinsam (7.5 Min pro "Slot")',
+    totalDurationMs: 15 * 60 * 1000,
+    prepDurationMs: 0,
+    slotDurationMs: 7.5 * 60 * 1000, // Split the 15 min into 2 slots for A/B technically
+    slotsPerPerson: 1,
+    transitionDurationMs: 0,
+    closingDurationMs: 0,
+    cooldownDurationMs: 0
   }
 ];
 
