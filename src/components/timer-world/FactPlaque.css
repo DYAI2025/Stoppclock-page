@@ -1,0 +1,50 @@
+.fact-plaque {
+  background: var(--neutral-white);
+  color: var(--neutral-black);
+  padding: 24px;
+  border: 1px solid var(--neutral-200);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 400px;
+  margin: 16px;
+  font-family: var(--font-sans);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.fact-plaque:hover {
+  transform: translateY(-4px);
+}
+
+.plaque-border {
+  border-left: 4px solid var(--primary-600);
+  padding-left: 20px;
+}
+
+.plaque-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary-700);
+}
+
+.plaque-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--neutral-700);
+}
+
+.plaque-content p {
+  margin-bottom: 8px;
+}
+
+[data-theme='dark'] .fact-plaque {
+  background: var(--neutral-900);
+  color: var(--neutral-white);
+  border-color: var(--neutral-800);
+}
+
+[data-theme='dark'] .plaque-content {
+  color: var(--neutral-300);
+}

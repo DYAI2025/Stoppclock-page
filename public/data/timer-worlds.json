@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "generatedAt": "2026-01-10T03:54:07.863Z",
+  "worlds": {
+    "pomodoro": {
+      "id": "pomodoro",
+      "slug": "pomodoro",
+      "name": "Pomodoro: Soft Focus Cycles",
+      "tagline": "This Pomodoro is here to support focus, not to judge your output.",
+      "heroStory": "The Pomodoro is like a steady heartbeat for your desk. It doesn't scream for efficiency or track your every click. Instead, it offers a gentle rhythm: a time to dive deep, and a time to step back and breathe. It is a tool for the \"Soft Focus\" – where work happens not through grinding, but through rhythmic intention.",
+      "rituals": [
+        {
+          "id": "pomodoro-ritual-0",
+          "title": "The Gentle Beginning",
+          "description": "Before starting, take 30 seconds to breathe. Don't look at your task list yet. Just notice the room around you. Then, set the timer and let the first cycle begin.",
+          "steps": []
+        },
+        {
+          "id": "pomodoro-ritual-1",
+          "title": "The Screen Shift",
+          "description": "During the 5-minute break, look away from all screens. Look out of a window or close your eyes. The ritual is to reset the physical eyes, not just the brain.",
+          "steps": []
+        },
+        {
+          "id": "pomodoro-ritual-2",
+          "title": "The Gratitude Gap",
+          "description": "When the long break (15-20 min) starts, leave your desk entirely. Get a glass of water. Acknowledge that you've finished a set, regardless of how \"productive\" it felt.",
+          "steps": []
+        }
+      ],
+      "effects": [
+        {
+          "id": "pomodoro-effect-0",
+          "title": "Anti-Prokrastination",
+          "description": "The hurdle to start a big task is lowered. The intention \"I'll just work for 25 minutes\" is easier to embrace than \"I'll work all afternoon.\""
+        },
+        {
+          "id": "pomodoro-effect-1",
+          "title": "Gamification (The Soft Way)",
+          "description": "Each completed block is a small, tangible success. This activates the brain's reward system and builds gentle momentum."
+        },
+        {
+          "id": "pomodoro-effect-2",
+          "title": "Focus Training",
+          "description": "The strict boundary helps train the concentration muscle over time, while the mandatory breaks prevent mental exhaustion."
+        }
+      ],
+      "facts": [
+        {
+          "id": "pomodoro-fact-0",
+          "title": "The Italian Tomato",
+          "content": "The technique was developed in the 1980s by student Francesco Cirillo. He used a kitchen timer shaped like a tomato (pomodoro), which gave the method its iconic name."
+        },
+        {
+          "id": "pomodoro-fact-1",
+          "title": "25:5 – The Magic Ratio?",
+          "content": "While 25/5 is the classic, research into the \"52-17 rule\" suggests different intervals might work better for others. Stoppclock lets you define your own rhythm."
+        },
+        {
+          "id": "pomodoro-fact-2",
+          "title": "The \"Flow\" Danger",
+          "content": "A common misconception is that breaks \"break\" flow. Actually, micro-breaks help maintain high-level focus over several hours without crashing."
+        }
+      ],
+      "updatedAt": "2026-01-10T03:54:07.876Z"
+    }
+  }
+}

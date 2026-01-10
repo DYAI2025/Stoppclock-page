@@ -1,0 +1,116 @@
+.timer-world-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.world-hero {
+  text-align: center;
+  margin-bottom: 80px;
+  border-bottom: 1px solid var(--neutral-200);
+  padding-bottom: 64px;
+}
+
+.world-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--neutral-900);
+}
+
+.world-tagline {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--primary-600);
+  margin-bottom: 32px;
+}
+
+.world-character {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: var(--neutral-600);
+  max-width: 800px;
+  margin: 0 auto 48px;
+  text-align: left;
+}
+
+.world-cta .open-timer-button {
+  display: inline-block;
+  padding: 16px 32px;
+  background: var(--neutral-black);
+  color: var(--neutral-white);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.world-cta .open-timer-button:hover {
+  background: var(--primary-600);
+  transform: scale(1.05);
+}
+
+.world-section {
+  margin-bottom: 96px;
+}
+
+.section-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 48px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 4px solid var(--neutral-900);
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+.rituals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.effects-content {
+  max-width: 800px;
+}
+
+.effect-item {
+  margin-bottom: 48px;
+}
+
+.effect-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--neutral-900);
+}
+
+.effect-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--neutral-600);
+}
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  justify-items: center;
+}
+
+.world-facts {
+  background: var(--neutral-50);
+  padding: 64px 24px;
+  margin: 0 -24px 96px;
+}
+
+[data-theme='dark'] .world-title { color: var(--neutral-100); }
+[data-theme='dark'] .world-character { color: var(--neutral-400); }
+[data-theme='dark'] .world-hero { border-color: var(--neutral-800); }
+[data-theme='dark'] .section-heading { border-color: var(--neutral-100); color: var(--neutral-100); }
+[data-theme='dark'] .effect-title { color: var(--neutral-100); }
+[data-theme='dark'] .effect-description { color: var(--neutral-400); }
+[data-theme='dark'] .world-facts { background: #0c0c0c; }
+[data-theme='dark'] .world-cta .open-timer-button { background: var(--neutral-white); color: var(--neutral-black); }
