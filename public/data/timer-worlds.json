@@ -1,7 +1,131 @@
 {
   "version": 1,
-  "generatedAt": "2026-01-10T03:54:07.863Z",
+  "generatedAt": "2026-01-10T06:48:12.993Z",
   "worlds": {
+    "chess": {
+      "id": "chess",
+      "slug": "chess",
+      "name": "Chess Clock: The Time Referee",
+      "tagline": "In games of strategy, time is the invisible player. The Chess Clock makes it visible—and keeps it fair.",
+      "heroStory": "The Chess Clock is neither generous nor harsh. It's perfectly neutral, perfectly fair. Each player gets their share of time, and the clock enforces the rules without emotion. Press your side, and your opponent's time begins. Press again, and yours resumes. It's a dance of turn-taking, a rhythm of action and pause. The Chess Clock teaches patience and urgency in equal measure: when it's your turn, every second counts. When it's not, you watch, you plan, you prepare.",
+      "rituals": [
+        {
+          "id": "chess-ritual-0",
+          "title": "The Opening Handshake",
+          "description": "Before starting, both players agree on the time. 5 minutes? 10? 30? The ritual is fairness: both begin with identical resources. The handshake says, \"We're equals in time, even if not in skill.\"",
+          "steps": []
+        },
+        {
+          "id": "chess-ritual-1",
+          "title": "The Tap of Confidence",
+          "description": "When you make your move and tap the clock, pause for half a second. Acknowledge the shift. You've done your part; now it's their turn. The ritual is respect for the boundary between your time and theirs.",
+          "steps": []
+        }
+      ],
+      "effects": [
+        {
+          "id": "chess-effect-0",
+          "title": "Forced Decision-Making",
+          "description": "Without a clock, games can drag forever. With one, every move matters. The Chess Clock trains decisive thinking: analyze, choose, commit, move on. This skill transfers beyond games—into meetings, projects, life."
+        },
+        {
+          "id": "chess-effect-1",
+          "title": "Fairness in Asymmetry",
+          "description": "One player might think faster, another more deeply. The Chess Clock balances this: you can take your time if you're slow, or blitz through if you're quick. Either way, the total time is equal. It's not about speed; it's about strategy."
+        },
+        {
+          "id": "chess-effect-2",
+          "title": "Shared Tension",
+          "description": "Both players watch the same clocks. When your opponent is running low, you feel their pressure. When you're low, they feel yours. The Chess Clock creates empathy through visibility—you're not enemies, you're co-participants in a timed duel."
+        }
+      ],
+      "facts": [
+        {
+          "id": "chess-fact-0",
+          "title": "The Mechanical Beginnings",
+          "content": "[Source: Chess.com History](https://www.chess.com/article/view/the-history-of-chess-clocks)\nThe first chess clock appeared in the 1880s. Before that, games could last days. The mechanical double-clock revolutionized competitive chess by introducing time as a resource, not just a background.",
+          "source": "https://www.chess.com/article/view/the-history-of-chess-clocks"
+        },
+        {
+          "id": "chess-fact-1",
+          "title": "Blitz vs. Classical: Time as Strategy",
+          "content": "[Source: FIDE Rules](https://www.fide.com)\nIn blitz chess (3-5 minutes per player), the clock is as important as the board. Grandmasters intentionally play fast early moves to bank time for complex endgames. Time becomes part of the strategy itself.",
+          "source": "https://www.fide.com"
+        },
+        {
+          "id": "chess-fact-2",
+          "title": "Fischer's Innovation",
+          "content": "[Source: Biography of Bobby Fischer](https://www.thechesswebsite.com)\nChess legend Bobby Fischer invented the \"increment\" system: after each move, your clock adds a few seconds. This prevents the frantic rush of time scrambles and rewards thoughtful play. Fischer's clock design is now the tournament standard.",
+          "source": "https://www.thechesswebsite.com"
+        }
+      ],
+      "updatedAt": "2026-01-10T06:48:12.996Z"
+    },
+    "countdown": {
+      "id": "countdown",
+      "slug": "countdown",
+      "name": "Countdown: The Finite Frame",
+      "tagline": "Every tick is a whisper: \"Time is running out—make it count.\"",
+      "heroStory": "The Countdown timer isn't just a clock; it's a gentle existentialist. It begins with abundance—minutes, hours—and slowly tightens its grip. Each second that passes is one less you have. But here's the paradox: the pressure doesn't crush; it clarifies. The Countdown says, \"You have exactly this much time. What will you do with it?\" It's the tool for deadlines, for focused bursts, for transforming the infinite anxiety of \"someday\" into the finite power of \"now.\"",
+      "rituals": [
+        {
+          "id": "countdown-ritual-0",
+          "title": "The Sacred Setup",
+          "description": "Before starting, decide exactly what you'll accomplish. Write it on paper. The Countdown doesn't forgive vague intentions. Tell it: \"In 30 minutes, I will finish this outline\" or \"In 10 minutes, I will stretch and breathe.\" The ritual is commitment.",
+          "steps": []
+        },
+        {
+          "id": "countdown-ritual-1",
+          "title": "The Midpoint Pulse Check",
+          "description": "When you reach halfway, pause for 10 seconds. Don't stop your task—just notice. Are you on track? Do you need to adjust? The Countdown gives you a mirror at the center: \"This is what half your time looks like.\"",
+          "steps": []
+        },
+        {
+          "id": "countdown-ritual-2",
+          "title": "The Final Minute Stand",
+          "description": "In the last 60 seconds, go all-in. No checking phones, no second-guessing. The Countdown's final minute is sacred—it's your chance to finish strong, to honor the container you created.",
+          "steps": []
+        }
+      ],
+      "effects": [
+        {
+          "id": "countdown-effect-0",
+          "title": "Urgency Without Panic",
+          "description": "The visible countdown creates healthy pressure. Unlike open-ended work sessions, you know the boundary is real. This activates focus without triggering the paralysis of overwhelming deadlines."
+        },
+        {
+          "id": "countdown-effect-1",
+          "title": "The Zeigarnik Effect",
+          "description": "Unfinished tasks haunt us more than completed ones. By setting a clear endpoint, the Countdown helps close cognitive loops. When time's up, you've either finished or deliberately paused—both are closure."
+        },
+        {
+          "id": "countdown-effect-2",
+          "title": "Time Awareness Training",
+          "description": "Regular countdown use recalibrates your sense of duration. You learn what 25 minutes actually feels like, how much fits in an hour. This builds time literacy—the ability to estimate and plan realistically."
+        }
+      ],
+      "facts": [
+        {
+          "id": "countdown-fact-0",
+          "title": "The Pomodoro Connection",
+          "content": "[Source: Cirillo Consulting](https://francescocirillo.com/products/the-pomodoro-technique)\nThe famous Pomodoro Technique is essentially countdown intervals: 25 minutes of work, 5 minutes of rest. Francesco Cirillo's method proves that fixed time containers enhance focus and reduce mental fatigue.",
+          "source": "https://francescocirillo.com/products/the-pomodoro-technique"
+        },
+        {
+          "id": "countdown-fact-1",
+          "title": "Parkinson's Law in Action",
+          "content": "[Source: The Economist (1955)](https://www.economist.com/news/1955/11/19/parkinsons-law)\n\"Work expands to fill the time available.\" Cyril Northcote Parkinson's observation explains why deadlines work: without a countdown, tasks bloat infinitely. With one, they compress elegantly.",
+          "source": "https://www.economist.com/news/1955/11/19/parkinsons-law"
+        },
+        {
+          "id": "countdown-fact-2",
+          "title": "NASA's T-Minus Culture",
+          "content": "[Source: NASA History](https://www.nasa.gov)\nThe \"T-minus\" countdown originated with German rocket scientist Hermann Oberth and became iconic through NASA launches. Counting backward from launch creates collective focus—everyone knows exactly how much time remains before the moment of truth.",
+          "source": "https://www.nasa.gov"
+        }
+      ],
+      "updatedAt": "2026-01-10T06:48:12.997Z"
+    },
     "pomodoro": {
       "id": "pomodoro",
       "slug": "pomodoro",
@@ -62,7 +186,72 @@
           "content": "A common misconception is that breaks \"break\" flow. Actually, micro-breaks help maintain high-level focus over several hours without crashing."
         }
       ],
-      "updatedAt": "2026-01-10T03:54:07.876Z"
+      "updatedAt": "2026-01-10T06:48:12.998Z"
+    },
+    "stopwatch": {
+      "id": "stopwatch",
+      "slug": "stopwatch",
+      "name": "Stopwatch: The Infinite Witness",
+      "tagline": "Time expands when you stop limiting it. The Stopwatch counts forever.",
+      "heroStory": "The Stopwatch is the opposite of anxiety. It doesn't care how long you take. It simply witnesses. Press start, and it begins its patient accumulation: one second, then another, then another. Unlike the Countdown, which tightens, the Stopwatch opens. It says: \"Take your time. I'll track every moment, no judgment.\" It's the tool for exploration, for seeing how long things truly take, for honoring process over deadline.",
+      "rituals": [
+        {
+          "id": "stopwatch-ritual-0",
+          "title": "The Curiosity Start",
+          "description": "Before pressing start, ask: \"How long will this actually take?\" Make a guess. Then let the Stopwatch prove you right or wrong. The ritual is learning, not winning.",
+          "steps": []
+        },
+        {
+          "id": "stopwatch-ritual-1",
+          "title": "The Lap Ceremony",
+          "description": "Every time you complete a phase—a page written, a set of push-ups, a section cleaned—hit the lap button. Don't just accumulate time; mark your milestones. Each lap is a small celebration.",
+          "steps": []
+        },
+        {
+          "id": "stopwatch-ritual-2",
+          "title": "The Retrospective",
+          "description": "When you stop the Stopwatch, write down the final time. Compare it to your guess. Were you way off? Close? The ritual is honest reflection: \"This is how my time actually moves.\"",
+          "steps": []
+        }
+      ],
+      "effects": [
+        {
+          "id": "stopwatch-effect-0",
+          "title": "Flow State Enabler",
+          "description": "Without a ticking deadline, your brain relaxes into deep work. The Stopwatch removes the anxiety of \"running out\" and replaces it with the calm of \"I have as much time as I need.\""
+        },
+        {
+          "id": "stopwatch-effect-1",
+          "title": "Honest Self-Knowledge",
+          "description": "We're terrible at estimating duration. The Stopwatch gives you data. After tracking tasks repeatedly, you learn: emails take 12 minutes, not 5. Workouts take 42 minutes, not 30. This knowledge makes planning realistic."
+        },
+        {
+          "id": "stopwatch-effect-2",
+          "title": "Accountability Through Visibility",
+          "description": "When you can see time accumulating, you become conscious of how you spend it. The Stopwatch doesn't shame; it simply shows. That awareness often sparks better choices."
+        }
+      ],
+      "facts": [
+        {
+          "id": "stopwatch-fact-0",
+          "title": "The Olympic Legacy",
+          "content": "[Source: Olympics.com](https://olympics.com)\nThe first electronic stopwatch was used at the 1932 Olympics. Before that, human timers used mechanical watches—prone to errors. The precision of electronic stopwatches (to 1/100th of a second) revolutionized competitive sports.",
+          "source": "https://olympics.com"
+        },
+        {
+          "id": "stopwatch-fact-1",
+          "title": "Mihaly Csikszentmihalyi's Flow Research",
+          "content": "[Source: Flow: The Psychology of Optimal Experience](https://www.harpercollins.com)\nPsychologist Mihaly Csikszentmihalyi found that time distortion is a hallmark of flow states. People in deep focus often lose track of hours. The Stopwatch helps measure flow after the fact—proving that what felt like 20 minutes was actually 90.",
+          "source": "https://www.harpercollins.com"
+        },
+        {
+          "id": "stopwatch-fact-2",
+          "title": "The Speedrunning Revolution",
+          "content": "[Source: speedrun.com](https://www.speedrun.com)\nIn gaming culture, speedrunners use stopwatches to optimize every millisecond of gameplay. This hyper-focus on time efficiency has created communities obsessed with perfection—proof that measuring time can become art.",
+          "source": "https://www.speedrun.com"
+        }
+      ],
+      "updatedAt": "2026-01-10T06:48:12.999Z"
     }
   }
 }

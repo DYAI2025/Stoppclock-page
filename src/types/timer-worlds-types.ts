@@ -21,6 +21,7 @@ export interface FactPlaque {
   title: string;
   content: string;
   category?: string;
+  source?: string;
 }
 
 export interface TimerWorldData {
@@ -33,6 +34,8 @@ export interface TimerWorldData {
   effects: Effect[];
   facts: FactPlaque[];
   updatedAt: string;
+  accentColor?: string;
+  locale?: 'en' | 'de';
 }
 
 export interface TimerWorldsIndex {

@@ -71,10 +71,23 @@ function parseMarkdownWorld(filename, content) {
     const rawFacts = factsSection.split(/^###\s+/m).slice(1);
     rawFacts.forEach((f, i) => {
       const [title, ...descLines] = f.split('\n');
+      const fullContent = descLines.join('\n').trim();
+      
+      // Extract source if present (looks for [Source: ...] pattern)
+      const sourceMatch = fullContent.match(/\[Source:\s*([^\]]+)\]\(([^)]+)\)/);
+      let content = fullContent;
+      let source = undefined;
+      
+      if (sourceMatch) {
+        source = sourceMatch[2]; // URL
+        // Keep the source in content for markdown rendering
+      }
+      
       facts.push({
         id: `${slug}-fact-${i}`,
         title: title.trim(),
-        content: descLines.join('\n').trim()
+        content,
+        source
       });
     });
   }
@@ -94,7 +107,7 @@ function parseMarkdownWorld(filename, content) {
 
 async function parseAllWorlds() {
   if (!fs.existsSync(CONTENT_DIR)) {
-    console.error(`Directory not found: ${CONTENT_DIR}`);
+    console.error(`❌ Directory not found: ${CONTENT_DIR}`);
     return;
   }
 
@@ -105,14 +118,17 @@ async function parseAllWorlds() {
     worlds: {}
   };
 
+  console.log(`\n📚 Parsing Timer Worlds from ${CONTENT_DIR}...\n`);
+
   for (const file of files) {
     try {
       const content = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf-8');
       const worldData = parseMarkdownWorld(file, content);
       allWorlds.worlds[worldData.slug] = worldData;
-      console.log(`Parsed world: ${worldData.name} (${worldData.slug})`);
+      console.log(`✅ Parsed: ${worldData.name} (${worldData.slug})`);
     } catch (err) {
-      console.error(`Error parsing ${file}:`, err.message);
+      console.error(`❌ Error parsing ${file}:`, err.message);
+      console.error(`   Stack trace: ${err.stack}`);
     }
   }
 
@@ -122,7 +138,8 @@ async function parseAllWorlds() {
   }
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allWorlds, null, 2));
-  console.log(`\n✅ Generated ${OUTPUT_FILE}`);
+  console.log(`\n✅ Successfully generated ${OUTPUT_FILE}`);
+  console.log(`📊 Total worlds: ${Object.keys(allWorlds.worlds).length}\n`);
 }
 
 parseAllWorlds().catch(console.error);

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/gen-sitemap.mjs",
+    "build": "node scripts/parse-timer-worlds.mjs && vite build && node scripts/gen-sitemap.mjs",
     "preview": "vite preview",
     "doctor": "node scripts/doctor.mjs",
     "test:e2e": "npx playwright test",

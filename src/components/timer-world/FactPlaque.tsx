@@ -5,9 +5,10 @@ import './FactPlaque.css';
 interface FactPlaqueProps {
   title: string;
   content: string;
+  source?: string;
 }
 
-export const FactPlaque: React.FC<FactPlaqueProps> = ({ title, content }) => {
+export const FactPlaque: React.FC<FactPlaqueProps> = ({ title, content, source }) => {
   return (
     <div className="fact-plaque">
       <div className="plaque-border">

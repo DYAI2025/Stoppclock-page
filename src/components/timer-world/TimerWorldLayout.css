@@ -9,6 +9,10 @@
   margin-bottom: 80px;
   border-bottom: 1px solid var(--neutral-200);
   padding-bottom: 64px;
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba(var(--world-accent-color-rgb, 123, 44, 191), 0.05) 0%, 
+    transparent 50%);
 }
 
 .world-title {
@@ -37,18 +41,20 @@
 .world-cta .open-timer-button {
   display: inline-block;
   padding: 16px 32px;
-  background: var(--neutral-black);
+  background: var(--world-accent-color, var(--neutral-black));
   color: var(--neutral-white);
   text-decoration: none;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .world-cta .open-timer-button:hover {
-  background: var(--primary-600);
-  transform: scale(1.05);
+  background: var(--neutral-black);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .world-section {
@@ -61,9 +67,10 @@
   margin-bottom: 48px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  border-bottom: 4px solid var(--neutral-900);
+  border-bottom: 4px solid var(--world-accent-color, var(--neutral-900));
   display: inline-block;
   padding-bottom: 8px;
+  scroll-margin-top: 80px;
 }
 
 .rituals-grid {
@@ -113,4 +120,30 @@
 [data-theme='dark'] .effect-title { color: var(--neutral-100); }
 [data-theme='dark'] .effect-description { color: var(--neutral-400); }
 [data-theme='dark'] .world-facts { background: #0c0c0c; }
-[data-theme='dark'] .world-cta .open-timer-button { background: var(--neutral-white); color: var(--neutral-black); }
+/* Scroll reveal animations */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-theme='dark'] .world-hero {
+  background: linear-gradient(135deg, 
+    rgba(var(--world-accent-color-rgb, 123, 44, 191), 0.1) 0%, 
+    transparent 50%);
+}
+
+[data-theme='dark'] .world-cta .open-timer-button { 
+  background: var(--world-accent-color, var(--neutral-white)); 
+  color: var(--neutral-white);
+}
+
+[data-theme='dark'] .world-cta .open-timer-button:hover {
+  background: var(--neutral-white);
+  color: var(--neutral-black);
+}
