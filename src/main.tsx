@@ -33,9 +33,12 @@ import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 import SessionBuilder from "./pages/SessionBuilder";
 import SessionRunner from "./pages/SessionRunner";
 import SessionPreview from "./pages/SessionPreview";
+import TimerWorldsIndex from "./pages/TimerWorldsIndex";
+import BlogIndex from "./pages/BlogIndex";
 import FactsPage from "./pages/FactsPage";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
+import { CountdownGuide } from "./components/CountdownGuide";
 import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
@@ -302,6 +305,8 @@ function App() {
       {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
       {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
       {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
+      {route === "/timers" && <TimerWorldsIndex />}
+      {route === "/blog" && <BlogIndex />}
       {(isAbout || isWissen) && <Wissen />}
       {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
       {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}
@@ -309,6 +314,7 @@ function App() {
       {route === "/timer-for-students" && <TimerForStudents />}
       {route === "/timer-for-productivity" && <TimerForProductivity />}
       {route === "/timer-for-fitness" && <TimerForFitness />}
+      {route === "/blog/countdown-timer-guide" && <CountdownGuide onPresetSelect={() => window.location.hash = '#/countdown'} />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
       {route === "/impressum" && <Impressum />}
@@ -317,7 +323,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timesince", "/timelab"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>

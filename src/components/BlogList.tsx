@@ -8,8 +8,60 @@ interface BlogListProps {
 }
 
 const BlogList: React.FC<BlogListProps> = ({ posts, categories = {}, tags = {} }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(() => {
+    const hash = window.location.hash;
+    const qIdx = hash.indexOf('?');
+    if (qIdx !== -1) {
+       const params = new URLSearchParams(hash.substring(qIdx));
+       return params.get('category');
+    }
+    return null;
+  });
+  // Initialize from URL via simple window check or prop? 
+  // Let's use a prop `initialTag` if we add it, or just read from URL here if we want to be self-contained.
+  // But the parent BlogIndex is parsing URL.
+  // Ideally we change Props.
+  const [selectedTag, setSelectedTag] = useState<string | null>(() => {
+    const hash = window.location.hash;
+    const qIdx = hash.indexOf('?');
+    if (qIdx !== -1) {
+       const params = new URLSearchParams(hash.substring(qIdx));
+       return params.get('tag');
+    }
+    return null;
+  });
+
+  // Sync with URL when state changes
+  React.useEffect(() => {
+    if (selectedTag) {
+        // We can't easily push to hash without avoiding reload/jump if using hash router naively?
+        // But here we are just reacting.
+        // If we want to support back button, we should listen to URL.
+        // For now, let's just let the internal state drive the view and maybe update URL?
+        // Requirement: "Implement query param filtering (?tag=...)".
+        // This usually implies URL -> State.
+    }
+  }, [selectedTag]);
+
+  // Listen to hash change to update state if URL changes externally (e.g. back button)
+  React.useEffect(() => {
+    const handleHashChange = () => {
+        const hash = window.location.hash;
+        const qIdx = hash.indexOf('?');
+        if (qIdx !== -1) {
+            const params = new URLSearchParams(hash.substring(qIdx));
+            const t = params.get('tag');
+            const c = params.get('category');
+            if (t !== selectedTag) setSelectedTag(t);
+            if (c !== selectedCategory) setSelectedCategory(c);
+        } else {
+            if (selectedTag !== null) setSelectedTag(null);
+            if (selectedCategory !== null) setSelectedCategory(null);
+        }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [selectedTag, selectedCategory]);
 
   const filteredPosts = posts.filter(post => {
     if (selectedCategory && post.category !== selectedCategory) return false;
@@ -32,7 +84,17 @@ const BlogList: React.FC<BlogListProps> = ({ posts, categories = {}, tags = {} }
             <h3>Kategorien</h3>
             <button
               className={!selectedCategory ? 'active' : ''}
-              onClick={() => setSelectedCategory(null)}
+              onClick={() => {
+                setSelectedCategory(null);
+                const currentPath = window.location.hash.split('?')[0];
+                // Should we keep tags? Maybe. But usually clicking "All" clears category.
+                // If tag is present, we might want to keep it or clear it?
+                // For simplicity, let's clear category query param.
+                const params = new URLSearchParams(window.location.hash.split('?')[1]);
+                params.delete('category');
+                const newSearch = params.toString();
+                window.location.hash = newSearch ? `${currentPath}?${newSearch}` : currentPath;
+              }}
             >
               Alle
             </button>
@@ -40,7 +102,13 @@ const BlogList: React.FC<BlogListProps> = ({ posts, categories = {}, tags = {} }
               <button
                 key={cat}
                 className={selectedCategory === cat ? 'active' : ''}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => {
+                   setSelectedCategory(cat);
+                   const currentPath = window.location.hash.split('?')[0];
+                   const params = new URLSearchParams(window.location.hash.split('?')[1]);
+                   params.set('category', cat);
+                   window.location.hash = `${currentPath}?${params.toString()}`;
+                }}
               >
                 {cat} ({count})
               </button>
@@ -59,7 +127,13 @@ const BlogList: React.FC<BlogListProps> = ({ posts, categories = {}, tags = {} }
                 <button
                   key={tag}
                   className={selectedTag === tag ? 'active' : ''}
-                  onClick={() => setSelectedTag(tag)}
+                  onClick={() => {
+                    const newTag = tag;
+                    setSelectedTag(newTag);
+                    // Update URL
+                    const currentPath = window.location.hash.split('?')[0];
+                    window.location.hash = `${currentPath}?tag=${newTag}`;
+                  }}
                 >
                   #{tag} ({count})
                 </button>

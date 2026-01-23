@@ -548,7 +548,7 @@ const PomodoroTimerOnline: React.FC = () => {
 
         <ul>
           <li><a href="/#/blog/countdown-timer-guide">Countdown Timer Anleitung – So nutzt du ihn richtig</a></li>
-          <li><a href="/#/blog/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
+          <li><a href="/#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
           <li><a href="/#/blog/pomodoro-vs-countdown">Pomodoro vs Countdown – Der Unterschied erklärt</a></li>
         </ul>
       </div>

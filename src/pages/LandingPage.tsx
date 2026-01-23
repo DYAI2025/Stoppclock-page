@@ -15,6 +15,7 @@ import { usePinnedTimers } from '../contexts/PinnedTimersContext';
 import { PresetsSection } from '../components/PresetsSection';
 import { StatsCard } from '../components/StatsCard';
 import { RandomFactWidget } from '../components/RandomFactWidget';
+import SettingsModal from '../components/SettingsModal';
 
 // ============================================
 // TIMER DEFINITIONS
@@ -180,6 +181,7 @@ function formatTimeShort(ms: number): string {
 // ============================================
 function TopNavigation() {
     const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+    const [settingsOpen, setSettingsOpen] = React.useState(false);
 
     return (
         <nav className="lp-top-nav" role="navigation" aria-label="Main navigation">
@@ -194,7 +196,11 @@ function TopNavigation() {
                 <a href="#/" className="lp-nav-link active">Timers</a>
                 <a href="#/timers" className="lp-nav-link">Timer Worlds</a>
                 <a href="#/about" className="lp-nav-link">About</a>
-                <button className="lp-nav-settings" aria-label="Settings">
+                <button
+                    className="lp-nav-settings"
+                    aria-label="Settings"
+                    onClick={() => setSettingsOpen(true)}
+                >
                     <Settings size={20} />
                 </button>
             </div>
@@ -207,6 +213,8 @@ function TopNavigation() {
             >
                 <Menu size={24} />
             </button>
+
+            <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
         </nav>
     );
 }
