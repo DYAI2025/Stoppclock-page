@@ -29,6 +29,9 @@ import PomodoroVsCountdown from "./pages/blog/PomodoroVsCountdown";
 import TimerForStudents from "./pages/TimerForStudents";
 import TimerForProductivity from "./pages/TimerForProductivity";
 import TimerForFitness from "./pages/TimerForFitness";
+import TimerForCooking from "./pages/TimerForCooking";
+import TimerForMeditation from "./pages/TimerForMeditation";
+import TimerForFocus from "./pages/TimerForFocus";
 import CustomSessionsLanding from "./pages/CustomSessionsLanding";
 import SessionBuilder from "./pages/SessionBuilder";
 import SessionRunner from "./pages/SessionRunner";
@@ -316,6 +319,9 @@ function App() {
       {route === "/timer-for-students" && <TimerForStudents />}
       {route === "/timer-for-productivity" && <TimerForProductivity />}
       {route === "/timer-for-fitness" && <TimerForFitness />}
+      {route === "/timer-for-cooking" && <TimerForCooking />}
+      {route === "/timer-for-meditation" && <TimerForMeditation />}
+      {route === "/timer-for-focus" && <TimerForFocus />}
       {route === "/blog/countdown-timer-guide" && <CountdownGuide onPresetSelect={() => window.location.hash = '#/countdown'} />}
       {route === "/imprint" && <ImprintEn />}
       {route === "/privacy" && <PrivacyPolicyEn />}
@@ -325,7 +331,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>

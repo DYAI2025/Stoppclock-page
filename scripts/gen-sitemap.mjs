@@ -27,6 +27,9 @@ const routes = [
   "/timer-for-students",
   "/timer-for-productivity",
   "/timer-for-fitness",
+  "/timer-for-cooking",
+  "/timer-for-meditation",
+  "/timer-for-focus",
   // Info Pages
   "/time-philosophy",
   "/about",
