@@ -42,6 +42,7 @@ import { CountdownGuide } from "./components/CountdownGuide";
 import TimerQuickInfo from "./components/TimerQuickInfo";
 import ClockFactsBoard from "./components/ClockFactsBoard";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
+import { SEOHead } from "./hooks/useSEO";
 import { PinnedTimersBoard } from "./components/PinnedTimersBoard";
 import LanguageToggle from "./components/LanguageToggle";
 import DarkModeToggle from "./components/DarkModeToggle";
@@ -279,7 +280,8 @@ function App() {
 
   return (
     <>
-      {/* AdSense script loader - loads only with consent */}
+      {/* Dynamic SEO Tags per Route */}
+      <SEOHead />
       <AdSenseScript />
 
       {/* GDPR consent banner - shows on first visit */}

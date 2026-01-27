@@ -198,6 +198,11 @@ const PomodoroVsCountdown: React.FC = () => {
           <li><strong>Freie Arbeit:</strong> Wenn du nicht weißt, wie lange etwas dauert, ist Pomodoro zu rigid.</li>
         </ul>
 
+        <div className="blog-cta-inline" style={{ backgroundColor: '#fff5f5', padding: '16px', borderRadius: '8px', margin: '20px 0' }}>
+          <p>💪 <strong>Für Fitness lieber:</strong></p>
+          <a href="/#/timer-for-fitness" className="btn btn-secondary">🏋️ Timer für Fitness</a>
+        </div>
+
         <h2>Countdown Timer – Wann du ihn verwenden solltest</h2>
 
         <h3>✅ Ideal für:</h3>
@@ -373,13 +378,16 @@ const PomodoroVsCountdown: React.FC = () => {
         </p>
 
         <div className="blog-cta">
-          <h3>Jetzt beide Timer ausprobieren!</h3>
+          <h3>🚀 Jetzt beide Timer ausprobieren!</h3>
           <p>
             <a href="/#/pomodoro" className="btn btn-primary btn-large" style={{ marginRight: '10px' }}>
-              🍅 Pomodoro Timer öffnen
+              🍅 Pomodoro Timer
             </a>
-            <a href="/#/countdown" className="btn btn-primary btn-large">
-              ⏱️ Countdown Timer öffnen
+            <a href="/#/countdown" className="btn btn-primary btn-large" style={{ marginRight: '10px' }}>
+              ⏱️ Countdown Timer
+            </a>
+            <a href="/#/cooking" className="btn btn-primary btn-large">
+              🍳 Cooking Timer
             </a>
           </p>
           <p>Kostenlos, ohne Anmeldung, offline verfügbar!</p>

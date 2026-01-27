@@ -602,6 +602,28 @@
 }
 
 /* ============================================
+ * INLINE CTA BOXES
+ * Strategic CTAs within content
+ * ============================================ */
+.blog-cta-inline {
+  background-color: var(--off-white);
+  border-left: 4px solid var(--sage-primary);
+  padding: 20px 24px;
+  margin: 32px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.blog-cta-inline p {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: var(--charcoal-dark);
+}
+
+.blog-cta-inline .btn {
+  margin: 8px 8px 8px 0;
+}
+
+/* ============================================
  * FOOTER
  * ============================================ */
 .blog-post-footer {
