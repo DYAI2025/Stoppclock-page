@@ -110,7 +110,7 @@ const TimerForMeditation: React.FC = () => {
           <div className="step">
             <div className="step-number">1</div>
             <h3>5 Minuten starten</h3>
-            <p>Für Anfänger: 5 Min reicht. Nicht übertreiben. Qualität > Quantität.</p>
+            <p>Für Anfänger: 5 Min reicht. Nicht übertreiben. Qualität &gt; Quantität.</p>
           </div>
           <div className="step">
             <div className="step-number">2</div>
