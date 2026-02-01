@@ -1,4 +1,22 @@
-import { useEffect, useLocation } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+// Custom hook to track hash-based location changes
+function useLocation() {
+  const [location, setLocation] = useState({
+    hash: window.location.hash || "#/"
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setLocation({ hash: window.location.hash || "#/" });
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  return location;
+}
 
 // SEO Metadata für jede Route
 const seoData: Record<string, { title: string; description: string; keywords?: string }> = {
