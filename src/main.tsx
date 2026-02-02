@@ -24,8 +24,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PillarPage from "./pages/PillarPage";
 import TimePhilosophy from "./pages/TimePhilosophy";
-import PomodoroTimerOnline from "./pages/blog/PomodoroTimerOnline";
-import PomodoroVsCountdown from "./pages/blog/PomodoroVsCountdown";
+import DynamicBlogRouter from "./pages/DynamicBlogRouter";
+import { blogPosts } from "./data/blog-content";
 import TimerForStudents from "./pages/TimerForStudents";
 import TimerForProductivity from "./pages/TimerForProductivity";
 import TimerForFitness from "./pages/TimerForFitness";
@@ -313,9 +313,9 @@ function App() {
       {route === "/timers" && <TimerWorldsIndex />}
       {route === "/blog" && <BlogIndex />}
       {(isAbout || isWissen) && <Wissen />}
-      {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
-      {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}
-      {isBlog && !route.includes("pomodoro-timer-online") && !route.includes("pomodoro-vs-countdown") && <div className="page"><h1>Blog Article Not Found</h1></div>}
+      {isBlog && route !== "/blog" && (
+        <DynamicBlogRouter slug={route.replace('/blog/', '')} />
+      )}
       {route === "/timer-for-students" && <TimerForStudents />}
       {route === "/timer-for-productivity" && <TimerForProductivity />}
       {route === "/timer-for-fitness" && <TimerForFitness />}
