@@ -252,6 +252,72 @@
         }
       ],
       "updatedAt": "2026-02-02T18:13:02.668Z"
+    },
+    "analog": {
+      "id": "analog",
+      "slug": "analog",
+      "name": "Analog Countdown: The Visual Arc",
+      "tagline": "Time is not digits; it is a shape. See the day disappear, slice by slice.",
+      "heroStory": "The Analog Countdown brings time back to the physical world. Digital digits are abstract symbols, but a disappearing red disk is a visceral reality. It is the visual representation of dwindling opportunity. It doesn't induce panic; it creates spatial awareness. You can see how much room is left for your task. It turns time into territory.",
+      "rituals": [],
+      "effects": [],
+      "facts": [
+        {
+          "id": "analog-fact-0",
+          "title": "The Time Timer Revolution",
+          "content": "Jan Rogers invented the visual timer in 1989 for her young daughter who struggled with abstract time concepts. It proved that seeing time as a quantity is often more effective than reading it as a number."
+        },
+        {
+          "id": "analog-fact-1",
+          "title": "Dual Coding Theory",
+          "content": "Our brains process visual and verbal information separately. The analog disk taps into the visual cortex, allowing you to 'feel' time passing even while your language center is busy writing an email."
+        }
+      ],
+      "updatedAt": "2026-02-03T20:00:00.000Z"
+    },
+    "world": {
+      "id": "world",
+      "slug": "world",
+      "name": "World Clock: The Global Pulse",
+      "tagline": "Somewhere, the day is just beginning. Somewhere, the market is closing. We are all synced.",
+      "heroStory": "The World Clock is a reminder that your 'now' is just one slice of the planetary pie. While you sleep, Tokyo rushes. While you work, New York wakes. It expands your empathy beyond your local horizon. It is the tool for the connected citizen, the traveler, and the dreamer who finds comfort in the continuity of human activity across the globe.",
+      "rituals": [],
+      "effects": [],
+      "facts": [
+        {
+          "id": "world-fact-0",
+          "title": "The UTC Standard",
+          "content": "Coordinated Universal Time (UTC) is the primary time standard by which the world regulates clocks and time. It is within about 1 second of mean solar time at 0° longitude and is not adjusted for daylight saving time."
+        },
+        {
+          "id": "world-fact-1",
+          "title": "The Jet Lag Mystery",
+          "content": "Travel fatigue is physical, but jet lag is chronobiological. It takes the body about one day to adjust for every time zone crossed. The World Clock helps you mentally bridge that gap before your body catches up."
+        }
+      ],
+      "updatedAt": "2026-02-03T20:00:00.000Z"
+    },
+    "alarm": {
+      "id": "alarm",
+      "slug": "alarm",
+      "name": "Alarm: The Wake-Up Call",
+      "tagline": "The boundary between rest and action. The signal that says: Begin.",
+      "heroStory": "The Alarm is the most aggressive of all clocks, but also the most optimistic. It assumes there is a tomorrow worth waking up for. It is the promise of a new start. Whether it wakes you for a flight, a job, or a sunrise run, the Alarm is the catalyst. It breaks the loop of sleep or flow to insert a necessary disruption. It demands attention so that you don't miss your life.",
+      "rituals": [],
+      "effects": [],
+      "facts": [
+        {
+          "id": "alarm-fact-0",
+          "title": "The Knocker-Upper",
+          "content": "Before reliable alarm clocks were affordable, people in Britain and Ireland paid 'knocker-uppers' to tap on their windows with long poles to wake them up for work during the Industrial Revolution."
+        },
+        {
+          "id": "alarm-fact-1",
+          "title": "The Snooze Button Trap",
+          "content": "Hitting snooze fragments your sleep cycle, leading to 'sleep inertia'—that groggy feeling that can last for hours. The kindest thing you can do for your morning self is to get up at the first ring."
+        }
+      ],
+      "updatedAt": "2026-02-03T20:00:00.000Z"
     }
   }
 }

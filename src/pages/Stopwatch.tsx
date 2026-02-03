@@ -6,6 +6,7 @@ import { SavePresetButton } from "../components/SavePresetButton";
 import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 import { trackEvent } from "../utils/stats";
 import { getPresetFromUrl } from "../utils/share";
+import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
 
 const LS_KEY = "sc.v1.stopwatch";
 
@@ -277,6 +278,8 @@ export default function Stopwatch() {
           </ul>
         </div>
       )}
+      {/* Fun Fact / Traffic Driver */}
+      <DidYouKnowSnippet timerSlug="stopwatch" />
     </div>
   );
 }

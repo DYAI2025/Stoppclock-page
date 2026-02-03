@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 import '../styles/timer-worlds.css'; // We'll need to create this or use existing styles
 
 interface World {
@@ -41,6 +43,11 @@ export default function TimerWorldsIndex() {
         <p className="subtitle">Discover the philosophy behind time.</p>
       </header>
 
+      {/* Ad Slot: Top */}
+      <div style={{ maxWidth: '800px', margin: '0 auto 40px auto' }}>
+        <AdUnit adUnit={getAdUnit('home-top')!} />
+      </div>
+
       <div className="worlds-grid">
         {worldsList.map(world => (
           <a key={world.id} href={`#/wissen/${world.slug}`} className="world-card">
@@ -59,6 +66,11 @@ export default function TimerWorldsIndex() {
             <p>No worlds discovered yet.</p>
          </div>
       )}
+
+      {/* Ad Slot: Bottom */}
+      <div style={{ maxWidth: '800px', margin: '40px auto 0 auto' }}>
+        <AdUnit adUnit={getAdUnit('home-bottom')!} />
+      </div>
     </div>
   );
 }

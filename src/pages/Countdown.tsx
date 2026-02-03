@@ -7,6 +7,7 @@ import { SavePresetButton } from "../components/SavePresetButton";
 import { ShareButton } from "../components/ShareButton";
 import { getPresetFromUrl } from "../utils/share";
 import { trackEvent } from "../utils/stats";
+import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
 // import { CountdownGuide } from '../components/CountdownGuide'; // Removing old guide
 import '../styles/countdown-focus.css';
 
@@ -229,6 +230,8 @@ const CountdownPlayer = ({
           className="focus-btn-secondary"
         />
       </div>
+
+      <DidYouKnowSnippet timerSlug="countdown" className="mt-8" />
     </div>
   );
 }
