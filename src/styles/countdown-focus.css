@@ -286,3 +286,43 @@
     /* Soft Warning Orange? Or just Darker Blue? */
     /* Design says "Ring minimal kräftiger". Let's update ring instead of text color maybe. */
 }
+
+/* ===============================
+   Refactored Inline Styles
+   =============================== */
+.focus-hero-content {
+    margin-top: 40px;
+}
+
+.focus-footer {
+    margin-top: 60px;
+    opacity: 0.6;
+}
+
+.focus-footer-tip {
+    font-size: 0.9rem;
+}
+
+.focus-header-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.focus-sound-toggle {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.focus-ring-progress {
+    transition: stroke-dashoffset 1s linear, stroke 0.3s;
+}
+
+.focus-action-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

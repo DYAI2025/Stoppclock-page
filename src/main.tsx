@@ -159,24 +159,24 @@ function HomeAnalogClock() {
 
 function Home() {
   // Timer definitions with per-card accent colors
-  const timers: { route: string; label: TimerIconType; color: string; colorRgb: string }[] = [
-    { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
-    { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
-    { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
-    { route: "#/timesince", label: "Time Since", color: "#9333EA", colorRgb: "147, 51, 234" },
-    { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
-    { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
-    { route: "#/custom-sessions", label: "Custom Sessions", color: "#8B5CF6", colorRgb: "139, 92, 246" },
-    { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
-    { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
-    { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
-    { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
-    { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
+  const timers: { route: string; label: TimerIconType; className: string }[] = [
+    { route: "#/countdown", label: "Countdown", className: "is-countdown" },
+    { route: "#/stopwatch", label: "Stopwatch", className: "is-stopwatch" },
+    { route: "#/analog", label: "Analog Clock", className: "is-analog" },
+    { route: "#/timesince", label: "Time Since", className: "is-timesince" },
+    { route: "#/cooking", label: "Cooking Timer", className: "is-cooking" },
+    { route: "#/couples", label: "Couples Timer", className: "is-couples" },
+    { route: "#/custom-sessions", label: "Custom Sessions", className: "is-custom" },
+    { route: "#/chess", label: "Chess Clock", className: "is-chess" },
+    { route: "#/metronome", label: "Metronome", className: "is-metronome" },
+    { route: "#/world", label: "World Clock", className: "is-world" },
+    { route: "#/alarm", label: "Alarm", className: "is-alarm" },
+    { route: "#/pomodoro", label: "Pomodoro", className: "is-pomodoro" },
   ];
 
   // Pillar pages (Blog/Content section)
-  const pillars: { route: string; label: TimerIconType; color: string; colorRgb: string }[] = [
-    { route: "#/time-philosophy", label: "Raum für Zeit", color: "#A855F7", colorRgb: "168, 85, 247" },
+  const pillars: { route: string; label: TimerIconType; className: string }[] = [
+    { route: "#/time-philosophy", label: "Raum für Zeit", className: "is-philosophy" },
   ];
 
   return (
@@ -206,12 +206,11 @@ function Home() {
           <div className="home-grid-header">
             Time, held lightly. Time is relative. The less we have, the more precious it becomes, then, strangely, it stretches on forever. Stop Clock won't solve time, but it lets you hold it for a moment: counting up, counting down, counting what matters. Use it as a tool, a daily helper, a nudge to think, a small philosophy and, sometimes, a reason to smile.
           </div>
-          {timers.map(({ route, label, color, colorRgb }) => (
+          {timers.map(({ route, label, className }) => (
             <a
               key={route}
               href={route}
-              className="home-timer-card"
-              style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
+              className={`home-timer-card ${className}`}
             >
               <div className="timer-card-inner">
                 <div className="timer-icon-container">
@@ -231,12 +230,11 @@ function Home() {
       <div className="home-section home-section-pillars">
         <div className="section-title">Explore Further</div>
         <div className="pillar-grid">
-          {pillars.map(({ route, label, color, colorRgb }) => (
+          {pillars.map(({ route, label, className }) => (
             <a
               key={route}
               href={route}
-              className="home-timer-card"
-              style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
+              className={`home-timer-card ${className}`}
             >
               <div className="timer-card-inner">
                 <div className="timer-icon-container">

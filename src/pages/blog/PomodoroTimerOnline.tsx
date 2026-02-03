@@ -342,7 +342,7 @@ const PomodoroTimerOnline: React.FC = () => {
           Besonders beim <strong>Studieren und Prüfungsvorbereitung</strong> ist Pomodoro gold wert.
         </p>
 
-        <div className="blog-cta-inline" style={{ backgroundColor: '#f0f8ff', padding: '16px', borderRadius: '8px', margin: '20px 0' }}>
+        <div className="blog-cta-inline student-variant">
           <p>📚 <strong>Passender Timer für Studenten:</strong></p>
           <a href="/#/timer-for-students" className="btn btn-secondary">🎓 Timer für Studenten</a>
         </div>

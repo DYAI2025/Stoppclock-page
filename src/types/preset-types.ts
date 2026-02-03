@@ -23,6 +23,8 @@ export interface PresetConfig {
   breakDuration?: number; // minutes
   longBreakDuration?: number; // minutes
   cycles?: number;
+  activePresetId?: string; // For Pomodoro preset selection
+  focusLabel?: string; // Custom focus label
 
   // Countdown Timer
   durationMs?: number; // milliseconds
@@ -43,8 +45,9 @@ export interface PresetConfig {
   }>;
 
   // Chess Clock
-  player1Time?: number; // minutes
-  player2Time?: number; // minutes
+  player1Time?: number; // milliseconds
+  player2Time?: number; // milliseconds
+  initialTime?: number; // minutes (legacy/alternative)
   mode?: 'simple' | 'fischer' | 'bronstein';
   increment?: number; // seconds for fischer/bronstein
 

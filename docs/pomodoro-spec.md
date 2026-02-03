@@ -86,7 +86,7 @@ Nutzer können aus vordefinierten Rhythmen wählen:
 
 ## 4. UI/UX Skizze (Mental Model)
 
-```
+```text
 +-------------------------------------------------------+
 |  [Home]                                     [Settings]|
 |                                                       |

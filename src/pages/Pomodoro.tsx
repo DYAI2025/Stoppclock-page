@@ -81,7 +81,7 @@ export default function PomodoroPage() {
           focusLabel={state.focusLabel}
         />
 
-        <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <div className="pomodoro-action-row">
           <SavePresetButton
             timerType="pomodoro"
             getCurrentConfig={getCurrentConfig}

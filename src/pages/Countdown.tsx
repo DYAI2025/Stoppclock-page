@@ -5,6 +5,7 @@ import { useAutoFitText } from "../hooks/useAutoFitText"; // Maybe not needed if
 import { HomeButton } from "../components/HomeButton";
 import { SavePresetButton } from "../components/SavePresetButton";
 import { ShareButton } from "../components/ShareButton";
+import { AppHeader } from "../components/AppHeader";
 import { getPresetFromUrl } from "../utils/share";
 import { trackEvent } from "../utils/stats";
 import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
@@ -97,7 +98,7 @@ const CountdownWorld = ({ onStart }: { onStart: (minutes: number) => void }) => 
     <div className="focus-world">
       <header className="focus-hero">
         <HomeButton />
-        <div style={{ marginTop: 40 }}>
+        <div className="focus-hero-content">
           <span className="focus-tag">Shared Focus Frame</span>
           <h1 className="focus-title">The Clear Frame</h1>
           <p className="focus-subtitle">
@@ -132,8 +133,8 @@ const CountdownWorld = ({ onStart }: { onStart: (minutes: number) => void }) => 
         </div>
       </div>
 
-      <div style={{ marginTop: 60, opacity: 0.6 }}>
-        <p style={{ fontSize: '0.9rem' }}>
+      <div className="focus-footer">
+        <p className="focus-footer-tip">
           <strong>Tip for Facilitators:</strong> Timeboxing isn't about pressure. It's about safety.
         </p>
       </div>
@@ -168,16 +169,27 @@ const CountdownPlayer = ({
 
   return (
     <div className={`focus-player ${isLastMinute ? 'last-minute' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}>
-      <div className="focus-header-bar">
-        <button className="focus-back-btn" onClick={onExit}>← About this timer</button>
-        <div style={{ display: 'flex', gap: 12 }}>
-          <label style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 4 }}>
-            <input type="checkbox" checked={st.signal.sound} onChange={() => { /* needs handler */ }} disabled />
-            Sound (On)
-          </label>
-          <HomeButton />
-        </div>
-      </div>
+      <AppHeader
+        title="Countdown Timer"
+        breadcrumbs={[
+          { label: 'Home', href: '#/' },
+          { label: 'Countdown' }
+        ]}
+        actions={{
+          showShare: true,
+          onShare: () => {
+            // Trigger share modal through ShareButton component
+            const shareBtn = document.querySelector('.focus-action-row .btn-share') as HTMLButtonElement;
+            if (shareBtn) shareBtn.click();
+          },
+          showFullscreen: true,
+          onFullscreen,
+          showTheme: true,
+          showSettings: true,
+          showHome: true
+        }}
+        variant="timer"
+      />
 
       <div className="focus-display-container">
         <svg className="focus-ring-bg" viewBox="0 0 100 100">
@@ -194,7 +206,8 @@ const CountdownPlayer = ({
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             transform="rotate(-90 50 50)"
-            style={{ transition: 'stroke-dashoffset 1s linear, stroke 0.3s' }}
+            className="focus-ring-progress"
+            style={{ strokeDashoffset: offset }}
           />
         </svg>
         <div className="focus-time-display">
@@ -218,7 +231,7 @@ const CountdownPlayer = ({
         <button className="focus-preset-chip" onClick={() => onAdjust(60000)}>+1m</button>
       </div>
 
-      <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <div className="focus-action-row" style={{ display: 'none' }}>
         <SavePresetButton
           timerType="countdown"
           getCurrentConfig={getCurrentConfig}

@@ -96,6 +96,7 @@ body:has(.home-page)::after {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -120,6 +121,7 @@ body:has(.home-page)::after {
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   width: 40px;
   height: 40px;
@@ -821,3 +823,20 @@ body:has(.home-page)::after {
   letter-spacing: 0.03em;
   text-shadow: 0 0 8px rgba(0,217,255,0.25);
 }
+
+/* =============================
+ * TIMER CARD VARIANTS
+ * ============================= */
+.home-timer-card.is-countdown { --card-color: #7B2CBF; --card-color-rgb: 123, 44, 191; }
+.home-timer-card.is-stopwatch { --card-color: #00D9FF; --card-color-rgb: 0, 217, 255; }
+.home-timer-card.is-analog { --card-color: #C77DFF; --card-color-rgb: 199, 125, 255; }
+.home-timer-card.is-timesince { --card-color: #9333EA; --card-color-rgb: 147, 51, 234; }
+.home-timer-card.is-cooking { --card-color: #FF6B9D; --card-color-rgb: 255, 107, 157; }
+.home-timer-card.is-couples { --card-color: #FF69B4; --card-color-rgb: 255, 105, 180; }
+.home-timer-card.is-custom { --card-color: #8B5CF6; --card-color-rgb: 139, 92, 246; }
+.home-timer-card.is-chess { --card-color: #E0AAFF; --card-color-rgb: 224, 170, 255; }
+.home-timer-card.is-metronome { --card-color: #F59E0B; --card-color-rgb: 245, 158, 11; }
+.home-timer-card.is-world { --card-color: #6B9BD1; --card-color-rgb: 107, 155, 209; }
+.home-timer-card.is-alarm { --card-color: #EF4444; --card-color-rgb: 239, 68, 68; }
+.home-timer-card.is-pomodoro { --card-color: #10B981; --card-color-rgb: 16, 185, 129; }
+.home-timer-card.is-philosophy { --card-color: #A855F7; --card-color-rgb: 168, 85, 247; }

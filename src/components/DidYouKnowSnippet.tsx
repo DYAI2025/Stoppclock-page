@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TimerWorldsIndex, FactPlaque } from '../types/timer-worlds-types';
 import { Lightbulb, ArrowRight } from 'lucide-react';
+import '../styles/fact-widget.css';
 
 interface DidYouKnowSnippetProps {
   timerSlug: string;
@@ -31,42 +32,23 @@ export function DidYouKnowSnippet({ timerSlug, className = '' }: DidYouKnowSnipp
   if (loading || !fact) return null;
 
   return (
-    <div className={`did-you-know-snippet ${className}`} style={{
-      margin: '40px auto',
-      maxWidth: '600px',
-      background: 'var(--neutral-100)',
-      padding: '24px',
-      borderRadius: '16px',
-      border: '1px solid var(--neutral-200)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '16px'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--primary-600)' }}>
+
+    <div className={`did-you-know-snippet ${className}`}>
+      <div className="dyk-header">
         <Lightbulb size={24} />
-        <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Did You Know?</h3>
+        <h3 className="dyk-title">Did You Know?</h3>
       </div>
       
       <div>
-        <h4 style={{ margin: '0 0 8px 0', fontSize: '1rem', color: 'var(--neutral-900)' }}>{fact.title}</h4>
-        <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--neutral-600)', lineHeight: 1.5 }}>
+        <h4 className="dyk-card-title">{fact.title}</h4>
+        <p className="dyk-text">
           {fact.content.split('\n')[0]} {/* Show first line/paragraph only */}
         </p>
       </div>
 
       <a 
         href={`#/wissen/${timerSlug}`} 
-        className="read-more-link"
-        style={{
-          alignSelf: 'flex-start',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          color: 'var(--primary-600)',
-          textDecoration: 'none',
-          fontWeight: 600,
-          fontSize: '0.9rem'
-        }}
+        className="dyk-link read-more-link"
       >
         Read full story in {worldName} <ArrowRight size={16} />
       </a>
