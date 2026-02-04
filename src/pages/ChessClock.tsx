@@ -449,11 +449,6 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
       <div className="chess-controls">
         <button type="button" className="btn" onClick={reset}>Reset</button>
         <button type="button" className="btn" onClick={() => setShowSettings(true)}>Time</button>
-        <SavePresetButton
-          timerType="chess"
-          getCurrentConfig={getCurrentConfig}
-          className="btn"
-        />
         <ShareButton
           timerType="chess"
           getCurrentConfig={getCurrentConfig}
@@ -462,20 +457,7 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
       </div>
 
       {/* Share & Save Buttons - Hidden but accessible for header integration */}
-      {/* <div className="chess-share-buttons" style={{ display: 'none' }}>
-        <div className="chess-share-button-wrapper">
-          <SavePresetButton
-            timerType="chess"
-            getCurrentConfig={getCurrentConfig}
-          />
-        </div>
-        <div className="chess-share-button-wrapper">
-          <ShareButton
-            timerType="chess"
-            getCurrentConfig={getCurrentConfig}
-          />
-        </div>
-      </div> */}
+
 
       <div
         className={`player player-2 ${st.activePlayer === 2 ? 'active' : ''}`}

@@ -18,6 +18,7 @@ import { StatsCard } from '../components/StatsCard';
 import { RandomFactWidget } from '../components/RandomFactWidget';
 import { AppHeader } from '../components/AppHeader';
 import SettingsModal from '../components/SettingsModal';
+import { AnalogClockHero } from '../components/AnalogClockHero';
 
 // ============================================
 // TIMER DEFINITIONS
@@ -1371,6 +1372,8 @@ export default function LandingPage() {
                         Projector-friendly timers for classrooms, workshops, and focus sessions.
                     </p>
                 </div>
+
+                <AnalogClockHero />
 
                 <PresetsSection />
 

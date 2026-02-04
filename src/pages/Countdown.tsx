@@ -153,14 +153,12 @@ const CountdownPlayer = ({
   getCurrentConfig
 }: any) => {
   // Circle calculation
-  const radius = 45; // viewbox 100x100
+  const radius = 38; // Smaller to fit stopwatch lugs
   const circumference = 2 * Math.PI * radius;
   const progress = st.durationMs > 0 ? st.remainingMs / st.durationMs : 0;
   const offset = circumference - (progress * circumference);
   const isLastMinute = st.remainingMs > 0 && st.remainingMs <= 60000;
-  const isExpired = st.remainingMs <= 0 && !st.running; // wait, if remainingMs=0 it stops running. 
-  // Actually we want "expired" style when remainingMs is 0, regardless of running state?
-  // In logic below, running sets to false when 0. So check remainingMs === 0.
+  const isExpired = st.remainingMs === 0;
 
   // Color logic
   let strokeColor = "#4682B4"; // Steel Blue
@@ -178,7 +176,6 @@ const CountdownPlayer = ({
         actions={{
           showShare: true,
           onShare: () => {
-            // Trigger share modal through ShareButton component
             const shareBtn = document.querySelector('.focus-action-row .btn-share') as HTMLButtonElement;
             if (shareBtn) shareBtn.click();
           },
@@ -192,20 +189,64 @@ const CountdownPlayer = ({
       />
 
       <div className="focus-display-container">
-        <svg className="focus-ring-bg" viewBox="0 0 100 100">
+        <svg className="focus-ring-bg" viewBox="0 0 100 115" style={{ overflow: 'visible' }}>
+           <defs>
+              <filter id="dropshadow" x="-20%" y="-20%" width="140%" height="140%">
+                 <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#00000018" />
+              </filter>
+           </defs>
+
+           {/* Stopwatch Lugs/Buttons */}
+           <g transform="translate(50, 56)">
+              {/* Top Stem */}
+              <rect x="-3" y="-52" width="6" height="8" rx="1" fill="#FFFFFF" stroke="#D1E3F0" strokeWidth="2" />
+              {/* Top Pusher */}
+              <rect x="-8" y="-56" width="16" height="4" rx="1" fill="#FFFFFF" stroke="#D1E3F0" strokeWidth="2" />
+              {/* Angled Button */}
+              <g transform="rotate(45)">
+                 <rect x="-3" y="-51" width="6" height="6" rx="1" fill="#FFFFFF" stroke="#D1E3F0" strokeWidth="2" />
+                 <line x1="0" y1="-51" x2="0" y2="-45" stroke="#D1E3F0" strokeWidth="1" />
+              </g>
+           </g>
+
+          {/* Base Circle (Background) */}
           <circle
-            cx="50" cy="50" r={radius}
-            fill="none" stroke="#E6F2FA" strokeWidth="2"
+            cx="50" cy="56" r={radius}
+            fill="#FFFFFF" 
+            stroke="#E6F2FA" 
+            strokeWidth="3"
+            filter="url(#dropshadow)"
           />
+
+          {/* Tick Marks */}
+          {Array.from({ length: 60 }).map((_, i) => {
+              const isHour = i % 5 === 0;
+              // Tick length
+              const len = isHour ? 3 : 1.5;
+              // Start distance from center
+              const rStart = radius - 6; 
+              return (
+                 <line 
+                   key={i}
+                    x1="50" y1={56 - rStart}
+                    x2="50" y2={56 - rStart + len}
+                    stroke={isHour ? "#94A3B8" : "#CBD5E1"} // Slate-400 : Slate-300
+                    strokeWidth={isHour ? 1.5 : 1}
+                    transform={`rotate(${i * 6} 50 56)`}
+                 />
+              );
+          })}
+
+          {/* Progress Ring (The Rim) */}
           <circle
-            cx="50" cy="50" r={radius}
+            cx="50" cy="56" r={radius}
             fill="none"
             stroke={strokeColor}
             strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
-            transform="rotate(-90 50 50)"
+            transform="rotate(-90 50 56)"
             className="focus-ring-progress"
             style={{ strokeDashoffset: offset }}
           />

@@ -443,47 +443,54 @@
     transform: scale(1.05);
 }
 
-/* Controls Bar */
+/* Controls Bar - Floating and Centered */
 .chess-controls {
-    min-height: 70px; /* Allow growth */
-    height: auto;
-    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    
     background: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 99px;
+    
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
     align-items: center;
     justify-content: center;
-    gap: 0.5rem; /* Tighter gap */
-    z-index: 10;
-    border-top: 1px solid #E2E8F0;
-    border-bottom: 1px solid #E2E8F0;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    gap: 12px;
+    
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    border: none;
+    width: auto;
+    height: auto;
 }
 
 .chess-controls .btn {
-    background: #FFFFFF;
-    border: 2px solid #E2E8F0;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    font-weight: 700;
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    border-radius: 99px;
+    padding: 8px 16px;
+    font-weight: 600;
     cursor: pointer;
-    color: #2D3748;
+    color: #4A5568;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 6px;
     font-size: 0.9rem;
-    transition: all 0.15s;
-    white-space: nowrap; /* Prevent awkward breaks */
+    transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .chess-controls .btn:hover {
-    background: #EDF2F7;
-    border-color: #CBD5E0;
+    background: #F7FAFC;
     color: #1A202C;
+    border-color: #CBD5E0;
+    transform: translateY(-1px);
 }
 
 .chess-controls .btn:active {
-    transform: translateY(1px);
+    transform: translateY(0);
 }
 
 /* Hide the long text on mobile if needed, or rely on wrapping */
