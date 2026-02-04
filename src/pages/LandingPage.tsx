@@ -9,12 +9,14 @@ import React from 'react';
 import {
     Clock, Settings, Menu, Plus, ChevronRight, Pin, X,
     Timer, Hourglass, CircleDot, Coffee, Heart, Crown,
-    Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered, Clock4
+    Music, Globe, Bell, Play, Pause, RotateCcw, Clock3, ListOrdered, Clock4,
+    Wind, Dumbbell
 } from 'lucide-react';
 import { usePinnedTimers } from '../contexts/PinnedTimersContext';
 import { PresetsSection } from '../components/PresetsSection';
 import { StatsCard } from '../components/StatsCard';
 import { RandomFactWidget } from '../components/RandomFactWidget';
+import { AppHeader } from '../components/AppHeader';
 import SettingsModal from '../components/SettingsModal';
 
 // ============================================
@@ -151,6 +153,26 @@ const TIMERS = [
         color: '#A855F7',
         lsKey: 'sc.v1.custom-sessions'
     },
+    {
+        id: 'breathing',
+        route: '#/breathing',
+        label: 'Breathing',
+        tagline: 'Focus & Calm',
+        icon: Wind,
+        gradient: 'linear-gradient(135deg, #2DD4BF 0%, #5EEAD4 100%)',
+        color: '#2DD4BF',
+        lsKey: 'sc.v1.breathing'
+    },
+    {
+        id: 'interval',
+        route: '#/interval',
+        label: 'Interval Timer',
+        tagline: 'Work & Rest cycles',
+        icon: Dumbbell,
+        gradient: 'linear-gradient(135deg, #F43F5E 0%, #FB7185 100%)',
+        color: '#F43F5E',
+        lsKey: 'sc.v1.interval'
+    },
 ] as const;
 
 type TimerDef = typeof TIMERS[number];
@@ -177,45 +199,19 @@ function formatTimeShort(ms: number): string {
 }
 
 // ============================================
-// TOP NAVIGATION
+// TOP NAVIGATION (Now using AppHeader)
 // ============================================
 function TopNavigation() {
-    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-    const [settingsOpen, setSettingsOpen] = React.useState(false);
-
     return (
-        <nav className="lp-top-nav" role="navigation" aria-label="Main navigation">
-            <a href="#/" className="lp-logo" aria-label="Stoppclock Home">
-                <span className="lp-logo-icon">
-                    <Clock size={16} strokeWidth={2.5} />
-                </span>
-                <span>Stoppclock</span>
-            </a>
-
-            <div className={`lp-nav-links ${mobileMenuOpen ? 'open' : ''}`}>
-                <a href="#/" className="lp-nav-link active">Timers</a>
-                <a href="#/timers" className="lp-nav-link">Timer Worlds</a>
-                <a href="#/about" className="lp-nav-link">About</a>
-                <button
-                    className="lp-nav-settings"
-                    aria-label="Settings"
-                    onClick={() => setSettingsOpen(true)}
-                >
-                    <Settings size={20} />
-                </button>
-            </div>
-
-            <button
-                className="lp-nav-toggle"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle menu"
-                aria-expanded={mobileMenuOpen ? "true" : "false"}
-            >
-                <Menu size={24} />
-            </button>
-
-            <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
-        </nav>
+        <AppHeader 
+            variant="landing"
+            actions={{
+                showTheme: true,
+                showLanguage: false,
+                showSettings: true,
+                showHome: false
+            }}
+        />
     );
 }
 
@@ -1117,6 +1113,30 @@ function TimeSinceMiniPreview() {
 }
 
 // ============================================
+// BREATHING MINI PREVIEW
+// ============================================
+function BreathingMiniPreview() {
+    return (
+        <div className="lp-timer-preview lp-breathing-preview">
+            <div className="lp-breathing-circle-preview"></div>
+            <span className="lp-timer-preview-label">Breathe</span>
+        </div>
+    );
+}
+
+// ============================================
+// INTERVAL MINI PREVIEW
+// ============================================
+function IntervalMiniPreview() {
+    return (
+        <div className="lp-timer-preview lp-interval-preview">
+            <span className="lp-interval-preview-phase">WORK</span>
+            <div className="lp-interval-preview-bar"></div>
+        </div>
+    );
+}
+
+// ============================================
 // GENERIC LIVE TIMER PREVIEW
 // ============================================
 function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => void }) {
@@ -1151,6 +1171,10 @@ function LiveTimerPreview({ timer, onUnpin }: { timer: TimerDef; onUnpin: () => 
                 return <AnalogMiniPreview />;
             case 'timesince':
                 return <TimeSinceMiniPreview />;
+            case 'breathing':
+                return <BreathingMiniPreview />;
+            case 'interval':
+                return <IntervalMiniPreview />;
             default: {
                 // Fallback for any unhandled timer types
                 const timerData = timer as TimerDef;

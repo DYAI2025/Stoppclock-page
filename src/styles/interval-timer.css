@@ -1,0 +1,147 @@
+/* ============================================
+ * INTERVAL TIMER - THE RHYTHM KEEPER
+ * ============================================ */
+
+/* Variables */
+:root {
+  --iv-bg: #111827; /* Dark Gray */
+  --iv-work: #10B981; /* Emerald Green */
+  --iv-rest: #3B82F6; /* Blue */
+  --iv-text: #F9FAFB;
+  --iv-surface: #1F2937;
+}
+
+[data-theme="light"] {
+  --iv-bg: #F3F4F6;
+  --iv-work: #059669;
+  --iv-rest: #2563EB;
+  --iv-text: #1F2937;
+  --iv-surface: #FFFFFF;
+}
+
+.interval-page {
+  background-color: var(--iv-bg);
+  color: var(--iv-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.interval-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Big Display */
+.interval-display {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.iv-phase-label {
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.iv-phase-label.work { color: var(--iv-work); }
+.iv-phase-label.rest { color: var(--iv-rest); }
+.iv-phase-label.warmup { color: #F59E0B; } /* Amber */
+.iv-phase-label.cooldown { color: #8B5CF6; } /* Purple */
+
+.iv-time {
+  font-size: clamp(6rem, 25vw, 15rem);
+  font-weight: 700;
+  font-family: 'Monaco', monospace; /* Tabular */
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--iv-text);
+}
+
+.iv-rounds {
+  font-size: 1.5rem;
+  opacity: 0.7;
+  margin-top: 1rem;
+}
+
+/* Progress Bar */
+.iv-progress-container {
+  width: 100%;
+  max-width: 600px;
+  height: 12px;
+  background: var(--iv-surface);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.iv-progress-bar {
+  height: 100%;
+  background: var(--iv-work); /* Dynamic */
+  transition: width 0.1s linear, background-color 0.3s;
+}
+
+/* Controls */
+.iv-controls {
+  display: flex;
+  gap: 20px;
+}
+
+.iv-btn {
+  padding: 16px 40px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.iv-btn:active { transform: scale(0.98); }
+
+.iv-btn-primary {
+  background: var(--iv-text);
+  color: var(--iv-bg);
+}
+
+.iv-btn-secondary {
+  background: transparent;
+  border: 2px solid var(--iv-surface);
+  color: var(--iv-text);
+}
+
+/* Settings Panel */
+.iv-settings {
+  background: var(--iv-surface);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.iv-setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.iv-input {
+  background: rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--iv-text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 80px;
+  text-align: center;
+  font-size: 1.1rem;
+}

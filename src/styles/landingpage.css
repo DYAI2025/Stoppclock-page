@@ -97,9 +97,11 @@ body:has(.landing-page)::after {
 }
 
 /* ============================================
- * TOP NAVIGATION
+ * TOP NAVIGATION - Now using AppHeader component
+ * Keep legacy styles for backward compatibility
  * ============================================ */
 .lp-top-nav {
+    /* Legacy styles - no longer used but kept for compatibility */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -112,6 +114,20 @@ body:has(.landing-page)::after {
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--lp-margin-desktop);
+}
+
+/* Override AppHeader styles for landing page */
+.landing-page .app-header-landing {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.landing-page .app-header-landing .app-logo {
+    font-size: 17px;
+}
+
+.landing-page .app-header-landing .app-logo .logo-icon {
+    width: 32px;
+    height: 32px;
 }
 
 @media (max-width: 768px) {
@@ -1386,3 +1402,53 @@ body:has(.landing-page)::after {
 [data-timer-theme="alarm"] { --timer-color: #F97316; --timer-gradient: linear-gradient(135deg, #F97316 0%, #FB923C 100%); }
 [data-timer-theme="digital"] { --timer-color: #8B5CF6; --timer-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
 [data-timer-theme="custom-session"] { --timer-color: #A855F7; --timer-gradient: linear-gradient(135deg, #A855F7 0%, #C084FC 100%); }
+
+/* Breathing Preview */
+.lp-breathing-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.lp-breathing-circle-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--breath-circle, #80CBC4);
+    animation: breath-pulse 4s infinite ease-in-out;
+}
+
+@keyframes breath-pulse {
+    0%, 100% { transform: scale(0.5); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Interval Preview */
+.lp-interval-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.lp-interval-preview-phase {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--iv-text, #1F2937);
+}
+
+.lp-interval-preview-bar {
+    width: 40px;
+    height: 6px;
+    background: var(--iv-work, #10B981);
+    border-radius: 3px;
+    animation: iv-bar-pulse 2s infinite alternate;
+}
+
+@keyframes iv-bar-pulse {
+    from { width: 10px; opacity: 0.5; }
+    to { width: 40px; opacity: 1; }
+}
