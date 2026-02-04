@@ -35,6 +35,15 @@ export const WidgetPill: React.FC<WidgetPillProps> = ({
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      onKeyDown={(event) => {
+        if (!onClick) {
+          return;
+        }
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick();
+        }
+      }}
     >
       {icon && <span className="widget-pill-icon">{icon}</span>}
       <span>{children}</span>
