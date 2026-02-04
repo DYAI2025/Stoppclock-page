@@ -46,6 +46,12 @@ const AD_SLOT_IDS = {
   ANCHOR_BOTTOM: '', // Create: Anchor ad (auto ads), or Display ad for manual
 } as const;
 
+/**
+ * Export individual slot IDs for direct usage
+ * (Used by ResponsiveAd component)
+ */
+export const HOME_TOP_SLOT_ID = AD_SLOT_IDS.HOME_TOP;
+
 // =============================================================================
 // AD UNIT DEFINITIONS - DO NOT EDIT BELOW UNLESS ADDING NEW PLACEMENTS
 // =============================================================================
