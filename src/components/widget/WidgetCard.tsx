@@ -35,10 +35,19 @@ export const WidgetCard: React.FC<WidgetCardProps> = ({
   const spanClass = span ? `widget-grid-span-${span}` : '';
   const clickable = onClick ? 'cursor-pointer' : '';
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!onClick) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <div
       className={`widget-card ${sizeClass} ${flushClass} ${spanClass} ${clickable} ${className}`.trim()}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
