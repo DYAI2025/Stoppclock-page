@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faszinierende Fakten: Zeitmessung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Calm Harmony (Neutral-50, White, Indigo-600) -->
+    <!-- Application Structure Plan: Die SPA ist als interaktive "Fakten-Bibliothek" konzipiert, die direkt die im "Source Report" (dem Rechercheplan) vorgegebene Themenstrukt…plorierbar machen. Presentation Method: Textbasierte Faktenkarten (gestaltet mit HTML/Tailwind). Interaction: Klick auf Themen-Tabs (JS-Event-Handler). Justification: Dies ist die direkteste und benutzerfreundlichste Art, die im Report geforderten "Fun Facts" und "Spezialwissen" zu präsentieren. Die Fakten werden dynamisch per JS in das Content-Panel geladen, was dem SPA-Charakter entspricht. Library/Method: Vanilla JS zur Steuerung der Tabs und zur dynamischen Injektion von HTML-Inhalten. -->
+…

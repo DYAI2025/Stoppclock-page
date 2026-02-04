@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stopwatch State",
+  "description": "localStorage schema for Stopwatch with lap times",
+  "type": "object",
+  "required": ["version", "running", "elapsedMs", "startedAt", "lapTimes"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "running": {
+      "type": "boolean",
+      "description": "Is stopwatch currently running?"
+    },
+    "elapsedMs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total elapsed time in milliseconds (accumulated when paused)"
+    },
+    "startedAt": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Unix timestamp (ms) when stopwatch last started, null if stopped"
+    },
+    "lapTimes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lapNumber", "lapTimeMs", "totalTimeMs", "timestamp"],
+        "properties": {
+          "lapNumber": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Lap sequence number (1, 2, 3...)"
+          },
+          "lapTimeMs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Time for this lap only (milliseconds)"
+          },
+          "totalTimeMs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total elapsed time at lap recording (milliseconds)"
+          },
+          "timestamp": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Unix timestamp (ms) when lap was recorded"
+          }
+        }
+      },
+      "description": "Array of recorded lap times"
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "running": true,
+      "elapsedMs": 125340,
+      "startedAt": 1729450700000,
+      "lapTimes": [
+        {
+          "lapNumber": 1,
+          "lapTimeMs": 62450,
+          "totalTimeMs": 62450,
+          "timestamp": 1729450762450
+        },
+        {
+          "lapNumber": 2,
+          "lapTimeMs": 58120,
+          "totalTimeMs": 120570,
+          "timestamp": 1729450820570
+        }
+      ]
+    }
+  ]
+}

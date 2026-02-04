@@ -71,6 +71,10 @@ export default function Impressum() {
           Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
         </p>
       </section>
+
+      <p className="legal-lang-switch">
+        Need the English text? <a href="#/imprint">Read the imprint in English</a>
+      </p>
     </div>
   );
 }

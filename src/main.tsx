@@ -1,17 +1,76 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
+import "./design-tokens.css";
 import "./styles.css";
-import AnalogCountdown from "./pages/AnalogCountdown";
-import Countdown from "./pages/Countdown";
-import Stopwatch from "./pages/Stopwatch";
-import WorldClock from "./pages/WorldClock";
-import Alarm from "./pages/Alarm";
-import Metronome from "./pages/Metronome";
-import ChessClock from "./pages/ChessClock";
-import CycleTimer from "./pages/CycleTimer";
-import DigitalClock from "./pages/DigitalClock";
-import Impressum from "./pages/Impressum";
-import Datenschutz from "./pages/Datenschutz";
+import DynamicBlogRouter from "./pages/DynamicBlogRouter";
+
+import { AdSenseScript } from "./components/AdSenseScript";
+import { ConsentBanner } from "./components/ConsentBanner";
+import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
+import { SEOHead } from "./hooks/useSEO";
+import LandingPage from "./pages/LandingPage";
+
+// Code-split: Timer pages (loaded on demand)
+const AnalogCountdown = lazy(() => import("./pages/AnalogCountdown"));
+const Countdown = lazy(() => import("./pages/Countdown"));
+const Stopwatch = lazy(() => import("./pages/Stopwatch"));
+const WorldClock = lazy(() => import("./pages/WorldClock"));
+const Alarm = lazy(() => import("./pages/Alarm"));
+const Metronome = lazy(() => import("./pages/Metronome"));
+const ChessClock = lazy(() => import("./pages/ChessClock"));
+const CookingTimer = lazy(() => import("./pages/CookingTimer"));
+const CouplesTimer = lazy(() => import("./pages/CouplesTimer"));
+const DigitalClock = lazy(() => import("./pages/DigitalClock"));
+const Pomodoro = lazy(() => import("./pages/Pomodoro"));
+const TimeSince = lazy(() => import("./pages/TimeSince"));
+const TimeLab = lazy(() => import("./pages/TimeLab"));
+
+// Code-split: Content pages
+const Wissen = lazy(() => import("./pages/Wissen"));
+const ImprintEn = lazy(() => import("./pages/ImprintEn"));
+const PrivacyPolicyEn = lazy(() => import("./pages/PrivacyPolicyEn"));
+const Impressum = lazy(() => import("./pages/Impressum"));
+const Datenschutz = lazy(() => import("./pages/Datenschutz"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const PillarPage = lazy(() => import("./pages/PillarPage"));
+const TimePhilosophy = lazy(() => import("./pages/TimePhilosophy"));
+
+// Code-split: Blog pages
+const PomodoroTimerOnline = lazy(() => import("./pages/blog/PomodoroTimerOnline"));
+const PomodoroVsCountdown = lazy(() => import("./pages/blog/PomodoroVsCountdown"));
+const BlogIndex = lazy(() => import("./pages/BlogIndex"));
+
+// Code-split: DFY Landing pages
+const TimerForStudents = lazy(() => import("./pages/TimerForStudents"));
+const TimerForProductivity = lazy(() => import("./pages/TimerForProductivity"));
+const TimerForFitness = lazy(() => import("./pages/TimerForFitness"));
+const TimerForCooking = lazy(() => import("./pages/TimerForCooking"));
+const TimerForMeditation = lazy(() => import("./pages/TimerForMeditation"));
+const TimerForFocus = lazy(() => import("./pages/TimerForFocus"));
+
+// Code-split: Custom Sessions
+const CustomSessionsLanding = lazy(() => import("./pages/CustomSessionsLanding"));
+const SessionBuilder = lazy(() => import("./pages/SessionBuilder"));
+const SessionRunner = lazy(() => import("./pages/SessionRunner"));
+const SessionPreview = lazy(() => import("./pages/SessionPreview"));
+
+// Code-split: Other pages
+const TimerWorldsIndex = lazy(() => import("./pages/TimerWorldsIndex"));
+const FactsPage = lazy(() => import("./pages/FactsPage"));
+const CountdownGuide = lazy(() => import("./components/CountdownGuide").then(m => ({ default: m.CountdownGuide })));
+const BreathingTimer = lazy(() => import("./pages/BreathingTimer"));
+const IntervalTimer = lazy(() => import("./pages/IntervalTimer"));
+const WidgetDemo = lazy(() => import("./pages/WidgetDemo"));
+
+// Loading fallback component for lazy-loaded pages
+function PageLoader() {
+  return (
+    <div className="page-loader">
+      <div className="loader-spinner"></div>
+    </div>
+  );
+}
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -23,64 +82,74 @@ function useHashRoute() {
   return (location.hash || "#/").replace(/^#/, "");
 }
 
-function Home() {
-  // Border colors match the icon colors from images
-  const items: Array<[string, string, string, string]> = [
-    ["#/stopwatch", "Stopwatch", "/icons/STOPWATCH_IMAGE_01.png", "#4a6955"],
-    ["#/countdown", "Countdown", "/icons/DIGITAL_.png", "#36454f"],
-    ["#/analog", "Analog Countdown", "/icons/ANALOG_COUNTDOWN_IMAGE_02.png", "#d4a574"],
-    ["#/cycle", "Cycle Timer", "/icons/CYCLE_TIME_IMAGE_08.png", "#6b7546"],
-    ["#/world", "World Clock", "/icons/WORLD_CLOCK_IMAGE_06.png", "#5a7c99"],
-    ["#/alarm", "Alarm", "/icons/ALARM_CLOCK_IMAGE_03.png", "#6b4f4a"],
-    ["#/metronome", "Metronome", "/icons/METRONOM_IMAGE.png", "#7a5c8f"],
-    ["#/chess", "Chess Clock", "/icons/CHESS_CLOCK_IMAGE_05.png", "#8b6f47"]
-  ];
-  // Icons that should be twice as large
-  const largeIcons = new Set(["Stopwatch", "Countdown", "Alarm", "Cycle Timer", "Chess Clock"]);
+function App() {
+  const route = useHashRoute();
+  const isAbout = route.startsWith('/about/');
+  const isWissen = route.startsWith('/wissen/');
+  const isBlog = route.startsWith('/blog/');
+  const isCustomSessions = route.startsWith('/custom-sessions');
 
   return (
     <>
-      <h1 className="home-title">Stoppclock</h1>
-      <div className="home-grid">
-        {items.map(([href, label, iconPath, borderColor]) => (
-          <a key={href} className="timer-card" href={href} style={{borderColor}}>
-            <img
-              src={iconPath}
-              alt={label}
-              className={largeIcons.has(label) ? "timer-icon timer-icon-large" : "timer-icon"}
-            />
-            <div className="timer-label" style={{color: borderColor}}>{label}</div>
-          </a>
-        ))}
-      </div>
-      <footer className="footer">
-        <a href="#/impressum">Impressum</a>
-        <span>•</span>
-        <a href="#/datenschutz">Datenschutz</a>
-      </footer>
+      {/* Dynamic SEO Tags per Route */}
+      <SEOHead />
+      <AdSenseScript />
+
+      {/* GDPR consent banner - shows on first visit */}
+      <ConsentBanner />
+
+      {/* Route content wrapped in Suspense for lazy-loaded components */}
+      <Suspense fallback={<PageLoader />}>
+        {route === "/" && <LandingPage />}
+        {route === "/analog" && <AnalogCountdown />}
+        {route === "/countdown" && <Countdown />}
+        {route === "/stopwatch" && <Stopwatch />}
+        {route === "/timesince" && <TimeSince />}
+        {route === "/timelab" && <TimeLab />}
+        {route === "/pomodoro" && <Pomodoro />}
+        {route === "/cooking" && <CookingTimer />}
+        {route === "/couples" && <CouplesTimer />}
+        {route === "/digital" && <DigitalClock />}
+        {route === "/world" && <WorldClock />}
+        {route === "/alarm" && <Alarm />}
+        {route === "/metronome" && <Metronome />}
+        {route === "/chess" && <ChessClock />}
+        {route === "/breathing" && <BreathingTimer />}
+        {route === "/interval" && <IntervalTimer />}
+        {route === "/widget-demo" && <WidgetDemo />}
+
+        {route === "/facts" && <FactsPage />}
+        {route === "/custom-sessions" && <CustomSessionsLanding />}
+        {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
+        {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
+        {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
+        {route === "/timers" && <TimerWorldsIndex />}
+        {route === "/blog" && <BlogIndex />}
+        {(isAbout || isWissen) && <Wissen />}
+        {isBlog && route !== "/blog" && (
+          <DynamicBlogRouter slug={route.replace('/blog/', '')} />
+        )}
+        {route === "/timer-for-students" && <TimerForStudents />}
+        {route === "/timer-for-productivity" && <TimerForProductivity />}
+        {route === "/timer-for-fitness" && <TimerForFitness />}
+        {route === "/timer-for-cooking" && <TimerForCooking />}
+        {route === "/timer-for-meditation" && <TimerForMeditation />}
+        {route === "/timer-for-focus" && <TimerForFocus />}
+        {route === "/blog/countdown-timer-guide" && <CountdownGuide onPresetSelect={() => window.location.hash = '#/countdown'} />}
+        {route === "/imprint" && <ImprintEn />}
+        {route === "/privacy" && <PrivacyPolicyEn />}
+        {route === "/impressum" && <Impressum />}
+        {route === "/datenschutz" && <Datenschutz />}
+        {route === "/about" && <About />}
+        {route === "/contact" && <Contact />}
+        {route === "/pillar" && <PillarPage />}
+        {route === "/time-philosophy" && <TimePhilosophy />}
+        {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/breathing", "/interval", "/widget-demo", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+          <div className="page"><h1>Not Found</h1></div>
+        )}
+      </Suspense>
     </>
   );
-}
-
-const Placeholder = ({ title }: { title: string }) => (
-  <div className="page"><h1>{title}</h1><p>Coming soon.</p></div>
-);
-
-function App() {
-  const route = useHashRoute();
-  if (route === "/") return <Home />;
-  if (route === "/analog") return <AnalogCountdown />;
-  if (route === "/countdown") return <Countdown />;
-  if (route === "/stopwatch") return <Stopwatch />;
-  if (route === "/cycle") return <CycleTimer />;
-  if (route === "/digital") return <DigitalClock />;
-  if (route === "/world") return <WorldClock />;
-  if (route === "/alarm") return <Alarm />;
-  if (route === "/metronome") return <Metronome />;
-  if (route === "/chess") return <ChessClock />;
-  if (route === "/impressum") return <Impressum />;
-  if (route === "/datenschutz") return <Datenschutz />;
-  return <div className="page"><h1>Not Found</h1></div>;
 }
 
 // Register Service Worker
@@ -92,6 +161,11 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+
 createRoot(document.getElementById("root")!).render(
-  <StrictMode><App /></StrictMode>
+  <StrictMode>
+    <PinnedTimersProvider>
+      <App />
+    </PinnedTimersProvider>
+  </StrictMode>
 );

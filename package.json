@@ -5,22 +5,32 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/gen-sitemap.mjs",
+    "build": "node scripts/parse-timer-worlds.mjs && vite build && node scripts/gen-sitemap.mjs",
     "preview": "vite preview",
     "doctor": "node scripts/doctor.mjs",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:e2e": "npx playwright test",
+    "test:e2e:ui": "npx playwright test --ui"
   },
   "dependencies": {
+    "lucide-react": "^0.552.0",
+    "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^15.6.6",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",
     "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "jsdom": "^27.4.0",
     "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "vitest": "^4.0.18"
   }
 }

@@ -1,0 +1,200 @@
+/* ============================================
+ * SWISS/BAUHAUS DESIGN TOKENS
+ * Modular scale typography-based system
+ * UPDATED: Deep Ocean Aurora Color Scheme
+ * ============================================ */
+
+:root {
+  /* ============================================
+   * TYPOGRAPHY SCALE (Modular Scale: 1.5x ratio)
+   * Base: 1rem (16px)
+   * ============================================ */
+  --type-xs: 0.75rem;      /* 12px - Small labels */
+  --type-sm: 0.875rem;     /* 14px - Secondary text */
+  --type-base: 1rem;       /* 16px - Body text */
+  --type-lg: 1.5rem;       /* 24px - H3, large labels */
+  --type-xl: 2rem;         /* 32px - H2, section headers */
+  --type-2xl: 3rem;        /* 48px - H1, page titles */
+  --type-3xl: 4rem;        /* 64px - Hero displays */
+  --type-4xl: 6rem;        /* 96px - Timer displays */
+  --type-5xl: 8rem;        /* 128px - Large timer displays */
+
+  /* ============================================
+   * SPACING SCALE (Modular: derived from type)
+   * ============================================ */
+  --space-1: 0.25rem;      /* 4px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-4: 1rem;         /* 16px - Base unit */
+  --space-6: 1.5rem;       /* 24px */
+  --space-8: 2rem;         /* 32px */
+  --space-12: 3rem;        /* 48px */
+  --space-16: 4rem;        /* 64px */
+  --space-24: 6rem;        /* 96px */
+
+  /* ============================================
+   * DEEP OCEAN AURORA COLOR PALETTE
+   * Modern, vibrant, high-contrast scheme
+   * ============================================ */
+  
+  /* Base Ocean Depths (Backgrounds) */
+  --ocean-deep: #0A1628;        /* Deepest ocean - primary bg (18.13:1 contrast) */
+  --ocean-dark: #1A2942;        /* Dark ocean - secondary bg (14.59:1 contrast) */
+  --ocean-mid: #2D4263;         /* Mid ocean - elevated surfaces (10.14:1 contrast) */
+  --ocean-light: #4A6FA5;       /* Light ocean - borders, muted elements (5.11:1 contrast) */
+  --ocean-bright: #6B9BD1;      /* Bright ocean - hover states, accents */
+
+  /* Aurora Accents (Vibrant highlights) */
+  --aurora-cyan: #00D9FF;       /* Electric cyan - primary actions (10.68:1 contrast) */
+  --aurora-purple: #7B2CBF;     /* Deep purple - secondary actions */
+  --aurora-lavender: #C77DFF;   /* Lavender - tertiary accents (6.74:1 contrast) */
+  --aurora-pink: #E0AAFF;       /* Soft pink - subtle highlights */
+
+  /* Semantic Colors (Status indicators) */
+  --semantic-success: #10B981;  /* Emerald green - success/running (7.15:1 contrast) */
+  --semantic-warning: #F59E0B;  /* Amber - warnings */
+  --semantic-error: #EF4444;    /* Red - errors/stop */
+
+  /* Neutral Scale */
+  --neutral-white: #FFFFFF;     /* Pure white - text */
+  --neutral-gray-100: #F8FAFC;  /* Very light gray */
+  --neutral-gray-200: #E2E8F0;  /* Light gray */
+  --neutral-gray-300: #CBD5E1;  /* Medium-light gray */
+  --neutral-gray-400: #94A3B8;  /* Medium gray */
+  --neutral-gray-500: #64748B;  /* True gray */
+
+  /* ============================================
+   * PILLAR PAGE COLOR SYSTEM
+   * Light/Dark mode with Gold accent
+   * ============================================ */
+  --pillar-accent-gold: #F0C419;        /* Yellow-Gold accent (max 20% usage) */
+  --pillar-accent-gold-hover: #d4a817;  /* Darker gold for hover */
+  --pillar-bg-light: #F8FAFC;           /* Light mode background */
+  --pillar-bg-dark: #0B1B2B;            /* Dark mode background */
+  --pillar-text-light: #1A2942;         /* Light mode text */
+  --pillar-text-dark: #E6E6E6;          /* Dark mode text (not pure white) */
+  --pillar-surface-light: #E8EDF3;      /* Light mode surface (L*+8-12) */
+  --pillar-surface-dark: #1A2942;       /* Dark mode surface */
+  --pillar-hover-steel: #3C5A7A;        /* Steel blue for dark mode hover */
+  --pillar-border-light: #CBD5E1;       /* Light mode borders */
+  --pillar-border-dark: #2D4263;        /* Dark mode borders */
+
+  /* ============================================
+   * LEGACY MONOCHROME PALETTE (Deprecated)
+   * Kept for backward compatibility
+   * ============================================ */
+  --mono-black: var(--ocean-deep);
+  --mono-gray-900: var(--ocean-dark);
+  --mono-gray-800: var(--ocean-mid);
+  --mono-gray-700: #4A5568;
+  --mono-gray-600: #718096;
+  --mono-gray-500: #A0AEC0;
+  --mono-gray-400: #CBD5E0;
+  --mono-gray-300: #E2E8F0;
+  --mono-gray-200: #EDF2F7;
+  --mono-gray-100: #F7FAFC;
+  --mono-white: var(--neutral-white);
+
+  /* ============================================
+   * ANALOG TIMER COLORS (Updated for Ocean theme)
+   * ============================================ */
+  --analog-progress-start: var(--semantic-error);     /* Red (low time) */
+  --analog-progress-mid: var(--semantic-warning);     /* Amber (medium time) */
+  --analog-progress-end: var(--semantic-success);     /* Green (high time) */
+  --analog-hand-primary: var(--ocean-dark);           /* Dark hands */
+  --analog-hand-second: var(--aurora-cyan);           /* Cyan second hand */
+  --analog-bg: var(--neutral-white);                  /* White clock face */
+  --analog-border: var(--ocean-mid);                  /* Ocean border */
+
+  /* ============================================
+   * TYPOGRAPHY SYSTEM
+   * Helvetica-inspired (use system fonts)
+   * ============================================ */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Courier New", monospace;
+
+  /* Font weights (limited to 2-3) */
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* ============================================
+   * LAYOUT SYSTEM
+   * Grid and spacing patterns
+   * ============================================ */
+  --container-max: 64rem;          /* 1024px max width */
+  --container-padding: var(--space-4);
+
+  /* Border radius (minimal) */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+
+  /* Border widths */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 4px;
+
+  /* ============================================
+   * SHADOWS (Subtle, geometric with glow)
+   * ============================================ */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-glow-cyan: 0 0 20px rgba(0, 217, 255, 0.3);
+  --shadow-glow-purple: 0 0 20px rgba(199, 125, 255, 0.3);
+  --shadow-glow-green: 0 0 20px rgba(16, 185, 129, 0.3);
+
+  /* ============================================
+   * GRADIENTS (Aurora-inspired)
+   * Professional multi-layer gradients
+   * ============================================ */
+  --gradient-ocean: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-dark) 50%, var(--ocean-mid) 100%);
+  --gradient-ocean-radial: radial-gradient(ellipse at top, var(--ocean-dark) 0%, var(--ocean-deep) 100%);
+  --gradient-ocean-mesh: 
+    radial-gradient(at 0% 0%, rgba(26, 41, 66, 0.8) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(45, 66, 99, 0.6) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(74, 111, 165, 0.4) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(26, 41, 66, 0.8) 0px, transparent 50%);
+  
+  --gradient-aurora: linear-gradient(135deg, var(--aurora-cyan) 0%, var(--aurora-purple) 50%, var(--aurora-lavender) 100%);
+  --gradient-aurora-subtle: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(199, 125, 255, 0.1) 100%);
+  --gradient-aurora-glow: 
+    radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(199, 125, 255, 0.15) 0%, transparent 50%);
+  
+  --gradient-glow: radial-gradient(circle at center, rgba(0, 217, 255, 0.15) 0%, transparent 70%);
+  --gradient-shimmer: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 217, 255, 0.1) 25%, 
+    rgba(199, 125, 255, 0.1) 50%, 
+    rgba(0, 217, 255, 0.1) 75%, 
+    transparent 100%);
+
+  /* ============================================
+   * TRANSITIONS (Subtle, functional)
+   * ============================================ */
+  --transition-fast: 100ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+  --transition-glow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ============================================
+   * Z-INDEX SCALE
+   * Layering system
+   * ============================================ */
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-modal: 100;
+  --z-toast: 1000;
+}

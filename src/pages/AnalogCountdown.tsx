@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
 
 type Persist = {
   version: 1;
@@ -42,8 +48,8 @@ function load(): Persist {
   } catch {
     return {
       version:1,
-      durationMs: 30*60_000,
-      remainingMs: 30*60_000,
+      durationMs: 5*60_000,
+      remainingMs: 5*60_000,
       running:false,
       endAt:null,
       warnAtMs:60_000,
@@ -97,16 +103,31 @@ function useRaf(on: boolean, cb: () => void) {
   }, [on, cb]);
 }
 
-function hand(ctx:CanvasRenderingContext2D, len:number, ang:number, w:number, col:string) {
+function hand(ctx:CanvasRenderingContext2D, len:number, ang:number, w:number, col:string, withShadow = false) {
   ctx.save();
   ctx.rotate(ang);
+
+  // Shadow for depth (only on hour/minute hands)
+  if (withShadow) {
+    ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+  }
+
+  // Hand shape - elegant taper
   ctx.beginPath();
-  ctx.moveTo(-len*0.15,0);
-  ctx.lineTo(len,0);
-  ctx.strokeStyle = col;
-  ctx.lineWidth = w;
-  ctx.lineCap = "round";
-  ctx.stroke();
+  ctx.moveTo(-len*0.2, 0); // Back of hand
+  ctx.lineTo(-len*0.05, -w*0.8); // Back taper
+  ctx.lineTo(len*0.95, -w*0.3); // Front taper
+  ctx.lineTo(len, 0); // Tip
+  ctx.lineTo(len*0.95, w*0.3); // Front taper
+  ctx.lineTo(-len*0.05, w*0.8); // Back taper
+  ctx.closePath();
+
+  ctx.fillStyle = col;
+  ctx.fill();
+
   ctx.restore();
 }
 
@@ -117,83 +138,139 @@ function draw(cnv:HTMLCanvasElement, st:Persist) {
   const h = cnv.height;
   const cx = w/2;
   const cy = h/2;
-  const r = Math.min(w,h) * 0.45;
+  const r = Math.min(w,h) * 0.42; // Slightly smaller for better proportions
 
   ctx.clearRect(0,0,w,h);
-  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--bg") || "#0b1220";
-  ctx.fillRect(0,0,w,h);
+
+  // Background circle - clean white
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 1.12, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Outer border - elegant dark grey
+  ctx.strokeStyle = "#36454F";
+  ctx.lineWidth = Math.max(4, r * 0.025);
+  ctx.stroke();
 
   ctx.save();
   ctx.translate(cx, cy);
 
-  // ring
-  ctx.beginPath();
-  ctx.arc(0, 0, r, 0, Math.PI*2);
-  ctx.strokeStyle = "rgba(255,255,255,0.15)";
-  ctx.lineWidth = Math.max(2, r*0.01);
-  ctx.stroke();
+  // Clean minimalist hour markers (only 12, 3, 6, 9)
+  const hourNumbers = [12, 3, 6, 9];
+  ctx.fillStyle = "#36454F";
+  ctx.font = `bold ${Math.floor(r * 0.11)}px 'Segoe UI', Arial, sans-serif`; // Smaller font: 0.15 → 0.11
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-  // ticks
+  hourNumbers.forEach(num => {
+    const angle = ((num === 12 ? 0 : num) / 12) * Math.PI * 2 - Math.PI / 2;
+    const dist = r * 0.65; // Moved inward: 0.75 → 0.65
+    const x = Math.cos(angle) * dist;
+    const y = Math.sin(angle) * dist;
+    ctx.fillText(num.toString(), x, y);
+  });
+
+  // Minute ticks - subtle and minimal
   for(let i=0; i<60; i++) {
+    // Skip hour positions (0, 15, 30, 45)
+    if (i % 15 === 0) continue;
+
     const a = i/60*Math.PI*2 - Math.PI/2;
-    const len = i%5===0 ? r*0.09 : r*0.045;
+    const isHourMark = i % 5 === 0;
+    const len = isHourMark ? r*0.08 : r*0.04;
+
     ctx.beginPath();
     ctx.moveTo(Math.cos(a)*(r-len), Math.sin(a)*(r-len));
     ctx.lineTo(Math.cos(a)*r, Math.sin(a)*r);
-    ctx.strokeStyle = i%5===0 ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.35)";
-    ctx.lineWidth = i%5===0 ? Math.max(3, r*0.012) : Math.max(1, r*0.006);
+    ctx.strokeStyle = isHourMark ? "#708090" : "#D3D3D3";
+    ctx.lineWidth = isHourMark ? Math.max(2, r*0.01) : Math.max(1, r*0.005);
+    ctx.lineCap = "round";
     ctx.stroke();
   }
 
-  // Draw color-coded hour rings (4 hours max, each hour a different color)
-  // Colors stacked from inside to outside, visible between 50min mark and 12 o'clock
-  const maxMs = 4 * 3600_000; // 4 hours max
-  const hourColors = ["#22c55e", "#3b82f6", "#f59e0b", "#ef4444"]; // green, blue, orange, red
-
+  // Progress rings - follow minute hand, multiple concentric rings for >1h
   if (st.remainingMs > 0) {
-    const totalMinutes = st.remainingMs / 60_000;
-    const currentHour = Math.floor(totalMinutes / 60); // Which hour are we in (0-3)
-    const minutesInCurrentHour = totalMinutes % 60; // Minutes within current hour
+    const remainingSeconds = Math.floor(st.remainingMs / 1000);
+    const totalHours = Math.floor(remainingSeconds / 3600); // Full hours (0-4)
+    const minutes = Math.floor((remainingSeconds % 3600) / 60); // Minutes in current hour (0-59)
 
-    // Draw completed hour rings (from inside out)
-    const ringWidth = r * 0.06;
-    const baseRadius = r * 0.70;
+    // Current hour progress follows minute hand (0-59 minutes → 0-360°)
+    const minuteProgress = minutes / 60; // 0-1
+    const minuteAngle = minuteProgress * Math.PI * 2; // 0-2π
 
-    for (let h = 0; h < currentHour; h++) {
+    // Color gradient: red (low) → yellow → green (high)
+    const hue = minuteProgress * 120; // 0° (red) → 120° (green)
+    const ringColor = `hsl(${hue}, 70%, 50%)`;
+
+    const ringWidth = r * 0.12;
+    const baseRadius = r * 0.96; // Larger ring: 0.88 → 0.96
+
+    // Draw completed hour rings (inner rings, one per full hour)
+    // Each completed hour = one full ring, moving inward
+    for (let h = 0; h < totalHours; h++) {
+      const ringRadius = baseRadius - (h * ringWidth * 1.1); // Concentric rings with 10% gap
+      const ringHue = 120 - (h * 30); // Gradient: green → yellow → orange for older hours
+
       ctx.beginPath();
-      ctx.strokeStyle = hourColors[h];
+      ctx.strokeStyle = `hsl(${Math.max(0, ringHue)}, 70%, 50%)`;
       ctx.lineWidth = ringWidth;
       ctx.lineCap = "round";
-      ctx.arc(0, 0, baseRadius + h * ringWidth, -Math.PI/2, Math.PI * 1.5, false);
+      ctx.arc(0, 0, ringRadius, 0, Math.PI * 2, false); // Full circle
       ctx.stroke();
     }
 
-    // Draw current partial hour ring
-    if (currentHour < 4) {
-      const angleInHour = (minutesInCurrentHour / 60) * Math.PI * 2;
-      ctx.beginPath();
-      ctx.strokeStyle = hourColors[currentHour];
-      ctx.lineWidth = ringWidth;
-      ctx.lineCap = "round";
-      ctx.arc(0, 0, baseRadius + currentHour * ringWidth, -Math.PI/2, -Math.PI/2 + angleInHour, false);
-      ctx.stroke();
-    }
+    // Draw current hour progress arc (outermost ring, follows minute hand)
+    const currentRingRadius = baseRadius - (totalHours * ringWidth * 1.1);
+    ctx.beginPath();
+    ctx.strokeStyle = ringColor;
+    ctx.lineWidth = ringWidth;
+    ctx.lineCap = "round";
+    ctx.arc(0, 0, currentRingRadius, -Math.PI/2, -Math.PI/2 + minuteAngle, false);
+    ctx.stroke();
   }
 
-  // map remaining to hands (4-hour clock face, so each hour is 3 * 5min = 15min on the face)
-  const totalHours = st.remainingMs / 3600_000;
-  const hrs = (totalHours % 4) / 4; // Map 0-4 hours to 0-1 for full circle
-  const mins = ((st.remainingMs / 60_000) % 60) / 60;
-  const secs = ((st.remainingMs / 1000) % 60) / 60;
+  // Map remaining time to clock hands (4-hour COUNTDOWN clock face)
+  const totalSeconds = Math.floor(st.remainingMs / 1000);
+  const hours = Math.floor(totalSeconds / 3600); // Full hours (0-4)
+  const minutes = Math.floor((totalSeconds % 3600) / 60); // Minutes within the hour (0-59)
+  const seconds = totalSeconds % 60; // Seconds within the minute (0-59)
 
-  hand(ctx, r*0.5, hrs*Math.PI*2 - Math.PI/2, Math.max(6, r*0.03), "white");
-  hand(ctx, r*0.72, mins*Math.PI*2 - Math.PI/2, Math.max(4, r*0.02), "white");
-  hand(ctx, r*0.82, secs*Math.PI*2 - Math.PI/2, Math.max(2, r*0.01), "#60a5fa");
+  // Hour hand moves gradually with minutes (like a real analog clock)
+  // At 3:30, hour hand is halfway between 3 and 4
+  const totalHoursWithMinutes = hours + (minutes / 60);
 
-  // center
+  // Hour hand logic for 4-hour timer on 12-hour clock face:
+  // The hour hand moves like on a normal clock (12x slower than minute hand)
+  // In 1 hour (60 minutes) it moves 5 minute marks (60/12 = 5)
+  // In 0.5 hours (30 minutes) it moves 2.5 minute marks
+  //
+  // For a 4-hour timer: 4h = 20 minute marks (4 × 5)
+  // Position = remaining hours × 5 minutes / 60 minutes = remaining hours / 12
+  const hrs = totalHoursWithMinutes / 12; // Map to 12-hour clock face
+  const mins = minutes / 60; // Map 0-59 minutes to 0-1
+  const secs = seconds / 60; // Map 0-59 seconds to 0-1
+
+  // Draw hands - modern elegant style
+  hand(ctx, r*0.5, hrs*Math.PI*2 - Math.PI/2, r*0.035, "#36454F", true); // Hour hand - charcoal
+  hand(ctx, r*0.72, mins*Math.PI*2 - Math.PI/2, r*0.025, "#36454F", true); // Minute hand - charcoal
+  hand(ctx, r*0.82, secs*Math.PI*2 - Math.PI/2, r*0.012, "#DC143C", false); // Second hand - crimson
+
+  // Center cap - elegant white with shadow
+  ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+  ctx.shadowBlur = 3;
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
   ctx.beginPath();
-  ctx.fillStyle = "white";
-  ctx.arc(0, 0, Math.max(3, r*0.02), 0, Math.PI*2);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.arc(0, 0, Math.max(4, r*0.03), 0, Math.PI*2);
+  ctx.fill();
+
+  // Inner circle for center cap
+  ctx.shadowColor = "transparent";
+  ctx.beginPath();
+  ctx.fillStyle = "#36454F";
+  ctx.arc(0, 0, Math.max(2, r*0.015), 0, Math.PI*2);
   ctx.fill();
 
   ctx.restore();
@@ -207,15 +284,57 @@ function flash(el:HTMLElement|null, ms=500) {
 
 export default function AnalogCountdown() {
   const [st, setSt] = useState<Persist>(() => load());
+  const [customMinutes, setCustomMinutes] = useState<string>('');
+  const [urlChecked, setUrlChecked] = useState(false);
   const cnvRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const warned = useRef(false);
+
+  const formattedRemaining = fmt(st.remainingMs);
+  const formattedDuration = fmt(st.durationMs);
+  const statusLabel = st.running ? 'Running' : 'Paused';
+
+  // Get current config for sharing/saving
+  const getCurrentConfig = useCallback(() => {
+    return {
+      durationMs: st.durationMs,
+      warnAtMs: st.warnAtMs,
+      signal: st.signal
+    };
+  }, [st.durationMs, st.warnAtMs, st.signal]);
+
+  // URL Preset Loading
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'analog') {
+      const config = sharedPreset.config;
+      setSt(s => ({
+        ...s,
+        durationMs: clamp(config.durationMs || s.durationMs, 1000, MAX),
+        remainingMs: clamp(config.durationMs || s.durationMs, 1000, MAX),
+        warnAtMs: config.warnAtMs !== undefined ? config.warnAtMs : s.warnAtMs,
+        signal: config.signal || s.signal,
+        running: false,
+        endAt: null
+      }));
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
     const rem = Math.max(0, st.endAt - now);
-    if (rem !== st.remainingMs) setSt(s => ({...s, remainingMs: rem}));
+
+    // Only update on second change to prevent flickering
+    const currentSeconds = Math.floor(st.remainingMs / 1000);
+    const newSeconds = Math.floor(rem / 1000);
+
+    if (newSeconds !== currentSeconds) {
+      setSt(s => ({...s, remainingMs: rem}));
+    }
   }, [st.running, st.endAt, st.remainingMs]);
 
   useRaf(st.running, sync);
@@ -224,6 +343,8 @@ export default function AnalogCountdown() {
     const t = setTimeout(() => save(st), 150);
     return () => clearTimeout(t);
   }, [st]);
+
+  const lastSecondRef = useRef<number>(-1);
 
   useEffect(() => {
     // warn & finish
@@ -235,10 +356,37 @@ export default function AnalogCountdown() {
       if (st.signal.sound) beep(140, 1200);
     }
     if (!isWarn) warned.current = false;
+
+    // Last 10 seconds: beep every second (10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+    const secondsRemaining = Math.floor(st.remainingMs / 1000);
+    if (st.running && secondsRemaining >= 1 && secondsRemaining <= 10) {
+      // Only beep when we cross into a new second
+      if (secondsRemaining !== lastSecondRef.current) {
+        lastSecondRef.current = secondsRemaining;
+        if (st.signal.sound) {
+          // Higher pitch as we get closer to zero
+          const pitch = 800 + (11 - secondsRemaining) * 50; // 850Hz at 10s, 1300Hz at 1s
+          beep(150, pitch); // Short, crisp beep
+        }
+      }
+    }
+
+    // Finish: loud bimmeln (multiple beeps like an alarm clock)
     if (st.running && st.remainingMs <= 0) {
+      lastSecondRef.current = -1; // Reset for next countdown
+
+      // Track completion
+      trackEvent('analog', 'complete', st.durationMs);
+
       setSt(s => ({...s, running: false, endAt: null, remainingMs: 0}));
       if (st.signal.flash) flash(wrapRef.current, 900);
-      if (st.signal.sound) beep(600, 660);
+      if (st.signal.sound) {
+        // Alarm bimmeln - multiple beeps like a real alarm clock
+        beep(200, 880); // First beep
+        setTimeout(() => beep(200, 880), 250);
+        setTimeout(() => beep(200, 880), 500);
+        setTimeout(() => beep(400, 660), 750); // Final longer lower beep
+      }
     }
   }, [st.remainingMs, st.running, st.signal, st.warnAtMs]);
 
@@ -265,6 +413,8 @@ export default function AnalogCountdown() {
   });
 
   const start = useCallback(() => {
+    // Track timer start
+    trackEvent('analog', 'start');
     if (st.remainingMs <= 0) {
       setSt(s => ({...s, remainingMs: s.durationMs, running: true, endAt: Date.now() + s.durationMs}));
     } else {
@@ -288,6 +438,14 @@ export default function AnalogCountdown() {
     running: false,
     endAt: null
   })), []);
+
+  const handleCustomMinutes = useCallback(() => {
+    const minutes = parseInt(customMinutes, 10);
+    if (!isNaN(minutes) && minutes >= 1 && minutes <= 180) {
+      setDur(minutes * 60_000);
+      setCustomMinutes('');
+    }
+  }, [customMinutes, setDur]);
 
   const full = useCallback(() => {
     const el = wrapRef.current;
@@ -319,59 +477,135 @@ export default function AnalogCountdown() {
     return () => window.removeEventListener("keydown", on);
   }, [start, pause, reset, plus, full, st.running]);
 
-  const presets = useMemo(() => [5, 10, 15, 30, 45, 60, 90, 120, 180, 240], []); // Max 240min = 4 hours
+  const { addTimer } = usePinnedTimers();
+
+  const handlePin = () => {
+    const timer: PinnedTimer = {
+      id: LS_KEY,
+      type: 'AnalogCountdown',
+      name: 'Analog Countdown',
+    };
+    addTimer(timer);
+  };
 
   return (
-    <div ref={wrapRef} className="analog-wrap">
-      <div className="analog-topbar">
-        <a href="#/" className="btn-home">Home</a>
-        <div className="hms">{fmt(st.remainingMs)}</div>
-        <div className="controls">
-          <button onClick={() => st.running ? pause() : start()} className="btn primary">
-            {st.running ? "Pause" : "Start"}
-          </button>
-          <button onClick={reset} className="btn">Reset</button>
-          <button onClick={() => plus(60_000)} className="btn">+1m</button>
-          <button onClick={() => plus(-60_000)} className="btn">−1m</button>
-          <button onClick={full} className="btn">Fullscreen</button>
+    <div className="analog-page" ref={wrapRef}>
+      {/* Header */}
+      <header className="analog-header">
+        <h1 className="analog-title">Analog Countdown</h1>
+        <HomeButton />
+      </header>
+
+      {/* Digital readout for tests & accessibility */}
+      <div className="analog-time-display" aria-live="polite">
+        <div className="hms">{formattedRemaining}</div>
+        <div className="analog-time-meta">
+          <span>Duration: {formattedDuration}</span>
+          <span>Status: {statusLabel}</span>
         </div>
       </div>
-      <div className="analog-canvas"><canvas ref={cnvRef}/></div>
+
+      {/* Canvas (colors preserved in drawing code) */}
+      <div className="analog-canvas-container">
+        <canvas ref={cnvRef} className="analog-canvas" width={800} height={800} />
+      </div>
+
+      {/* Controls */}
+      <div className="analog-controls controls">
+        {!st.running ? (
+          <button type="button" className="analog-btn btn primary" onClick={start}>Start</button>
+        ) : (
+          <button type="button" className="analog-btn btn primary" onClick={pause}>Pause</button>
+        )}
+        <button type="button" className="analog-btn btn secondary" onClick={reset}>Reset</button>
+        <button type="button" className="analog-btn btn secondary hide-on-mobile" onClick={full}>Fullscreen</button>
+        <button type="button" className="analog-btn btn secondary" onClick={handlePin}>Pin to Main Page</button>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '16px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="analog"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="analog"
+          getCurrentConfig={getCurrentConfig}
+        />
+      </div>
+
+      {/* Presets */}
       <div className="analog-presets">
-        {presets.map(min => (
+        <button type="button" className="analog-preset" onClick={() => setDur(5 * 60_000)}>5m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(10 * 60_000)}>10m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(15 * 60_000)}>15m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(20 * 60_000)}>20m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(25 * 60_000)}>25m</button>
+        <button type="button" className="analog-preset" onClick={() => setDur(30 * 60_000)}>30m</button>
+      </div>
+
+      {/* Time Adjustments */}
+      <div className="analog-presets">
+        <button type="button" className="analog-preset btn" onClick={() => plus(60_000)}>+1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-60_000)}>-1m</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(5 * 60_000)}>+5</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(10 * 60_000)}>+10</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-5 * 60_000)}>-5</button>
+        <button type="button" className="analog-preset btn" onClick={() => plus(-10 * 60_000)}>-10</button>
+      </div>
+
+      {/* Custom Duration Input */}
+      <div className="analog-custom-input">
+        <label htmlFor="custom-minutes">Custom Timer (1-180 min):</label>
+        <div className="analog-input-group">
+          <input
+            id="custom-minutes"
+            type="number"
+            min="1"
+            max="180"
+            value={customMinutes}
+            onChange={(e) => setCustomMinutes(e.target.value)}
+            onBlur={(e) => {
+              // Auto-correct invalid values (US9: P2)
+              const val = parseInt(e.target.value, 10);
+              if (isNaN(val) || e.target.value === '') {
+                return; // Leave empty if invalid
+              }
+              if (val > 180) setCustomMinutes('180'); // Clamp to max
+              else if (val < 1) setCustomMinutes('1'); // Clamp to min
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleCustomMinutes();
+            }}
+            placeholder="Enter minutes"
+            disabled={st.running}
+          />
           <button
-            key={min}
-            className="chip"
-            onClick={() => setDur(min * 60_000)}
+            type="button"
+            className="analog-btn secondary"
+            onClick={handleCustomMinutes}
+            disabled={st.running || !customMinutes}
           >
-            {min >= 60 ? `${min/60}h` : `${min}m`}
+            Set
           </button>
-        ))}
-        <label className="warn">
-          Warn at:
-          <select
-            value={String(st.warnAtMs ?? 0)}
-            onChange={(e) => setSt(s => ({...s, warnAtMs: Number(e.target.value) || null}))}
-          >
-            <option value="0">off</option>
-            <option value="60000">1m</option>
-            <option value="300000">5m</option>
-            <option value="600000">10m</option>
-          </select>
-        </label>
-        <label className="sig">
+        </div>
+      </div>
+
+      {/* Settings */}
+      <div className="countdown-settings">
+        <label>
           <input
             type="checkbox"
             checked={st.signal.sound}
-            onChange={e => setSt(s => ({...s, signal: {...s.signal, sound: e.target.checked}}))}
+            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
           />
           Sound
         </label>
-        <label className="sig">
+        <label>
           <input
             type="checkbox"
             checked={st.signal.flash}
-            onChange={e => setSt(s => ({...s, signal: {...s.signal, flash: e.target.checked}}))}
+            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
           />
           Flash
         </label>

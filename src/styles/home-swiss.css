@@ -1,0 +1,842 @@
+/* ============================================
+ * HOME PAGE - Professional Sage Green Design
+ * Modern Minimalist Aesthetic (Swiss/Bauhaus)
+ * ============================================ */
+
+:root {
+  /* Sage Green & Charcoal Color System */
+  --sage-primary: #9CAF88;      /* Main accent color */
+  --sage-light: #B5C5A0;        /* Lighter sage for hover */
+  --charcoal-dark: #2C3E50;     /* Dark background */
+  --charcoal-text: #1A1F2E;     /* Text color */
+  --off-white: #F8F9FA;         /* Light backgrounds */
+  --warm-gray: #7A8A99;         /* Secondary text, borders */
+  --light-border: #E5E9EF;      /* Subtle borders */
+
+  /* Dark Mode Colors */
+  --dark-bg: #0f1419;           /* Very dark background */
+  --dark-surface: #1a1f2e;      /* Card/surface dark */
+  --dark-text: #e8eaed;         /* Light text on dark */
+  --dark-border: #2a3142;       /* Borders on dark */
+
+  /* Mode preference */
+  --use-dark: 0;                /* 0 for light, 1 for dark (set by JS) */
+}
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8) var(--space-4);
+  position: relative;
+  z-index: 2;
+  /* Default to dark mode */
+  background: linear-gradient(180deg, #1a2332 0%, #0f1419 100%) !important;
+  width: 100%;
+}
+
+/* Light mode override */
+html[data-theme="light"] .home-page {
+  background: linear-gradient(180deg, #f8f9fa 0%, #f0f1f5 100%) !important;
+  color: #1a1f2e;
+}
+
+html[data-theme="light"] .home-grid-header {
+  color: #1a1f2e;
+  background: rgba(248, 249, 250, 0.6);
+  border-color: rgba(156, 175, 136, 0.2);
+}
+
+html[data-theme="light"] .home-intro p {
+  color: #6b7280;
+}
+
+html[data-theme="light"] .section-title {
+  color: #1a1f2e;
+}
+
+html[data-theme="light"] .home-footer a {
+  color: #6b7280;
+}
+
+html[data-theme="light"] .home-footer-brand {
+  color: #d1d5db;
+}
+
+/* When home page is visible, hide body pseudo-elements */
+body:has(.home-page)::before,
+body:has(.home-page)::after {
+  display: none !important;
+}
+
+/* Title Container */
+.home-title-container {
+  width: 100%;
+  max-width: var(--container-max);
+  text-align: center;
+  margin-bottom: var(--space-12);
+  position: relative;
+  z-index: 1;
+}
+/* Language toggle (fixed top-right) */
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: rgba(26, 35, 50, 0.8);
+  color: #e8eaed;
+  border: 1px solid rgba(156, 175, 136, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.lang-toggle:hover {
+  background: var(--sage-primary);
+  color: white;
+  border-color: var(--sage-primary);
+  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.3);
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+  position: fixed;
+  top: 16px;
+  right: 80px;
+  z-index: 1000;
+  background: rgba(26, 35, 50, 0.8);
+  color: #e8eaed;
+  border: 1px solid rgba(156, 175, 136, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-mode-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--sage-primary);
+  color: white;
+  border-color: var(--sage-primary);
+  box-shadow: 0 4px 12px rgba(156, 175, 136, 0.3);
+}
+
+@media (max-width: 640px) {
+  .lang-toggle {
+    top: 12px;
+    right: 12px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .dark-mode-toggle {
+    top: 12px;
+    right: 60px;
+    padding: 6px 8px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .dark-mode-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Home Page Sections */
+.home-section {
+  width: 100%;
+  padding: 48px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-section-timers {
+  border-bottom: 1px solid rgba(156, 175, 136, 0.1);
+}
+
+.home-section-pillars {
+  padding-top: 64px;
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+  color: #e8eaed;
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: 0.02em;
+}
+
+/* Subtle intro paragraph above timer grid */
+.home-intro {
+  width: min(1100px, 92%);
+  margin: 0 auto var(--space-8);
+  color: #e8eaed;
+}
+
+.home-intro p {
+  margin: 0;
+  font-size: clamp(0.98rem, 0.92rem + 0.5vw, 1.15rem);
+  line-height: 1.7;
+  color: #a8adb5;
+}
+
+/* Timer Grid - Premium Layout */
+.home-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: clamp(24px, 3vw, 36px) !important;
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin: 0 auto var(--space-12) auto !important;
+  position: relative !important;
+  z-index: 1 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 40px 20px !important;
+  box-shadow: none !important;
+  border: none !important;
+  place-items: center !important;
+}
+
+/* Remove gradient borders from home-grid */
+.home-grid::before {
+  display: none !important;
+}
+
+.home-grid::after {
+  display: none !important;
+}
+
+/* Header inside the grid surface */
+.home-grid-header {
+  grid-column: 1 / -1;
+  color: #e8eaed;
+  text-align: center;
+  font-weight: 600;
+  font-size: clamp(1rem, 0.95rem + 0.7vw, 1.3rem);
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  padding: 24px 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: rgba(42, 63, 82, 0.4);
+  border: 1px solid rgba(156, 175, 136, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Professional Minimalist Timer Cards - Uniform Size */
+.home-timer-card {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  text-decoration: none;
+  color: white;
+  overflow: hidden;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #2a3f52 0%, #1f2f42 100%) !important;
+  border: 1px solid rgba(156, 175, 136, 0.25) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+/* Remove pseudo-elements from glass-morphism design */
+.home-timer-card::before {
+  display: none;
+}
+
+.home-timer-card::after {
+  display: none;
+}
+
+/* Card Inner Container */
+.timer-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 0;
+  /* Ensure content doesn't break layout */
+  overflow: hidden;
+  gap: 12px;
+  padding: 16px 14px;
+  z-index: 1;
+}
+
+/* Icon Container */
+.timer-icon-container {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Icon SVG Styling */
+.timer-icon-container svg {
+  width: 100%;
+  height: 100%;
+  color: var(--sage-primary);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
+}
+
+/* Timer Label - Professional Typography */
+.timer-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: white;
+  transition: all 0.3s ease;
+  text-align: center;
+  line-height: 1.3;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  hyphens: none;
+}
+
+/* Hover State - Subtle Professional Effect */
+.home-timer-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  border-color: var(--sage-primary);
+  background: linear-gradient(135deg, #3d5568 0%, #2d4555 100%) !important;
+}
+
+.home-timer-card:hover .timer-icon-container svg {
+  color: var(--sage-primary);
+  filter: drop-shadow(0 0 12px rgba(156, 175, 136, 0.6));
+  transform: scale(1.12);
+}
+
+.home-timer-card:hover .timer-label {
+  color: var(--sage-light);
+}
+
+/* Active/Press State */
+.home-timer-card:active {
+  transform: translateY(-2px);
+  transition-duration: 0.1s;
+}
+
+.home-timer-card:active .timer-icon-container svg {
+  transform: scale(1.04);
+}
+
+/* Footer */
+.home-footer {
+  margin-top: auto;
+  color: var(--warm-gray);
+  padding-top: var(--space-8);
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--type-sm);
+  color: var(--ocean-bright);
+  position: relative;
+  z-index: 1;
+}
+
+.home-footer a {
+  color: #8b92a0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.home-footer-links a:hover {
+  color: var(--sage-primary);
+  text-decoration: underline;
+}
+
+/* Brand whisper - "Powered by DYAI" */
+.home-footer-brand {
+  font-size: 10px;
+  font-weight: 300;
+  font-style: italic;
+  color: #5a6370;
+  text-align: center;
+}
+
+/* Responsive - Tablet (2 columns) */
+@media (max-width: 768px) {
+  .home-page {
+    padding: 48px 20px;
+  }
+
+  .home-header {
+    margin-bottom: 40px;
+  }
+
+  .home-title {
+    font-size: 28px;
+    letter-spacing: 6px;
+  }
+
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .home-timer-card {
+    padding: 24px 20px;
+  }
+
+  .home-timer-icon-placeholder {
+    width: 40px;
+    height: 40px;
+  }
+
+  .home-timer-label {
+    font-size: 14px;
+  }
+}
+
+/* Responsive - Mobile (1 column) */
+@media (max-width: 480px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .home-timer-card {
+    min-height: 120px;
+    max-height: 160px;
+    border-radius: 16px;
+  }
+
+  .home-timer-card::before {
+    inset: -2px;
+    border-radius: 18px;
+  }
+
+  .timer-card-inner {
+    gap: 12px;
+    padding: 18px 16px;
+  }
+
+  .timer-icon-container {
+    width: 36px;
+    height: 36px;
+  }
+
+  .timer-label { font-size: 10px; letter-spacing: 0.04em; }
+}
+
+/* Accessibility - Focus States */
+.home-timer-card:focus-visible {
+  outline: none;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 3px rgba(var(--card-color-rgb), 0.8),
+    0 0 30px rgba(var(--card-color-rgb), 0.5);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .home-timer-card,
+  .timer-icon-container svg,
+  .timer-label {
+    transition: none;
+  }
+  
+  .home-timer-card:hover {
+    transform: none;
+  }
+}
+/* ============================================
+ * TITLE WITH INTEGRATED CLOCK
+ * Clock between "Stopp" and "Clock"
+ * ============================================ */
+.home-title-with-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.home-title-word {
+  font-size: var(--type-3xl);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3),
+               1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.home-analog-clock {
+  display: block;
+  opacity: 0.8;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+@media (max-width: 640px) {
+  .home-title-with-clock {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .home-title-word {
+    font-size: var(--type-2xl);
+  }
+
+  .home-analog-clock {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* =============================
+ * DIGITAL FACTS BOARD (above grid)
+ * ============================= */
+.facts-board {
+  width: min(1100px, 92%);
+  margin: 0 auto calc(var(--space-12) + 10px);
+}
+.facts-frame {
+  background: linear-gradient(180deg, #0b1220, #0a0f1b);
+  border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 10px 30px rgba(0,0,0,0.25),
+    0 0 40px rgba(0,217,255,0.08);
+  padding: 18px 16px 16px;
+  position: relative;
+}
+.facts-fs-btn{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.facts-overlay{
+  position: fixed;
+  inset: 0;
+  margin: 0 auto;
+  z-index: 2000;
+  border-radius: 0;
+}
+.facts-heading {
+  text-align: center;
+  color: var(--neutral-white);
+  font-weight: 800;
+  font-size: clamp(1.4rem, 1.1rem + 1.6vw, 2.2rem);
+  letter-spacing: 0.04em;
+  margin: 2px 0 10px;
+}
+.facts-badge {
+  display: inline-block;
+  margin: 0 0 10px 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0, 217, 255, 0.12);
+  color: #00d9ff;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
+}
+.facts-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 12px;
+}
+.facts-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--neutral-white);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.facts-btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.08); }
+.facts-btn:active { transform: translateY(0); }
+.facts-link { text-decoration: none; }
+.facts-screen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  background: radial-gradient(120% 120% at 10% 10%, rgba(0,217,255,0.10), transparent 60%),
+              radial-gradient(140% 140% at 90% 20%, rgba(199,125,255,0.10), transparent 60%);
+  border-radius: 10px;
+  padding: 18px 20px;
+  min-height: 130px;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+}
+.facts-prefix {
+  color: #00d9ff;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.facts-text {
+  flex: 1 1 auto;
+  color: #D6FFF8;
+  font-family: 'Digital-7', 'Segment7Standard', 'DS-Digital', 'Orbitron', 'Share Tech Mono', monospace;
+  font-size: clamp(1.2rem, 1rem + 1.2vw, 1.8rem);
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 8px rgba(0,217,255,0.25);
+}
+.facts-author {
+  color: #a6f7ff;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.facts-next {
+  color: var(--neutral-white);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+/* Mobile responsiveness for facts + header + grid */
+@media (max-width: 640px) {
+  .facts-heading {
+    font-size: clamp(1.1rem, 3.8vw, 1.6rem);
+    margin-bottom: 10px;
+  }
+  .facts-badge {
+    display: block;
+    margin: 0 auto 10px;
+    text-align: center;
+  }
+  .facts-controls {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .facts-btn { width: 100%; }
+  .facts-screen {
+    min-height: 180px;
+    padding: 16px 14px;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .home-grid-header{
+    font-size: clamp(0.98rem, 3.6vw, 1.2rem);
+    line-height: 1.6;
+    padding: 4px 8px 2px;
+  }
+  .home-grid {
+    gap: 18px;
+  }
+  .facts-text {
+    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+    line-height: 1.6;
+  }
+}
+
+/* =============================
+ * TIMER INFO SECTION
+ * ============================= */
+.timer-info {
+  width: min(1100px, 92%);
+  margin: 0 auto var(--space-8);
+}
+.timer-info h2 {
+  font-size: var(--type-xl);
+  margin-bottom: var(--space-3);
+}
+.timer-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: var(--space-3);
+}
+@media (max-width: 900px) {
+  .timer-info-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 560px) {
+  .timer-info-grid { grid-template-columns: 1fr; }
+}
+.timer-info-item {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.03);
+  color: var(--neutral-white);
+  text-decoration: none;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.timer-info-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.22), inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+.timer-info-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.timer-info-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(var(--info-accent-rgb, 255,255,255), 0.18), rgba(var(--info-accent-rgb, 255,255,255), 0.08));
+  border: 1px solid rgba(var(--info-accent-rgb, 255,255,255), 0.4);
+  display: grid;
+  place-items: center;
+  color: var(--neutral-white);
+}
+.timer-info-icon svg { width: 26px; height: 26px; }
+.timer-info-title-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.timer-info-name {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+}
+.timer-info-purpose {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(var(--info-accent-rgb, 239,68,68), 0.12);
+  color: var(--neutral-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid rgba(var(--info-accent-rgb, 239,68,68), 0.35);
+}
+.timer-info-desc {
+  color: var(--ocean-bright);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+.timer-info-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.timer-info-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--neutral-white);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+
+/* =============================
+ * DIGITAL FACTS BOARD
+ * ============================= */
+.facts-board {
+  width: min(1100px, 92%);
+  margin: 0 auto calc(var(--space-12) + 10px);
+}
+.facts-frame {
+  background: linear-gradient(180deg, #0b1220, #0a0f1b);
+  border: 1px solid rgba(212,175,55,0.25);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 10px 30px rgba(0,0,0,0.25),
+    0 0 40px rgba(0,217,255,0.08);
+  padding: 18px 16px 16px;
+}
+.facts-screen {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: radial-gradient(120% 120% at 10% 10%, rgba(0,217,255,0.10), transparent 60%),
+              radial-gradient(140% 140% at 90% 20%, rgba(199,125,255,0.10), transparent 60%);
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-height: 72px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.facts-prefix {
+  color: #00d9ff;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.facts-text {
+  color: #D6FFF8;
+  font-family: 'Digital-7', 'Segment7Standard', 'DS-Digital', 'Orbitron', 'Share Tech Mono', monospace;
+  font-size: clamp(1rem, 1.1rem + 0.5vw, 1.25rem);
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 8px rgba(0,217,255,0.25);
+}
+
+/* =============================
+ * TIMER CARD VARIANTS
+ * ============================= */
+.home-timer-card.is-countdown { --card-color: #7B2CBF; --card-color-rgb: 123, 44, 191; }
+.home-timer-card.is-stopwatch { --card-color: #00D9FF; --card-color-rgb: 0, 217, 255; }
+.home-timer-card.is-analog { --card-color: #C77DFF; --card-color-rgb: 199, 125, 255; }
+.home-timer-card.is-timesince { --card-color: #9333EA; --card-color-rgb: 147, 51, 234; }
+.home-timer-card.is-cooking { --card-color: #FF6B9D; --card-color-rgb: 255, 107, 157; }
+.home-timer-card.is-couples { --card-color: #FF69B4; --card-color-rgb: 255, 105, 180; }
+.home-timer-card.is-custom { --card-color: #8B5CF6; --card-color-rgb: 139, 92, 246; }
+.home-timer-card.is-chess { --card-color: #E0AAFF; --card-color-rgb: 224, 170, 255; }
+.home-timer-card.is-metronome { --card-color: #F59E0B; --card-color-rgb: 245, 158, 11; }
+.home-timer-card.is-world { --card-color: #6B9BD1; --card-color-rgb: 107, 155, 209; }
+.home-timer-card.is-alarm { --card-color: #EF4444; --card-color-rgb: 239, 68, 68; }
+.home-timer-card.is-pomodoro { --card-color: #10B981; --card-color-rgb: 16, 185, 129; }
+.home-timer-card.is-philosophy { --card-color: #A855F7; --card-color-rgb: 168, 85, 247; }

@@ -103,7 +103,7 @@ export default function DigitalClock() {
           />
           <span>24h</span>
         </label>
-        <button className="btn" onClick={full}>Fullscreen</button>
+        <button className="btn hide-on-mobile" onClick={full}>Fullscreen</button>
       </div>
     </div>
   );

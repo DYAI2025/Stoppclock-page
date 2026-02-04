@@ -1,0 +1,316 @@
+/* ============================================
+ * COUNTDOWN TIMER - Swiss/Bauhaus Minimal
+ * ============================================ */
+
+.countdown-page {
+  min-height: 100vh;
+  background: var(--mono-white);
+  color: var(--mono-black);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+/* Header (minimal) */
+.countdown-header {
+  width: 100%;
+  max-width: var(--container-max);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-thin) solid var(--mono-gray-300);
+}
+
+.countdown-title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-regular);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Timer display (dominant element) */
+.countdown-display {
+  /* Font-size controlled by JavaScript (useAutoFitText hook) */
+  font-weight: var(--font-regular);
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  margin: clamp(var(--space-6), 4vw, var(--space-16)) 0;
+  padding: clamp(var(--space-3), 2vw, var(--space-8));
+  background: var(--mono-gray-100);
+  border: var(--border-medium) solid var(--mono-black);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  transition: background var(--transition-base);
+  box-sizing: border-box;
+  line-height: 1.4;
+}
+
+.countdown-display.running {
+  background: var(--mono-white);
+  color: var(--mono-black);
+}
+
+.countdown-display.expired {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border-color: var(--semantic-error);
+}
+
+/* Controls (geometric grid) */
+.countdown-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: var(--space-8);
+}
+
+.countdown-btn {
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  padding: var(--space-4) var(--space-6);
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.countdown-btn:hover {
+  background: var(--mono-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.countdown-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.countdown-btn.secondary {
+  background: var(--mono-gray-200);
+  color: var(--mono-black);
+}
+
+.countdown-btn.secondary:hover {
+  background: var(--mono-gray-300);
+}
+
+/* Presets (minimal buttons) */
+.countdown-presets {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: var(--space-8);
+}
+
+.countdown-preset {
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--font-regular);
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  color: var(--mono-gray-600);
+  border: var(--border-thin) solid var(--mono-gray-400);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.countdown-preset:hover {
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border-color: var(--mono-black);
+}
+
+/* Settings (minimal checkboxes) */
+.countdown-settings {
+  display: flex;
+  gap: var(--space-6);
+  font-size: var(--type-sm);
+  color: var(--mono-gray-700);
+}
+
+.countdown-settings label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .countdown-page {
+    padding: var(--space-4);
+  }
+
+  .countdown-display {
+    margin: var(--space-8) 0;
+    padding: var(--space-4);
+  }
+
+  .countdown-controls {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .countdown-btn {
+    font-size: var(--type-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .countdown-presets {
+    gap: var(--space-1);
+  }
+
+  .countdown-preset {
+    font-size: var(--type-xs);
+    padding: var(--space-1) var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown-title {
+    font-size: var(--type-lg);
+  }
+
+  .countdown-display {
+    margin: var(--space-6) 0;
+    padding: var(--space-3);
+  }
+}
+
+/* ========================================
+   COUNTDOWN RING STYLES
+   ======================================== */
+
+.countdown-ring-container {
+  position: relative;
+  width: min(90vw, 500px);
+  height: min(90vw, 500px);
+  margin: var(--space-8, 2rem) auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-ring-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(var(--glow, 0 0 8px var(--aurora-cyan)));
+  transition: filter 0.3s ease;
+}
+
+/* Progress ring smooth animation */
+.countdown-progress-ring {
+  transition: stroke-dashoffset 0.5s linear, stroke 0.3s ease;
+}
+
+/* Ticks */
+.countdown-tick {
+  transition: stroke 0.3s ease;
+}
+
+.countdown-tick.active {
+  stroke: var(--ring, var(--aurora-cyan));
+}
+
+/* Time display inside ring */
+.countdown-ring-time {
+  position: relative;
+  z-index: 1;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text-primary, #fff);
+  text-align: center;
+  user-select: none;
+  transition: font-size 0.2s ease, color 0.3s ease;
+}
+
+/* State: Running */
+.countdown-ring-container.running .countdown-ring-time {
+  color: var(--ring, var(--aurora-cyan));
+}
+
+/* State: Danger (≤20s) */
+.countdown-ring-container.danger .countdown-ring-svg {
+  filter: drop-shadow(var(--glow, 0 0 15px #ff6b00));
+}
+
+/* State: Critical (≤2s) - Pulse animation */
+.countdown-ring-container.critical .countdown-ring-time {
+  animation: countdown-pulse 0.5s ease-in-out infinite;
+}
+
+.countdown-ring-container.critical .countdown-ring-svg {
+  filter: drop-shadow(var(--glow, 0 0 25px #ef4444));
+  animation: countdown-glow-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes countdown-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes countdown-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 20px var(--semantic-error));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px var(--semantic-error));
+  }
+}
+
+/* State: Expired */
+.countdown-ring-container.expired .countdown-ring-time {
+  color: var(--semantic-error, #ef4444);
+}
+
+.countdown-ring-container.expired .countdown-ring-svg {
+  filter: drop-shadow(0 0 30px var(--semantic-error));
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .countdown-progress-ring {
+    transition: stroke 0.3s ease;
+  }
+
+  .countdown-ring-container.critical .countdown-ring-time,
+  .countdown-ring-container.critical .countdown-ring-svg {
+    animation: none;
+  }
+
+  .countdown-ring-svg {
+    filter: none !important;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .countdown-ring-container {
+    width: 85vw;
+    height: 85vw;
+    margin: var(--space-4, 1rem) auto;
+  }
+}

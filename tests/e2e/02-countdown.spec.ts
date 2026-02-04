@@ -1,112 +1,247 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Digital Countdown', () => {
+test.describe("Digital Countdown with Ring Visualization", () => {
   test.beforeEach(async ({ page }) => {
     // Dismiss consent banner by setting localStorage
     await page.addInitScript(() => {
-      localStorage.setItem('sc.adsConsent', 'no');
+      localStorage.setItem("sc.adsConsent", "no");
     });
   });
 
-  test('should load and function correctly', async ({ page }) => {
-    // Navigate to countdown
-    await page.goto('/#/countdown');
+  test("should load with ring visualization", async ({ page }) => {
+    await page.goto("/#/countdown");
 
     // Wait for page to load
-    await expect(page.locator('.countdown-wrap')).toBeVisible();
+    await expect(page.locator(".countdown-page")).toBeVisible();
 
-    // Check digital time display
-    const display = page.locator('.countdown-display');
-    await expect(display).toBeVisible();
+    // Check ring visualization is present
+    const ringContainer = page.locator(".countdown-ring-container");
+    await expect(ringContainer).toBeVisible();
 
-    // Set time: 10 minutes 30 seconds
-    await page.locator('input[aria-label="Hours"]').fill('0');
-    await page.locator('input[aria-label="Minutes"]').fill('10');
-    await page.locator('input[aria-label="Seconds"]').fill('30');
+    const ringSvg = page.locator(".countdown-ring-svg");
+    await expect(ringSvg).toBeVisible();
 
-    // Verify display shows 00:10:30
-    await expect(display).toHaveText('00:10:30');
+    // Check time display within ring - default 5 minutes
+    const timeDisplay = page.locator(".countdown-ring-time");
+    await expect(timeDisplay).toBeVisible();
+    await expect(timeDisplay).toContainText("00:05:00");
+
+    // Verify 60 ticks are rendered
+    const tickCount = await page.locator(".countdown-tick").count();
+    expect(tickCount).toBe(60);
+  });
+
+  test("should start, pause and reset countdown", async ({ page }) => {
+    await page.goto("/#/countdown");
+
+    const timeDisplay = page.locator(".countdown-ring-time");
 
     // Click Start button
-    await page.getByRole('button', { name: 'Start' }).click();
+    await page.getByRole("button", { name: "Start" }).click();
 
     // Wait 2 seconds
     await page.waitForTimeout(2000);
 
-    // Verify time has decremented (should be around 00:10:28 or 00:10:27)
-    const timeText = await display.textContent();
-    expect(timeText).toMatch(/00:10:2[78]/);
+    // Verify time has decremented (should be around 00:04:58 or 00:04:57)
+    const timeText = await timeDisplay.textContent();
+    expect(timeText).toMatch(/00:04:5[78]/);
 
     // Test Space key pauses
-    await page.keyboard.press('Space');
-    await expect(page.locator('.countdown-controls button.btn.primary')).toHaveText('Start');
+    await page.keyboard.press("Space");
+    await expect(page.getByRole("button", { name: "Start" })).toBeVisible();
 
     // Test R key resets
-    await page.keyboard.press('r');
-    await expect(display).toHaveText('00:10:30');
+    await page.keyboard.press("r");
+    await expect(timeDisplay).toContainText("00:05:00");
   });
 
-  test('should support keyboard shortcuts', async ({ page }) => {
-    await page.goto('/#/countdown');
+  test("should support keyboard shortcuts", async ({ page }) => {
+    await page.goto("/#/countdown");
 
-    // Set 5 minutes
-    await page.locator('input[aria-label="Minutes"]').fill('5');
-    await expect(page.locator('.countdown-display')).toHaveText('00:05:00');
+    const timeDisplay = page.locator(".countdown-ring-time");
 
-    // Blur input field to allow arrow keys to work
-    await page.locator('.countdown-wrap').click();
+    // Default should be 5 minutes
+    await expect(timeDisplay).toContainText("00:05:00");
 
-    // Test ArrowUp adds 10s
-    await page.keyboard.press('ArrowUp');
-    await expect(page.locator('.countdown-display')).toHaveText('00:05:10');
+    // Blur any focused element to ensure keyboard shortcuts work
+    await page.locator(".countdown-page").click();
 
-    // Test ArrowDown removes 10s
-    await page.keyboard.press('ArrowDown');
-    await expect(page.locator('.countdown-display')).toHaveText('00:05:00');
+    // Use preset buttons to set time
+    await page.getByRole("button", { name: "+1m" }).click();
+    await expect(timeDisplay).toContainText("00:06:00");
+
+    // Start the timer
+    await page.keyboard.press("Space");
+
+    // Arrow keys should not work while running
+    await page.keyboard.press("ArrowUp");
+    await page.waitForTimeout(100);
+    const runningTime = await timeDisplay.textContent();
+    expect(runningTime).toMatch(/00:05:5[89]/);
+
+    // Pause with Space
+    await page.keyboard.press("Space");
+
+    // Reset with R
+    await page.keyboard.press("r");
+    await expect(timeDisplay).toContainText("00:06:00");
   });
 
-  test('should toggle signal options', async ({ page }) => {
-    await page.goto('/#/countdown');
+  test("should persist state across navigation", async ({ page }) => {
+    await page.goto("/#/countdown");
 
-    // Check sound checkbox
-    const soundCheckbox = page.locator('label.sig').filter({ hasText: 'Sound' }).locator('input[type="checkbox"]');
-    await expect(soundCheckbox).toBeChecked();
+    const timeDisplay = page.locator(".countdown-ring-time");
 
-    // Uncheck sound
-    await soundCheckbox.click();
-    await expect(soundCheckbox).not.toBeChecked();
+    // Set to 1 minute using preset
+    await page.getByRole("button", { name: "-1m" }).click();
+    await page.getByRole("button", { name: "-1m" }).click();
+    await page.getByRole("button", { name: "-1m" }).click();
+    await page.getByRole("button", { name: "-1m" }).click();
 
-    // Check flash checkbox
-    const flashCheckbox = page.locator('label.sig').filter({ hasText: 'Flash' }).locator('input[type="checkbox"]');
-    await expect(flashCheckbox).toBeChecked();
+    await expect(timeDisplay).toContainText("00:01:00");
 
-    // Change warning dropdown
-    const warnSelect = page.locator('label.warn select');
-    await warnSelect.selectOption('300000'); // 5m
-    await expect(warnSelect).toHaveValue('300000');
-  });
-
-  test('should persist state across navigation', async ({ page }) => {
-    await page.goto('/#/countdown');
-
-    // Set 3 minutes
-    await page.locator('input[aria-label="Minutes"]').fill('3');
-
-    // Start timer
-    await page.getByRole('button', { name: 'Start' }).click();
-    await page.waitForTimeout(1000);
+    // Start countdown
+    await page.getByRole("button", { name: "Start" }).click();
+    await page.waitForTimeout(2000);
 
     // Navigate away
-    await page.goto('/#/');
-    await expect(page.locator('.grid')).toBeVisible();
+    await page.goto("/#/");
+    await expect(page.locator(".home-grid, .home-page")).toBeVisible();
 
     // Navigate back
-    await page.goto('/#/countdown');
+    await page.goto("/#/countdown");
 
-    // Verify state persisted (time should have continued counting down)
-    await expect(page.locator('.countdown-display')).toBeVisible();
-    const timeAfterNavigation = await page.locator('.countdown-display').textContent();
-    // Should be around 00:02:58 or 00:02:59 (1 second passed)
-    expect(timeAfterNavigation).toMatch(/00:02:5[89]/);
+    // State should be persisted (time should have continued)
+    await expect(timeDisplay).toBeVisible();
+    const timeAfter = await timeDisplay.textContent();
+    // Should be less than 00:01:00 (countdown continued)
+    expect(timeAfter).toMatch(/00:00:5[0-8]/);
+  });
+
+  test("should toggle signal checkboxes", async ({ page }) => {
+    await page.goto("/#/countdown");
+
+    // Find sound checkbox
+    const soundCheckbox = page.locator('input[type="checkbox"]').first();
+    const flashCheckbox = page.locator('input[type="checkbox"]').last();
+
+    // Toggle sound
+    const soundInitial = await soundCheckbox.isChecked();
+    await soundCheckbox.click();
+    const soundAfter = await soundCheckbox.isChecked();
+    expect(soundAfter).toBe(!soundInitial);
+
+    // Toggle flash
+    const flashInitial = await flashCheckbox.isChecked();
+    await flashCheckbox.click();
+    const flashAfter = await flashCheckbox.isChecked();
+    expect(flashAfter).toBe(!flashInitial);
+  });
+});
+
+test.describe("Countdown Ring States", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem("sc.adsConsent", "no");
+    });
+  });
+
+  test("should show danger state at 20 seconds or less", async ({ page }) => {
+    await page.goto("/#/countdown?duration=25");
+
+    const ringContainer = page.locator(".countdown-ring-container");
+    await expect(ringContainer).toBeVisible();
+
+    // Start countdown
+    await page.getByRole("button", { name: "Start" }).click();
+
+    // Wait for 6 seconds (should be at ~19s, in danger zone)
+    await page.waitForTimeout(6000);
+
+    // Check for danger class
+    await expect(ringContainer).toHaveClass(/danger/);
+  });
+
+  test("should show critical state at 2 seconds or less", async ({ page }) => {
+    await page.goto("/#/countdown?duration=4");
+
+    const ringContainer = page.locator(".countdown-ring-container");
+    await expect(ringContainer).toBeVisible();
+
+    // Start countdown
+    await page.getByRole("button", { name: "Start" }).click();
+
+    // Wait for 3 seconds (should be at ~1s, in critical zone)
+    await page.waitForTimeout(3000);
+
+    // Check for critical class
+    await expect(ringContainer).toHaveClass(/critical/);
+  });
+
+  test("ring ticks should represent seconds in current minute", async ({
+    page,
+  }) => {
+    // Set to 65 seconds (1m 5s)
+    await page.goto("/#/countdown?duration=65");
+
+    await expect(page.locator(".countdown-page")).toBeVisible();
+
+    // Count active ticks (should be 5 for 5 seconds in minute)
+    const activeTicksBefore = await page
+      .locator(".countdown-tick.active")
+      .count();
+    expect(activeTicksBefore).toBe(5);
+
+    // Start countdown
+    await page.getByRole("button", { name: "Start" }).click();
+
+    // Wait 7 seconds (should transition from 65s → ~58s)
+    await page.waitForTimeout(7000);
+
+    // Check time display shows proper minute transition
+    const timeDisplay = await page
+      .locator(".countdown-ring-time")
+      .textContent();
+    expect(timeDisplay).toMatch(/00:00:5[78]/);
+
+    // Active ticks should now be around 57-58
+    const activeTicksAfter = await page
+      .locator(".countdown-tick.active")
+      .count();
+    expect(activeTicksAfter).toBeGreaterThanOrEqual(55);
+    expect(activeTicksAfter).toBeLessThanOrEqual(60);
+  });
+
+  test("progress ring should be visible", async ({ page }) => {
+    await page.goto("/#/countdown?duration=10");
+
+    // Verify progress ring exists
+    const progressRing = page.locator(".countdown-progress-ring");
+    await expect(progressRing).toBeVisible();
+
+    // Verify it has stroke-dashoffset attribute
+    const hasOffset = await progressRing.getAttribute("stroke-dashoffset");
+    expect(hasOffset).not.toBeNull();
+  });
+
+  test("should show expired state when countdown reaches zero", async ({
+    page,
+  }) => {
+    await page.goto("/#/countdown?duration=2");
+
+    const ringContainer = page.locator(".countdown-ring-container");
+
+    // Start countdown
+    await page.getByRole("button", { name: "Start" }).click();
+
+    // Wait for countdown to complete
+    await page.waitForTimeout(3000);
+
+    // Check for expired class
+    await expect(ringContainer).toHaveClass(/expired/);
+
+    // Time should show 00:00:00
+    const timeDisplay = page.locator(".countdown-ring-time");
+    await expect(timeDisplay).toContainText("00:00:00");
   });
 });

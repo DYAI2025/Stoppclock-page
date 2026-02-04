@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
+import { useAutoFitText } from "../hooks/useAutoFitText";
+import { HomeButton } from "../components/HomeButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 
 const LS_KEY = "sc.v1.cycle";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -82,6 +85,7 @@ function fmt(ms: number): string {
 export default function CycleTimer() {
   const [st, setSt] = useState<Persist>(load);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
@@ -146,17 +150,34 @@ export default function CycleTimer() {
     }));
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'CycleTimer',
+        name: 'Cycle Timer',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   const totalSec = Math.floor(st.remainingMs / 1000);
   const h = Math.floor(totalSec / 3600);
   const m = Math.floor((totalSec % 3600) / 60);
   const s = totalSec % 60;
 
   return (
-    <div className="countdown-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
+    <div className="cycle-wrap" ref={wrapRef}>
+      <HomeButton />
 
-      <h2>Cycle Timer</h2>
-      <p style={{color: 'var(--muted)', fontSize: '14px', marginTop: '-8px'}}>
+      <h1 className="timer-title">Cycle Timer</h1>
+      <p style={{color: 'var(--white)', fontSize: '14px', marginTop: '-8px', opacity: 0.8}}>
         Automatically restarts after each interval • Cycle #{st.cycleCount}
       </p>
 
@@ -171,6 +192,13 @@ export default function CycleTimer() {
             aria-label="Hours"
             disabled={st.running}
             onChange={e => setTime(Number(e.target.value) || 0, m, s)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 12) setTime(12, m, s);
+              else if (val < 0) setTime(0, m, s);
+            }}
           />
         </label>
         <span className="sep">:</span>
@@ -184,6 +212,13 @@ export default function CycleTimer() {
             aria-label="Minutes"
             disabled={st.running}
             onChange={e => setTime(h, Number(e.target.value) || 0, s)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 59) setTime(h, 59, s);
+              else if (val < 0) setTime(h, 0, s);
+            }}
           />
         </label>
         <span className="sep">:</span>
@@ -197,17 +232,31 @@ export default function CycleTimer() {
             aria-label="Seconds"
             disabled={st.running}
             onChange={e => setTime(h, m, Number(e.target.value) || 0)}
+            onBlur={e => {
+              // Auto-correct invalid values (US9: P2)
+              const val = Number(e.target.value);
+              if (isNaN(val)) return;
+              if (val > 59) setTime(h, m, 59);
+              else if (val < 0) setTime(h, m, 0);
+            }}
           />
         </label>
       </div>
 
-      <div className="countdown-display">{fmt(st.remainingMs)}</div>
+      <div className="countdown-display">
+        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
+          {fmt(st.remainingMs)}
+        </div>
+      </div>
 
       <div className="countdown-controls">
-        <button className="btn primary" onClick={st.running ? pause : start}>
-          {st.running ? "Pause" : "Start"}
+        <button type="button" className="btn-primary-action" onClick={st.running ? pause : start}>
+          {st.running ? "Stop" : "Start"}
         </button>
-        <button className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={reset}>Reset</button>
+        <button type="button" className="btn" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
+        </button>
       </div>
 
       <div className="countdown-settings">

@@ -1,0 +1,227 @@
+/* ============================================
+ * STOPWATCH - Swiss/Bauhaus Minimal
+ * Matches Countdown design language
+ * ============================================ */
+
+.stopwatch-page {
+  min-height: 100vh;
+  background: var(--mono-white);
+  color: var(--mono-black);
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-8);
+}
+
+/* Header (consistent with countdown) */
+.stopwatch-header {
+  width: 100%;
+  max-width: var(--container-max);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-thin) solid var(--mono-gray-300);
+}
+
+.stopwatch-title {
+  font-size: var(--type-xl);
+  font-weight: var(--font-regular);
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Timer display (inverted from countdown for distinction) */
+.stopwatch-display {
+  /* Font-size controlled by JavaScript (useAutoFitText hook) */
+  font-weight: var(--font-regular);
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  margin: clamp(var(--space-6), 4vw, var(--space-16)) 0;
+  padding: clamp(var(--space-3), 2vw, var(--space-8));
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border: var(--border-medium) solid var(--mono-black);
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  transition: background var(--transition-base);
+  box-sizing: border-box;
+  line-height: 1.4;
+}
+
+.stopwatch-display.running {
+  background: var(--mono-gray-900);
+  color: var(--mono-white);
+}
+
+/* Controls (geometric grid - consistent) */
+.stopwatch-controls {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  max-width: 700px;
+  width: 100%;
+  margin-bottom: var(--space-12);
+}
+
+.stopwatch-btn {
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  padding: var(--space-4) var(--space-6);
+  background: var(--mono-black);
+  color: var(--mono-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stopwatch-btn:hover {
+  background: var(--mono-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.stopwatch-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Primary START/STOP button - prominent red (like Metronome) */
+.stopwatch-btn.primary {
+  background: #DC143C; /* Crimson red */
+  color: var(--mono-white);
+  font-weight: var(--font-bold);
+  font-size: var(--type-lg);
+  padding: var(--space-6) var(--space-8);
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+}
+
+.stopwatch-btn.primary:hover {
+  background: #B01030; /* Darker red */
+  box-shadow: 0 6px 16px rgba(220, 20, 60, 0.4);
+}
+
+.stopwatch-btn.primary:active {
+  background: #900820;
+  box-shadow: 0 2px 8px rgba(220, 20, 60, 0.2);
+}
+
+.stopwatch-btn.secondary {
+  background: var(--mono-gray-200);
+  color: var(--mono-black);
+}
+
+.stopwatch-btn.secondary:hover {
+  background: var(--mono-gray-300);
+}
+
+/* Lap times (minimal table) */
+.stopwatch-laps {
+  width: 100%;
+  max-width: 700px;
+  margin-top: var(--space-8);
+}
+
+.stopwatch-laps-title {
+  font-size: var(--type-base);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-4);
+  color: var(--mono-gray-700);
+}
+
+.stopwatch-laps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stopwatch-lap-item {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-thin) solid var(--mono-gray-200);
+  font-family: var(--font-mono);
+  font-size: var(--type-sm);
+}
+
+.stopwatch-lap-item:hover {
+  background: var(--mono-gray-100);
+}
+
+.stopwatch-lap-number {
+  font-weight: var(--font-bold);
+  color: var(--mono-gray-600);
+}
+
+.stopwatch-lap-time,
+.stopwatch-lap-total {
+  text-align: right;
+  color: var(--mono-gray-800);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .stopwatch-page {
+    padding: var(--space-4);
+  }
+
+  .stopwatch-display {
+    margin: var(--space-8) 0;
+    padding: var(--space-4);
+  }
+
+  .stopwatch-controls {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .stopwatch-btn {
+    font-size: var(--type-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .stopwatch-btn.primary {
+    font-size: var(--type-base);
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .stopwatch-lap-item {
+    grid-template-columns: 50px 1fr 1fr;
+    gap: var(--space-2);
+    font-size: var(--type-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .stopwatch-title {
+    font-size: var(--type-lg);
+  }
+
+  .stopwatch-display {
+    margin: var(--space-6) 0;
+    padding: var(--space-3);
+  }
+
+  .stopwatch-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .stopwatch-lap-item {
+    grid-template-columns: 40px 1fr;
+    gap: var(--space-2);
+  }
+
+  .stopwatch-lap-total {
+    display: none;
+  }
+}

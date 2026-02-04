@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Alarm Clock State",
+  "description": "localStorage schema for single alarm with time-of-day trigger",
+  "type": "object",
+  "required": ["version", "active", "targetTime", "nextTriggerAt", "ringing", "signal"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Is alarm currently set and armed?"
+    },
+    "targetTime": {
+      "type": "object",
+      "required": ["hour", "minute"],
+      "properties": {
+        "hour": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 23,
+          "description": "Target hour in 24-hour format (0-23)"
+        },
+        "minute": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 59,
+          "description": "Target minute (0-59)"
+        }
+      },
+      "description": "Alarm time-of-day (hours and minutes)"
+    },
+    "nextTriggerAt": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Unix timestamp (ms) of next alarm trigger, null if not active"
+    },
+    "ringing": {
+      "type": "boolean",
+      "description": "Is alarm currently ringing (triggered)?"
+    },
+    "signal": {
+      "type": "object",
+      "required": ["sound", "flash"],
+      "properties": {
+        "sound": {
+          "type": "boolean",
+          "description": "Play alarm sound when triggered"
+        },
+        "flash": {
+          "type": "boolean",
+          "description": "Flash screen when triggered"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "active": true,
+      "targetTime": {
+        "hour": 9,
+        "minute": 0
+      },
+      "nextTriggerAt": 1729501200000,
+      "ringing": false,
+      "signal": {
+        "sound": true,
+        "flash": true
+      }
+    }
+  ]
+}

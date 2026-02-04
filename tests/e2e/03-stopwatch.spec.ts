@@ -12,7 +12,7 @@ test.describe('Stopwatch', () => {
     await page.goto('/#/stopwatch');
 
     // Wait for page to load
-    await expect(page.locator('.stopwatch-wrap')).toBeVisible();
+    await expect(page.locator('.stopwatch-page')).toBeVisible();
 
     // Check display starts at 00:00:00.00
     const display = page.locator('.stopwatch-display');
@@ -49,13 +49,13 @@ test.describe('Stopwatch', () => {
 
     // Verify lap appears
     const lapList = page.locator('.stopwatch-laps');
-    await expect(lapList.locator('.lap-item')).toHaveCount(1);
+    await expect(lapList.locator('.stopwatch-lap-item')).toHaveCount(1);
 
     await page.waitForTimeout(500);
 
     // Add another lap
     await page.getByRole('button', { name: 'Lap' }).click();
-    await expect(lapList.locator('.lap-item')).toHaveCount(2);
+    await expect(lapList.locator('.stopwatch-lap-item')).toHaveCount(2);
   });
 
   test('should persist state across navigation', async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe('Stopwatch', () => {
 
     // Navigate away
     await page.goto('/#/');
-    await expect(page.locator('.grid')).toBeVisible();
+    await expect(page.locator('.home-grid')).toBeVisible();
 
     // Navigate back
     await page.goto('/#/stopwatch');

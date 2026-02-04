@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { beep, flash } from "../utils";
+import { HomeButton } from "../components/HomeButton";
 
 const LS_KEY = "sc.v1.alarm";
 
@@ -46,10 +47,17 @@ export default function Alarm() {
   const [newTime, setNewTime] = useState("12:00");
   const [newLabel, setNewLabel] = useState("");
   const [activeAlarm, setActiveAlarm] = useState<AlarmItem | null>(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const checkInterval = useRef<number | null>(null);
   const ringInterval = useRef<number | null>(null);
   const triggeredAlarms = useRef<Set<string>>(new Set());
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Update current time every second
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => save(st), 150);
@@ -133,10 +141,20 @@ export default function Alarm() {
     }));
   };
 
+  const formatCurrentTime = () => {
+    return currentTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  };
+
   return (
     <div className="alarm-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
-      <h2>Alarms</h2>
+      <HomeButton />
+      <h1 className="timer-title">Alarm</h1>
+
+      {/* Current Local Time Display */}
+      <div className="current-time-display">
+        <div className="current-time-label">Current Time</div>
+        <div className="current-time-value">{formatCurrentTime()}</div>
+      </div>
 
       {/* Alarm Modal */}
       {activeAlarm && (
@@ -173,7 +191,7 @@ export default function Alarm() {
       </div>
 
       {!showAdd && (
-        <button className="btn primary" onClick={() => setShowAdd(true)}>
+        <button className="btn-primary-action" onClick={() => setShowAdd(true)}>
           Add Alarm
         </button>
       )}
@@ -190,6 +208,12 @@ export default function Alarm() {
             placeholder="Label (optional)"
             value={newLabel}
             onChange={e => setNewLabel(e.target.value)}
+            maxLength={40}
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
           />
           <button className="btn primary" onClick={addAlarm}>Save</button>
           <button className="btn" onClick={() => setShowAdd(false)}>Cancel</button>

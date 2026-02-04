@@ -1,0 +1,143 @@
+Facts: Technology, History & Science of Time
+Technical Innovations & Features
+The Ticking of the Clock The characteristic "ticking" of a mechanical watch is the sound of the "escapement". This component is the heart of the watch, converting the continuous force of a weight or spring into a series of controlled, uniform impulses.
+
+
+
+
+Why Early Clocks Had Only One Hand Early mechanical clocks were so inaccurate that they had a daily deviation of up to 15 minutes. For this reason, they had only one hour hand for centuries; a minute display would have been pointless.
+
+
+
+
+
+The First "Audio Alarm" Around 325 BC, Plato constructed an alarm clock where a water vessel tipped over once full. This caused lead balls to fall noisily onto a copper plate to summon his students.
+
+
+
+
+
+The "Nail Alarm" A simpler alarm method in the Middle Ages was the candle clock. A nail was inserted into the wax at a specific point. As soon as the candle burned down far enough, the nail would fall onto a metal plate below with a loud clatter.
+
+
+The First Digital Watch Was a Luxury Item The first digital watch, the Hamilton Pulsar P1 (1972), was a futuristic luxury item made of 18-karat gold. It cost $2,100—more than most cars of the time.
+
+
+
+
+
+The Antikythera Mechanism This artifact (dated to 87 BC) is considered the world's first analog computer. With over 30 bronze gears, it could predict eclipses and calculate the dates of the Olympic Games.
+
+
+
+
+
+Analog vs. Digital: Map vs. Coordinate An analog clock provides a spatial sense of time—like a map. You see how much time has passed and how much is left. The digital clock only provides an abstract, isolated "GPS coordinate" of the exact moment.
+
+
+
+
+
+Quartz: Function & Crisis
+How a Quartz Watch Works The heart of a quartz watch is a tiny quartz crystal. When electrical voltage is applied, this crystal vibrates at an extremely constant frequency of exactly 32,768 times per second (Hz), serving as the timekeeper.
+
+
+
+
+
+The Irony of the Quartz Crisis The quartz watch was ironically developed to market maturity in Switzerland (1967). However, established Swiss manufacturers ignored the technology, viewing the cheap electronics as "soulless" and a threat to their luxury segment.
+
+
+
+
+
+The Disruption by Seiko The Japanese company Seiko recognized the potential and launched the "Astron" in 1969, the first commercial quartz watch on the market. This triggered the "Quartz Crisis," costing tens of thousands of jobs in Switzerland.
+
+
+
+
+
+The Rescue by Swatch The Swiss industry was saved in 1983, fittingly, by another quartz watch. The Swatch brilliantly combined cheap quartz technology with bold fashion design, creating a new mass market.
+
+
+
+
+
+Atomic Clock & Global Time
+How an Atomic Clock Works An atomic clock "counts" the vibrations of atoms. Since 1967, the second has been officially defined as the duration of exactly 9,192,631,770 vibrations of a cesium-133 atom.
+
+
+Unfathomable Accuracy Modern cesium fountain clocks are so accurate that they have a theoretical deviation of at most one second in over 700 million years. Newer optical clocks would be off by less than a second since the Big Bang.
+
+
+
+
+
+The "Leap Second" Problem The Earth is slowing its rotation. To align the ultra-precise atomic time (TAI) with the "slower" Earth rotation (the basis for UTC), a leap second must be added occasionally . On that day, the last minute has 61 seconds.
+
+
+
+The Time Difference Due to the leap seconds added over the years, the purely physical atomic time (TAI) is currently 37 seconds ahead of the official world time (UTC).
+
+
+Historical & Famous Contexts
+The Impetus (Monasteries) The mechanical clock was invented not by scientists, but out of religious necessity in monasteries. Monks needed a reliable timekeeper for their fixed hours of prayer (the Horarium) that also worked at night and in bad weather.
+
+
+
+
+
+The Impetus (War) The wristwatch was long considered a purely female accessory . It only gained acceptance among men during World War I. Officers realized it was impractical to fumble for a pocket watch in trench warfare.
+
+
+
+
+
+The Impetus (Railways) Before the 19th century, every town had its own solar time, which led to a logistical nightmare for railway timetables . One station (Pittsburgh) had to display six different clocks. This forced the global adoption of 24 time zones in 1884.
+
+
+
+
+
+Relativity & Science (GPS)
+Why GPS Needs Einstein Without accounting for Einstein's theories of relativity, the GPS system would be completely useless. The daily navigation error would be several kilometers.
+
+
+
+
+
+Effect 1: Special Relativity Due to their high speed (approx. 14,000 km/h), time passes more slowly for the satellite clocks than for us on the ground.
+
+
+
+
+
+Effect 2: General Relativity Due to the weaker gravity in orbit, time passes faster for the satellite clocks than for us.
+
+
+
+
+The Net Effect The second effect (running faster) is stronger than the first. In net terms, the clocks in orbit run about 38 microseconds faster every day. This error must be permanently corrected.
+
+
+
+Watchmaking Knowledge
+Chronograph vs. Chronometer These terms are often confused. A Chronograph is a watch with an additional function: a stopwatch. A Chronometer, however, is a seal of quality; it is a watch that has been officially certified for extreme accuracy (e.g., by COSC) .
+
+
+
+
+
+The Tourbillon (Whirlwind) This masterpiece of watchmaking is a delicate, rotating cage that holds the balance wheel (the "heartbeat"). By rotating (often 1x per minute), it compensates for the negative effects of gravity on the watch's accuracy.
+
+
+
+
+
+The Perpetual Calendar This is a mechanical "memory" in a watch. It automatically knows the different lengths of the months (30 or 31 days) and even accounts for leap years in February. A correction is often not needed until the year 2100.
+
+
+
+
+
+The Minute Repeater One of the most complex functions. At the push of a button, a tiny set of chimes inside the watch strikes the time acoustically . It chimes the hours, quarter-hours, and minutes separately—originally developed to "hear" the time in the dark.

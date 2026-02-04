@@ -22,11 +22,11 @@ test.describe('Metronome', () => {
   test('should adjust BPM', async ({ page }) => {
     await page.goto('/#/metronome');
 
-    // Increase BPM
-    await page.locator('button').filter({ hasText: '+' }).click();
+    // Increase BPM using the single + button (not +10)
+    await page.getByRole('button', { name: '+', exact: true }).click();
 
-    // Decrease BPM
-    await page.locator('button').filter({ hasText: '−' }).click();
+    // Decrease BPM using the single - button (not -10)
+    await page.getByRole('button', { name: '−', exact: true }).click();
 
     // Start metronome
     await page.getByRole('button', { name: 'Start' }).click();

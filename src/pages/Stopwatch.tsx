@@ -1,4 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useAutoFitText } from "../hooks/useAutoFitText";
+import { HomeButton } from "../components/HomeButton";
+import { ShareButton } from "../components/ShareButton";
+import { SavePresetButton } from "../components/SavePresetButton";
+import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
+import { trackEvent } from "../utils/stats";
+import { getPresetFromUrl } from "../utils/share";
+import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
 
 const LS_KEY = "sc.v1.stopwatch";
 
@@ -73,12 +81,43 @@ export default function Stopwatch() {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const lastSecondRef = useRef<number>(-1);
+  const [urlChecked, setUrlChecked] = useState(false);
+
+  const currentTime = st.running && st.startedAt ? st.elapsedMs + (Date.now() - st.startedAt) : st.elapsedMs;
+  const [textRef, autoFontSize] = useAutoFitText(fmt(currentTime), 8, 1.5);
+
+  // Get current config for sharing/saving (stopwatch has minimal config)
+  const getCurrentConfig = useCallback(() => {
+    return {
+      elapsedMs: currentTime
+    };
+  }, [currentTime]);
+
+  // URL Preset Loading (minimal for stopwatch)
+  useEffect(() => {
+    if (urlChecked) return;
+
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'stopwatch') {
+      // Stopwatch doesn't have much to configure from URL
+      // Could potentially set initial elapsed time, but that's unusual
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.startedAt) return;
-    // Force re-render for display update, don't update state
-    forceUpdate();
-  }, [st.running, st.startedAt]);
+
+    // Only update on 100ms intervals to reduce flicker (10 FPS)
+    const currentMs = st.elapsedMs + (Date.now() - st.startedAt);
+    const currentTenth = Math.floor(currentMs / 100);
+
+    if (currentTenth !== lastSecondRef.current) {
+      lastSecondRef.current = currentTenth;
+      forceUpdate();
+    }
+  }, [st.running, st.startedAt, st.elapsedMs]);
 
   useRaf(st.running, sync);
 
@@ -88,12 +127,18 @@ export default function Stopwatch() {
   }, [st]);
 
   const start = useCallback(() => {
+    // Track timer start
+    trackEvent('stopwatch', 'start');
     setSt(s => ({ ...s, running: true, startedAt: Date.now() }));
   }, []);
 
   const pause = useCallback(() => {
     if (!st.startedAt) return;
     const elapsed = st.elapsedMs + (Date.now() - st.startedAt);
+
+    // Track completion with elapsed time
+    trackEvent('stopwatch', 'complete', elapsed);
+
     setSt(s => ({ ...s, running: false, startedAt: null, elapsedMs: elapsed }));
   }, [st.startedAt, st.elapsedMs]);
 
@@ -118,6 +163,23 @@ export default function Stopwatch() {
     }
   }, []);
 
+  // Pin/Unpin timer
+  const { addTimer, removeTimer, isPinned } = usePinnedTimers();
+  const pinned = isPinned(LS_KEY);
+
+  const handlePin = useCallback(() => {
+    if (pinned) {
+      removeTimer(LS_KEY);
+    } else {
+      const timer: PinnedTimer = {
+        id: LS_KEY,
+        type: 'Stopwatch',
+        name: 'Stopwatch',
+      };
+      addTimer(timer);
+    }
+  }, [pinned, addTimer, removeTimer]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === " " || e.key === "Spacebar") {
@@ -138,40 +200,86 @@ export default function Stopwatch() {
     return () => window.removeEventListener("keydown", onKey);
   }, [st.running, start, pause, reset, full, addLap]);
 
-  const currentTime = st.running && st.startedAt
-    ? st.elapsedMs + (Date.now() - st.startedAt)
-    : st.elapsedMs;
+  // Calculate lap differences
+  const lapDiffs = st.laps.map((lapTime, idx) => {
+    const prevTime = idx === 0 ? 0 : st.laps[idx - 1];
+    return lapTime - prevTime;
+  });
 
   return (
-    <div className="stopwatch-wrap" ref={wrapRef}>
-      <a href="#/" className="btn-home">Home</a>
-      <div className="stopwatch-display">{fmt(currentTime)}</div>
+    <div className="stopwatch-page" ref={wrapRef}>
+      {/* Header */}
+      <header className="stopwatch-header">
+        <h1 className="stopwatch-title">Stopwatch</h1>
+        <HomeButton />
+      </header>
 
-      <div className="stopwatch-controls">
-        <button className="btn primary" onClick={st.running ? pause : start}>
-          {st.running ? "Pause" : "Start"}
-        </button>
-        <button className="btn" onClick={reset}>Reset</button>
-        <button className="btn" onClick={addLap} disabled={!st.running}>Lap</button>
-        <button className="btn" onClick={full}>Fullscreen</button>
+      {/* Timer Display (inverted colors) */}
+      <div className={`stopwatch-display ${st.running ? 'running' : ''}`}>
+        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
+          {fmt(currentTime)}
+        </div>
       </div>
 
+      {/* Controls */}
+      <div className="stopwatch-controls">
+        {!st.running ? (
+          <button type="button" className="stopwatch-btn primary" onClick={start}>
+            Start
+          </button>
+        ) : (
+          <button type="button" className="stopwatch-btn primary" onClick={pause}>
+            Pause
+          </button>
+        )}
+        <button
+          type="button"
+          className="stopwatch-btn secondary"
+          onClick={addLap}
+          disabled={!st.running}
+        >
+          Lap
+        </button>
+        <button type="button" className="stopwatch-btn secondary" onClick={reset}>
+          Reset
+        </button>
+        <button type="button" className="stopwatch-btn secondary hide-on-mobile" onClick={full}>
+          Fullscreen
+        </button>
+        <button type="button" className="stopwatch-btn secondary" onClick={handlePin}>
+          {pinned ? '📌 Unpin' : '📌 Pin'}
+        </button>
+      </div>
+
+      {/* Share & Save Buttons */}
+      <div style={{ marginTop: '16px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <SavePresetButton
+          timerType="stopwatch"
+          getCurrentConfig={getCurrentConfig}
+        />
+        <ShareButton
+          timerType="stopwatch"
+          getCurrentConfig={getCurrentConfig}
+        />
+      </div>
+
+      {/* Lap Times */}
       {st.laps.length > 0 && (
         <div className="stopwatch-laps">
-          <h3>Laps</h3>
-          <div className="lap-list">
-            {st.laps.map((lapMs, i) => (
-              <div key={i} className="lap-item">
-                <span className="lap-num">#{st.laps.length - i}</span>
-                <span className="lap-time">{fmt(lapMs)}</span>
-                {i > 0 && (
-                  <span className="lap-diff">+{fmt(lapMs - st.laps[i - 1])}</span>
-                )}
-              </div>
+          <h2 className="stopwatch-laps-title">Lap Times</h2>
+          <ul className="stopwatch-laps-list">
+            {st.laps.map((lapTime, idx) => (
+              <li key={idx} className="stopwatch-lap-item">
+                <span className="stopwatch-lap-number">#{idx + 1}</span>
+                <span className="stopwatch-lap-time">{fmt(lapDiffs[idx])}</span>
+                <span className="stopwatch-lap-total">{fmt(lapTime)}</span>
+              </li>
             )).reverse()}
-          </div>
+          </ul>
         </div>
       )}
+      {/* Fun Fact / Traffic Driver */}
+      <DidYouKnowSnippet timerSlug="stopwatch" />
     </div>
   );
 }

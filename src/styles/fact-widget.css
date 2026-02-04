@@ -1,0 +1,174 @@
+/* Random Fact Widget Styles */
+
+.random-fact-widget {
+  background: linear-gradient(135deg, rgba(220, 20, 60, 0.1) 0%, rgba(112, 128, 144, 0.1) 100%);
+  border: 1px solid rgba(220, 20, 60, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 32px auto;
+  max-width: 600px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+}
+
+.random-fact-widget:hover {
+  border-color: rgba(220, 20, 60, 0.4);
+  box-shadow: 0 4px 12px rgba(220, 20, 60, 0.2);
+}
+
+.fact-widget-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.fact-widget-icon {
+  font-size: 1.5rem;
+}
+
+.fact-widget-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #DC143C;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex: 1;
+}
+
+.fact-widget-refresh {
+  background: rgba(220, 20, 60, 0.1);
+  border: 1px solid rgba(220, 20, 60, 0.3);
+  border-radius: 6px;
+  color: #DC143C;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fact-widget-refresh:hover {
+  background: rgba(220, 20, 60, 0.2);
+  transform: rotate(180deg);
+}
+
+.fact-widget-content {
+  color: #fff;
+}
+
+.fact-widget-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #fff;
+}
+
+.fact-widget-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #b0b8c3;
+  margin: 0 0 12px 0;
+}
+
+.fact-widget-toggle {
+  background: none;
+  border: none;
+  color: #DC143C;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: opacity 0.2s;
+}
+
+.fact-widget-toggle:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.fact-widget-link {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #DC143C;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 8px;
+  transition: all 0.2s;
+}
+
+.fact-widget-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .random-fact-widget {
+    margin: 20px 16px;
+    padding: 16px;
+  }
+
+  .fact-widget-title {
+    font-size: 1rem;
+  }
+
+  .fact-widget-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+ * Did You Know Snippet Styles
+ * ============================================ */
+.did-you-know-snippet {
+  margin: 40px auto;
+  max-width: 600px;
+  background: var(--neutral-100, #f4f4f5);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--neutral-200, #e4e4e7);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dyk-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary-600, #2563eb);
+}
+
+.dyk-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.dyk-card-title {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: var(--neutral-900, #18181b);
+}
+
+.dyk-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--neutral-600, #52525b);
+  line-height: 1.5;
+}
+
+.dyk-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-600, #2563eb);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}

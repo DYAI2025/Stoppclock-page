@@ -4,13 +4,19 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://pagead2.googlesyndication.com; connect-src 'self'; font-src 'self' data:; frame-src https://googleads.g.doubleclick.net; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://www.google-analytics.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stoppclock — Projector-friendly Timers & Clocks</title>
     <meta name="description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more. Projector-friendly, offline-ready, minimal controls." />
     <link rel="canonical" href="https://www.stoppclock.com/"/>
+    <meta name="google-adsense-account" content="ca-pub-1712273263687132" />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Open Graph (use your own hosted assets) -->
     <meta property="og:type" content="website"/>
@@ -27,7 +33,7 @@
 
     <!-- PWA -->
     <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="theme-color" content="#0b1220" />
+    <meta name="theme-color" content="#F5F5F8" />
 
     <!-- Browser-Support-Matrix (SSoT Hinweis)
          Target: last 2 Chrome/Edge/Firefox/Safari, iOS 15+ -->
@@ -35,21 +41,65 @@
 
     <link rel="icon" href="/icons/icon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/icons/icon-180.png" />
-    <link rel="stylesheet" href="/src/styles.css" />
+
+    <!-- Google Analytics 4 (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-409QD2YSJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // Set default consent to denied (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+      });
+      gtag('config', 'G-409QD2YSJ', { send_page_view: false });
+    </script>
+
+    <!-- Google Certified CMP -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-1712273263687132?ers=1"></script>
+    <script>
+      window.googlefc = window.googlefc || {};
+      window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
+    </script>
+
+    <!-- SEO: Convert clean URLs to hash-based routing for SPA -->
+    <script>
+      (function() {
+        // Only redirect if we have a clean path (not hash, not root)
+        var path = window.location.pathname;
+        var hash = window.location.hash;
+
+        // Skip if already at root or has hash
+        if (path === '/' || path === '/index.html' || hash) return;
+
+        // Valid routes that should be converted to hash
+        var validRoutes = [
+          '/analog', '/stopwatch', '/countdown', '/pomodoro', '/cooking',
+          '/couples', '/digital', '/world', '/alarm', '/metronome', '/chess',
+          '/timesince', '/timelab', '/blog', '/about', '/contact', '/imprint',
+          '/privacy', '/impressum', '/datenschutz', '/time-philosophy',
+          '/timer-for-students', '/timer-for-productivity', '/timer-for-fitness',
+          '/timer-for-cooking', '/timer-for-meditation', '/timer-for-focus',
+          '/custom-sessions', '/timers', '/facts'
+        ];
+
+        // Check if path matches a valid route or starts with a valid prefix
+        var shouldRedirect = validRoutes.some(function(route) {
+          return path === route || path.startsWith(route + '/');
+        }) || path.startsWith('/blog/') || path.startsWith('/custom-sessions/');
+
+        if (shouldRedirect) {
+          // Redirect to hash-based URL
+          window.location.replace('/#' + path);
+        }
+      })();
+    </script>
 
   </head>
   <body>
-    <!-- Consent banner -->
-    <div id="consent" class="consent hidden">
-      <div class="consent-box">
-        <div><strong>Privacy first.</strong> Ads are <em>off</em> by default. Enable only if you agree.</div>
-        <div class="consent-actions">
-          <button id="consent-accept" class="btn primary">Enable Ads</button>
-          <button id="consent-decline" class="btn">Keep Off</button>
-        </div>
-      </div>
-    </div>
-
     <div id="root"></div>
 
     <!-- WebApplication JSON-LD -->
@@ -95,37 +145,6 @@
 
     <!-- App Entry -->
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- Consent-gated AdSense -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const LS = "sc.adsConsent";
-        const has = localStorage.getItem(LS);
-        const el = document.getElementById('consent');
-        const acceptBtn = document.getElementById('consent-accept');
-        const declineBtn = document.getElementById('consent-decline');
-
-        function hideConsent(){ el?.classList.add('hidden'); }
-        function showConsent(){ el?.classList.remove('hidden'); }
-
-        function enableAds() {
-          const client = "ca-pub-1712273263687132";
-          if (!client || client.includes("REPLACE_ME")) { hideConsent(); return; }
-          const s = document.createElement('script');
-          s.async = true;
-          s.crossOrigin = "anonymous";
-          s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(client)}`;
-          document.head.appendChild(s);
-        }
-
-        if (has === "yes") { enableAds(); hideConsent(); }
-        else if (has === "no") { hideConsent(); }
-        else { showConsent(); }
-
-        acceptBtn?.addEventListener("click", () => { localStorage.setItem(LS, "yes"); enableAds(); hideConsent(); });
-        declineBtn?.addEventListener("click", () => { localStorage.setItem(LS, "no"); hideConsent(); });
-      });
-    </script>
 
   </body>
 </html>

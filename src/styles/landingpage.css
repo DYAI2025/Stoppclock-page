@@ -1,0 +1,1454 @@
+/* ============================================
+ * STOPPCLOCK - LANDINGPAGE REDESIGN v2
+ * Calm Minimal Grid with Icon-focused Cards
+ * Based on stoppclock-landingpage-design.md
+ * ============================================ */
+
+/* ============================================
+ * DESIGN TOKENS
+ * ============================================ */
+:root {
+    /* Neutral Palette (Light Theme) */
+    --lp-bg-page: #F5F5F8;
+    --lp-bg-surface: #FFFFFF;
+    --lp-bg-subtle: #F0F1F3;
+    --lp-bg-elevated: #FFFFFF;
+    --lp-border-subtle: #E4E5E7;
+    --lp-border-medium: #D1D3D6;
+    --lp-divider: #EAEAEC;
+    --lp-text-main: #111218;
+    --lp-text-secondary: #4A4D55;
+    --lp-text-muted: #6B6E76;
+    --lp-text-disabled: #9CA0A8;
+
+    /* Accent Colors */
+    --lp-accent-primary: #0EA5E9;
+    --lp-accent-success: #22C55E;
+    --lp-accent-warning: #F97316;
+
+    /* Typography */
+    --lp-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    /* Font Scale */
+    --lp-font-display: 32px;
+    --lp-font-h1: 24px;
+    --lp-font-h2: 18px;
+    --lp-font-body: 15px;
+    --lp-font-small: 13px;
+    --lp-font-xs: 11px;
+
+    /* Spacing */
+    --lp-spacing-xxs: 4px;
+    --lp-spacing-xs: 8px;
+    --lp-spacing-s: 12px;
+    --lp-spacing-m: 16px;
+    --lp-spacing-l: 24px;
+    --lp-spacing-xl: 32px;
+    --lp-spacing-2xl: 48px;
+    --lp-spacing-3xl: 64px;
+
+    /* Layout */
+    --lp-nav-height: 60px;
+    --lp-pinned-height: 120px;
+    --lp-container-max: 1200px;
+    --lp-margin-desktop: 48px;
+    --lp-margin-mobile: 16px;
+
+    /* Radius */
+    --lp-radius-s: 8px;
+    --lp-radius-m: 12px;
+    --lp-radius-l: 16px;
+    --lp-radius-xl: 20px;
+    --lp-radius-full: 999px;
+
+    /* Shadows */
+    --lp-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --lp-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --lp-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --lp-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --lp-shadow-glow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+
+    /* Transitions */
+    --lp-transition-fast: 120ms ease;
+    --lp-transition-base: 200ms ease;
+    --lp-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+ * LANDING PAGE CONTAINER
+ * ============================================ */
+.landing-page {
+    min-height: 100vh;
+    background: var(--lp-bg-page);
+    font-family: var(--lp-font-family);
+    color: var(--lp-text-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Override global dark theme */
+body:has(.landing-page) {
+    background: var(--lp-bg-page);
+}
+
+body:has(.landing-page)::before,
+body:has(.landing-page)::after {
+    display: none;
+}
+
+/* ============================================
+ * TOP NAVIGATION - Now using AppHeader component
+ * Keep legacy styles for backward compatibility
+ * ============================================ */
+.lp-top-nav {
+    /* Legacy styles - no longer used but kept for compatibility */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--lp-nav-height);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--lp-divider);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--lp-margin-desktop);
+}
+
+/* Override AppHeader styles for landing page */
+.landing-page .app-header-landing {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.landing-page .app-header-landing .app-logo {
+    font-size: 17px;
+}
+
+.landing-page .app-header-landing .app-logo .logo-icon {
+    width: 32px;
+    height: 32px;
+}
+
+@media (max-width: 768px) {
+    .lp-top-nav {
+        padding: 0 var(--lp-margin-mobile);
+    }
+}
+
+.lp-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-xs);
+    text-decoration: none;
+    color: var(--lp-text-main);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+}
+
+.lp-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--lp-text-main);
+    border-radius: var(--lp-radius-s);
+    display: grid;
+    place-items: center;
+    color: white;
+}
+
+/* Updated Icon Card to use theme variables */
+.lp-icon-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-l);
+    padding: var(--lp-spacing-l) var(--lp-spacing-m);
+    transition: all var(--lp-transition-slow);
+    cursor: pointer;
+    
+    /* Variables provided by [data-timer-theme] */
+    --card-accent: var(--timer-color, var(--lp-border-medium));
+    --card-gradient: var(--timer-gradient, linear-gradient(135deg, var(--lp-bg-subtle) 0%, var(--lp-bg-surface) 100%));
+}
+
+.lp-pinned-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: white;
+    flex-shrink: 0;
+    
+    /* Variables provided by [data-timer-theme] */
+    background: var(--timer-gradient, var(--lp-text-main));
+}
+
+.lp-timer-icon-colored {
+    color: var(--timer-color, var(--lp-text-main));
+}
+
+
+.lp-nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-l);
+}
+
+.lp-nav-link {
+    font-size: var(--lp-font-body);
+    font-weight: 500;
+    color: var(--lp-text-muted);
+    text-decoration: none;
+    padding: var(--lp-spacing-xs) var(--lp-spacing-s);
+    border-radius: var(--lp-radius-s);
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-nav-link:hover {
+    color: var(--lp-text-main);
+    background: var(--lp-bg-subtle);
+}
+
+.lp-nav-link.active {
+    color: var(--lp-text-main);
+    background: var(--lp-bg-subtle);
+}
+
+.lp-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: var(--lp-spacing-xs);
+    cursor: pointer;
+    color: var(--lp-text-main);
+}
+
+.lp-nav-settings {
+    background: none;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--lp-radius-s);
+    cursor: pointer;
+    color: var(--lp-text-muted);
+    display: grid;
+    place-items: center;
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-nav-settings:hover {
+    color: var(--lp-text-main);
+    background: var(--lp-bg-subtle);
+}
+
+@media (max-width: 768px) {
+    .lp-nav-links {
+        display: none;
+    }
+
+    .lp-nav-toggle {
+        display: flex;
+    }
+
+    .lp-nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--lp-bg-surface);
+        border-bottom: 1px solid var(--lp-divider);
+        padding: var(--lp-spacing-m);
+        gap: var(--lp-spacing-xs);
+        box-shadow: var(--lp-shadow-md);
+    }
+}
+
+/* ============================================
+ * PINNED TIMER BAR
+ * ============================================ */
+.lp-pinned-bar {
+    background: var(--lp-bg-surface);
+    border-bottom: 1px solid var(--lp-divider);
+    padding: var(--lp-spacing-m) var(--lp-margin-desktop);
+}
+
+@media (max-width: 768px) {
+    .lp-pinned-bar {
+        padding: var(--lp-spacing-m) var(--lp-margin-mobile);
+    }
+}
+
+.lp-pinned-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--lp-spacing-s);
+}
+
+.lp-pinned-label {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-xs);
+    font-size: var(--lp-font-xs);
+    font-weight: 600;
+    color: var(--lp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.lp-pin-dropdown-wrapper {
+    position: relative;
+}
+
+.lp-pin-timer-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-xxs);
+    font-size: var(--lp-font-small);
+    font-weight: 500;
+    color: var(--lp-accent-primary);
+    background: rgba(14, 165, 233, 0.08);
+    border: none;
+    border-radius: var(--lp-radius-full);
+    padding: var(--lp-spacing-xxs) var(--lp-spacing-s);
+    cursor: pointer;
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-pin-timer-btn:hover {
+    background: rgba(14, 165, 233, 0.15);
+}
+
+.lp-pin-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-m);
+    box-shadow: var(--lp-shadow-lg);
+    min-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 50;
+    padding: var(--lp-spacing-xs);
+}
+
+.lp-pin-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-s);
+    width: 100%;
+    padding: var(--lp-spacing-s) var(--lp-spacing-m);
+    border: none;
+    background: none;
+    border-radius: var(--lp-radius-s);
+    font-size: var(--lp-font-body);
+    color: var(--lp-text-main);
+    cursor: pointer;
+    transition: background var(--lp-transition-fast);
+    text-align: left;
+}
+
+.lp-pin-dropdown-item:hover {
+    background: var(--lp-bg-subtle);
+}
+
+.lp-pin-dropdown-empty {
+    display: block;
+    padding: var(--lp-spacing-m);
+    font-size: var(--lp-font-small);
+    color: var(--lp-text-muted);
+    text-align: center;
+}
+
+/* Pinned Cards Container - V2 Grid Layout */
+.lp-pinned-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: var(--lp-spacing-l);
+    padding-bottom: var(--lp-spacing-xs);
+    min-height: 180px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+    .lp-pinned-cards {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .lp-pinned-cards {
+        grid-template-columns: 1fr;
+        min-height: 160px;
+    }
+}
+
+/* Remove scrollbar styles as we use grid now */
+
+
+/* Individual Pinned Card - V2 Widget Style */
+.lp-pinned-card {
+    position: relative;
+    background: var(--lp-bg-subtle);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-xl);
+    transition: all var(--lp-transition-base);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+}
+
+@media (max-width: 768px) {
+    .lp-pinned-card {
+        min-height: 200px;
+    }
+}
+
+.lp-pinned-card:hover {
+    background: var(--lp-bg-surface);
+    border-color: var(--lp-border-medium);
+    box-shadow: var(--lp-shadow-md);
+    transform: translateY(-2px);
+}
+
+.lp-pinned-card.running {
+    border-color: var(--lp-accent-success);
+    background: var(--lp-bg-surface);
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.1);
+}
+
+.lp-pinned-card-link {
+    display: flex;
+    flex-direction: column;
+    padding: var(--lp-spacing-l) var(--lp-spacing-xl);
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    gap: var(--lp-spacing-m);
+}
+
+@media (max-width: 768px) {
+    .lp-pinned-card-link {
+        padding: var(--lp-spacing-m) var(--lp-spacing-l);
+    }
+}
+
+.lp-pinned-unpin {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 20px;
+    height: 20px;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-full);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--lp-text-muted);
+    opacity: 0;
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-pinned-card:hover .lp-pinned-unpin {
+    opacity: 1;
+}
+
+.lp-pinned-unpin:hover {
+    background: var(--lp-text-main);
+    color: white;
+    border-color: var(--lp-text-main);
+}
+
+.lp-pinned-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-m);
+    flex-shrink: 0;
+}
+
+.lp-pinned-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.lp-pinned-card-name {
+    font-size: var(--lp-font-h2);
+    font-weight: 600;
+    color: var(--lp-text-main);
+}
+
+.lp-pinned-card-time {
+    font-size: 48px;
+    /* LARGE Display */
+    font-weight: 700;
+    color: var(--lp-text-main);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: var(--lp-spacing-xs) 0;
+}
+
+.lp-timer-preview-time-small {
+    font-size: clamp(32px, 6vw, 48px);
+}
+
+.lp-pinned-card-action {
+    display: flex;
+    align-items: center;
+    gap: var(--lp-spacing-xxs);
+    font-size: var(--lp-font-xs);
+    color: var(--lp-accent-primary);
+    margin-top: var(--lp-spacing-xxs);
+}
+
+/* Empty State */
+.lp-pinned-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: var(--lp-spacing-s);
+    color: var(--lp-text-disabled);
+    text-align: center;
+    padding: var(--lp-spacing-xl) var(--lp-spacing-m);
+}
+
+.lp-pinned-empty-text {
+    font-size: var(--lp-font-small);
+}
+
+/* ============================================
+ * MAIN CONTENT
+ * ============================================ */
+.lp-main {
+    max-width: var(--lp-container-max);
+    margin: 0 auto;
+    padding: var(--lp-spacing-xl) var(--lp-margin-desktop) var(--lp-spacing-3xl);
+}
+
+@media (max-width: 768px) {
+    .lp-main {
+        padding: var(--lp-spacing-l) var(--lp-margin-mobile) var(--lp-spacing-2xl);
+    }
+}
+
+/* Hero Section */
+.lp-hero {
+    text-align: center;
+    margin-bottom: var(--lp-spacing-2xl);
+    animation: hero-fade-in 0.8s ease-out;
+}
+
+@keyframes hero-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lp-hero-title {
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 700;
+    color: var(--lp-text-main);
+    letter-spacing: -0.03em;
+    margin: 0 0 var(--lp-spacing-s) 0;
+    position: relative;
+    display: inline-block;
+}
+
+.lp-hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--lp-accent-primary), transparent);
+    opacity: 0.6;
+}
+
+.lp-hero-text {
+    font-size: var(--lp-font-body);
+    color: var(--lp-text-muted);
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+    animation: hero-fade-in 0.8s ease-out 0.2s both;
+}
+
+/* ============================================
+ * TIMER ICON GRID
+ * ============================================ */
+.lp-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--lp-spacing-m);
+    margin-bottom: var(--lp-spacing-2xl);
+}
+
+@media (max-width: 1024px) {
+    .lp-icon-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .lp-icon-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--lp-spacing-s);
+    }
+}
+
+@media (max-width: 480px) {
+    .lp-icon-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Icon Card */
+.lp-icon-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-l);
+    padding: var(--lp-spacing-l) var(--lp-spacing-m);
+    transition: all var(--lp-transition-slow);
+    cursor: pointer;
+}
+
+.lp-icon-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--lp-radius-l);
+    background: var(--card-gradient, linear-gradient(135deg, var(--lp-bg-subtle) 0%, var(--lp-bg-surface) 100%));
+    opacity: 0;
+    transition: opacity var(--lp-transition-slow);
+    z-index: -1;
+}
+
+.lp-icon-card:hover {
+    border-color: var(--card-accent, var(--lp-border-medium));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--card-accent, var(--lp-border-medium));
+    transform: translateY(-6px) scale(1.02);
+}
+
+.lp-icon-card:hover::before {
+    opacity: 0.08;
+}
+
+.lp-icon-card:active {
+    transform: translateY(-3px) scale(1.01);
+}
+
+.lp-icon-card-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--card-gradient, var(--lp-bg-subtle));
+    border-radius: var(--lp-radius-m);
+    display: grid;
+    place-items: center;
+    color: white;
+    margin-bottom: var(--lp-spacing-s);
+    transition: all var(--lp-transition-slow);
+    position: relative;
+}
+
+.lp-icon-card-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: calc(var(--lp-radius-m) + 4px);
+    background: var(--card-gradient, var(--lp-bg-subtle));
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity var(--lp-transition-slow);
+    z-index: -1;
+}
+
+.lp-icon-card:hover .lp-icon-card-icon {
+    transform: scale(1.15) rotate(-5deg);
+}
+
+.lp-icon-card:hover .lp-icon-card-icon::after {
+    opacity: 0.6;
+}
+
+.lp-icon-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.lp-icon-card-label {
+    font-size: var(--lp-font-body);
+    font-weight: 600;
+    color: var(--lp-text-main);
+    transition: color var(--lp-transition-fast);
+}
+
+.lp-icon-card:hover .lp-icon-card-label {
+    color: var(--card-accent, var(--lp-text-main));
+}
+
+.lp-icon-card-tagline {
+    font-size: var(--lp-font-xs);
+    color: var(--lp-text-muted);
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-icon-card:hover .lp-icon-card-tagline {
+    color: var(--lp-text-secondary);
+    transform: translateY(-1px);
+}
+
+/* Pin Button on Card */
+.lp-icon-card-pin {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-full);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--lp-text-muted);
+    opacity: 0.6;
+    transition: all var(--lp-transition-base);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lp-icon-card:hover .lp-icon-card-pin {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.lp-icon-card-pin:hover {
+    background: var(--lp-accent-primary);
+    color: white;
+    border-color: var(--lp-accent-primary);
+    transform: scale(1.2) rotate(15deg);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+.lp-icon-card-pin.pinned {
+    opacity: 1;
+    background: var(--lp-accent-success);
+    color: white;
+    border-color: var(--lp-accent-success);
+    animation: pinned-pulse 2s ease-in-out infinite;
+}
+
+@keyframes pinned-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(34, 197, 94, 0.5);
+    }
+}
+
+/* ============================================
+ * TIMER WORLDS BANNER
+ * ============================================ */
+.lp-worlds-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+    border: 2px solid #0EA5E9;
+    border-radius: var(--lp-radius-l);
+    padding: var(--lp-spacing-xl) var(--lp-spacing-xl);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--lp-transition-base);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+}
+
+.lp-worlds-banner:hover {
+    border-color: #0284C7;
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
+    transform: translateY(-2px);
+}
+
+.lp-worlds-banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lp-spacing-xxs);
+}
+
+.lp-worlds-banner-title {
+    font-size: var(--lp-font-h2);
+    font-weight: 700;
+    color: #0369A1;
+    margin: 0;
+}
+
+.lp-worlds-banner-text {
+    font-size: var(--lp-font-small);
+    color: #075985;
+    margin: 0;
+}
+
+/* ============================================
+ * FOOTER
+ * ============================================ */
+.lp-footer {
+    background: var(--lp-bg-surface);
+    border-top: 1px solid var(--lp-divider);
+    padding: var(--lp-spacing-l) var(--lp-margin-desktop);
+}
+
+@media (max-width: 768px) {
+    .lp-footer {
+        padding: var(--lp-spacing-l) var(--lp-margin-mobile);
+    }
+}
+
+.lp-footer-content {
+    max-width: var(--lp-container-max);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--lp-spacing-m);
+}
+
+.lp-footer-hint {
+    font-size: var(--lp-font-small);
+    color: var(--lp-text-muted);
+}
+
+.lp-footer-hint kbd {
+    background: var(--lp-bg-subtle);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+/* ============================================
+ * COOKING TIMER PREVIEW STYLES
+ * ============================================ */
+.lp-cooking-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.lp-cooking-mini-timer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-m);
+    border-left: 4px solid var(--timer-color, #F59E0B);
+}
+
+.lp-cooking-mini-timer.running {
+    background: #FFFBEB;
+    border-color: #FCD34D;
+}
+
+.lp-cooking-mini-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--lp-text-main);
+}
+
+.lp-cooking-mini-time {
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+}
+
+.lp-cooking-empty {
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: var(--lp-text-muted);
+    font-size: 14px;
+    font-style: italic;
+    background: var(--lp-bg-subtle);
+    border: 1px dashed var(--lp-border-medium);
+}
+
+/* ============================================
+ * WORLD CLOCK PREVIEW STYLES
+ * ============================================ */
+.lp-pinned-preview-world {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.lp-mini-clock-canvas {
+    width: 80px;
+    height: 80px;
+}
+
+.lp-world-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lp-world-city-select {
+    padding: 4px 8px;
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-s);
+    font-size: 14px;
+    background: var(--lp-bg-surface);
+    color: var(--lp-text-main);
+    cursor: pointer;
+}
+
+.lp-world-time {
+    font-size: 20px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+}
+
+/* ============================================
+ * GENERIC TIMER PREVIEW STYLES
+ * ============================================ */
+.lp-timer-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    gap: 8px;
+}
+
+.lp-timer-preview-time {
+    font-size: 32px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+    line-height: applied;
+}
+
+.lp-timer-preview-label {
+    font-size: 14px;
+    color: var(--lp-text-muted);
+}
+
+.lp-countdown-preview.running .lp-timer-preview-time {
+    color: #0EA5E9;
+}
+
+.lp-stopwatch-preview.running .lp-timer-preview-time {
+    color: #0EA5E9;
+}
+
+.lp-pomodoro-preview.running .lp-timer-preview-time {
+    color: #10B981;
+}
+
+.lp-metronome-preview .lp-timer-preview-bpm {
+    font-size: 36px;
+    font-weight: 800;
+    color: #EF4444;
+}
+
+.lp-metronome-preview.running .lp-timer-preview-bpm {
+    animation: metronome-pulse 0.5s infinite alternate;
+}
+
+@keyframes metronome-pulse {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.1); opacity: 1; }
+}
+
+.lp-metronome-preview .lp-timer-preview-unit {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--lp-text-muted);
+    letter-spacing: 0.1em;
+}
+
+.lp-custom-session-preview .lp-session-count {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.lp-custom-session-preview .lp-session-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #A855F7;
+}
+
+.lp-custom-session-preview .lp-session-label {
+    font-size: 12px;
+    color: var(--lp-text-muted);
+}
+
+.lp-footer-links {
+    display: flex;
+    gap: var(--lp-spacing-l);
+}
+
+.lp-footer-link {
+    font-size: var(--lp-font-small);
+    color: var(--lp-text-muted);
+    text-decoration: none;
+    transition: color var(--lp-transition-fast);
+}
+
+.lp-footer-link:hover {
+    color: var(--lp-text-main);
+}
+
+
+/* ============================================
+ * BUTTON CONTROL STYLES
+ * ============================================ */
+.lp-preview-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.lp-pin-timer-btn.playing {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.lp-pin-timer-btn.paused {
+    background: #F0F9FF;
+    color: #0EA5E9;
+}
+
+.lp-pin-timer-btn.reset {
+    background: #F4F4F5;
+    color: #71717A;
+}
+
+/* ============================================
+ * ACCESSIBILITY
+ * ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles */
+.lp-icon-card:focus-visible,
+.lp-pinned-card:focus-visible,
+.lp-nav-link:focus-visible {
+    outline: 2px solid var(--lp-accent-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+ * TIMER PREVIEW COMPONENTS
+ * Real timer mini-previews for pinned bar
+ * ============================================ */
+
+/* Pinned Card Preview Container */
+.lp-pinned-card-preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--lp-spacing-m);
+}
+
+/* Note: Specific preview styles for cooking, world clock, etc. 
+   are defined earlier in the file or will be consolidated. 
+   Removing duplicates here to avoid conflicts. */
+
+.lp-timer-preview-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--lp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.lp-timer-preview.running .lp-timer-preview-status {
+    color: var(--lp-accent-success);
+}
+
+/* Default Timer Preview */
+.lp-timer-preview-default {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--lp-spacing-s);
+}
+
+
+
+.lp-cooking-mini-label {
+    font-size: var(--lp-font-body);
+    color: var(--lp-text-secondary);
+    font-weight: 500;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lp-cooking-mini-time {
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    color: var(--lp-text-main);
+    font-variant-numeric: tabular-nums;
+}
+
+.lp-cooking-mini-timer.running .lp-cooking-mini-time {
+    color: var(--lp-accent-success);
+}
+
+/* ============================================
+ * PREVIEW CONTROLS
+ * ============================================ */
+.lp-preview-controls {
+    display: flex;
+    gap: var(--lp-spacing-s);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: var(--lp-spacing-s);
+}
+
+.lp-preview-controls .lp-pin-timer-btn {
+    flex: 0 1 auto;
+    min-width: 100px;
+    padding: var(--lp-spacing-s) var(--lp-spacing-l);
+    font-size: var(--lp-font-body);
+    font-weight: 600;
+    border-radius: var(--lp-radius-m);
+    box-shadow: var(--lp-shadow-xs);
+    transition: all var(--lp-transition-fast);
+}
+
+.lp-preview-controls .lp-pin-timer-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--lp-shadow-sm);
+}
+
+.lp-preview-controls .lp-pin-timer-btn:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+ * POMODORO MINI PREVIEW
+ * ============================================ */
+.lp-pomodoro-preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lp-spacing-s);
+    align-items: center;
+    width: 100%;
+}
+
+.lp-pomodoro-preview .lp-timer-preview-label {
+    font-size: var(--lp-font-body);
+    font-weight: 600;
+}
+
+/* ============================================
+ * METRONOME MINI PREVIEW
+ * ============================================ */
+.lp-metronome-preview {
+    display: flex;
+    align-items: baseline;
+    gap: var(--lp-spacing-xs);
+    justify-content: center;
+}
+
+.lp-timer-preview-bpm {
+    font-size: clamp(48px, 8vw, 64px);
+    font-weight: 700;
+    color: var(--lp-text-main);
+    line-height: 1;
+}
+
+.lp-metronome-preview.running .lp-timer-preview-bpm {
+    color: var(--lp-accent-success);
+}
+
+.lp-timer-preview-unit {
+    font-size: var(--lp-font-body);
+    font-weight: 600;
+    color: var(--lp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+ * DIGITAL CLOCK MINI PREVIEW
+ * ============================================ */
+.lp-digital-preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lp-spacing-s);
+    align-items: center;
+    width: 100%;
+}
+
+.lp-digital-preview .lp-timer-preview-time {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.lp-digital-preview .lp-timer-preview-label {
+    font-size: var(--lp-font-body);
+    color: var(--lp-text-secondary);
+}
+
+/* ============================================
+ * CUSTOM SESSION MINI PREVIEW
+ * ============================================ */
+.lp-custom-session-preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lp-spacing-m);
+    align-items: center;
+    width: 100%;
+}
+
+.lp-session-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--lp-spacing-xs);
+}
+
+.lp-session-number {
+    font-size: clamp(48px, 8vw, 64px);
+    font-weight: 700;
+    color: var(--lp-text-main);
+    line-height: 1;
+}
+
+.lp-session-label {
+    font-size: var(--lp-font-small);
+    color: var(--lp-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+ * PINNED CARD RUNNING ANIMATION
+ * ============================================ */
+@keyframes lp-pulse-border {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+    }
+}
+
+.lp-pinned-card:has(.running) {
+    animation: lp-pulse-border 2s ease-in-out infinite;
+    border-color: var(--lp-accent-success);
+}
+
+/* ============================================
+ * CHESS PREVIEW STYLES
+ * ============================================ */
+.lp-chess-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lp-chess-clocks {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.lp-chess-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-radius: var(--lp-radius-m);
+    background: var(--lp-bg-subtle);
+    border: 1px solid transparent;
+    transition: all var(--lp-transition-fast);
+    flex: 1;
+    max-width: 140px;
+}
+
+.lp-chess-player.active {
+    background: #EFF6FF;
+    border-color: #3B82F6;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.lp-chess-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.lp-chess-time {
+    font-size: 20px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+}
+
+/* ============================================
+ * COUPLES PREVIEW STYLES
+ * ============================================ */
+.lp-couples-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.lp-couples-preview .lp-timer-preview-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--lp-text-muted);
+}
+
+.lp-couples-preview .lp-timer-preview-time {
+    font-size: 40px;
+    color: var(--lp-text-main);
+}
+
+
+/* ============================================
+ * TIMER THEMES
+ * ============================================ */
+[data-timer-theme="countdown"] { --timer-color: #7B2CBF; --timer-gradient: linear-gradient(135deg, #7B2CBF 0%, #9D4EDD 100%); }
+[data-timer-theme="stopwatch"] { --timer-color: #0EA5E9; --timer-gradient: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%); }
+[data-timer-theme="analog"] { --timer-color: #8B5CF6; --timer-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+[data-timer-theme="timesince"] { --timer-color: #9333EA; --timer-gradient: linear-gradient(135deg, #9333EA 0%, #A855F7 100%); }
+[data-timer-theme="pomodoro"] { --timer-color: #10B981; --timer-gradient: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+[data-timer-theme="cooking"] { --timer-color: #F59E0B; --timer-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+[data-timer-theme="couples"] { --timer-color: #EC4899; --timer-gradient: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+[data-timer-theme="chess"] { --timer-color: #6366F1; --timer-gradient: linear-gradient(135deg, #6366F1 0%, #818CF8 100%); }
+[data-timer-theme="metronome"] { --timer-color: #EF4444; --timer-gradient: linear-gradient(135deg, #EF4444 0%, #F87171 100%); }
+[data-timer-theme="world"] { --timer-color: #06B6D4; --timer-gradient: linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%); }
+[data-timer-theme="alarm"] { --timer-color: #F97316; --timer-gradient: linear-gradient(135deg, #F97316 0%, #FB923C 100%); }
+[data-timer-theme="digital"] { --timer-color: #8B5CF6; --timer-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+[data-timer-theme="custom-session"] { --timer-color: #A855F7; --timer-gradient: linear-gradient(135deg, #A855F7 0%, #C084FC 100%); }
+
+/* Breathing Preview */
+.lp-breathing-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.lp-breathing-circle-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--breath-circle, #80CBC4);
+    animation: breath-pulse 4s infinite ease-in-out;
+}
+
+@keyframes breath-pulse {
+    0%, 100% { transform: scale(0.5); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Interval Preview */
+.lp-interval-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.lp-interval-preview-phase {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--iv-text, #1F2937);
+}
+
+.lp-interval-preview-bar {
+    width: 40px;
+    height: 6px;
+    background: var(--iv-work, #10B981);
+    border-radius: 3px;
+    animation: iv-bar-pulse 2s infinite alternate;
+}
+
+@keyframes iv-bar-pulse {
+    from { width: 10px; opacity: 0.5; }
+    to { width: 40px; opacity: 1; }
+}

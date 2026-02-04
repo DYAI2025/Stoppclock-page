@@ -1,0 +1,161 @@
+/* Timer Worlds Index Styles */
+.timer-worlds-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: var(--font-family-base, system-ui, sans-serif);
+  color: #1f2937;
+}
+
+.timer-worlds-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  margin-top: 2rem;
+}
+
+.timer-worlds-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.timer-worlds-header .subtitle {
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+
+/* Grid */
+.worlds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+/* Card */
+.world-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #e5e7eb;
+  height: 100%;
+}
+
+.world-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.world-card-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.world-card h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #111827;
+}
+
+.world-card p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.read-more {
+  font-weight: 600;
+  color: #2563eb;
+  align-self: flex-start;
+}
+
+
+/* Facts Section */
+.facts-section {
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+  padding: 3rem 2rem;
+  background: #f9fafb;
+  border-radius: 24px;
+}
+
+.facts-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.facts-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.facts-header p {
+  color: #6b7280;
+}
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.fact-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.fact-card::before {
+  content: "💡";
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.fact-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.fact-card p {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.fact-source {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-style: italic;
+  display: block;
+  text-align: right;
+}
+
+/* Ad Containers */
+.ad-container-top {
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+}
+
+.ad-container-bottom {
+  max-width: 800px;
+  margin: 40px auto 0 auto;
+}
+
