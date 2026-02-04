@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import "./design-tokens.css";
 import "./styles.css";
@@ -45,16 +45,71 @@ import WidgetDemo from "./pages/WidgetDemo";
 
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
-import { CountdownGuide } from "./components/CountdownGuide";
-import TimerQuickInfo from "./components/TimerQuickInfo";
-import ClockFactsBoard from "./components/ClockFactsBoard";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import { SEOHead } from "./hooks/useSEO";
-import { PinnedTimersBoard } from "./components/PinnedTimersBoard";
-import LanguageToggle from "./components/LanguageToggle";
-import DarkModeToggle from "./components/DarkModeToggle";
-import TimerIcon, { TimerIconType } from "./components/TimerIcon";
 import LandingPage from "./pages/LandingPage";
+
+// Code-split: Timer pages (loaded on demand)
+const AnalogCountdown = lazy(() => import("./pages/AnalogCountdown"));
+const Countdown = lazy(() => import("./pages/Countdown"));
+const Stopwatch = lazy(() => import("./pages/Stopwatch"));
+const WorldClock = lazy(() => import("./pages/WorldClock"));
+const Alarm = lazy(() => import("./pages/Alarm"));
+const Metronome = lazy(() => import("./pages/Metronome"));
+const ChessClock = lazy(() => import("./pages/ChessClock"));
+const CookingTimer = lazy(() => import("./pages/CookingTimer"));
+const CouplesTimer = lazy(() => import("./pages/CouplesTimer"));
+const DigitalClock = lazy(() => import("./pages/DigitalClock"));
+const Pomodoro = lazy(() => import("./pages/Pomodoro"));
+const TimeSince = lazy(() => import("./pages/TimeSince"));
+const TimeLab = lazy(() => import("./pages/TimeLab"));
+
+// Code-split: Content pages
+const Wissen = lazy(() => import("./pages/Wissen"));
+const ImprintEn = lazy(() => import("./pages/ImprintEn"));
+const PrivacyPolicyEn = lazy(() => import("./pages/PrivacyPolicyEn"));
+const Impressum = lazy(() => import("./pages/Impressum"));
+const Datenschutz = lazy(() => import("./pages/Datenschutz"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const PillarPage = lazy(() => import("./pages/PillarPage"));
+const TimePhilosophy = lazy(() => import("./pages/TimePhilosophy"));
+
+// Code-split: Blog pages
+const PomodoroTimerOnline = lazy(() => import("./pages/blog/PomodoroTimerOnline"));
+const PomodoroVsCountdown = lazy(() => import("./pages/blog/PomodoroVsCountdown"));
+const BlogIndex = lazy(() => import("./pages/BlogIndex"));
+
+// Code-split: DFY Landing pages
+const TimerForStudents = lazy(() => import("./pages/TimerForStudents"));
+const TimerForProductivity = lazy(() => import("./pages/TimerForProductivity"));
+const TimerForFitness = lazy(() => import("./pages/TimerForFitness"));
+const TimerForCooking = lazy(() => import("./pages/TimerForCooking"));
+const TimerForMeditation = lazy(() => import("./pages/TimerForMeditation"));
+const TimerForFocus = lazy(() => import("./pages/TimerForFocus"));
+
+// Code-split: Custom Sessions
+const CustomSessionsLanding = lazy(() => import("./pages/CustomSessionsLanding"));
+const SessionBuilder = lazy(() => import("./pages/SessionBuilder"));
+const SessionRunner = lazy(() => import("./pages/SessionRunner"));
+const SessionPreview = lazy(() => import("./pages/SessionPreview"));
+
+// Code-split: Other pages
+const TimerWorldsIndex = lazy(() => import("./pages/TimerWorldsIndex"));
+const FactsPage = lazy(() => import("./pages/FactsPage"));
+const CountdownGuide = lazy(() => import("./components/CountdownGuide").then(m => ({ default: m.CountdownGuide })));
+
+// Unused imports removed (were only used in old Home component)
+// TimerQuickInfo, ClockFactsBoard, PinnedTimersBoard, LanguageToggle, DarkModeToggle, TimerIcon
+
+// Loading fallback component
+function PageLoader() {
+  return (
+    <div className="page-loader">
+      <div className="loader-spinner"></div>
+    </div>
+  );
+}
 
 function useHashRoute() {
   const [, force] = React.useReducer((x) => x + 1, 0);

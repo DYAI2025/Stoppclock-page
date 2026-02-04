@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://www.google-analytics.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,11 +42,60 @@
     <link rel="icon" href="/icons/icon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/icons/icon-180.png" />
 
+    <!-- Google Analytics 4 (gtag.js) - Replace G-XXXXXXXXXX with your Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // Set default consent to denied (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'analytics_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+      });
+      gtag('config', 'G-XXXXXXXXXX', { send_page_view: false });
+    </script>
+
     <!-- Google Certified CMP -->
     <script async src="https://fundingchoicesmessages.google.com/i/pub-1712273263687132?ers=1"></script>
     <script>
       window.googlefc = window.googlefc || {};
       window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
+    </script>
+
+    <!-- SEO: Convert clean URLs to hash-based routing for SPA -->
+    <script>
+      (function() {
+        // Only redirect if we have a clean path (not hash, not root)
+        var path = window.location.pathname;
+        var hash = window.location.hash;
+
+        // Skip if already at root or has hash
+        if (path === '/' || path === '/index.html' || hash) return;
+
+        // Valid routes that should be converted to hash
+        var validRoutes = [
+          '/analog', '/stopwatch', '/countdown', '/pomodoro', '/cooking',
+          '/couples', '/digital', '/world', '/alarm', '/metronome', '/chess',
+          '/timesince', '/timelab', '/blog', '/about', '/contact', '/imprint',
+          '/privacy', '/impressum', '/datenschutz', '/time-philosophy',
+          '/timer-for-students', '/timer-for-productivity', '/timer-for-fitness',
+          '/timer-for-cooking', '/timer-for-meditation', '/timer-for-focus',
+          '/custom-sessions', '/timers', '/facts'
+        ];
+
+        // Check if path matches a valid route or starts with a valid prefix
+        var shouldRedirect = validRoutes.some(function(route) {
+          return path === route || path.startsWith(route + '/');
+        }) || path.startsWith('/blog/') || path.startsWith('/custom-sessions/');
+
+        if (shouldRedirect) {
+          // Redirect to hash-based URL
+          window.location.replace('/#' + path);
+        }
+      })();
     </script>
 
   </head>
