@@ -140,6 +140,7 @@ export const WidgetClock: React.FC<WidgetClockProps> = ({
           width={160}
           height={160}
           style={{ display: 'block' }}
+          aria-label={`${label} analog clock showing the current time: ${formatDigitalTime()}`}
         />
         <div className="widget-text-primary" style={{ fontSize: 'var(--widget-text-xl)' }}>
           {formatDigitalTime()}
