@@ -1,4 +1,5 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+import { getBlogSEOData } from "../data/blog-content";
 
 // Custom hook to track hash-based location changes
 function useLocation() {
@@ -17,6 +18,9 @@ function useLocation() {
 
   return location;
 }
+
+// Auto-generate SEO data from blog registry
+const blogSEOData = getBlogSEOData();
 
 // SEO Metadata für jede Route
 const seoData: Record<string, { title: string; description: string; keywords?: string }> = {
@@ -145,6 +149,8 @@ const seoData: Record<string, { title: string; description: string; keywords?: s
     description: "English privacy policy. How we handle data, cookies, and your rights.",
     keywords: "privacy, datenschutz, gdpr",
   },
+  // Auto-generated blog SEO entries are merged in below
+  ...blogSEOData,
 };
 
 export function useSEO() {

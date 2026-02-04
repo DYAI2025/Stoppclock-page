@@ -8,11 +8,13 @@
 ## 1. Quality – Inhaltliche Tiefe & Korrektheit
 
 ### Aktuelle Schwächen
+
 - Nur **1 von 9 Timern** hat derzeit Content (Pomodoro).
 - Keine Quellenangaben für historische Fakten.
 - Texte sind auf Englisch, obwohl die Zielgruppe (DE Schulen) oft deutschsprachig ist.
 
 ### Verbesserungsvorschläge
+
 | # | Problem | Lösung | Aufwand |
 |---|---------|--------|---------|
 | Q1 | Fehlende Welten | Content für alle 9 Timer erstellen (Countdown, Stopwatch, Analog, Chess, etc.) | Hoch |
@@ -25,11 +27,13 @@
 ## 2. UI/UX – Visuelle Präsentation & Navigation
 
 ### Aktuelle Schwächen
+
 - Keine visuelle Unterscheidung zwischen den Welten (alle gleich gestylt).
 - Keine Bilder oder Icons, reine Text-Wand.
 - Keine Micro-Animationen, die Seite fühlt sich "statisch" an.
 
 ### Verbesserungsvorschläge
+
 | # | Problem | Lösung | Aufwand |
 |---|---------|--------|---------|
 | U1 | Monotones Design | Pro Timer-World eine eigene Akzentfarbe (abgeleitet von `timers[]` in `main.tsx`) | Niedrig |
@@ -43,11 +47,13 @@
 ## 3. Reliability – Robustheit & Wartbarkeit
 
 ### Aktuelle Schwächen
+
 - JSON wird manuell generiert – kein automatischer Build-Hook.
 - Fallback für fehlenden Content ist schlicht ("A World in Preparation").
 - Keine E2E-Tests für die neuen Komponenten.
 
 ### Verbesserungsvorschläge
+
 | # | Problem | Lösung | Aufwand |
 |---|---------|--------|---------|
 | R1 | Manueller Build | Script in `package.json` integrieren: `"prebuild": "node scripts/parse-timer-worlds.mjs"` | Niedrig |
@@ -60,11 +66,13 @@
 ## 4. Infotainment – Engagement & Wiederkehrwert
 
 ### Aktuelle Schwächen
+
 - Kein Gamification-Element (z.B. "Hast du das gewusst?"-Quiz).
 - Keine Interaktion – reine Lese-Erfahrung.
 - Fakten sind statisch, kein "Fakt des Tages"-Feature.
 
 ### Verbesserungsvorschläge
+
 | # | Problem | Lösung | Aufwand |
 |---|---------|--------|---------|
 | I1 | Keine Interaktion | "Wusstest du?"-Karten mit Klick-zum-Aufdecken-Effekt | Mittel |
@@ -77,22 +85,26 @@
 ## Priorisierte Roadmap
 
 ### Phase 1: Foundation (1-2 Tage)
+
 - [Q1] Content für Countdown, Stopwatch, Chess Clock hinzufügen.
 - [R1] Prebuild-Hook für automatische JSON-Generierung.
 - [U1] Akzentfarben pro Timer-World.
 
 ### Phase 2: Visual Polish (2-3 Tage)
+
 - [U2] Hero-Illustrationen generieren.
 - [U3] Scroll-Animationen implementieren.
 - [U4] Table of Contents hinzufügen.
 - [R3] E2E-Tests schreiben.
 
 ### Phase 3: Interactivity (3-5 Tage)
+
 - [I1] Klick-zum-Aufdecken-Fakten.
 - [I3] ClockFactsBoard-Integration.
 - [Q3] i18n-Support mit Deutsch als primärer Sprache.
 
 ### Phase 4: Advanced (Optional)
+
 - [I2] Mini-Quiz.
 - [I4] Text-to-Speech.
 - [Q2] Quellenangaben für alle Fakten.

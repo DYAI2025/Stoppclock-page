@@ -1,7 +1,69 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-01T04:41:32.352Z",
+  "generatedAt": "2026-02-04T01:03:30.122Z",
   "worlds": {
+    "breathing": {
+      "id": "breathing",
+      "slug": "breathing",
+      "name": "Breathing: The Calm Anchor",
+      "tagline": "Your breath is the remote control for your nervous system.",
+      "heroStory": "The Breathing Timer is not about time passing, but about time deepening. It is a visual guide to sync your internal rhythm with a calming external pace. It transforms the screen from a source of distraction into a point of focus and tranquility.",
+      "rituals": [
+        {
+          "id": "breathing-ritual-0",
+          "title": "The Morning Box",
+          "description": "Before opening emails, complete four cycles of Box Breathing (4-4-4-4). Use this square of time to build a mental foundation for the day.",
+          "steps": []
+        },
+        {
+          "id": "breathing-ritual-1",
+          "title": "The Evening Release",
+          "description": "Use the 4-7-8 rhythm to signal your body that the work day is over. With each long exhale, imagine tension leaving your shoulders.",
+          "steps": []
+        },
+        {
+          "id": "breathing-ritual-2",
+          "title": "The Panic Reset",
+          "description": "If stress spikes, focus entirely on the expanding and contracting circle. Let your breath follow the animation without force. Three cycles are often enough to regain perspective.",
+          "steps": []
+        }
+      ],
+      "effects": [
+        {
+          "id": "breathing-effect-0",
+          "title": "Vagus Nerve Activation",
+          "description": "Slow, rhythmic breathing stimulates the Vagus nerve, engaging the parasympathetic nervous system—the body's \"rest and digest\" mode."
+        },
+        {
+          "id": "breathing-effect-1",
+          "title": "CO2 Tolerance",
+          "description": "Controlled pauses (holds) can help improve CO2 tolerance, which is linked to better oxygen efficiency and stress resilience."
+        },
+        {
+          "id": "breathing-effect-2",
+          "title": "Visual Entrainment",
+          "description": "Syncing with a visual cue reduces cognitive load. You don't have to count; you just have to follow. This creates a trance-like state of flow."
+        }
+      ],
+      "facts": [
+        {
+          "id": "breathing-fact-0",
+          "title": "Box Breathing & Navy SEALs",
+          "content": "This technique (Inhale 4, Hold 4, Exhale 4, Hold 4) is famously used by Navy SEALs to remain calm and focused in high-stress combat situations."
+        },
+        {
+          "id": "breathing-fact-1",
+          "title": "The 10,000 Breaths",
+          "content": "We take about 20,000 breaths a day. Most are unconscious and shallow. Conscious breathing is one of the few autonomic functions we can directly control."
+        },
+        {
+          "id": "breathing-fact-2",
+          "title": "Dr. Weil's 4-7-8",
+          "content": "Developed by Dr. Andrew Weil, the 4-7-8 pattern (Inhale 4, Hold 7, Exhale 8) is described as a \"natural tranquilizer for the nervous system\"."
+        }
+      ],
+      "updatedAt": "2026-02-04T01:03:30.128Z"
+    },
     "chess": {
       "id": "chess",
       "slug": "chess",
@@ -59,7 +121,7 @@
           "source": "https://www.thechesswebsite.com"
         }
       ],
-      "updatedAt": "2026-02-01T04:41:32.360Z"
+      "updatedAt": "2026-02-04T01:03:30.129Z"
     },
     "countdown": {
       "id": "countdown",
@@ -124,7 +186,69 @@
           "source": "https://www.nasa.gov"
         }
       ],
-      "updatedAt": "2026-02-01T04:41:32.361Z"
+      "updatedAt": "2026-02-04T01:03:30.130Z"
+    },
+    "interval": {
+      "id": "interval",
+      "slug": "interval",
+      "name": "Interval: The Rhythm Keeper",
+      "tagline": "Work hard, rest briefly, repeat. The rhythm of progress.",
+      "heroStory": "The Interval Timer is the rigorous coach of the collection. It divides time into actionable blocks of effort and recovery. It doesn't care about the content of the work—sprinting, writing, or brainstorming—only the structure. It enforces the balance between intensity and regeneration.",
+      "rituals": [
+        {
+          "id": "interval-ritual-0",
+          "title": "The Micro-Sprint",
+          "description": "Use a 20/10 rhythm not just for exercise, but for rapid cleanup or email processing. Detailed focus for 20 seconds, reset for 10.",
+          "steps": []
+        },
+        {
+          "id": "interval-ritual-1",
+          "title": "The Workshop Pulse",
+          "description": "In creative workshops, use longer intervals (e.g., 5 min brainstorming, 1 min sharing) to keep energy high and prevent \"meeting fatigue\".",
+          "steps": []
+        },
+        {
+          "id": "interval-ritual-2",
+          "title": "The Daily Tabata",
+          "description": "Four minutes of movement in the morning using the classic 20/10 protocol. It wakes up the metabolism faster than coffee.",
+          "steps": []
+        }
+      ],
+      "effects": [
+        {
+          "id": "interval-effect-0",
+          "title": "Time Efficiency",
+          "description": "Interval training (HIIT) is proven to deliver health benefits in less total time than steady-state activity."
+        },
+        {
+          "id": "interval-effect-1",
+          "title": "Biological Rhythm",
+          "description": "Our bodies operate in ultradian cycles. Imposing an external rhythm (Work/Rest) prevents burnout and keeps mental acuity sharp."
+        },
+        {
+          "id": "interval-effect-2",
+          "title": "The \"Go\" Signal",
+          "description": "The audio cues (beeps) create a Pavlovian response. When the \"Work\" beep sounds, the body learns to switch into gear immediately, bypassing procrastination."
+        }
+      ],
+      "facts": [
+        {
+          "id": "interval-fact-0",
+          "title": "The Tabata Protocol",
+          "content": "Named after Dr. Izumi Tabata, who found that 4 minutes of 20s ultra-intensity work and 10s rest improved aerobic and anaerobic capacity more than an hour of moderate exercise."
+        },
+        {
+          "id": "interval-fact-1",
+          "title": "EPOC / Afterburn",
+          "content": "High-intensity intervals create \"Excess Post-Exercise Oxygen Consumption\" (EPOC), meaning you continue to burn calories at a higher rate even after the timer stops."
+        },
+        {
+          "id": "interval-fact-2",
+          "title": "Not Just for Gyms",
+          "content": "The technique of \"time-boxing\" is the intellectual cousin of interval training. Breaking complex projects into fixed time intervals is a standard productivity hack."
+        }
+      ],
+      "updatedAt": "2026-02-04T01:03:30.130Z"
     },
     "pomodoro": {
       "id": "pomodoro",
@@ -186,7 +310,7 @@
           "content": "A common misconception is that breaks \"break\" flow. Actually, micro-breaks help maintain high-level focus over several hours without crashing."
         }
       ],
-      "updatedAt": "2026-02-01T04:41:32.361Z"
+      "updatedAt": "2026-02-04T01:03:30.130Z"
     },
     "stopwatch": {
       "id": "stopwatch",
@@ -251,7 +375,7 @@
           "source": "https://www.speedrun.com"
         }
       ],
-      "updatedAt": "2026-02-01T04:41:32.362Z"
+      "updatedAt": "2026-02-04T01:03:30.130Z"
     }
   }
 }

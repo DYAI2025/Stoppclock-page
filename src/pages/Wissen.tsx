@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { HomeButton } from '../components/HomeButton';
 import { TimerWorldLayout } from '../components/timer-world/TimerWorldLayout';
 import { TimerWorldsIndex } from '../types/timer-worlds-types';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const Wissen = () => {
     const hash = window.location.hash;
@@ -48,7 +50,21 @@ const Wissen = () => {
             );
         }
 
-        return <TimerWorldLayout data={world} />;
+        return (
+            <>
+                 {/* Ad Slot: Top of Content */}
+                 <div style={{ maxWidth: '800px', margin: '0 auto 40px auto' }}>
+                    <AdUnit adUnit={getAdUnit('home-top')!} />
+                </div>
+                
+                <TimerWorldLayout data={world} />
+                
+                {/* Ad Slot: Bottom of Content */}
+                <div style={{ maxWidth: '800px', margin: '40px auto 0 auto' }}>
+                    <AdUnit adUnit={getAdUnit('home-bottom')!} />
+                </div>
+            </>
+        );
     };
 
     return (

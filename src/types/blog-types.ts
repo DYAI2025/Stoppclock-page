@@ -42,3 +42,76 @@ export interface SEOMetadata {
   author?: string;
   canonical?: string;
 }
+
+// Section-based blog content types for registry system
+export type BlogSectionType =
+  | 'quick-answer'
+  | 'text'
+  | 'cta'
+  | 'comparison-table'
+  | 'faq'
+  | 'stats';
+
+export interface QuickAnswerSectionProps {
+  heading?: string;
+  summary: string;
+  bulletPoints?: Array<{ label: string; value: string }>;
+}
+
+export interface TextSectionProps {
+  html: string;
+}
+
+export interface CTASectionProps {
+  heading?: string;
+  description?: string;
+  buttons: Array<{
+    label: string;
+    href: string;
+    variant?: 'primary' | 'secondary';
+    emoji?: string;
+  }>;
+  backgroundColor?: string;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface FAQSectionProps {
+  heading?: string;
+  items: FAQItem[];
+}
+
+export interface ComparisonTableProps {
+  heading?: string;
+  headers: string[];
+  rows: Array<{
+    aspect: string;
+    values: string[];
+  }>;
+}
+
+export interface StatsSectionProps {
+  heading?: string;
+  stats: Array<{
+    value: string;
+    label: string;
+    description?: string;
+  }>;
+}
+
+export interface BlogSection {
+  type: BlogSectionType;
+  heading?: string;
+  props: QuickAnswerSectionProps | TextSectionProps | CTASectionProps | FAQSectionProps | ComparisonTableProps | StatsSectionProps;
+}
+
+export interface BlogPostContent {
+  frontmatter: BlogPostFrontmatter;
+  schema?: Record<string, unknown>;
+  sections: BlogSection[];
+}
+
+export type BlogPostRegistry = Record<string, BlogPostContent>;

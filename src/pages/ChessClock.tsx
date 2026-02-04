@@ -1,9 +1,11 @@
+// ... imports
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { beep } from "../utils";
 import { HomeButton } from "../components/HomeButton";
 import { ShareButton } from "../components/ShareButton";
 import { SavePresetButton } from "../components/SavePresetButton";
-import { RotateCcw, Play, Clock, Info, ChevronRight, Shield, Award, Users } from "lucide-react";
+import { AppHeader } from "../components/AppHeader";
+import { Play, Clock, Info, ChevronRight, Shield, Award, Users } from "lucide-react";
 import { trackEvent } from "../utils/stats";
 import { getPresetFromUrl } from "../utils/share";
 import "../styles/chess-swiss.css";
@@ -19,6 +21,7 @@ type Persist = {
   startedAt: number | null;
 };
 
+// ... load and save functions remain the same
 function load(): Persist {
   try {
     const raw = localStorage.getItem(LS_KEY);
@@ -74,7 +77,7 @@ const ChessHero = ({ onStart, onFullscreen }: { onStart: () => void, onFullscree
         </p>
         <div className="ch-hero-actions">
           <button className="ch-btn-primary" onClick={onStart}>
-            <Play size={20} style={{ marginRight: '8px' }} />
+            <Play size={20} className="ch-btn-start-icon" />
             Open Chess Timer
           </button>
           <button className="ch-btn-ghost" onClick={onFullscreen}>
@@ -106,15 +109,15 @@ const ChessCharacter = () => (
 const ChessRituals = () => (
   <section className="ch-section ch-section-alt">
     <div className="ch-container">
-      <h2 className="ch-h2" style={{ textAlign: 'center' }}>Rituals – Ways to play with time</h2>
-      <p className="ch-body" style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 3rem' }}>
+      <h2 className="ch-h2 centered">Rituals – Ways to play with time</h2>
+      <p className="ch-body centered-limited">
         Three simple ways to let the clock shape your game and your conversations.
       </p>
       <div className="ch-rituals-grid">
         <div className="ch-ritual-card">
           <div className="ch-fact-label">For Fun</div>
           <h3 className="ch-h3">Friendly Rapid Game</h3>
-          <p className="ch-body" style={{ fontSize: '0.95rem' }}>Perfect for quick decisions and high energy.</p>
+          <p className="ch-body small-text">Perfect for quick decisions and high energy.</p>
           <ol className="ch-ritual-steps">
             <li>Set 5 or 10 minutes per side.</li>
             <li>No increments (sudden death).</li>
@@ -125,7 +128,7 @@ const ChessRituals = () => (
         <div className="ch-ritual-card">
           <div className="ch-fact-label">For Training</div>
           <h3 className="ch-h3">Tournament Practice</h3>
-          <p className="ch-body" style={{ fontSize: '0.95rem' }}>Simulates real competition pressure.</p>
+          <p className="ch-body small-text">Simulates real competition pressure.</p>
           <ol className="ch-ritual-steps">
             <li>Set 90 minutes (or 30 for rapid).</li>
             <li>Use the standard 'touch-move' rule.</li>
@@ -136,7 +139,7 @@ const ChessRituals = () => (
         <div className="ch-ritual-card">
           <div className="ch-fact-label">For Life</div>
           <h3 className="ch-h3">Fair Debate</h3>
-          <p className="ch-body" style={{ fontSize: '0.95rem' }}>Ensures equal speaking time in arguments.</p>
+          <p className="ch-body small-text">Ensures equal speaking time in arguments.</p>
           <ol className="ch-ritual-steps">
             <li>Give each person 5 minutes total.</li>
             <li>Tap when you yield the floor.</li>
@@ -174,7 +177,7 @@ const ChessEffects = () => (
 
       <div className="ch-experiment-block">
         <h3 className="ch-h3">A Small Experiment</h3>
-        <p className="ch-body" style={{ marginBottom: 0 }}>
+        <p className="ch-body no-margin">
           Try playing the first 10 moves of a game <i>instantly</i> (within 5 seconds). See how it changes your intuition vs. calculation balance. Speed often forces you to play more honest, natural moves.
         </p>
       </div>
@@ -190,21 +193,21 @@ const ChessFacts = () => (
         <div className="ch-fact-plaque">
           <span className="ch-fact-label">History</span>
           <h3 className="ch-h3">Born in 1883</h3>
-          <p className="ch-body" style={{ fontSize: '0.95rem', marginBottom: 0 }}>
+          <p className="ch-body small-text no-margin">
             The first mechanical chess clock was invented by Thomas Bright Wilson used at the London 1883 tournament. Before that, games could last for 14 hours or more!
           </p>
         </div>
         <div className="ch-fact-plaque">
           <span className="ch-fact-label">Culture</span>
           <h3 className="ch-h3">The "Flag"</h3>
-          <p className="ch-body" style={{ fontSize: '0.95rem', marginBottom: 0 }}>
+          <p className="ch-body small-text no-margin">
             Old analog clocks had a small red flag that would fall when the minute hand passed 12. "Her flag fell" is still used today to mean running out of time.
           </p>
         </div>
         <div className="ch-fact-plaque">
           <span className="ch-fact-label">Science</span>
           <h3 className="ch-h3">Time Pressure</h3>
-          <p className="ch-body" style={{ fontSize: '0.95rem', marginBottom: 0 }}>
+          <p className="ch-body small-text no-margin">
             Under time pressure (Zeitnot), the brain switches from slow, calculated System 2 thinking to fast, intuitive System 1 thinking.
           </p>
         </div>
@@ -223,7 +226,8 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const [showSettings, setShowSettings] = useState(false);
-  const [rotateOpponent, setRotateOpponent] = useState(false);
+  // const [rotateOpponent, setRotateOpponent] = useState(false); // Removed rotation
+
   const [tempMinutes, setTempMinutes] = useState('');
   const [urlChecked, setUrlChecked] = useState(false);
   const [gameStartTime, setGameStartTime] = useState<number | null>(null);
@@ -245,7 +249,9 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
     const sharedPreset = getPresetFromUrl();
     if (sharedPreset && sharedPreset.type === 'chess') {
       const config = sharedPreset.config;
-      const time = config.player1Time || config.initialTime * 60000 || DEFAULT_TIME;
+      // Fixed: safely access initialTime
+      const initialTime = config.initialTime;
+      const time = config.player1Time || (initialTime ? initialTime * 60000 : undefined) || DEFAULT_TIME;
       setSt({
         version: 1,
         player1Time: time,
@@ -380,12 +386,27 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
     : st.player2Time;
 
   return (
-    <div className="chess-wrap" style={{ height: '100vh' }}>
-      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10 }}>
-          <button onClick={onExit} className="btn-home">
-             About this timer
-          </button>
-      </div>
+    <div className="chess-wrap">
+      <AppHeader
+        title="Chess Clock"
+        breadcrumbs={[
+          { label: 'Home', href: '#/' },
+          { label: 'Chess Clock' }
+        ]}
+        actions={{
+          showShare: true,
+          onShare: () => {
+            // Trigger share modal through ShareButton component
+            const shareBtn = document.querySelector('.chess-share-button-wrapper .btn-share') as HTMLButtonElement;
+            if (shareBtn) shareBtn.click();
+          },
+          showFullscreen: true,
+          showTheme: true,
+          showSettings: true,
+          showHome: true
+        }}
+        variant="timer"
+      />
 
       {/* Time Settings Modal */}
       {showSettings && (
@@ -418,7 +439,7 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
       <div
         className={`player player-1 ${st.activePlayer === 1 ? 'active' : ''}`}
         onClick={() => switchToPlayer(1)}
-        style={{ transform: rotateOpponent ? 'rotate(180deg)' : undefined }}
+        style={{ transform: undefined }}
       >
         <div className="chess-piece">♔</div>
         <div className="player-label">Player 1</div>
@@ -428,35 +449,15 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
       <div className="chess-controls">
         <button type="button" className="btn" onClick={reset}>Reset</button>
         <button type="button" className="btn" onClick={() => setShowSettings(true)}>Time</button>
-        <button type="button" className="btn" onClick={() => setRotateOpponent(prev => !prev)} title="Rotate Opponent">
-          <RotateCcw size={20} />
-        </button>
+        <ShareButton
+          timerType="chess"
+          getCurrentConfig={getCurrentConfig}
+          className="btn"
+        />
       </div>
 
-      {/* Share & Save Buttons */}
-      <div style={{
-        position: 'absolute',
-        bottom: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        display: 'flex',
-        gap: '8px',
-        zIndex: 20,
-        pointerEvents: 'none'
-      }}>
-        <div style={{ pointerEvents: 'auto' }}>
-          <SavePresetButton
-            timerType="chess"
-            getCurrentConfig={getCurrentConfig}
-          />
-        </div>
-        <div style={{ pointerEvents: 'auto' }}>
-          <ShareButton
-            timerType="chess"
-            getCurrentConfig={getCurrentConfig}
-          />
-        </div>
-      </div>
+      {/* Share & Save Buttons - Hidden but accessible for header integration */}
+
 
       <div
         className={`player player-2 ${st.activePlayer === 2 ? 'active' : ''}`}
@@ -484,7 +485,7 @@ export default function ChessClock() {
     <div className="chess-world-page">
       <header className="couples-header">
          <HomeButton />
-         <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--ch-color-accent)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+         <span className="ch-world-header-accent">
            World 05
          </span>
       </header>

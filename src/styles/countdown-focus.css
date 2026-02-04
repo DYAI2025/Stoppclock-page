@@ -152,13 +152,14 @@
 
 .focus-time-display {
     font-family: var(--font-family-mono);
-    font-size: clamp(4rem, 25vw, 15rem);
+    font-size: clamp(2rem, 12vw, 6rem); /* Reduced to fit inside stopwatch */
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     line-height: 1;
     color: var(--focus-text);
     z-index: 2;
     position: relative;
+    pointer-events: none; /* Let clicks pass through to potential controls */
 }
 
 .focus-ring-bg {
@@ -166,16 +167,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(80vw, 80vh);
-    height: min(80vw, 80vh);
-    border-radius: 50%;
-    border: 4px solid var(--focus-ring-track);
+    width: min(80vw, 55vh);
+    height: min(92vw, 63vh); /* Adjusted aspect ratio for stopwatch shape */
+    /* border: 4px solid var(--focus-ring-track); REMOVED - Drawn in SVG */
     z-index: 1;
 }
 
-.focus-ring-fill {
-    /* SVG implementation preferred for partial rings */
-}
+
 
 .focus-controls {
     display: flex;
@@ -285,4 +283,44 @@
     color: #E67E22;
     /* Soft Warning Orange? Or just Darker Blue? */
     /* Design says "Ring minimal kräftiger". Let's update ring instead of text color maybe. */
+}
+
+/* ===============================
+   Refactored Inline Styles
+   =============================== */
+.focus-hero-content {
+    margin-top: 40px;
+}
+
+.focus-footer {
+    margin-top: 60px;
+    opacity: 0.6;
+}
+
+.focus-footer-tip {
+    font-size: 0.9rem;
+}
+
+.focus-header-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.focus-sound-toggle {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.focus-ring-progress {
+    transition: stroke-dashoffset 1s linear, stroke 0.3s;
+}
+
+.focus-action-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
 }

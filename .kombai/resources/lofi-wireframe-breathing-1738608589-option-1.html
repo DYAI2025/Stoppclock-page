@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breathing Exercise Timer - Wireframe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .wireframe-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      border: 3px solid #333;
+      padding: 30px;
+    }
+    
+    .wireframe-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 2px solid #666;
+      padding-bottom: 10px;
+    }
+    
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 2px solid #999;
+      background: #f9f9f9;
+    }
+    
+    .header-left {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .header-title {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .breathing-stage {
+      text-align: center;
+      margin: 40px 0;
+    }
+    
+    .breathing-circle-container {
+      position: relative;
+      display: inline-block;
+      margin: 30px 0;
+    }
+    
+    .breathing-circle {
+      width: 300px;
+      height: 300px;
+      border: 8px solid #333;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: bold;
+      position: relative;
+    }
+    
+    .breathing-circle::before {
+      content: 'INHALE';
+      position: absolute;
+      top: -40px;
+      font-size: 18px;
+      color: #666;
+    }
+    
+    .phase-indicator {
+      font-size: 18px;
+      margin: 20px 0;
+      color: #666;
+    }
+    
+    .timer-display {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 20px 0;
+      padding: 20px;
+      border: 3px solid #333;
+      background: #f0f0f0;
+      display: inline-block;
+    }
+    
+    .control-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .btn {
+      padding: 15px 30px;
+      border: 3px solid #333;
+      background: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', cursive;
+    }
+    
+    .btn-primary {
+      background: #ddd;
+    }
+    
+    .section-title {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 40px 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #999;
+    }
+    
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .preset-card {
+      border: 3px solid #333;
+      padding: 20px;
+      background: #f9f9f9;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .preset-card:hover {
+      background: #eee;
+    }
+    
+    .preset-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .preset-details {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    .info-box {
+      border: 2px dashed #666;
+      padding: 20px;
+      margin: 30px 0;
+      background: #fafafa;
+    }
+    
+    .info-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .badge {
+      position: absolute;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      z-index: 10;
+    }
+    
+    .badge-reuse {
+      background: #4CAF50;
+      color: white;
+      top: 4px;
+      right: 4px;
+    }
+    
+    .badge-new {
+      background: #FF9800;
+      color: white;
+      top: 4px;
+      right: 4px;
+    }
+    
+    .component-wrapper {
+      position: relative;
+    }
+    
+    .note {
+      font-size: 12px;
+      color: #999;
+      font-style: italic;
+      margin-top: 5px;
+    }
+    
+    @media (max-width: 600px) {
+      .preset-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wireframe-container">
+    <div class="wireframe-title">
+      Breathing Exercise Timer - Mid-Fidelity Wireframe
+    </div>
+    
+    <!-- PAGE HEADER -->
+    <!-- REUSABLE: HomeButton, ShareButton, SettingsModal from existing components -->
+    <div class="page-header component-wrapper">
+      <span class="badge badge-reuse" title="src/components/HomeButton.tsx">[REUSE] HomeButton</span>
+      <div class="header-left">
+        <button class="btn">🏠 Home</button>
+        <button class="btn">↗ Share</button>
+        <button class="btn">⚙ Settings</button>
+      </div>
+      <div class="header-title">Breathing Timer</div>
+    </div>
+    
+    <!-- BREATHING VISUALIZATION STAGE -->
+    <div class="breathing-stage">
+      <!-- NEW COMPONENT: BreathingCircle -->
+      <div class="breathing-circle-container component-wrapper">
+        <span class="badge badge-new" title="To be created at src/components/breathing/BreathingCircle.tsx">[NEW] BreathingCircle</span>
+        <div class="breathing-circle">
+          <div style="text-align: center;">
+            <div style="font-size: 24px; color: #666;">BREATHE</div>
+            <div style="font-size: 16px; color: #999; margin-top: 10px;">Expanding...</div>
+          </div>
+        </div>
+        <p class="note">Animation: Circle expands/contracts smoothly with breathing phases</p>
+      </div>
+      
+      <div class="phase-indicator">
+        INHALE 4s → HOLD 7s → EXHALE 8s
+      </div>
+      
+      <div class="timer-display">
+        03:45
+      </div>
+      <p class="note">Session time remaining</p>
+    </div>
+    
+    <!-- CONTROL BUTTONS -->
+    <div class="control-buttons component-wrapper">
+      <span class="badge badge-reuse" title="Reusing existing button patterns">[REUSE] Button Pattern</span>
+      <button class="btn btn-primary">▶ START</button>
+      <button class="btn">⏸ PAUSE</button>
+      <button class="btn">↻ RESET</button>
+    </div>
+    
+    <!-- BREATHING TECHNIQUES SECTION -->
+    <div class="section-title">POPULAR BREATHING TECHNIQUES</div>
+    
+    <!-- NEW COMPONENT: BreathingPresetCard -->
+    <div class="preset-grid">
+      <div class="preset-card component-wrapper">
+        <span class="badge badge-new" title="To be created at src/components/breathing/BreathingPresetCard.tsx">[NEW] PresetCard</span>
+        <div class="preset-name">4-7-8 Method</div>
+        <div class="preset-details">
+          Inhale: 4s<br/>
+          Hold: 7s<br/>
+          Exhale: 8s<br/>
+          <em>For relaxation</em>
+        </div>
+      </div>
+      
+      <div class="preset-card component-wrapper">
+        <span class="badge badge-new" title="Reusing BreathingPresetCard">[NEW] PresetCard</span>
+        <div class="preset-name">Box Breathing</div>
+        <div class="preset-details">
+          Inhale: 4s<br/>
+          Hold: 4s<br/>
+          Exhale: 4s<br/>
+          Hold: 4s<br/>
+          <em>For focus</em>
+        </div>
+      </div>
+      
+      <div class="preset-card component-wrapper">
+        <span class="badge badge-new" title="Reusing BreathingPresetCard">[NEW] PresetCard</span>
+        <div class="preset-name">Wim Hof</div>
+        <div class="preset-details">
+          30 deep breaths<br/>
+          Hold after exhale<br/>
+          Recovery breath<br/>
+          <em>For energy</em>
+        </div>
+      </div>
+      
+      <div class="preset-card component-wrapper">
+        <span class="badge badge-new" title="Reusing BreathingPresetCard">[NEW] PresetCard</span>
+        <div class="preset-name">Calm 5-5</div>
+        <div class="preset-details">
+          Inhale: 5s<br/>
+          Exhale: 5s<br/>
+          <em>For sleep</em>
+        </div>
+      </div>
+    </div>
+    
+    <!-- EDUCATIONAL SNIPPET -->
+    <!-- REUSABLE: DidYouKnowSnippet -->
+    <div class="info-box component-wrapper">
+      <span class="badge badge-reuse" title="src/components/DidYouKnowSnippet.tsx">[REUSE] DidYouKnowSnippet</span>
+      <div class="info-title">💡 Did You Know?</div>
+      <p>Controlled breathing activates your parasympathetic nervous system, reducing stress and lowering heart rate. The 4-7-8 technique was developed by Dr. Andrew Weil and is often called a "natural tranquilizer for the nervous system."</p>
+    </div>
+    
+    <!-- SESSION SETTINGS -->
+    <div class="section-title">SESSION SETTINGS</div>
+    <div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
+      <div class="component-wrapper" style="flex: 1; min-width: 200px;">
+        <span class="badge badge-reuse" title="Reusing form patterns">[REUSE] Input Pattern</span>
+        <div style="border: 2px solid #999; padding: 15px; background: #f9f9f9;">
+          <div style="font-weight: bold; margin-bottom: 10px;">Duration</div>
+          <select style="width: 100%; padding: 8px; font-family: 'Comic Sans MS', cursive; border: 2px solid #333;">
+            <option>5 minutes</option>
+            <option>10 minutes</option>
+            <option>15 minutes</option>
+            <option>Custom...</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="component-wrapper" style="flex: 1; min-width: 200px;">
+        <span class="badge badge-reuse" title="src/components/SavePresetButton.tsx">[REUSE] SavePresetButton</span>
+        <div style="border: 2px solid #999; padding: 15px; background: #f9f9f9;">
+          <div style="font-weight: bold; margin-bottom: 10px;">Save Custom</div>
+          <button class="btn" style="width: 100%;">💾 Save Pattern</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- FOOTER ACTIONS -->
+    <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ccc; text-align: center;">
+      <button class="btn">📱 Fullscreen Mode</button>
+      <button class="btn" style="margin-left: 10px;">🔊 Sound On/Off</button>
+    </div>
+    
+    <!-- COMPONENT LEGEND -->
+    <div style="margin-top: 40px; padding: 20px; background: #f0f0f0; border: 2px solid #999;">
+      <div style="font-weight: bold; margin-bottom: 10px;">Component Legend:</div>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px;">
+        <div><span style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold;">[REUSE]</span> Existing components from repository</div>
+        <div><span style="background: #FF9800; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold;">[NEW]</span> New components to be created</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

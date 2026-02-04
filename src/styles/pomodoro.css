@@ -252,3 +252,11 @@
 .pomodoro-intent-input::placeholder {
     color: rgba(255, 255, 255, 0.2);
 }
+
+.pomodoro-action-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

@@ -355,10 +355,10 @@
 .chess-wrap {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - var(--header-height, 60px));
     width: 100vw;
     position: fixed;
-    top: 0;
+    top: var(--header-height, 60px);
     left: 0;
     background: #000;
     overflow: hidden;
@@ -443,43 +443,62 @@
     transform: scale(1.05);
 }
 
-/* Controls Bar */
+/* Controls Bar - Floating and Centered */
 .chess-controls {
-    height: 70px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    
     background: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 99px;
+    
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    z-index: 10;
-    border-top: 1px solid #E2E8F0;
-    border-bottom: 1px solid #E2E8F0;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    gap: 12px;
+    
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    border: none;
+    width: auto;
+    height: auto;
 }
 
 .chess-controls .btn {
-    background: #FFFFFF;
-    border: 2px solid #E2E8F0;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 700;
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    border-radius: 99px;
+    padding: 8px 16px;
+    font-weight: 600;
     cursor: pointer;
-    color: #2D3748;
+    color: #4A5568;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    transition: all 0.15s;
+    gap: 6px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .chess-controls .btn:hover {
-    background: #EDF2F7;
-    border-color: #CBD5E0;
+    background: #F7FAFC;
     color: #1A202C;
+    border-color: #CBD5E0;
+    transform: translateY(-1px);
 }
 
 .chess-controls .btn:active {
-    transform: translateY(1px);
+    transform: translateY(0);
+}
+
+/* Hide the long text on mobile if needed, or rely on wrapping */
+@media (max-width: 600px) {
+    .chess-controls .btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
 }
 
 /* Back Button */
@@ -612,3 +631,42 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 8px rgba(44, 82, 130, 0.3);
 }
+
+/* Updated classes for removal of inline styles */
+.ch-h2.centered {
+    text-align: center;
+}
+
+.ch-body.centered-limited {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.ch-body.small-text {
+    font-size: 0.95rem;
+}
+
+.ch-body.no-margin {
+    margin-bottom: 0;
+}
+
+.ch-btn-start-icon {
+    margin-right: 8px;
+}
+
+.ch-world-header-accent {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ch-color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.chess-exit-btn-wrapper {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 10;
+}
+

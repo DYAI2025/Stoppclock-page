@@ -1,0 +1,323 @@
+/**
+ * Widget Design System - Base Styles
+ * 
+ * Foundation classes for all widget components
+ */
+
+@import './widget-design-tokens.css';
+
+/* ============================================
+ * WIDGET CANVAS
+ * Main container for widget layouts
+ * ============================================ */
+.widget-canvas {
+  min-height: 100vh;
+  background: var(--widget-bg-canvas);
+  padding: var(--widget-grid-padding);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--widget-text-primary);
+  transition: background var(--widget-transition-base);
+}
+
+/* ============================================
+ * WIDGET GRID LAYOUTS
+ * Responsive grid system
+ * ============================================ */
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--widget-grid-columns), 1fr);
+  gap: var(--widget-grid-gap);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .widget-grid {
+    --widget-grid-columns: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .widget-grid {
+    --widget-grid-columns: 1;
+    --widget-grid-padding: 16px;
+    --widget-grid-gap: 12px;
+  }
+}
+
+/* Grid item span utilities */
+.widget-grid-span-2 {
+  grid-column: span 2;
+}
+
+.widget-grid-span-3 {
+  grid-column: span 3;
+}
+
+@media (max-width: 1024px) {
+  .widget-grid-span-3 {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .widget-grid-span-2,
+  .widget-grid-span-3 {
+    grid-column: span 1;
+  }
+}
+
+/* ============================================
+ * WIDGET CARD BASE
+ * Foundation for all card-style widgets
+ * ============================================ */
+.widget-card {
+  background: var(--widget-bg-card);
+  border-radius: var(--widget-radius-lg);
+  box-shadow: var(--widget-shadow-md);
+  padding: var(--widget-space-6);
+  transition: all var(--widget-transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget-card:hover {
+  box-shadow: var(--widget-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.widget-card.widget-card-sm {
+  padding: var(--widget-space-4);
+  border-radius: var(--widget-radius-md);
+}
+
+.widget-card.widget-card-lg {
+  padding: var(--widget-space-8);
+  border-radius: var(--widget-radius-xl);
+}
+
+/* Card with no padding (for custom layouts) */
+.widget-card.widget-card-flush {
+  padding: 0;
+}
+
+/* ============================================
+ * WIDGET PILL
+ * Rounded horizontal elements
+ * ============================================ */
+.widget-pill {
+  background: var(--widget-bg-card);
+  border-radius: var(--widget-radius-full);
+  padding: var(--widget-space-3) var(--widget-space-6);
+  box-shadow: var(--widget-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--widget-space-2);
+  font-size: var(--widget-text-sm);
+  font-weight: var(--widget-font-medium);
+  transition: all var(--widget-transition-fast);
+}
+
+.widget-pill:hover {
+  box-shadow: var(--widget-shadow-md);
+  transform: translateY(-1px);
+}
+
+.widget-pill.widget-pill-accent {
+  background: var(--widget-accent-primary-light);
+  color: var(--widget-accent-primary);
+}
+
+/* ============================================
+ * WIDGET CIRCLE
+ * Perfect circular containers
+ * ============================================ */
+.widget-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--widget-radius-full);
+  background: var(--widget-bg-card);
+  box-shadow: var(--widget-shadow-md);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.widget-circle.widget-circle-sm {
+  width: 48px;
+  height: 48px;
+}
+
+.widget-circle.widget-circle-lg {
+  width: 120px;
+  height: 120px;
+}
+
+.widget-circle.widget-circle-xl {
+  width: 160px;
+  height: 160px;
+}
+
+/* ============================================
+ * TYPOGRAPHY CLASSES
+ * Consistent text hierarchy
+ * ============================================ */
+.widget-text-primary {
+  font-size: var(--widget-text-2xl);
+  font-weight: var(--widget-font-bold);
+  line-height: var(--widget-leading-tight);
+  color: var(--widget-text-primary);
+  margin: 0;
+}
+
+.widget-text-secondary {
+  font-size: var(--widget-text-base);
+  font-weight: var(--widget-font-medium);
+  line-height: var(--widget-leading-normal);
+  color: var(--widget-text-secondary);
+  margin: 0;
+}
+
+.widget-text-tertiary {
+  font-size: var(--widget-text-xs);
+  font-weight: var(--widget-font-regular);
+  line-height: var(--widget-leading-normal);
+  color: var(--widget-text-tertiary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.widget-text-display {
+  font-size: var(--widget-text-3xl);
+  font-weight: var(--widget-font-bold);
+  line-height: var(--widget-leading-tight);
+  color: var(--widget-text-primary);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+ * UTILITY CLASSES
+ * ============================================ */
+.widget-flex {
+  display: flex;
+}
+
+.widget-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.widget-items-center {
+  align-items: center;
+}
+
+.widget-justify-center {
+  justify-content: center;
+}
+
+.widget-justify-between {
+  justify-content: space-between;
+}
+
+.widget-gap-1 { gap: var(--widget-space-1); }
+.widget-gap-2 { gap: var(--widget-space-2); }
+.widget-gap-3 { gap: var(--widget-space-3); }
+.widget-gap-4 { gap: var(--widget-space-4); }
+.widget-gap-6 { gap: var(--widget-space-6); }
+
+.widget-text-center {
+  text-align: center;
+}
+
+/* ============================================
+ * ACCENT COLOR UTILITIES
+ * ============================================ */
+.widget-accent-text {
+  color: var(--widget-accent-primary);
+}
+
+.widget-accent-bg {
+  background: var(--widget-accent-primary);
+  color: white;
+}
+
+.widget-accent-bg-light {
+  background: var(--widget-accent-primary-light);
+  color: var(--widget-accent-primary);
+}
+
+/* ============================================
+ * INTERACTIVE ELEMENTS
+ * ============================================ */
+.widget-button {
+  background: var(--widget-accent-primary);
+  color: white;
+  border: none;
+  border-radius: var(--widget-radius-md);
+  padding: var(--widget-space-3) var(--widget-space-6);
+  font-size: var(--widget-text-base);
+  font-weight: var(--widget-font-semibold);
+  cursor: pointer;
+  transition: all var(--widget-transition-fast);
+  box-shadow: var(--widget-shadow-sm);
+}
+
+.widget-button:hover {
+  background: var(--widget-accent-primary-hover);
+  box-shadow: var(--widget-shadow-md);
+  transform: translateY(-1px);
+}
+
+.widget-button:active {
+  transform: translateY(0);
+}
+
+.widget-button-secondary {
+  background: var(--widget-bg-card);
+  color: var(--widget-text-primary);
+  box-shadow: var(--widget-shadow-md);
+}
+
+.widget-button-secondary:hover {
+  background: var(--widget-bg-card-hover);
+}
+
+/* ============================================
+ * PROGRESS RINGS & BARS
+ * ============================================ */
+.widget-progress-ring {
+  transform: rotate(-90deg);
+}
+
+.widget-progress-ring-bg {
+  fill: none;
+  stroke: var(--widget-bg-canvas-alt);
+  stroke-width: 8;
+}
+
+.widget-progress-ring-fg {
+  fill: none;
+  stroke: var(--widget-accent-primary);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--widget-transition-base);
+}
+
+.widget-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--widget-bg-canvas-alt);
+  border-radius: var(--widget-radius-full);
+  overflow: hidden;
+}
+
+.widget-progress-bar-fill {
+  height: 100%;
+  background: var(--widget-accent-primary);
+  border-radius: var(--widget-radius-full);
+  transition: width var(--widget-transition-base);
+}

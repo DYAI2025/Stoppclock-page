@@ -97,9 +97,11 @@ body:has(.landing-page)::after {
 }
 
 /* ============================================
- * TOP NAVIGATION
+ * TOP NAVIGATION - Now using AppHeader component
+ * Keep legacy styles for backward compatibility
  * ============================================ */
 .lp-top-nav {
+    /* Legacy styles - no longer used but kept for compatibility */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -112,6 +114,20 @@ body:has(.landing-page)::after {
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--lp-margin-desktop);
+}
+
+/* Override AppHeader styles for landing page */
+.landing-page .app-header-landing {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.landing-page .app-header-landing .app-logo {
+    font-size: 17px;
+}
+
+.landing-page .app-header-landing .app-logo .logo-icon {
+    width: 32px;
+    height: 32px;
 }
 
 @media (max-width: 768px) {
@@ -140,6 +156,45 @@ body:has(.landing-page)::after {
     place-items: center;
     color: white;
 }
+
+/* Updated Icon Card to use theme variables */
+.lp-icon-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-l);
+    padding: var(--lp-spacing-l) var(--lp-spacing-m);
+    transition: all var(--lp-transition-slow);
+    cursor: pointer;
+    
+    /* Variables provided by [data-timer-theme] */
+    --card-accent: var(--timer-color, var(--lp-border-medium));
+    --card-gradient: var(--timer-gradient, linear-gradient(135deg, var(--lp-bg-subtle) 0%, var(--lp-bg-surface) 100%));
+}
+
+.lp-pinned-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: white;
+    flex-shrink: 0;
+    
+    /* Variables provided by [data-timer-theme] */
+    background: var(--timer-gradient, var(--lp-text-main));
+}
+
+.lp-timer-icon-colored {
+    color: var(--timer-color, var(--lp-text-main));
+}
+
 
 .lp-nav-links {
     display: flex;
@@ -452,6 +507,10 @@ body:has(.landing-page)::after {
     letter-spacing: -0.04em;
     line-height: 1;
     margin: var(--lp-spacing-xs) 0;
+}
+
+.lp-timer-preview-time-small {
+    font-size: clamp(32px, 6vw, 48px);
 }
 
 .lp-pinned-card-action {
@@ -798,16 +857,179 @@ body:has(.landing-page)::after {
 }
 
 .lp-footer-hint kbd {
-    display: inline-block;
-    padding: 4px 10px;
-    background: var(--lp-bg-surface);
-    border: 1px solid var(--lp-border-medium);
-    border-radius: 6px;
-    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
-    font-size: var(--lp-font-xs);
+    background: var(--lp-bg-subtle);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 10px;
+    font-family: inherit;
     font-weight: 600;
+}
+
+/* ============================================
+ * COOKING TIMER PREVIEW STYLES
+ * ============================================ */
+.lp-cooking-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.lp-cooking-mini-timer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--lp-bg-surface);
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-m);
+    border-left: 4px solid var(--timer-color, #F59E0B);
+}
+
+.lp-cooking-mini-timer.running {
+    background: #FFFBEB;
+    border-color: #FCD34D;
+}
+
+.lp-cooking-mini-label {
+    font-size: 14px;
+    font-weight: 500;
     color: var(--lp-text-main);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.lp-cooking-mini-time {
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+}
+
+.lp-cooking-empty {
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: var(--lp-text-muted);
+    font-size: 14px;
+    font-style: italic;
+    background: var(--lp-bg-subtle);
+    border: 1px dashed var(--lp-border-medium);
+}
+
+/* ============================================
+ * WORLD CLOCK PREVIEW STYLES
+ * ============================================ */
+.lp-pinned-preview-world {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.lp-mini-clock-canvas {
+    width: 80px;
+    height: 80px;
+}
+
+.lp-world-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lp-world-city-select {
+    padding: 4px 8px;
+    border: 1px solid var(--lp-border-subtle);
+    border-radius: var(--lp-radius-s);
+    font-size: 14px;
+    background: var(--lp-bg-surface);
+    color: var(--lp-text-main);
+    cursor: pointer;
+}
+
+.lp-world-time {
+    font-size: 20px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+}
+
+/* ============================================
+ * GENERIC TIMER PREVIEW STYLES
+ * ============================================ */
+.lp-timer-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    gap: 8px;
+}
+
+.lp-timer-preview-time {
+    font-size: 32px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+    line-height: applied;
+}
+
+.lp-timer-preview-label {
+    font-size: 14px;
+    color: var(--lp-text-muted);
+}
+
+.lp-countdown-preview.running .lp-timer-preview-time {
+    color: #0EA5E9;
+}
+
+.lp-stopwatch-preview.running .lp-timer-preview-time {
+    color: #0EA5E9;
+}
+
+.lp-pomodoro-preview.running .lp-timer-preview-time {
+    color: #10B981;
+}
+
+.lp-metronome-preview .lp-timer-preview-bpm {
+    font-size: 36px;
+    font-weight: 800;
+    color: #EF4444;
+}
+
+.lp-metronome-preview.running .lp-timer-preview-bpm {
+    animation: metronome-pulse 0.5s infinite alternate;
+}
+
+@keyframes metronome-pulse {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.1); opacity: 1; }
+}
+
+.lp-metronome-preview .lp-timer-preview-unit {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--lp-text-muted);
+    letter-spacing: 0.1em;
+}
+
+.lp-custom-session-preview .lp-session-count {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.lp-custom-session-preview .lp-session-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #A855F7;
+}
+
+.lp-custom-session-preview .lp-session-label {
+    font-size: 12px;
+    color: var(--lp-text-muted);
 }
 
 .lp-footer-links {
@@ -824,6 +1046,30 @@ body:has(.landing-page)::after {
 
 .lp-footer-link:hover {
     color: var(--lp-text-main);
+}
+
+
+/* ============================================
+ * BUTTON CONTROL STYLES
+ * ============================================ */
+.lp-preview-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.lp-pin-timer-btn.playing {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.lp-pin-timer-btn.paused {
+    background: #F0F9FF;
+    color: #0EA5E9;
+}
+
+.lp-pin-timer-btn.reset {
+    background: #F4F4F5;
+    color: #71717A;
 }
 
 /* ============================================
@@ -863,33 +1109,9 @@ body:has(.landing-page)::after {
     gap: var(--lp-spacing-m);
 }
 
-/* Generic Timer Preview */
-.lp-timer-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.lp-timer-preview-time {
-    font-size: clamp(48px, 8vw, 72px);
-    font-weight: 700;
-    color: var(--lp-text-main);
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum" 1;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    text-align: center;
-}
-
-@media (max-width: 768px) {
-    .lp-timer-preview-time {
-        font-size: clamp(36px, 10vw, 56px);
-    }
-}
-
-.lp-timer-preview.running .lp-timer-preview-time {
-    color: var(--lp-accent-success);
-}
+/* Note: Specific preview styles for cooking, world clock, etc. 
+   are defined earlier in the file or will be consolidated. 
+   Removing duplicates here to avoid conflicts. */
 
 .lp-timer-preview-status {
     display: flex;
@@ -905,13 +1127,6 @@ body:has(.landing-page)::after {
     color: var(--lp-accent-success);
 }
 
-.lp-timer-preview-label {
-    font-size: var(--lp-font-small);
-    color: var(--lp-text-muted);
-    font-weight: 500;
-    text-align: center;
-}
-
 /* Default Timer Preview */
 .lp-timer-preview-default {
     flex-direction: row;
@@ -919,112 +1134,7 @@ body:has(.landing-page)::after {
     gap: var(--lp-spacing-s);
 }
 
-/* ============================================
- * WORLD CLOCK MINI PREVIEW
- * ============================================ */
-.lp-pinned-preview-world {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--lp-spacing-l);
-    width: 100%;
-}
 
-.lp-mini-clock-canvas {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 768px) {
-    .lp-mini-clock-canvas {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-.lp-world-info {
-    display: flex;
-    flex-direction: column;
-    gap: var(--lp-spacing-xxs);
-    align-items: center;
-}
-
-.lp-world-city {
-    font-size: var(--lp-font-small);
-    color: var(--lp-text-muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.lp-world-time {
-    font-size: clamp(32px, 6vw, 48px);
-    font-weight: 700;
-    color: var(--lp-text-main);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
-}
-
-.lp-world-city-select {
-    font-size: var(--lp-font-small);
-    color: var(--lp-text-muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: transparent;
-    border: 1px solid var(--lp-border-subtle);
-    border-radius: var(--lp-radius-s);
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: all var(--lp-transition-fast);
-}
-
-.lp-world-city-select:hover {
-    border-color: var(--lp-border-medium);
-    background: var(--lp-bg-subtle);
-}
-
-.lp-world-city-select:focus {
-    outline: 2px solid var(--lp-accent-primary);
-    outline-offset: 2px;
-}
-
-/* ============================================
- * COOKING TIMER MINI PREVIEW
- * Stacked timers sorted by remaining time
- * ============================================ */
-.lp-cooking-preview {
-    display: flex;
-    flex-direction: column;
-    gap: var(--lp-spacing-s);
-    width: 100%;
-}
-
-.lp-cooking-preview.lp-cooking-empty {
-    align-items: center;
-    justify-content: center;
-    min-height: 120px;
-    color: var(--lp-text-muted);
-    font-size: var(--lp-font-body);
-}
-
-.lp-cooking-mini-timer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--lp-spacing-m) var(--lp-spacing-l);
-    background: var(--lp-bg-surface);
-    border-radius: var(--lp-radius-m);
-    border-left: 4px solid var(--timer-color, var(--lp-accent-primary));
-    box-shadow: var(--lp-shadow-xs);
-}
-
-.lp-cooking-mini-timer.running {
-    background: rgba(34, 197, 94, 0.08);
-    border-left-color: var(--lp-accent-success);
-}
 
 .lp-cooking-mini-label {
     font-size: var(--lp-font-body);
@@ -1196,4 +1306,149 @@ body:has(.landing-page)::after {
 .lp-pinned-card:has(.running) {
     animation: lp-pulse-border 2s ease-in-out infinite;
     border-color: var(--lp-accent-success);
+}
+
+/* ============================================
+ * CHESS PREVIEW STYLES
+ * ============================================ */
+.lp-chess-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lp-chess-clocks {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.lp-chess-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-radius: var(--lp-radius-m);
+    background: var(--lp-bg-subtle);
+    border: 1px solid transparent;
+    transition: all var(--lp-transition-fast);
+    flex: 1;
+    max-width: 140px;
+}
+
+.lp-chess-player.active {
+    background: #EFF6FF;
+    border-color: #3B82F6;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.lp-chess-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.lp-chess-time {
+    font-size: 20px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--lp-text-main);
+}
+
+/* ============================================
+ * COUPLES PREVIEW STYLES
+ * ============================================ */
+.lp-couples-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.lp-couples-preview .lp-timer-preview-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--lp-text-muted);
+}
+
+.lp-couples-preview .lp-timer-preview-time {
+    font-size: 40px;
+    color: var(--lp-text-main);
+}
+
+
+/* ============================================
+ * TIMER THEMES
+ * ============================================ */
+[data-timer-theme="countdown"] { --timer-color: #7B2CBF; --timer-gradient: linear-gradient(135deg, #7B2CBF 0%, #9D4EDD 100%); }
+[data-timer-theme="stopwatch"] { --timer-color: #0EA5E9; --timer-gradient: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%); }
+[data-timer-theme="analog"] { --timer-color: #8B5CF6; --timer-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+[data-timer-theme="timesince"] { --timer-color: #9333EA; --timer-gradient: linear-gradient(135deg, #9333EA 0%, #A855F7 100%); }
+[data-timer-theme="pomodoro"] { --timer-color: #10B981; --timer-gradient: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+[data-timer-theme="cooking"] { --timer-color: #F59E0B; --timer-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+[data-timer-theme="couples"] { --timer-color: #EC4899; --timer-gradient: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
+[data-timer-theme="chess"] { --timer-color: #6366F1; --timer-gradient: linear-gradient(135deg, #6366F1 0%, #818CF8 100%); }
+[data-timer-theme="metronome"] { --timer-color: #EF4444; --timer-gradient: linear-gradient(135deg, #EF4444 0%, #F87171 100%); }
+[data-timer-theme="world"] { --timer-color: #06B6D4; --timer-gradient: linear-gradient(135deg, #06B6D4 0%, #22D3EE 100%); }
+[data-timer-theme="alarm"] { --timer-color: #F97316; --timer-gradient: linear-gradient(135deg, #F97316 0%, #FB923C 100%); }
+[data-timer-theme="digital"] { --timer-color: #8B5CF6; --timer-gradient: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+[data-timer-theme="custom-session"] { --timer-color: #A855F7; --timer-gradient: linear-gradient(135deg, #A855F7 0%, #C084FC 100%); }
+
+/* Breathing Preview */
+.lp-breathing-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.lp-breathing-circle-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--breath-circle, #80CBC4);
+    animation: breath-pulse 4s infinite ease-in-out;
+}
+
+@keyframes breath-pulse {
+    0%, 100% { transform: scale(0.5); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Interval Preview */
+.lp-interval-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.lp-interval-preview-phase {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--iv-text, #1F2937);
+}
+
+.lp-interval-preview-bar {
+    width: 40px;
+    height: 6px;
+    background: var(--iv-work, #10B981);
+    border-radius: 3px;
+    animation: iv-bar-pulse 2s infinite alternate;
+}
+
+@keyframes iv-bar-pulse {
+    from { width: 10px; opacity: 0.5; }
+    to { width: 40px; opacity: 1; }
 }

@@ -2,8 +2,47 @@ import React, { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import "./design-tokens.css";
 import "./styles.css";
+import AnalogCountdown from "./pages/AnalogCountdown";
+import Countdown from "./pages/Countdown";
+import Stopwatch from "./pages/Stopwatch";
+import WorldClock from "./pages/WorldClock";
+import Alarm from "./pages/Alarm";
+import Metronome from "./pages/Metronome";
+import ChessClock from "./pages/ChessClock";
+import CookingTimer from "./pages/CookingTimer";
+import CouplesTimer from "./pages/CouplesTimer";
+import DigitalClock from "./pages/DigitalClock";
+import Pomodoro from "./pages/Pomodoro";
+import TimeSince from "./pages/TimeSince";
+import TimeLab from "./pages/TimeLab";
+import Wissen from "./pages/Wissen";
+import ImprintEn from "./pages/ImprintEn";
+import PrivacyPolicyEn from "./pages/PrivacyPolicyEn";
+import Impressum from "./pages/Impressum";
+import Datenschutz from "./pages/Datenschutz";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import PillarPage from "./pages/PillarPage";
+import TimePhilosophy from "./pages/TimePhilosophy";
+import DynamicBlogRouter from "./pages/DynamicBlogRouter";
+import { blogPosts } from "./data/blog-content";
+import TimerForStudents from "./pages/TimerForStudents";
+import TimerForProductivity from "./pages/TimerForProductivity";
+import TimerForFitness from "./pages/TimerForFitness";
+import TimerForCooking from "./pages/TimerForCooking";
+import TimerForMeditation from "./pages/TimerForMeditation";
+import TimerForFocus from "./pages/TimerForFocus";
+import CustomSessionsLanding from "./pages/CustomSessionsLanding";
+import SessionBuilder from "./pages/SessionBuilder";
+import SessionRunner from "./pages/SessionRunner";
+import SessionPreview from "./pages/SessionPreview";
+import TimerWorldsIndex from "./pages/TimerWorldsIndex";
+import BlogIndex from "./pages/BlogIndex";
+import FactsPage from "./pages/FactsPage";
+import BreathingTimer from "./pages/BreathingTimer";
+import IntervalTimer from "./pages/IntervalTimer";
+import WidgetDemo from "./pages/WidgetDemo";
 
-// Eagerly loaded (needed for home page)
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
@@ -179,24 +218,24 @@ function HomeAnalogClock() {
 
 function Home() {
   // Timer definitions with per-card accent colors
-  const timers: { route: string; label: TimerIconType; color: string; colorRgb: string }[] = [
-    { route: "#/countdown", label: "Countdown", color: "#7B2CBF", colorRgb: "123, 44, 191" },
-    { route: "#/stopwatch", label: "Stopwatch", color: "#00D9FF", colorRgb: "0, 217, 255" },
-    { route: "#/analog", label: "Analog Clock", color: "#C77DFF", colorRgb: "199, 125, 255" },
-    { route: "#/timesince", label: "Time Since", color: "#9333EA", colorRgb: "147, 51, 234" },
-    { route: "#/cooking", label: "Cooking Timer", color: "#FF6B9D", colorRgb: "255, 107, 157" },
-    { route: "#/couples", label: "Couples Timer", color: "#FF69B4", colorRgb: "255, 105, 180" },
-    { route: "#/custom-sessions", label: "Custom Sessions", color: "#8B5CF6", colorRgb: "139, 92, 246" },
-    { route: "#/chess", label: "Chess Clock", color: "#E0AAFF", colorRgb: "224, 170, 255" },
-    { route: "#/metronome", label: "Metronome", color: "#F59E0B", colorRgb: "245, 158, 11" },
-    { route: "#/world", label: "World Clock", color: "#6B9BD1", colorRgb: "107, 155, 209" },
-    { route: "#/alarm", label: "Alarm", color: "#EF4444", colorRgb: "239, 68, 68" },
-    { route: "#/pomodoro", label: "Pomodoro", color: "#10B981", colorRgb: "16, 185, 129" },
+  const timers: { route: string; label: TimerIconType; className: string }[] = [
+    { route: "#/countdown", label: "Countdown", className: "is-countdown" },
+    { route: "#/stopwatch", label: "Stopwatch", className: "is-stopwatch" },
+    { route: "#/analog", label: "Analog Clock", className: "is-analog" },
+    { route: "#/timesince", label: "Time Since", className: "is-timesince" },
+    { route: "#/cooking", label: "Cooking Timer", className: "is-cooking" },
+    { route: "#/couples", label: "Couples Timer", className: "is-couples" },
+    { route: "#/custom-sessions", label: "Custom Sessions", className: "is-custom" },
+    { route: "#/chess", label: "Chess Clock", className: "is-chess" },
+    { route: "#/metronome", label: "Metronome", className: "is-metronome" },
+    { route: "#/world", label: "World Clock", className: "is-world" },
+    { route: "#/alarm", label: "Alarm", className: "is-alarm" },
+    { route: "#/pomodoro", label: "Pomodoro", className: "is-pomodoro" },
   ];
 
   // Pillar pages (Blog/Content section)
-  const pillars: { route: string; label: TimerIconType; color: string; colorRgb: string }[] = [
-    { route: "#/time-philosophy", label: "Raum für Zeit", color: "#A855F7", colorRgb: "168, 85, 247" },
+  const pillars: { route: string; label: TimerIconType; className: string }[] = [
+    { route: "#/time-philosophy", label: "Raum für Zeit", className: "is-philosophy" },
   ];
 
   return (
@@ -226,12 +265,11 @@ function Home() {
           <div className="home-grid-header">
             Time, held lightly. Time is relative. The less we have, the more precious it becomes, then, strangely, it stretches on forever. Stop Clock won't solve time, but it lets you hold it for a moment: counting up, counting down, counting what matters. Use it as a tool, a daily helper, a nudge to think, a small philosophy and, sometimes, a reason to smile.
           </div>
-          {timers.map(({ route, label, color, colorRgb }) => (
+          {timers.map(({ route, label, className }) => (
             <a
               key={route}
               href={route}
-              className="home-timer-card"
-              style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
+              className={`home-timer-card ${className}`}
             >
               <div className="timer-card-inner">
                 <div className="timer-icon-container">
@@ -251,12 +289,11 @@ function Home() {
       <div className="home-section home-section-pillars">
         <div className="section-title">Explore Further</div>
         <div className="pillar-grid">
-          {pillars.map(({ route, label, color, colorRgb }) => (
+          {pillars.map(({ route, label, className }) => (
             <a
               key={route}
               href={route}
-              className="home-timer-card"
-              style={{ '--card-color': color, '--card-color-rgb': colorRgb } as React.CSSProperties}
+              className={`home-timer-card ${className}`}
             >
               <div className="timer-card-inner">
                 <div className="timer-icon-container">
@@ -310,52 +347,54 @@ function App() {
       {/* GDPR consent banner - shows on first visit */}
       <ConsentBanner />
 
-      {/* Route content with Suspense for code-split pages */}
-      <Suspense fallback={<PageLoader />}>
-        {route === "/" && <LandingPage />}
-        {route === "/analog" && <AnalogCountdown />}
-        {route === "/countdown" && <Countdown />}
-        {route === "/stopwatch" && <Stopwatch />}
-        {route === "/timesince" && <TimeSince />}
-        {route === "/timelab" && <TimeLab />}
-        {route === "/pomodoro" && <Pomodoro />}
-        {route === "/cooking" && <CookingTimer />}
-        {route === "/couples" && <CouplesTimer />}
-        {route === "/digital" && <DigitalClock />}
-        {route === "/world" && <WorldClock />}
-        {route === "/alarm" && <Alarm />}
-        {route === "/metronome" && <Metronome />}
-        {route === "/chess" && <ChessClock />}
-        {route === "/facts" && <FactsPage />}
-        {route === "/custom-sessions" && <CustomSessionsLanding />}
-        {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
-        {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
-        {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
-        {route === "/timers" && <TimerWorldsIndex />}
-        {route === "/blog" && <BlogIndex />}
-        {(isAbout || isWissen) && <Wissen />}
-        {route === "/blog/pomodoro-timer-online" && <PomodoroTimerOnline />}
-        {route === "/blog/pomodoro-vs-countdown" && <PomodoroVsCountdown />}
-        {isBlog && !route.includes("pomodoro-timer-online") && !route.includes("pomodoro-vs-countdown") && <div className="page"><h1>Blog Article Not Found</h1></div>}
-        {route === "/timer-for-students" && <TimerForStudents />}
-        {route === "/timer-for-productivity" && <TimerForProductivity />}
-        {route === "/timer-for-fitness" && <TimerForFitness />}
-        {route === "/timer-for-cooking" && <TimerForCooking />}
-        {route === "/timer-for-meditation" && <TimerForMeditation />}
-        {route === "/timer-for-focus" && <TimerForFocus />}
-        {route === "/blog/countdown-timer-guide" && <CountdownGuide onPresetSelect={() => window.location.hash = '#/countdown'} />}
-        {route === "/imprint" && <ImprintEn />}
-        {route === "/privacy" && <PrivacyPolicyEn />}
-        {route === "/impressum" && <Impressum />}
-        {route === "/datenschutz" && <Datenschutz />}
-        {route === "/about" && <About />}
-        {route === "/contact" && <Contact />}
-        {route === "/pillar" && <PillarPage />}
-        {route === "/time-philosophy" && <TimePhilosophy />}
-        {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog", "/facts"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
-          <div className="page"><h1>Not Found</h1></div>
-        )}
-      </Suspense>
+      {/* Route content */}
+      {route === "/" && <LandingPage />}
+      {route === "/analog" && <AnalogCountdown />}
+      {route === "/countdown" && <Countdown />}
+      {route === "/stopwatch" && <Stopwatch />}
+      {route === "/timesince" && <TimeSince />}
+      {route === "/timelab" && <TimeLab />}
+      {route === "/pomodoro" && <Pomodoro />}
+      {route === "/cooking" && <CookingTimer />}
+      {route === "/couples" && <CouplesTimer />}
+      {route === "/digital" && <DigitalClock />}
+      {route === "/world" && <WorldClock />}
+      {route === "/alarm" && <Alarm />}
+      {route === "/metronome" && <Metronome />}
+      {route === "/chess" && <ChessClock />}
+      {route === "/breathing" && <BreathingTimer />}
+      {route === "/interval" && <IntervalTimer />}
+      {route === "/widget-demo" && <WidgetDemo />}
+
+      {route === "/facts" && <FactsPage />}
+      {route === "/custom-sessions" && <CustomSessionsLanding />}
+      {route.startsWith("/custom-sessions/builder") && <SessionBuilder />}
+      {route.startsWith("/custom-sessions/run/") && <SessionRunner />}
+      {route.startsWith("/custom-sessions/preview/") && <SessionPreview />}
+      {route === "/timers" && <TimerWorldsIndex />}
+      {route === "/blog" && <BlogIndex />}
+      {(isAbout || isWissen) && <Wissen />}
+      {isBlog && route !== "/blog" && (
+        <DynamicBlogRouter slug={route.replace('/blog/', '')} />
+      )}
+      {route === "/timer-for-students" && <TimerForStudents />}
+      {route === "/timer-for-productivity" && <TimerForProductivity />}
+      {route === "/timer-for-fitness" && <TimerForFitness />}
+      {route === "/timer-for-cooking" && <TimerForCooking />}
+      {route === "/timer-for-meditation" && <TimerForMeditation />}
+      {route === "/timer-for-focus" && <TimerForFocus />}
+      {route === "/blog/countdown-timer-guide" && <CountdownGuide onPresetSelect={() => window.location.hash = '#/countdown'} />}
+      {route === "/imprint" && <ImprintEn />}
+      {route === "/privacy" && <PrivacyPolicyEn />}
+      {route === "/impressum" && <Impressum />}
+      {route === "/datenschutz" && <Datenschutz />}
+      {route === "/about" && <About />}
+      {route === "/contact" && <Contact />}
+      {route === "/pillar" && <PillarPage />}
+      {route === "/time-philosophy" && <TimePhilosophy />}
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/breathing", "/interval", "/widget-demo", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+        <div className="page"><h1>Not Found</h1></div>
+      )}
     </>
   );
 }
