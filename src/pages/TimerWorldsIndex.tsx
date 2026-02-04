@@ -44,7 +44,7 @@ export default function TimerWorldsIndex() {
       </header>
 
       {/* Ad Slot: Top */}
-      <div style={{ maxWidth: '800px', margin: '0 auto 40px auto' }}>
+      <div className="ad-container-top">
         <AdUnit adUnit={getAdUnit('home-top')!} />
       </div>
 
@@ -67,8 +67,29 @@ export default function TimerWorldsIndex() {
          </div>
       )}
 
+      {/* Fun Facts Section */}
+      <section className="facts-section">
+        <header className="facts-header">
+          <h2>Did You Know?</h2>
+          <p>Curiosities from the world of timekeeping.</p>
+        </header>
+
+        <div className="facts-grid">
+          {worldsList.flatMap(world => 
+            // @ts-ignore - didYouKnow might be implicit in JSON but not in interface yet
+            (world.didYouKnow || []).map((fact: any, i: number) => (
+              <div key={`${world.id}-fact-${i}`} className="fact-card">
+                <h3>{fact.title}</h3>
+                <p>{fact.text}</p>
+                {fact.source && <span className="fact-source">Source: {fact.source}</span>}
+              </div>
+            ))
+          ).slice(0, 6) /* Limit to 6 facts for now */}
+        </div>
+      </section>
+
       {/* Ad Slot: Bottom */}
-      <div style={{ maxWidth: '800px', margin: '40px auto 0 auto' }}>
+      <div className="ad-container-bottom">
         <AdUnit adUnit={getAdUnit('home-bottom')!} />
       </div>
     </div>

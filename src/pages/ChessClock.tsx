@@ -5,7 +5,7 @@ import { HomeButton } from "../components/HomeButton";
 import { ShareButton } from "../components/ShareButton";
 import { SavePresetButton } from "../components/SavePresetButton";
 import { AppHeader } from "../components/AppHeader";
-import { RotateCcw, Play, Clock, Info, ChevronRight, Shield, Award, Users } from "lucide-react";
+import { Play, Clock, Info, ChevronRight, Shield, Award, Users } from "lucide-react";
 import { trackEvent } from "../utils/stats";
 import { getPresetFromUrl } from "../utils/share";
 import "../styles/chess-swiss.css";
@@ -226,7 +226,8 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
   const [st, setSt] = useState<Persist>(load);
   const [, forceUpdate] = React.useReducer((x) => x + 1, 0);
   const [showSettings, setShowSettings] = useState(false);
-  const [rotateOpponent, setRotateOpponent] = useState(false);
+  // const [rotateOpponent, setRotateOpponent] = useState(false); // Removed rotation
+
   const [tempMinutes, setTempMinutes] = useState('');
   const [urlChecked, setUrlChecked] = useState(false);
   const [gameStartTime, setGameStartTime] = useState<number | null>(null);
@@ -438,7 +439,7 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
       <div
         className={`player player-1 ${st.activePlayer === 1 ? 'active' : ''}`}
         onClick={() => switchToPlayer(1)}
-        style={{ transform: rotateOpponent ? 'rotate(180deg)' : undefined }}
+        style={{ transform: undefined }}
       >
         <div className="chess-piece">♔</div>
         <div className="player-label">Player 1</div>
@@ -458,9 +459,6 @@ function ChessTimerPlayer({ onExit }: { onExit: () => void }) {
           getCurrentConfig={getCurrentConfig}
           className="btn"
         />
-        <button type="button" className="btn" onClick={() => setRotateOpponent(prev => !prev)} title="Rotate Opponent">
-          <RotateCcw size={20} />
-        </button>
       </div>
 
       {/* Share & Save Buttons - Hidden but accessible for header integration */}

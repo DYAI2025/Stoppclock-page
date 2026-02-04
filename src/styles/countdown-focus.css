@@ -152,7 +152,7 @@
 
 .focus-time-display {
     font-family: var(--font-family-mono);
-    font-size: clamp(4rem, 25vw, 15rem);
+    font-size: clamp(3rem, 18vw, 10rem);
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     line-height: 1;
@@ -166,8 +166,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(80vw, 80vh);
-    height: min(80vw, 80vh);
+    width: min(80vw, 55vh);
+    height: min(80vw, 55vh);
     border-radius: 50%;
     border: 4px solid var(--focus-ring-track);
     z-index: 1;
