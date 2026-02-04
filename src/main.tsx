@@ -41,6 +41,7 @@ import BlogIndex from "./pages/BlogIndex";
 import FactsPage from "./pages/FactsPage";
 import BreathingTimer from "./pages/BreathingTimer";
 import IntervalTimer from "./pages/IntervalTimer";
+import WidgetDemo from "./pages/WidgetDemo";
 
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
@@ -308,6 +309,7 @@ function App() {
       {route === "/chess" && <ChessClock />}
       {route === "/breathing" && <BreathingTimer />}
       {route === "/interval" && <IntervalTimer />}
+      {route === "/widget-demo" && <WidgetDemo />}
 
       {route === "/facts" && <FactsPage />}
       {route === "/custom-sessions" && <CustomSessionsLanding />}
@@ -335,7 +337,7 @@ function App() {
       {route === "/contact" && <Contact />}
       {route === "/pillar" && <PillarPage />}
       {route === "/time-philosophy" && <TimePhilosophy />}
-      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/breathing", "/interval", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+      {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/breathing", "/interval", "/widget-demo", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
         <div className="page"><h1>Not Found</h1></div>
       )}
     </>
