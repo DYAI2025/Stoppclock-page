@@ -308,8 +308,8 @@
 - ✅ Ad zeigt on timer finish
 - ✅ Skip nach 3 Sekunden
 - ✅ Works auf 3 Timern
-- ✅ Fullscreen mode exempt (Constitution!)
-- ✅ User can continue without blocking
+- ✅ Fullscreen mode exempt from interstitial ads (per UX guidelines)
+- ✅ User can continue ohne Blocking
 
 ---
 
