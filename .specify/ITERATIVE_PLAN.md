@@ -699,8 +699,8 @@ The faster you ship, the faster you learn, the faster you grow.
 
 **Total sprints:** 16
 **Total duration:** 8 weeks
-**Average sprint:** 2.5 hours
-**Total effort:** 40 hours
+**Average sprint:** 2–3 hours
+**Total effort (range):** 32–48 hours (budgeted: 40 hours ≈ 5h/Woche × 8 Wochen)
 
 **Expected outcome:** 340-780 visitors/month, €150-400/month revenue, authority in timer niche.
 
