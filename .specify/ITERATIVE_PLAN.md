@@ -480,10 +480,10 @@
 
 **Deliverable:** Optimized Build
 **Mehrwert:** Faster load = better SEO + UX
-**Messbar:** Lighthouse >90 auf allen Seiten
+**Messbar:** Lighthouse >90 auf allen Seiten (erhöhter Zielwert gegenüber Sprint 3.2 mit >85, um weitere Optimierung sicherzustellen)
 
 **Definition of Done:**
-- ✅ Lighthouse >90
+- ✅ Lighthouse >90 (bewusste Anhebung des Ziels im Vergleich zu Sprint 3.2 mit >85)
 - ✅ Images lazy load
 - ✅ Bundle size <400kb (main chunk)
 - ✅ TTI <2.5s
