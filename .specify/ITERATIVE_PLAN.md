@@ -467,7 +467,7 @@
 
 ## 📅 WOCHE 8: ANALYTICS & ITERATION
 
-### Sprint 6.1: Performance Audit (2h)
+### Sprint W8.S1: Performance Audit (2h)
 **Datum:** Tag 24
 **Goal:** Optimize Page Speed
 
