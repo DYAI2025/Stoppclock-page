@@ -563,21 +563,19 @@
 - [ ] Sprint 3.2: AdSense Integration
 - [ ] Sprint 3.3: Google Analytics 4
 
-### Woche 5 Sprints
-- [ ] Sprint 4.1: Finish Interstitial Ad
-- [ ] Sprint 4.2: Ad Optimization
-- [ ] Sprint 4.3: Revenue Dashboard
+### Sprint-Tracking Checkliste (DRY)
 
-### Woche 6-7 Sprints
-- [ ] Sprint 5.1: Exam Timer Article
-- [ ] Sprint 5.2: Teacher Landing Page
-- [ ] Sprint 5.3: HIIT Timer Article
-- [ ] Sprint 5.4: FAQ Hub
+> Hinweis: Die detaillierten Sprints sind oben in den jeweiligen Wochen-Sektionen definiert.
+> Diese Checkliste referenziert nur diese Abschnitte, um doppelte Pflege zu vermeiden.
 
-### Woche 8 Sprints
-- [ ] Sprint 6.1: Performance Audit
-- [ ] Sprint 6.2: SEO Technical Audit
-- [ ] Sprint 6.3: Analytics Review
+- [ ] Woche 1 – siehe Abschnitt „WOCHE 1: AI SEO QUICK WINS“
+- [ ] Woche 2 – siehe Abschnitt „WOCHE 2: …“
+- [ ] Woche 3 – siehe Abschnitt „WOCHE 3: …“
+- [ ] Woche 4 – siehe Abschnitt „WOCHE 4: …“
+- [ ] Woche 5 – siehe Abschnitt „WOCHE 5: …“
+- [ ] Woche 6 – siehe Abschnitt „WOCHE 6: …“
+- [ ] Woche 7 – siehe Abschnitt „WOCHE 7: …“
+- [ ] Woche 8 – siehe Abschnitt „WOCHE 8: …“
 
 ---
 
