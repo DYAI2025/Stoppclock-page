@@ -241,7 +241,7 @@
 - [ ] Ad Config (`src/config/ad-units.ts`)
 - [ ] 2 Ad Placements (Home Top, Home Middle)
 - [ ] Visibility Logic (nur mit Consent)
-- [ ] ads.txt in public/
+- [ ] Create and configure `public/ads.txt` with correct AdSense publisher ID
 - [ ] Build + Deploy
 
 **Deliverable:** 2 Ad Units live auf Home
