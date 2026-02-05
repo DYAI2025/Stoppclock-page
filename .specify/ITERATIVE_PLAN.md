@@ -522,7 +522,7 @@
 - [ ] GA4 Report: Traffic growth
 - [ ] AdSense Report: Revenue
 - [ ] GSC Report: Keyword rankings
-- [ ] User Feedback sammeln (if any)
+- [ ] User Feedback aus bestehenden Kanälen sammeln (z.B. Kontaktformular, Support-E-Mail, Social Media) und kurz zusammenfassen
 - [ ] Dokumentiere Learnings
 - [ ] Plan Phase 5 (next 8 weeks)
 
