@@ -1,4 +1,4 @@
-# 🚀 Iterativer Entwicklungsplan - Stoppclock
+# 🚀 Iterativer Entwicklungsplan - Stoppuhr
 ## Kurze Sprints mit sofortigem Mehrwert
 
 **Prinzip:** Jede Iteration ist deploybar und liefert Nutzwert
