@@ -611,7 +611,7 @@
 - **Session Duration:** >3 min (was ~1.5 min)
 
 ### Revenue Metrics
-- **AdSense Revenue:** €150-400/month
+- **AdSense Revenue (early stage):** ~€3-10/month
 - **RPM (Revenue per Mille):** €3-5
 - **CTR (Click-Through Rate):** 1-3%
 - **Viewability:** >70%
