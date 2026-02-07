@@ -1,150 +1,440 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://www.google-analytics.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
-    />
-    <meta name="referrer" content="no-referrer-when-downgrade" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Stoppclock — Projector-friendly Timers & Clocks</title>
-    <meta name="description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more. Projector-friendly, offline-ready, minimal controls." />
-    <link rel="canonical" href="https://www.stoppclock.com/"/>
-    <meta name="google-adsense-account" content="ca-pub-1712273263687132" />
-
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Open Graph (use your own hosted assets) -->
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Stoppclock — Projector-friendly Timers & Clocks"/>
-    <meta property="og:description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more."/>
-    <meta property="og:url" content="https://www.stoppclock.com/"/>
-    <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png"/>
-
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Stoppclock — Projector-friendly Timers & Clocks"/>
-    <meta name="twitter:description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more."/>
-    <meta name="twitter:image" content="https://www.stoppclock.com/og/cover-1200x630.png"/>
-
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="theme-color" content="#F5F5F8" />
-
-    <!-- Browser-Support-Matrix (SSoT Hinweis)
-         Target: last 2 Chrome/Edge/Firefox/Safari, iOS 15+ -->
-    <meta name="supported-browsers" content="last 2 Chrome/Edge/Firefox/Safari; iOS 15+"/>
-
-    <link rel="icon" href="/icons/icon-192.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
-
-    <!-- Google Analytics 4 (gtag.js) - Replace GA4_MEASUREMENT_ID with your Measurement ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K409QD2YSJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      // Set default consent to denied (GDPR compliant)
-      gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied'
-      });
-      gtag('config', 'G-K409QD2YSJ', { send_page_view: false });
-    </script>
-
-    <!-- Google Certified CMP -->
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-1712273263687132?ers=1"></script>
-    <script>
-      window.googlefc = window.googlefc || {};
-      window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
-    </script>
-
-    <!-- SEO: Convert clean URLs to hash-based routing for SPA -->
-    <script>
-      (function() {
-        // Only redirect if we have a clean path (not hash, not root)
-        var path = window.location.pathname;
-        var hash = window.location.hash;
-
-        // Skip if already at root or has hash
-        if (path === '/' || path === '/index.html' || hash) return;
-
-        // Valid routes that should be converted to hash
-        var validRoutes = [
-          '/analog', '/stopwatch', '/countdown', '/pomodoro', '/cooking',
-          '/couples', '/digital', '/world', '/alarm', '/metronome', '/chess',
-          '/timesince', '/timelab', '/blog', '/about', '/contact', '/imprint',
-          '/privacy', '/impressum', '/datenschutz', '/time-philosophy',
-          '/timer-for-students', '/timer-for-productivity', '/timer-for-fitness',
-          '/timer-for-cooking', '/timer-for-meditation', '/timer-for-focus',
-          '/custom-sessions', '/timers', '/facts'
-        ];
-
-        // Check if path matches a valid route or starts with a valid prefix
-        var shouldRedirect = validRoutes.some(function(route) {
-          return path === route || path.startsWith(route + '/');
-        }) || path.startsWith('/blog/') || path.startsWith('/custom-sessions/');
-
-        if (shouldRedirect) {
-          // Redirect to hash-based URL
-          window.location.replace('/#' + path);
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mytime.site — Pure Focus</title>
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --panel: rgba(255, 255, 255, 0.04);
+            --panel2: rgba(255, 255, 255, 0.06);
+            --text: #f2f3f5;
+            --muted: #a7abb3;
+            --indigo: #5b46ff;
+            --violet: #a78bfa;
+            --ringTrack: rgba(255, 255, 255, 0.08);
+            --glow1: rgba(91, 70, 255, 0.3);
+            --radius: 18px;
+            --radiusSm: 14px;
+            --shadowSoft: 0 24px 80px rgba(0, 0, 0, 0.65);
+            --hairline: 1px solid rgba(255, 255, 255, 0.08);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-      })();
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 50%, rgba(91, 70, 255, 0.08) 0%, transparent 70%);
+            color: var(--text);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+
+        /* Typography */
+        h1 {
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--muted);
+            margin-bottom: 4rem;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Timer Hero */
+        .timer-container {
+            position: relative;
+            width: clamp(280px, 45vw, 420px);
+            height: clamp(280px, 45vw, 420px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .timer-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transform: rotate(-90deg);
+            filter: drop-shadow(0 0 15px rgba(91, 70, 255, 0.1));
+        }
+
+        .timer-track {
+            fill: none;
+            stroke: var(--ringTrack);
+            stroke-width: 4;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: var(--indigo);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 880;
+            stroke-dashoffset: 880;
+            transition: stroke-dashoffset 0.1s linear, stroke 0.5s ease;
+        }
+
+        .timer-display {
+            font-size: clamp(4rem, 8vw, 6.5rem);
+            font-weight: 200;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+            z-index: 10;
+        }
+
+        /* Presets */
+        .presets {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .preset-btn {
+            background: var(--panel);
+            border: var(--hairline);
+            color: var(--muted);
+            padding: 10px 20px;
+            border-radius: var(--radiusSm);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .preset-btn:hover {
+            color: var(--text);
+            background: var(--panel2);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .preset-btn.active {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+            box-shadow: 0 0 20px rgba(255,255,255,0.15);
+        }
+
+        /* Custom Input */
+        .custom-input-group {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: slideUp 0.3s ease;
+        }
+        .custom-input-group.visible { display: flex; }
+        .custom-input-group input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--muted);
+            color: var(--text);
+            width: 40px;
+            text-align: center;
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 2px;
+            outline: none;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .btn-main {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            border: none;
+            background: var(--text);
+            color: var(--bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: var(--shadowSoft);
+        }
+
+        .btn-main:hover { transform: scale(1.05); }
+        .btn-main:active { transform: scale(0.95); }
+
+        .btn-sec {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+            padding: 10px;
+        }
+        .btn-sec:hover { color: var(--text); }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 3rem;
+            color: var(--muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+
+        /* Icons */
+        .icon { fill: currentColor; width: 24px; height: 24px; }
+    </style>
+</head>
+<body>
+
+    <h1 id="headline">Deep Focus</h1>
+
+    <div class="timer-container">
+        <svg class="timer-svg" viewBox="0 0 300 300">
+            <circle class="timer-track" cx="150" cy="150" r="140" />
+            <circle class="timer-progress" id="progressRing" cx="150" cy="150" r="140" />
+        </svg>
+        <div class="timer-display" id="timeDisplay">25:00</div>
+    </div>
+
+    <div class="presets">
+        <button class="preset-btn active" data-time="1500" data-label="Deep Focus">Pomodoro</button>
+        <button class="preset-btn" data-time="3000" data-label="Deep Work">Deep Work</button>
+        <button class="preset-btn" data-time="600" data-label="Meditation">Meditation</button>
+        <button class="preset-btn" id="customBtn">Custom</button>
+        
+        <div class="custom-input-group" id="customGroup">
+            <input type="number" id="customMin" placeholder="25" min="1" max="999">
+            <span style="color:var(--muted)">:</span>
+            <input type="number" id="customSec" placeholder="00" min="0" max="59">
+            <button class="preset-btn" id="customSet">Set</button>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-sec" id="resetBtn">RESET</button>
+        <button class="btn-main" id="startBtn">
+            <svg id="playIcon" class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pauseIcon" class="icon" style="display:none" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="btn-sec" id="muteBtn" title="Toggle Sound">SOUND</button>
+    </div>
+
+    <div class="footer">
+        Streak: <span id="streakCount">0</span> • Total: <span id="totalFocus">0</span>m
+    </div>
+
+    <script type="module">
+        // --- State Management ---
+        const state = {
+            duration: 1500,
+            remaining: 1500,
+            isRunning: false,
+            lastTick: 0,
+            audioCtx: null,
+            isMuted: false,
+            streak: parseInt(localStorage.getItem('focusStreak') || '0'),
+            totalMinutes: parseInt(localStorage.getItem('totalFocusMinutes') || '0'),
+            lastDate: localStorage.getItem('lastFocusDate') || ''
+        };
+
+        // --- DOM Elements ---
+        const timeDisplay = document.getElementById('timeDisplay');
+        const progressRing = document.getElementById('progressRing');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const streakEl = document.getElementById('streakCount');
+        const totalEl = document.getElementById('totalFocus');
+        const headline = document.getElementById('headline');
+        const customGroup = document.getElementById('customGroup');
+        const presetBtns = document.querySelectorAll('.preset-btn[data-time]');
+
+        const RING_CIRCUMFERENCE = 2 * Math.PI * 140;
+        progressRing.style.strokeDasharray = RING_CIRCUMFERENCE;
+
+        // --- Audio Engine ---
+        function initAudio() {
+            if (!state.audioCtx) state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playSound(freq, type = 'sine', duration = 0.1) {
+            if (state.isMuted) return;
+            initAudio();
+            const osc = state.audioCtx.createOscillator();
+            const gain = state.audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, state.audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, state.audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, state.audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(state.audioCtx.destination);
+            osc.start();
+            osc.stop(state.audioCtx.currentTime + duration);
+        }
+
+        // --- Core Logic ---
+        function updateDisplay() {
+            const m = Math.floor(state.remaining / 60);
+            const s = Math.floor(state.remaining % 60);
+            timeDisplay.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            
+            const offset = RING_CIRCUMFERENCE - (state.remaining / state.duration) * RING_CIRCUMFERENCE;
+            progressRing.style.strokeDashoffset = offset;
+        }
+
+        function tick(now) {
+            if (!state.isRunning) return;
+            
+            const delta = (now - state.lastTick) / 1000;
+            state.lastTick = now;
+            state.remaining -= delta;
+
+            if (state.remaining <= 0) {
+                state.remaining = 0;
+                completeSession();
+            } else {
+                updateDisplay();
+                requestAnimationFrame(tick);
+            }
+        }
+
+        function toggleTimer() {
+            state.isRunning = !state.isRunning;
+            if (state.isRunning) {
+                state.lastTick = performance.now();
+                requestAnimationFrame(tick);
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                playSound(880, 'sine', 0.05);
+            } else {
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+                playSound(440, 'sine', 0.05);
+            }
+        }
+
+        function resetTimer() {
+            state.isRunning = false;
+            state.remaining = state.duration;
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            updateDisplay();
+            playSound(220, 'triangle', 0.1);
+        }
+
+        function setPreset(seconds, label) {
+            state.duration = seconds;
+            state.remaining = seconds;
+            headline.textContent = label;
+            resetTimer();
+            customGroup.classList.remove('visible');
+        }
+
+        function completeSession() {
+            state.isRunning = false;
+            updateDisplay();
+            playSound(1200, 'sine', 0.5);
+            setTimeout(() => playSound(1500, 'sine', 0.8), 200);
+
+            // Streak & Stats Logic
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+            if (state.lastDate !== today) {
+                if (state.lastDate === yesterday) {
+                    state.streak++;
+                } else {
+                    state.streak = 1;
+                }
+                state.lastDate = today;
+            }
+
+            state.totalMinutes += Math.floor(state.duration / 60);
+            
+            localStorage.setItem('focusStreak', state.streak);
+            localStorage.setItem('totalFocusMinutes', state.totalMinutes);
+            localStorage.setItem('lastFocusDate', state.lastDate);
+            
+            renderStats();
+            alert("Focus session complete. Take a breath.");
+        }
+
+        function renderStats() {
+            streakEl.textContent = state.streak;
+            totalEl.textContent = state.totalMinutes;
+        }
+
+        // --- Event Listeners ---
+        startBtn.onclick = toggleTimer;
+        resetBtn.onclick = resetTimer;
+        muteBtn.onclick = () => {
+            state.isMuted = !state.isMuted;
+            muteBtn.style.opacity = state.isMuted ? '0.3' : '1';
+        };
+
+        presetBtns.forEach(btn => {
+            btn.onclick = () => {
+                presetBtns.forEach(b => b.classList.remove('active'));
+                document.getElementById('customBtn').classList.remove('active');
+                btn.classList.add('active');
+                setPreset(parseInt(btn.dataset.time), btn.dataset.label);
+            };
+        });
+
+        document.getElementById('customBtn').onclick = () => {
+            customGroup.classList.add('visible');
+            document.getElementById('customBtn').classList.add('active');
+            presetBtns.forEach(b => b.classList.remove('active'));
+        };
+
+        document.getElementById('customSet').onclick = () => {
+            const m = parseInt(document.getElementById('customMin').value) || 0;
+            const s = parseInt(document.getElementById('customSec').value) || 0;
+            const total = (m * 60) + s;
+            if (total > 0) setPreset(total, "Custom Focus");
+        };
+
+        // Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            if (e.code === 'Space') { e.preventDefault(); toggleTimer(); }
+            if (e.code === 'KeyR') resetTimer();
+            if (['Digit1', 'Digit2', 'Digit3', 'Digit4'].includes(e.code)) {
+                const idx = parseInt(e.code.slice(-1)) - 1;
+                const target = [...presetBtns, document.getElementById('customBtn')][idx];
+                if (target) target.click();
+            }
+        });
+
+        // Init
+        renderStats();
+        updateDisplay();
     </script>
-
-  </head>
-  <body>
-    <div id="root"></div>
-
-    <!-- WebApplication JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Stoppclock",
-      "applicationCategory": "Utility",
-      "operatingSystem": "Web",
-      "url": "https://www.stoppclock.com/",
-      "description": "Projector-friendly timers and clocks. Analog countdown up to 12 hours, stopwatch, interval, world clock, and more.",
-      "offers": { "@type": "Offer", "price": "0" },
-      "featureList": [
-        "Analog countdown up to 12 hours",
-        "Stopwatch with laps",
-        "Interval / rounds timer",
-        "World clock",
-        "Metronome",
-        "Chess clock",
-        "Offline PWA"
-      ]
-    }
-    </script>
-
-    <!-- FAQPage JSON-LD (8 Q&A) -->
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity":[
-        {"@type":"Question","name":"How do I set a 90-minute exam timer with the analog countdown?","acceptedAnswer":{"@type":"Answer","text":"Open Analog Countdown, choose the 90m preset or set 01:30:00, press Start, then press Fullscreen to project it."}},
-        {"@type":"Question","name":"Will my timer keep running if I return to the home page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each tool persists its state locally. Timers resume when you return."}},
-        {"@type":"Question","name":"Does Stoppclock work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. It's a PWA. Once loaded, the app shell and tools work offline."}},
-        {"@type":"Question","name":"Is it beamer-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Fullscreen for a clean, high-contrast view for exams and seminars."}},
-        {"@type":"Question","name":"How precise are timers?","acceptedAnswer":{"@type":"Answer","text":"They use wall-clock deltas with ~60 FPS visuals to minimize drift."}},
-        {"@type":"Question","name":"Can I save common durations?","acceptedAnswer":{"@type":"Answer","text":"Last used settings and presets are kept locally on your device."}},
-        {"@type":"Question","name":"Can I share a timer with another device?","acceptedAnswer":{"@type":"Answer","text":"State is local per device. Share by projecting or mirroring your screen."}},
-        {"@type":"Question","name":"Is Stoppclock privacy-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. No trackers by default. Ads optional with explicit consent."}}
-      ]
-    }
-    </script>
-
-    <!-- App Entry -->
-    <script type="module" src="/src/main.tsx"></script>
-
-  </body>
+</body>
 </html>
+<!-- How to run: open index.html in a browser. -->
