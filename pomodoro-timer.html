@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer – Freundlicher Fokus-Helfer 🍅</title>
+    <meta name="description" content="Der warme, freundliche Pomodoro Timer für mehr Fokus und Produktivität. 25 Minuten konzentriert arbeiten, 5 Minuten pausieren. Perfekt für deinen Schreibtisch.">
+    <meta name="google-adsense-account" content="ca-pub-1712273263687132">
+    <style>
+        :root {
+            --tomato: #E85D4C;
+            --tomato-light: #FF7B6B;
+            --tomato-dark: #C44A35;
+            --cream: #FFF9F5;
+            --warm-white: #FFFCFA;
+            --soft-gray: #F5F2ED;
+            --text-dark: #3D3D3D;
+            --text-muted: #6B6560;
+            --green-success: #6BBF7A;
+            --green-light: #8FD49A;
+            --break-color: #7BA8D4;
+            --shadow-soft: 0 8px 32px rgba(232, 93, 76, 0.12);
+            --shadow-hover: 0 12px 48px rgba(232, 93, 76, 0.20);
+            --radius-main: 24px;
+            --radius-button: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--warm-white) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+        
+        .tomato-emoji {
+            font-size: 48px;
+            margin-bottom: 10px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--tomato-dark);
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        
+        .timer-section {
+            background: white;
+            border-radius: var(--radius-main);
+            padding: 40px 24px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+        }
+        
+        .timer-display {
+            font-size: 72px;
+            font-weight: 200;
+            color: var(--tomato);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -2px;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+        
+        .timer-display.break {
+            color: var(--break-color);
+        }
+        
+        .timer-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 24px;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-bg {
+            fill: none;
+            stroke: var(--soft-gray);
+            stroke-width: 8;
+        }
+        
+        .progress-ring-fill {
+            fill: none;
+            stroke: var(--tomato);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 565.48;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+        }
+        
+        .progress-ring-fill.break {
+            stroke: var(--break-color);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: var(--radius-button);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--tomato);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--tomato-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--soft-gray);
+            color: var(--text-dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #E8E4DF;
+        }
+        
+        .btn-icon {
+            font-size: 18px;
+        }
+        
+        .session-info {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            padding: 16px;
+            background: var(--cream);
+            border-radius: var(--radius-button);
+            margin-bottom: 24px;
+        }
+        
+        .session-stat {
+            text-align: center;
+        }
+        
+        .session-stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--tomato);
+        }
+        
+        .session-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            padding: 10px 20px;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .mode-btn.active {
+            border-color: var(--tomato);
+            color: var(--tomato);
+            background: rgba(232, 93, 76, 0.08);
+        }
+        
+        .mode-btn:hover:not(.active) {
+            background: var(--soft-gray);
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: var(--radius-main);
+            padding: 32px 24px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .content-section h2 {
+            font-size: 22px;
+            color: var(--tomato-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin: 24px 0 12px;
+        }
+        
+        .content-section p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        
+        .content-section ul {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+        
+        .content-section li {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, rgba(232, 93, 76, 0.08) 0%, rgba(232, 93, 76, 0.04) 100%);
+            border-left: 4px solid var(--tomato);
+            padding: 20px;
+            border-radius: 0 var(--radius-button) var(--radius-button) 0;
+            margin: 24px 0;
+        }
+        
+        .tip-box h3 {
+            color: var(--tomato-dark);
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-box p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid var(--soft-gray);
+            padding: 20px 0;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .faq-item:first-child {
+            padding-top: 0;
+        }
+        
+        .faq-question {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .faq-answer {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        
+        footer a {
+            color: var(--tomato);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .timer-display {
+                font-size: 56px;
+            }
+            
+            .timer-section {
+                padding: 28px 16px;
+                margin: 16px 0;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .session-info {
+                gap: 16px;
+            }
+            
+            .session-stat-value {
+                font-size: 20px;
+            }
+        }
+        
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="tomato-emoji" aria-hidden="true">🍅</span>
+            <h1>Pomodoro Timer</h1>
+            <p class="subtitle">Dein freundlicher Helfer für mehr Fokus</p>
+        </header>
+        
+        <main>
+            <section class="timer-section" aria-label="Timer">
+                <div class="progress-container" role="img" aria-label="Timer Fortschritt">
+                    <svg class="progress-ring" width="200" height="200">
+                        <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
+                        <circle class="progress-ring-fill" id="progress" cx="100" cy="100" r="90"></circle>
+                    </svg>
+                </div>
+                
+                <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+                <div class="timer-label" id="timerLabel">Arbeitszeit</div>
+                
+                <div class="mode-selector" role="group" aria-label="Timer Modus">
+                    <button class="mode-btn active" data-mode="pomodoro" aria-pressed="true">🍅 Pomodoro</button>
+                    <button class="mode-btn" data-mode="shortBreak" aria-pressed="false">☕ Kurze Pause</button>
+                    <button class="mode-btn" data-mode="longBreak" aria-pressed="false">🌙 Lange Pause</button>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn btn-primary" id="startBtn" aria-label="Timer starten">
+                        <span class="btn-icon">▶</span> Start
+                    </button>
+                    <button class="btn btn-secondary" id="resetBtn" aria-label="Timer zurücksetzen">
+                        <span class="btn-icon">↺</span> Reset
+                    </button>
+                </div>
+                
+                <div class="session-info">
+                    <div class="session-stat">
+                        <div class="session-stat-value" id="completedPomodoros">0</div>
+                        <div class="session-stat-label">Tomaten</div>
+                    </div>
+                    <div class="session-stat">
+                        <div class="session-stat-value" id="todayFocus">0h 0m</div>
+                        <div class="session-stat-label">Heute fokussiert</div>
+                    </div>
+                    <div class="session-stat">
+                        <div class="session-stat-value" id="streak">0</div>
+                        <div class="session-stat-label">Tage</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section">
+                <h2>🍅 Was ist die Pomodoro-Technik?</h2>
+                <p>
+                    Die Pomodoro-Technik ist eine einfache, aber wirkungsvolle Methode zur Zeitplanung, 
+                    die in den 1980er-Jahren von Francesco Cirillo entwickelt wurde. Cirillo, damals Student, 
+                    benannte die Technik nach der Küchenuhr in Form einer Tomate (pomodoro auf Italienisch), 
+                    die er für seine Experimente nutzte.
+                </p>
+                <p>
+                    Das Grundprinzip ist denkbar einfach: <strong>25 Minuten konzentrierte Arbeit, 
+                    gefolgt von 5 Minuten Pause.</strong> Nach vier solchen "Tomaten" gönnst du dir eine 
+                    längere Pause von 15-30 Minuten.
+                </p>
+                <div class="tip-box">
+                    <h3>💡 Der psychologische Trick</h3>
+                    <p>
+                        Der Vorsatz "Ich arbeite nur 25 Minuten" ist viel leichter zu fassen als 
+                        "Ich arbeite den ganzen Nachmittag". Diese kleine Hürde senkt die Hemmschwelle 
+                        zum Anfangen und macht Prokrastination unwahrscheinlicher.
+                    </p>
+                </div>
+            </section>
+            
+            <section class="content-section">
+                <h2>🌟 Warum Pomodoro so gut funktioniert</h2>
+                <p>
+                    Die Pomodoro-Technik nutzt drei psychologische Kernaspekte:
+                </p>
+                <h3>1. Anti-Prokrastination</h3>
+                <p>
+                    Die Hürde, eine große Aufgabe zu beginnen, wird drastisch gesenkt. 
+                    Statt "Ich muss heute diesen ganzen Bericht schreiben" denkst du nur 
+                    "25 Minuten fokussiert arbeiten". Das ist machbar.
+                </p>
+                <h3>2. Gamification</h3>
+                <p>
+                    Jeder abgeschlossene Pomodoro-Block ist ein kleiner, greifbarer Erfolg. 
+                    Dein Gehirn liebt Belohnungen – und jedes Mal, wenn der Timer klingelt, 
+                    wird das Belohnungssystem aktiviert.
+                </p>
+                <h3>3. Fokus und Erholung</h3>
+                <p>
+                    Die strikte Zeitvorgabe trainiert deine Konzentration. Die festen Pausen 
+                    wirken als unmittelbare Belohnung und beugen mentaler Erschöpfung vor.
+                </p>
+            </section>
+            
+            <section class="content-section">
+                <h2>📖 Anleitung für Einsteiger</h2>
+                <h3>Schritt 1: Wähle deine Aufgabe</h3>
+                <p>
+                    Überlege dir, was du heute erledigen möchtest. Wähle eine konkrete Aufgabe 
+                    – nicht "arbeiten", sondern "E-Mail-Beantwortung" oder "Artikel schreiben".
+                </p>
+                <h3>Schritt 2: Stelle den Timer</h3>
+                <p>
+                    Stelle unseren Pomodoro Timer auf 25 Minuten ein. Ab jetzt gilt: 
+                    <strong>NUR diese eine Aufgabe.</strong> Kein Handy, kein E-Mail, kein Tab-Wechsel.
+                </p>
+                <h3>Schritt 3: Arbeite fokussiert</h3>
+                <p>
+                    Wenn du während der 25 Minuten an etwas anderes denkst, schreibe es kurz auf 
+                    und kehre zur Aufgabe zurück. Jede Ablenkung wird später behandelt.
+                </p>
+                <h3>Schritt 4: Pausiere</h3>
+                <p>
+                    Wenn der Timer klingelt,立刻 aufhören. Die Pause ist ebenso wichtig wie die Arbeit.
+                </p>
+                <h3>Schritt 5: Wiederhole</h3>
+                <p>
+                    Nach vier Pomodoros gönnst du dir eine längere Pause (15-30 Minuten). 
+                    An diesem Punkt hast du bereits 2 Stunden produktiver Arbeit hinter dir!
+                </p>
+            </section>
+            
+            <section class="content-section">
+                <h2>🚀 Fortgeschrittene Techniken</h2>
+                <h3>Die 2-Minuten-Regel</h3>
+                <p>
+                    Wenn eine Aufgabe weniger als 2 Minuten dauert, erledige sie sofort.
+                </p>
+                <h3>Theme deine Pomodoros</h3>
+                <p>
+                    Sammle ähnliche Aufgaben. Alle E-Mails in einem Pomodoro, alle Telefonate 
+                    in einem anderen. Das reduziert den "Kontext-Wechsel".
+                </p>
+                <h3>Die tägliche Review</h3>
+                <p>
+                    Am Ende des Tages: Wie viele Pomodoros hast du geschafft? 
+                    Diese Reflexion macht dich mit der Zeit immer effizienter.
+                </p>
+            </section>
+            
+            <section class="content-section">
+                <h2>⚠️ Typische Fehler vermeiden</h2>
+                <h3>Fehler 1: Pausen ausfallen lassen</h3>
+                <p>
+                    Viele denken "Ich bin so produktiv, ich brauche keine Pause". 
+                    Das ist ein Trick deines Gehirns – Pausen sind KEINE Zeitverschwendung.
+                </p>
+                <h3>Fehler 2: Ablenkungen während des Pomodoros</h3>
+                <p>
+                    Wenn du während eines Pomodoros auf dein Handy schaust, hast du den Fokus verloren.
+                </p>
+                <h3>Fehler 3: Zu viele Aufgaben gleichzeitig</h3>
+                <p>
+                    Die Pomodoro-Technik funktioniert am besten mit EINER Aufgabe zur Zeit. 
+                    Multitasking ist ein Mythos.
+                </p>
+            </section>
+            
+            <section class="content-section">
+                <h2>❓ Häufige Fragen</h2>
+                <div class="faq-item">
+                    <div class="faq-question">Kann ich die Zeiten anpassen?</div>
+                    <div class="faq-answer">
+                        Absolut! 25/5 ist der klassische Startwert. Manche nutzen 50/10, 
+                        andere 20/4. Finde heraus, was für dich am besten funktioniert.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Was mache ich, wenn ich während einer Pause in Schwung komme?</div>
+                    <div class="faq-answer">
+                        Das passiert! Notiere es für morgen. Aber heute gönnst du dir die Pause – 
+                        dein Gehirn braucht sie.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Wie viele Pomodoros am Tag sind realistisch?</div>
+                    <div class="faq-answer">
+                        8-10 Pomodoros (4-5 Stunden echte Fokus-Zeit) sind für die meisten Menschen 
+                        ein gutes Tagesziel.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Funktioniert Pomodoro auch für kreative Arbeit?</div>
+                    <div class="faq-answer">
+                        Ja! Kreative Arbeit profitiert sogar besonders. Die zeitliche Begrenzung 
+                        nimmt den Druck der Perfektion.
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section">
+                <h2>🔬 Wissenschaftlicher Hintergrund</h2>
+                <h3>Das Aufmerksamkeits-Fenster</h3>
+                <p>
+                    Unser Gehirn kann nur etwa 90-120 Minuten echte Fokussierung aufrechterhalten. 
+                    Die Pomodoro-Technik respektiert diese biologische Grenze.
+                </p>
+                <h3>Der EEG-Befund</h3>
+                <p>
+                    Studien zeigen, dass konzentrierte Arbeit zu kognitivem "Müll" führt. 
+                    Pausen ermöglichen dem Gehirn, diesen Müll zu "leeren".
+                </p>
+                <h3>Die Parkinson-Regel</h3>
+                <p>
+                    "Arbeit dehnt sich genau so lange aus, wie Zeit dafür vorgesehen ist." 
+                    Mit einem festen Zeitlimit wirst du effizienter.
+                </p>
+            </section>
+        </main>
+        
+        <footer>
+            <p>
+                🍅 Pomodoro Timer – Freundlich, warm, effektiv.<br>
+                <a href="#">Impressum</a> · <a href="#">Datenschutz</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let timerInterval = null;
+        let currentMode = 'pomodoro';
+        let completedPomodoros = 0;
+        let todayFocusMinutes = parseInt(localStorage.getItem('todayFocusMinutes') || '0', 10);
+        let lastDate = localStorage.getItem('lastDate') || '';
+        let streak = parseInt(localStorage.getItem('streak') || '0', 10);
+        
+        const today = new Date().toDateString();
+        if (lastDate !== today) {
+            if (lastDate && today === new Date(Date.now() - 86400000).toDateString()) {
+            } else {
+                streak = 0;
+            }
+            todayFocusMinutes = 0;
+            localStorage.setItem('todayFocusMinutes', '0');
+            localStorage.setItem('lastDate', today);
+            localStorage.setItem('streak', streak.toString());
+        }
+        
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerLabel = document.getElementById('timerLabel');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const progress = document.getElementById('progress');
+        const completedPomodorosEl = document.getElementById('completedPomodoros');
+        const todayFocusEl = document.getElementById('todayFocus');
+        const streakEl = document.getElementById('streak');
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        
+        const modes = {
+            pomodoro: { time: 25 * 60, label: 'Arbeitszeit', color: 'var(--tomato)', class: '' },
+            shortBreak: { time: 5 * 60, label: 'Kurze Pause', color: 'var(--break-color)', class: 'break' },
+            longBreak: { time: 15 * 60, label: 'Lange Pause', color: 'var(--break-color)', class: 'break' }
+        };
+        
+        updateDisplay();
+        updateStats();
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateDisplay() {
+            timerDisplay.textContent = formatTime(timeLeft);
+            document.title = `${formatTime(timeLeft)} – Pomodoro Timer`;
+            
+            const circumference = 2 * Math.PI * 90;
+            const progressPercent = (totalTime - timeLeft) / totalTime;
+            const offset = circumference * progressPercent;
+            progress.style.strokeDashoffset = offset;
+            
+            const mode = modes[currentMode];
+            timerDisplay.className = 'timer-display ' + mode.class;
+            progress.className = 'progress-ring-fill ' + mode.class;
+            timerDisplay.style.color = mode.color;
+        }
+        
+        function updateStats() {
+            completedPomodorosEl.textContent = completedPomodoros;
+            const hours = Math.floor(todayFocusMinutes / 60);
+            const mins = todayFocusMinutes % 60;
+            todayFocusEl.textContent = `${hours}h ${mins}m`;
+            streakEl.textContent = streak;
+        }
+        
+        function toggleTimer() {
+            if (isRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+        
+        function startTimer() {
+            isRunning = true;
+            startBtn.innerHTML = '<span class="btn-icon">⏸</span> Pause';
+            startBtn.setAttribute('aria-label', 'Timer pausieren');
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                
+                if (timeLeft <= 0) {
+                    completeTimer();
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            isRunning = false;
+            startBtn.innerHTML = '<span class="btn-icon">▶</span> Start';
+            startBtn.setAttribute('aria-label', 'Timer starten');
+            clearInterval(timerInterval);
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            timeLeft = modes[currentMode].time;
+            totalTime = modes[currentMode].time;
+            timerLabel.textContent = modes[currentMode].label;
+            updateDisplay();
+        }
+        
+        function completeTimer() {
+            pauseTimer();
+            
+            // Play notification
+            const audio = new Audio('data:audio/wav;base64,UklGRl9XT19QVUJDSUFCQSYAAABrAAABYwAAABZDQQABAgMEBAUFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSUpMU1RVVldYWVpjZGVmZ2hpamtsbW5vb3BxcnN0dXd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2+v8DBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvc3d7f4OHi4+Tl5ufo6er7/P3+/w==');
+            audio.play().catch(() => {});
+            
+            if (currentMode === 'pomodoro') {
+                completedPomodoros++;
+                todayFocusMinutes += 25;
+                localStorage.setItem('todayFocusMinutes', todayFocusMinutes.toString());
+                
+                // Update streak
+                if (todayFocusMinutes === 25) {
+                    streak++;
+                    localStorage.setItem('streak', streak.toString());
+                }
+                
+                alert('🍅 Gut gemacht! Zeit für eine Pause.');
+            } else {
+                alert('☕ Pause vorbei! Bereit für den nächsten Pomodoro?');
+            }
+            
+            updateStats();
+            resetTimer();
+        }
+        
+        startBtn.addEventListener('click', toggleTimer);
+        resetBtn.addEventListener('click', resetTimer);
+        
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modeBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+                
+                currentMode = btn.dataset.mode;
+                resetTimer();
+            });
+        });
+    </script>
+</body>
+</html>
