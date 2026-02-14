@@ -1,16 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/((?!assets|icons|og|data|content|sw.js|manifest.webmanifest|robots.txt|sitemap.xml|ads.txt|pomodoro-timer.html).*)",
+      "source": "/((?!assets|icons|og|data|content|sw.js|manifest.webmanifest|robots.txt|sitemap.xml|ads.txt).*)",
       "destination": "/index.html"
-    },
-    {
-      "source": "/pomodoro",
-      "destination": "/pomodoro-timer.html"
-    },
-    {
-      "source": "/pomodoro/",
-      "destination": "/pomodoro-timer.html"
     }
   ],
   "headers": [
