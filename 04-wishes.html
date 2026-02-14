@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="night">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuissMe - Wünsche</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --panel: rgba(255, 255, 255, 0.04);
+            --text: #f2f3f5;
+            --muted: #a7abb3;
+            --indigo: #5b46ff;
+            --violet: #a78bfa;
+            --success: #22c55e;
+            --border: rgba(255, 255, 255, 0.08);
+            --font-serif: 'Fraunces', serif;
+            --font-sans: 'Sora', sans-serif;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(91, 70, 255, 0.08) 0%, transparent 50%);
+            color: var(--text);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            padding: 24px;
+        }
+        
+        .container {
+            max-width: 440px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 20px;
+        }
+        
+        .header h1 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+        
+        .input-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .input-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .wish-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: var(--font-sans);
+            resize: vertical;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .wish-input:focus {
+            border-color: var(--indigo);
+            background: rgba(91, 70, 255, 0.05);
+        }
+        
+        .rewrite-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(91, 70, 255, 0.08);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .rewrite-toggle:hover {
+            background: rgba(91, 70, 255, 0.12);
+        }
+        
+        .toggle-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2px solid var(--indigo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--indigo);
+        }
+        
+        .toggle-text {
+            flex: 1;
+        }
+        
+        .toggle-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .toggle-desc {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: linear-gradient(135deg, var(--indigo), var(--violet));
+            color: white;
+            margin-bottom: 12px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(91, 70, 255, 0.3);
+        }
+        
+        .example-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .example-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--success);
+            margin-bottom: 12px;
+        }
+        
+        .example-original {
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: line-through;
+            margin-bottom: 8px;
+        }
+        
+        .example-rewritten {
+            font-size: 15px;
+            color: var(--text);
+            font-style: italic;
+        }
+        
+        .wishes-list {
+            margin-top: 32px;
+        }
+        
+        .list-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+        
+        .wish-item {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .wish-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+        
+        .wish-content {
+            flex: 1;
+        }
+        
+        .wish-text {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+        
+        .wish-date {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .guardrail-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.08);
+            border-radius: 10px;
+            font-size: 12px;
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Deine Wünsche</h1>
+            <p>Artikuliere, was dir wichtig ist</p>
+        </div>
+        
+        <div class="input-card">
+            <label class="input-label">Was wünschst du dir?</label>
+            <textarea class="wish-input" placeholder="Ich würde mich freuen, wenn wir mehr Zeit für..."></textarea>
+            
+            <div class="rewrite-toggle">
+                <div class="toggle-check">✓</div>
+                <div class="toggle-text">
+                    <div class="toggle-title">KI-Rewrite aktivieren</div>
+                    <div class="toggle-desc">Wandelt harte Forderungen in sanfte Wünsche um</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn">Wunsch speichern ✨</button>
+        
+        <div class="example-card">
+            <div class="example-label">Beispiel Rewrite</div>
+            <div class="example-original">"Du musst mehr im Haushalt helfen"</div>
+            <div class="example-rewritten">"Ich würde mich so freuen, wenn wir die Hausarbeit mehr als Team angehen könnten 💕"</div>
+        </div>
+        
+        <div class="wishes-list">
+            <div class="list-title">Gespeicherte Wünsche</div>
+            
+            <div class="wish-item">
+                <div class="wish-status"></div>
+                <div class="wish-content">
+                    <div class="wish-text">Ich wünsche mir, dass wir einmal pro Woche ein Date haben, ganz ohne Ablenkung</div>
+                    <div class="wish-date">Vor 2 Tagen • Von KI optimiert</div>
+                </div>
+            </div>
+            
+            <div class="wish-item">
+                <div class="wish-status"></div>
+                <div class="wish-content">
+                    <div class="wish-text">Es wäre schön, wenn wir gemeinsam über unsere Finanzen sprechen könnten</div>
+                    <div class="wish-date">Vor 5 Tagen • Von KI optimiert</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guardrail-note">
+            ⚠️ Keine "Du-Sprache", Ultimaten oder negative Formulierungen erlaubt
+        </div>
+    </div>
+</body>
+</html>

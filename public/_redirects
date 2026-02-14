@@ -8,5 +8,11 @@
 /data/*      /data/:splat      200
 /content/*   /content/:splat   200
 
+# Exclude static HTML pages
+/pomodoro-timer.html   /pomodoro-timer.html   200
+/25-minuten-timer.html /25-minuten-timer.html 200
+/5-minuten-timer.html  /5-minuten-timer.html  200
+/countdown-timer.html  /countdown-timer.html  200
+
 # Serve index.html for all other routes (SPA fallback)
 /*    /index.html   200

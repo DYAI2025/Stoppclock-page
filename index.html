@@ -1,150 +1,489 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://www.google-analytics.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
-    />
-    <meta name="referrer" content="no-referrer-when-downgrade" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Stoppclock — Projector-friendly Timers & Clocks</title>
-    <meta name="description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more. Projector-friendly, offline-ready, minimal controls." />
-    <link rel="canonical" href="https://www.stoppclock.com/"/>
-    <meta name="google-adsense-account" content="ca-pub-1712273263687132" />
-
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Open Graph (use your own hosted assets) -->
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Stoppclock — Projector-friendly Timers & Clocks"/>
-    <meta property="og:description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more."/>
-    <meta property="og:url" content="https://www.stoppclock.com/"/>
-    <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png"/>
-
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Stoppclock — Projector-friendly Timers & Clocks"/>
-    <meta name="twitter:description" content="Analog countdown up to 12 hours, stopwatch, interval, world clock and more."/>
-    <meta name="twitter:image" content="https://www.stoppclock.com/og/cover-1200x630.png"/>
-
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="theme-color" content="#F5F5F8" />
-
-    <!-- Browser-Support-Matrix (SSoT Hinweis)
-         Target: last 2 Chrome/Edge/Firefox/Safari, iOS 15+ -->
-    <meta name="supported-browsers" content="last 2 Chrome/Edge/Firefox/Safari; iOS 15+"/>
-
-    <link rel="icon" href="/icons/icon-192.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="/icons/icon-180.png" />
-
-    <!-- Google Analytics 4 (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-409QD2YSJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      // Set default consent to denied (GDPR compliant)
-      gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied'
-      });
-      gtag('config', 'G-409QD2YSJ', { send_page_view: false });
-    </script>
-
-    <!-- Google Certified CMP -->
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-1712273263687132?ers=1"></script>
-    <script>
-      window.googlefc = window.googlefc || {};
-      window.googlefc.callbackQueue = window.googlefc.callbackQueue || [];
-    </script>
-
-    <!-- SEO: Convert clean URLs to hash-based routing for SPA -->
-    <script>
-      (function() {
-        // Only redirect if we have a clean path (not hash, not root)
-        var path = window.location.pathname;
-        var hash = window.location.hash;
-
-        // Skip if already at root or has hash
-        if (path === '/' || path === '/index.html' || hash) return;
-
-        // Valid routes that should be converted to hash
-        var validRoutes = [
-          '/analog', '/stopwatch', '/countdown', '/pomodoro', '/cooking',
-          '/couples', '/digital', '/world', '/alarm', '/metronome', '/chess',
-          '/timesince', '/timelab', '/blog', '/about', '/contact', '/imprint',
-          '/privacy', '/impressum', '/datenschutz', '/time-philosophy',
-          '/timer-for-students', '/timer-for-productivity', '/timer-for-fitness',
-          '/timer-for-cooking', '/timer-for-meditation', '/timer-for-focus',
-          '/custom-sessions', '/timers', '/facts'
-        ];
-
-        // Check if path matches a valid route or starts with a valid prefix
-        var shouldRedirect = validRoutes.some(function(route) {
-          return path === route || path.startsWith(route + '/');
-        }) || path.startsWith('/blog/') || path.startsWith('/custom-sessions/');
-
-        if (shouldRedirect) {
-          // Redirect to hash-based URL
-          window.location.replace('/#' + path);
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mytime.site | Fokus & Konzentration</title>
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --panel: rgba(255, 255, 255, 0.04);
+            --panel2: rgba(255, 255, 255, 0.07);
+            --text: #f2f3f5;
+            --muted: #a7abb3;
+            --indigo: #5b46ff;
+            --violet: #a78bfa;
+            --cyan: #2ce0ff;
+            --ringTrack: rgba(255, 255, 255, 0.08);
+            --radius: 18px;
+            --radiusSm: 12px;
+            --shadowSoft: 0 18px 60px rgba(0,0,0,0.55);
+            --glow1: rgba(91,70,255,0.3);
         }
-      })();
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            cursor: default;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #cursor-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--glow1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            opacity: 0.6;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 980px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(2rem, 6vh, 4rem);
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Flow State */
+        .flow-active .fade-ui {
+            opacity: 0.02;
+            pointer-events: none;
+            filter: blur(8px);
+        }
+        .flow-active.user-active .fade-ui {
+            opacity: 0.5;
+            pointer-events: auto;
+            filter: blur(0);
+        }
+        .fade-ui { transition: all 1s ease; }
+
+        header { text-align: center; }
+        .logo { 
+            font-size: 0.85rem; 
+            letter-spacing: 0.4rem; 
+            font-weight: 300; 
+            text-transform: uppercase; 
+            opacity: 0.5; 
+            color: var(--muted);
+        }
+        .logo span { color: var(--indigo); font-weight: 700; }
+
+        #timer-hero {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: clamp(280px, 60vw, 420px);
+            height: clamp(280px, 60vw, 420px);
+        }
+
+        .progress-ring { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-ring__track { stroke: var(--ringTrack); stroke-width: 2.5; fill: transparent; }
+        .progress-ring__circle {
+            stroke: var(--indigo);
+            stroke-width: 2.5;
+            fill: transparent;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.1s linear;
+            filter: drop-shadow(0 0 12px var(--indigo));
+        }
+
+        #time-display {
+            position: absolute;
+            font-size: clamp(4rem, 12vw, 6.5rem);
+            font-weight: 200;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.03em;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #presets {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-preset {
+            background: var(--panel);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--muted);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-preset:hover { background: var(--panel2); color: var(--text); border-color: rgba(255,255,255,0.15); }
+        .btn-preset.active { background: var(--panel2); color: var(--text); border-color: var(--indigo); box-shadow: 0 0 20px rgba(91,70,255,0.15); }
+
+        #custom-editor {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--panel2);
+            padding: 4px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--indigo);
+        }
+        #custom-editor input {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            width: 30px;
+            text-align: center;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        #custom-editor button {
+            background: transparent;
+            border: none;
+            color: var(--indigo);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.7rem;
+            padding: 4px;
+        }
+
+        #controls { display: flex; align-items: center; gap: 40px; }
+        
+        .btn-main {
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        .btn-main:hover { transform: scale(1.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .btn-main:active { transform: scale(0.92); }
+        .btn-main svg { width: 26px; height: 26px; fill: currentColor; }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--muted);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover { color: var(--text); border-color: var(--muted); background: var(--panel); }
+        .btn-secondary svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        footer {
+            margin-top: auto;
+            padding-bottom: 3rem;
+            display: flex;
+            gap: 32px;
+            font-size: 0.7rem;
+            letter-spacing: 0.05rem;
+            color: var(--muted);
+            z-index: 10;
+            text-transform: uppercase;
+        }
+        .stat-item span { color: var(--violet); font-weight: 600; margin-left: 4px; }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.015); opacity: 1; }
+        }
+        .running #timer-hero { animation: breathe 10s infinite ease-in-out; }
+
+        [hidden] { display: none !important; }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div id="cursor-glow"></div>
+
+    <main class="app-container" id="main-ui">
+        <header class="fade-ui">
+            <div class="logo">MYTIME<span>.</span>SITE</div>
+        </header>
+
+        <section id="timer-hero">
+            <svg class="progress-ring" viewBox="0 0 100 100">
+                <circle class="progress-ring__track" cx="50" cy="50" r="48"></circle>
+                <circle id="progress-bar" class="progress-ring__circle" cx="50" cy="50" r="48"></circle>
+            </svg>
+            <div id="time-display">25:0="50" r="48"></circle>
+                <circle id="progress-bar" class="progress-ring__circle" cx="50" cy="50" r="48"></circle>
+            </svg>
+            <div id="time-display">25:0
+0</div>
+        </section>
+
+        <nav id="presets" class="fade-ui">
+            <button class="btn-preset" data-sec="1500" data-key="1">Pomodoro</button>
+            <button class="btn-preset" data-sec="3000" data-key="2">Deep Work</button>
+            <button class="btn-preset" data-sec="600" data-key="3">Meditation</button>
+            <div id="custom-container">
+                <button class="btn-preset" id="custom-trigger" data-key="4">Eigene</button>
+                <div id="custom-editor" hidden>
+                    <input type="number" id="custom-min" value="25" min="1" max="999">
+                    <span>Min</span>
+                    <button id="custom-set">OK</button>
+                </div>
+            </div>
+        </nav>
+
+        <section id="controls" class="fade-ui">
+            <button id="reset-btn" class="btn-secondary" title="Zurücksetzen (R)">
+                <svg viewBox="0 0 24 24"><path d="M2.5 2v6h6M21.5 22v-6h-6"/><path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.3"/></svg>
+            </button>
+            <button id="play-btn" class="btn-main" title="Start/Pause (Leertaste)">
+                <svg id="play-icon" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                <svg id="pause-icon" viewBox="0 0 24 24" hidden><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+        </section>
+    </main>
+
+    <footer class="fade-ui">
+        <div class="stat-item">Streak <span id="streak-val">0</span></div>
+        <div class="stat-item">Fokus <span id="total-val">0</span>m</div>
+    </footer>
+
+    <script>
+        /**
+         * 1. High-Performance Visuals
+         */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        const glow = document.getElementById('cursor-glow');
+        let particles = [];
+        let mouse = { x: -1000, y: -1000, targetX: -1000, targetY: -1000 };
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.15;
+                this.vy = (Math.random() - 0.5) * 0.15;
+                this.size = Math.random() * 1.2;
+                this.alpha = Math.random() * 0.4;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+        for (let i = 0; i < 82; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            mouse.x += (mouse.targetX - mouse.x) * 0.08;
+            mouse.y += (mouse.targetY - mouse.y) * 0.08;
+            glow.style.transform = `translate(${mouse.x}px, ${mouse.y}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.targetX = e.clientX;
+            mouse.targetY = e.clientY;
+            document.getElementById('main-ui').classList.add('user-active');
+            clearTimeout(window.uai);
+            window.uai = setTimeout(() => document.getElementById('main-ui').classList.remove('user-active'), 3000);
+        });
+
+        /**
+         * 2. Web Audio
+         */
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let aCtx = null;
+        function playTone(f, d, v=0.03) {
+            if(!aCtx) aCtx = new AudioCtx();
+            const o = aCtx.createOscillator();
+            const g = aCtx.createGain();
+            o.frequency.value = f;
+            g.gain.setValueAtTime(v, aCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.0001, aCtx.currentTime + d);
+            o.connect(g); g.connect(aCtx.destination);
+            o.start(); o.stop(aCtx.currentTime + d);
+        }
+
+        /**
+         * 3. Logic
+         */
+        let duration = 1500, timeLeft = 1500, isRunning = false, lastTime = 0, rafId = null;
+        const display = document.getElementById('time-display');
+        const progressBar = document.getElementById('progress-bar');
+        const circ = 2 * Math.PI * 48;
+        progressBar.style.strokeDasharray = `${circ} ${circ}`;
+
+        function updateUI() {
+            const m = Math.floor(timeLeft / 60);
+            const s = Math.floor(timeLeft % 60);
+            display.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            progressBar.style.strokeDashoffset = circ * (1 - (timeLeft / duration));
+            document.title = isRunning ? `(${display.textContent}) mytime` : 'mytime.site';
+        }
+
+        function timerLoop(now) {
+            if (!isRunning) return;
+            if (!lastTime) lastTime = now;
+            const delta = (now - lastTime) / 1000;
+            lastTime = now;
+            timeLeft -= delta;
+            if (timeLeft <= 0) { timeLeft = 0; complete(); }
+            updateUI();
+            rafId = requestAnimationFrame(timerLoop);
+        }
+
+        function toggle() {
+            isRunning = !isRunning;
+            if (isRunning) {
+                lastTime = performance.now();
+                rafId = requestAnimationFrame(timerLoop);
+                document.getElementById('play-icon').setAttribute('hidden', '');
+                document.getElementById('pause-icon').removeAttribute('hidden');
+                document.getElementById('main-ui').classList.add('flow-active');
+                document.body.classList.add('running');
+                playTone(440, 0.1);
+            } else {
+                cancelAnimationFrame(rafId);
+                document.getElementById('play-icon').removeAttribute('hidden');
+                document.getElementById('pause-icon').setAttribute('hidden', '');
+                document.getElementById('main-ui').classList.remove('flow-active');
+                document.body.classList.remove('running');
+                playTone(330, 0.1);
+            }
+        }
+
+        function complete() {
+            isRunning = false;
+            playTone(880, 0.6, 0.05);
+            saveStats();
+            reset();
+        }
+
+        function reset() {
+            isRunning = false;
+            cancelAnimationFrame(rafId);
+            timeLeft = duration;
+            updateUI();
+            document.getElementById('play-icon').removeAttribute('hidden');
+            document.getElementById('pause-icon').setAttribute('hidden', '');
+            document.getElementById('main-ui').classList.remove('flow-active');
+            document.body.classList.remove('running');
+        }
+
+        function saveStats() {
+            const data = JSON.parse(localStorage.getItem('mytime_data') || '{"streak":0,"total":0,"last":""}');
+            const today = new Date().toISOString().split('T')[0];
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+            if (data.last !== today) {
+                data.streak = (data.last === yesterday) ? data.streak + 1 : 1;
+                data.last = today;
+            }
+            data.total += Math.round(duration / 60);
+            localStorage.setItem('mytime_data', JSON.stringify(data));
+            loadStats();
+        }
+
+        function loadStats() {
+            const data = JSON.parse(localStorage.getItem('mytime_data') || '{"streak":0,"total":0,"last":""}');
+            document.getElementById('streak-val').textContent = data.streak;
+            document.getElementById('total-val').textContent = data.total;
+        }
+
+        // Custom Editor
+        const trig = document.getElementById('custom-trigger');
+        const editor = document.getElementById('custom-editor');
+        trig.onclick = () => { trig.hidden = true; editor.hidden = false; };
+        document.getElementById('custom-set').onclick = () => {
+            duration = parseInt(document.getElementById('custom-min').value) * 60;
+            trig.hidden = false; editor.hidden = true;
+            reset();
+        };
+
+        // Events
+        document.querySelectorAll('.btn-preset[data-sec]').forEach(b => {
+            b.onclick = () => {
+                duration = parseInt(b.dataset.sec);
+                document.querySelectorAll('.btn-preset').forEach(p => p.classList.remove('active'));
+                b.classList.add('active');
+                reset();
+            };
+        });
+
+        document.getElementById('play-btn').onclick = toggle;
+        document.getElementById('reset-btn').onclick = reset;
+
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') { e.preventDefault(); toggle(); }
+            if (e.key.toLowerCase() === 'r') reset();
+            if (['1','2','3','4'].includes(e.key)) {
+                const btn = document.querySelector(`.btn-preset[data-key="${e.key}"]`);
+                if(btn) btn.click();
+            }
+        });
+
+        loadStats(); updateUI();
     </script>
-
-  </head>
-  <body>
-    <div id="root"></div>
-
-    <!-- WebApplication JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Stoppclock",
-      "applicationCategory": "Utility",
-      "operatingSystem": "Web",
-      "url": "https://www.stoppclock.com/",
-      "description": "Projector-friendly timers and clocks. Analog countdown up to 12 hours, stopwatch, interval, world clock, and more.",
-      "offers": { "@type": "Offer", "price": "0" },
-      "featureList": [
-        "Analog countdown up to 12 hours",
-        "Stopwatch with laps",
-        "Interval / rounds timer",
-        "World clock",
-        "Metronome",
-        "Chess clock",
-        "Offline PWA"
-      ]
-    }
-    </script>
-
-    <!-- FAQPage JSON-LD (8 Q&A) -->
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity":[
-        {"@type":"Question","name":"How do I set a 90-minute exam timer with the analog countdown?","acceptedAnswer":{"@type":"Answer","text":"Open Analog Countdown, choose the 90m preset or set 01:30:00, press Start, then press Fullscreen to project it."}},
-        {"@type":"Question","name":"Will my timer keep running if I return to the home page?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each tool persists its state locally. Timers resume when you return."}},
-        {"@type":"Question","name":"Does Stoppclock work offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. It's a PWA. Once loaded, the app shell and tools work offline."}},
-        {"@type":"Question","name":"Is it beamer-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Fullscreen for a clean, high-contrast view for exams and seminars."}},
-        {"@type":"Question","name":"How precise are timers?","acceptedAnswer":{"@type":"Answer","text":"They use wall-clock deltas with ~60 FPS visuals to minimize drift."}},
-        {"@type":"Question","name":"Can I save common durations?","acceptedAnswer":{"@type":"Answer","text":"Last used settings and presets are kept locally on your device."}},
-        {"@type":"Question","name":"Can I share a timer with another device?","acceptedAnswer":{"@type":"Answer","text":"State is local per device. Share by projecting or mirroring your screen."}},
-        {"@type":"Question","name":"Is Stoppclock privacy-friendly?","acceptedAnswer":{"@type":"Answer","text":"Yes. No trackers by default. Ads optional with explicit consent."}}
-      ]
-    }
-    </script>
-
-    <!-- App Entry -->
-    <script type="module" src="/src/main.tsx"></script>
-
-  </body>
+</body>
 </html>
+
+How to run: open index.html in a browser.
+

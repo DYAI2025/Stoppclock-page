@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dusk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuissMe - Dein Astro-Profil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --panel: rgba(255, 255, 255, 0.05);
+            --text: #f2f3f5;
+            --muted: #a7abb3;
+            --indigo: #5b46ff;
+            --violet: #a78bfa;
+            --amber: #f59e0b;
+            --orange: #f97316;
+            --border: rgba(255, 255, 255, 0.1);
+            --font-serif: 'Fraunces', serif;
+            --font-sans: 'Sora', sans-serif;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 30% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+            color: var(--text);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+        
+        .astro-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .zodiac-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--amber), var(--orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.3);
+        }
+        
+        .zodiac-name {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .zodiac-date {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        
+        . astro-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        
+        .astro-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 20px 12px;
+        }
+        
+        .astro-item-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .astro-item-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+        
+        .astro-item-value {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .details-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: linear-gradient(135deg, var(--indigo), var(--violet));
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(91, 70, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dein Astro-Profil</h1>
+            <p>Basierend auf deinen Geburtsdaten</p>
+        </div>
+        
+        <div class="astro-card">
+            <div class="zodiac-icon">♊</div>
+            <div class="zodiac-name">Zwillinge</div>
+            <div class="zodiac-date">21. Mai – 21. Juni</div>
+            
+            <div class="astro-grid">
+                <div class="astro-item">
+                    <div class="astro-item-icon">☀️</div>
+                    <div class="astro-item-label">Sonne</div>
+                    <div class="astro-item-value">Zwillinge</div>
+                </div>
+                <div class="astro-item">
+                    <div class="astro-item-icon">🌙</div>
+                    <div class="astro-item-label">Mond</div>
+                    <div class="astro-item-value">Fische</div>
+                </div>
+                <div class="astro-item">
+                    <div class="astro-item-icon">⬆️</div>
+                    <div class="astro-item-label">Aszendent</div>
+                    <div class="astro-item-value">Skorpion</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="details-card">
+            <div class="detail-row">
+                <span class="detail-label">Geburtsdatum</span>
+                <span class="detail-value">15. Juni 1990</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Geburtszeit</span>
+                <span class="detail-value">14:30 Uhr</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Geburtsort</span>
+                <span class="detail-value">Berlin</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Element</span>
+                <span class="detail-value">Luft 🌬️</span>
+            </div>
+        </div>
+        
+        <button class="btn">Weiter zum Partner-Link ➝</button>
+    </div>
+</body>
+</html>
