@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { beep, flash } from "../utils";
 import { useKeyboardShortcuts } from "../hooks/useKeyboardShortcuts";
-import { useAutoFitText } from "../hooks/useAutoFitText";
+import { useAutoFitText } from "../hooks/useAutoFitText"; // Maybe not needed if we clamp fonts
 import { HomeButton } from "../components/HomeButton";
+import { SavePresetButton } from "../components/SavePresetButton";
+import { ShareButton } from "../components/ShareButton";
+import { AppHeader } from "../components/AppHeader";
+import { getPresetFromUrl } from "../utils/share";
+import { trackEvent } from "../utils/stats";
+import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
+// import { CountdownGuide } from '../components/CountdownGuide'; // Removing old guide
+import '../styles/countdown-focus.css';
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -33,7 +41,7 @@ function load(): Persist {
       running: !!p.running,
       endAt: p.endAt ?? null,
       warnAtMs: p.warnAtMs ?? 60_000,
-      signal: { sound: !!p.signal?.sound, flash: !!p.signal?.flash }
+      signal: { sound: !!p.signal?.sound, flash: !!p.signal?.flash },
     };
   } catch {
     return {
@@ -42,7 +50,7 @@ function load(): Persist {
       remainingMs: 300_000,
       running: false,
       endAt: null,
-      warnAtMs: 10_000, // 10 seconds warning (spec requirement)
+      warnAtMs: 10_000,
       signal: { sound: true, flash: true }
     };
   }
@@ -51,9 +59,7 @@ function load(): Persist {
 function save(p: Persist) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(p));
-  } catch {
-    // Silently fail
-  }
+  } catch { }
 }
 
 function useRaf(on: boolean, cb: () => void) {
@@ -75,32 +81,290 @@ function useRaf(on: boolean, cb: () => void) {
 }
 
 function fmt(ms: number): string {
-  const total = Math.max(0, Math.floor(ms / 1000));
+  const total = Math.max(0, Math.ceil(ms / 1000)); // Ceil to show "5:00" until 4:59.999
   const h = Math.floor(total / 3600);
   const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
+
+/* --- Components --- */
+
+const CountdownWorld = ({ onStart }: { onStart: (minutes: number) => void }) => {
+  return (
+    <div className="focus-world">
+      <header className="focus-hero">
+        <HomeButton />
+        <div className="focus-hero-content">
+          <span className="focus-tag">Shared Focus Frame</span>
+          <h1 className="focus-title">The Clear Frame</h1>
+          <p className="focus-subtitle">
+            “I am the frame everyone can see. A clear start and a clear end, so you can focus on the middle.”
+          </p>
+        </div>
+      </header>
+
+      <div className="focus-rituals-grid">
+        <div className="focus-ritual-card" onClick={() => onStart(10)}>
+          <span className="focus-ritual-time">10:00</span>
+          <h3 className="focus-ritual-title">Exercise Block</h3>
+          <p className="focus-ritual-desc">
+            Perfect for workshops. When the time is up, the group stops asking "How long left?".
+          </p>
+        </div>
+
+        <div className="focus-ritual-card" onClick={() => onStart(25)}>
+          <span className="focus-ritual-time">25:00</span>
+          <h3 className="focus-ritual-title">Silent Work Sprint</h3>
+          <p className="focus-ritual-desc">
+            Pick one outcome. Turn off notifications. Go deep until the bell rings.
+          </p>
+        </div>
+
+        <div className="focus-ritual-card" onClick={() => onStart(1)}>
+          <span className="focus-ritual-time">01:00</span>
+          <h3 className="focus-ritual-title">Gentle Closing</h3>
+          <p className="focus-ritual-desc">
+            Use the last minute solely to wrap up. One sentence, one next step.
+          </p>
+        </div>
+      </div>
+
+      <div className="focus-footer">
+        <p className="focus-footer-tip">
+          <strong>Tip for Facilitators:</strong> Timeboxing isn't about pressure. It's about safety.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const CountdownPlayer = ({
+  st,
+  onToggle,
+  onReset,
+  onAdjust,
+  onPreset,
+  onFullscreen,
+  onExit,
+  getCurrentConfig
+}: any) => {
+  // Circle calculation
+  const radius = 38; // Smaller to fit stopwatch lugs
+  const circumference = 2 * Math.PI * radius;
+  const progress = st.durationMs > 0 ? st.remainingMs / st.durationMs : 0;
+  const offset = circumference - (progress * circumference);
+  const isLastMinute = st.remainingMs > 0 && st.remainingMs <= 60000;
+  const isExpired = st.remainingMs === 0;
+
+  // Color logic
+  let strokeColor = "#4682B4"; // Steel Blue
+  if (isLastMinute) strokeColor = "#E67E22"; // Orange warning
+  if (st.remainingMs === 0) strokeColor = "#DC143C"; // Crimson expired
+
+  return (
+    <div className={`focus-player ${isLastMinute ? 'last-minute' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}>
+      <AppHeader
+        title="Countdown Timer"
+        breadcrumbs={[
+          { label: 'Home', href: '#/' },
+          { label: 'Countdown' }
+        ]}
+        actions={{
+          showShare: true,
+          onShare: () => {
+            const shareBtn = document.querySelector('.focus-action-row .btn-share') as HTMLButtonElement;
+            if (shareBtn) shareBtn.click();
+          },
+          showFullscreen: true,
+          onFullscreen,
+          showTheme: true,
+          showSettings: true,
+          showHome: true
+        }}
+        variant="timer"
+      />
+
+      <div className="focus-display-container">
+        <svg className="focus-ring-bg" viewBox="0 0 100 115" style={{ overflow: 'visible' }}>
+           <defs>
+              <filter id="dropshadow" x="-20%" y="-20%" width="140%" height="140%">
+                 <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#00000018" />
+              </filter>
+           </defs>
+
+           {/* Stopwatch Lugs/Buttons */}
+           <g transform="translate(50, 56)">
+              {/* Top Stem */}
+              <rect x="-3" y="-52" width="6" height="8" rx="1" fill="#FFFFFF" stroke="#D1E3F0" strokeWidth="2" />
+              {/* Top Pusher */}
+              <rect x="-8" y="-56" width="16" height="4" rx="1" fill="#FFFFFF" stroke="#D1E3F0" strokeWidth="2" />
+              {/* Angled Button */}
+              <g transform="rotate(45)">
+                 <rect x="-3" y="-51" width="6" height="6" rx="1" fill="#FFFFFF" stroke="#D1E3F0" strokeWidth="2" />
+                 <line x1="0" y1="-51" x2="0" y2="-45" stroke="#D1E3F0" strokeWidth="1" />
+              </g>
+           </g>
+
+          {/* Base Circle (Background) */}
+          <circle
+            cx="50" cy="56" r={radius}
+            fill="#FFFFFF" 
+            stroke="#E6F2FA" 
+            strokeWidth="3"
+            filter="url(#dropshadow)"
+          />
+
+          {/* Tick Marks */}
+          {Array.from({ length: 60 }).map((_, i) => {
+              const isHour = i % 5 === 0;
+              // Tick length
+              const len = isHour ? 3 : 1.5;
+              // Start distance from center
+              const rStart = radius - 6; 
+              return (
+                 <line 
+                   key={i}
+                    x1="50" y1={56 - rStart}
+                    x2="50" y2={56 - rStart + len}
+                    stroke={isHour ? "#94A3B8" : "#CBD5E1"} // Slate-400 : Slate-300
+                    strokeWidth={isHour ? 1.5 : 1}
+                    transform={`rotate(${i * 6} 50 56)`}
+                 />
+              );
+          })}
+
+          {/* Progress Ring (The Rim) */}
+          <circle
+            cx="50" cy="56" r={radius}
+            fill="none"
+            stroke={strokeColor}
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+            transform="rotate(-90 50 56)"
+            className="focus-ring-progress"
+            style={{ strokeDashoffset: offset }}
+          />
+        </svg>
+        <div className="focus-time-display">
+          {fmt(st.remainingMs)}
+        </div>
+      </div>
+
+      <div className="focus-controls">
+        <button className="focus-btn focus-btn-secondary" onClick={onReset}>Reset</button>
+        <button className="focus-btn focus-btn-primary" onClick={onToggle}>
+          {st.running ? 'Pause' : 'Start'}
+        </button>
+        <button className="focus-btn focus-btn-secondary" onClick={onFullscreen}>Focus</button>
+      </div>
+
+      <div className="focus-presets">
+        <button className="focus-preset-chip" onClick={() => onPreset(5)}>+5m</button>
+        <button className="focus-preset-chip" onClick={() => onPreset(10)}>+10m</button>
+        <button className="focus-preset-chip" onClick={() => onPreset(25)}>+25m</button>
+        <button className="focus-preset-chip" onClick={() => onAdjust(-60000)}>-1m</button>
+        <button className="focus-preset-chip" onClick={() => onAdjust(60000)}>+1m</button>
+      </div>
+
+      <div className="focus-action-row" style={{ display: 'none' }}>
+        <SavePresetButton
+          timerType="countdown"
+          getCurrentConfig={getCurrentConfig}
+          className="focus-btn-secondary"
+        />
+        <ShareButton
+          timerType="countdown"
+          getCurrentConfig={getCurrentConfig}
+          className="focus-btn-secondary"
+        />
+      </div>
+
+      <DidYouKnowSnippet timerSlug="countdown" className="mt-8" />
+    </div>
+  );
+}
+
+/* --- Main Logic --- */
 
 export default function Countdown() {
   const [st, setSt] = useState<Persist>(load);
+  const [mode, setMode] = useState<'world' | 'player'>('player'); // Start directly in player mode
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [textRef, autoFontSize] = useAutoFitText(fmt(st.remainingMs), 8, 1.5);
   const lastSecondRef = useRef<number>(-1);
+  const [urlChecked, setUrlChecked] = useState(false);
+
+  // URL Params handling
+  useEffect(() => {
+    if (urlChecked) return;
+
+    // Check for shared preset
+    const sharedPreset = getPresetFromUrl();
+    if (sharedPreset && sharedPreset.type === 'countdown') {
+      const config = sharedPreset.config;
+      const durationMs = config.durationMs || 300000;
+      setSt(s => ({
+        ...s,
+        durationMs,
+        remainingMs: durationMs,
+        running: false,
+        endAt: null,
+        warnAtMs: config.warnAtMs || 10000
+      }));
+      setMode('player');
+      setUrlChecked(true);
+      return;
+    }
+
+    // Legacy URL params support
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('duration')) {
+      const durationSeconds = parseInt(params.get('duration') || '0', 10);
+      const durationMs = clamp(durationSeconds * 1000, 1000, MAX);
+      setSt(s => ({
+        ...s,
+        durationMs,
+        remainingMs: durationMs,
+        running: false,
+        endAt: null,
+      }));
+      setMode('player');
+
+      if (params.get('autostart') === '1') {
+        setTimeout(() => {
+          setSt((s) => ({
+            ...s,
+            running: true,
+            endAt: Date.now() + durationMs,
+          }));
+        }, 100);
+      }
+    }
+    setUrlChecked(true);
+  }, [urlChecked]);
 
   const sync = useCallback(() => {
     if (!st.running || !st.endAt) return;
     const now = Date.now();
     const rem = Math.max(0, st.endAt - now);
 
-    // Only update on second change to prevent flickering
-    const currentSeconds = Math.floor(st.remainingMs / 1000);
-    const newSeconds = Math.floor(rem / 1000);
+    // Sync UI
+    // To update circle smoothly, we might want fewer updates? 
+    // No, Raf is fine.
 
-    if (newSeconds !== currentSeconds) {
-      setSt(s => ({ ...s, remainingMs: rem }));
-    }
-  }, [st.running, st.endAt, st.remainingMs]);
+    // Only update state if second changes OR if very close to end (for smooth ring)? 
+    // Actually for React rendering perf, maybe throttle?
+    // But we need smooth ring.
+    // Let's just update `remainingMs`.
+
+    setSt(s => ({ ...s, remainingMs: rem }));
+
+  }, [st.running, st.endAt]);
 
   useRaf(st.running, sync);
 
@@ -110,159 +374,114 @@ export default function Countdown() {
   }, [st]);
 
   useEffect(() => {
-    // Last 10 seconds: tick every second (10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-    const secondsRemaining = Math.floor(st.remainingMs / 1000);
-    if (st.running && secondsRemaining >= 1 && secondsRemaining <= 10) {
-      // Only beep when we cross into a new second
+    // Ticks and Alarms
+    const secondsRemaining = Math.max(0, Math.ceil(st.remainingMs / 1000));
+
+    if (st.running && st.remainingMs > 0 && st.remainingMs <= 10000) {
+      // Last 10 seconds tick
       if (secondsRemaining !== lastSecondRef.current) {
         lastSecondRef.current = secondsRemaining;
-        if (st.signal.flash) flash(wrapRef.current, 250);
-        if (st.signal.sound) {
-          // Higher pitch as we get closer to zero (more urgent)
-          const pitch = 800 + (11 - secondsRemaining) * 50; // 850Hz at 10s, 1300Hz at 1s
-          beep(80, pitch); // Short 80ms tick
-        }
+        if (st.signal.sound) beep(50, 800 + (11 - secondsRemaining) * 50);
       }
     }
 
-    // Finish: loud alarm with ADSR envelope (multiple beeps)
     if (st.running && st.remainingMs <= 0) {
-      lastSecondRef.current = -1; // Reset for next countdown
+      // Finished
       setSt(s => ({ ...s, running: false, endAt: null, remainingMs: 0 }));
-      if (st.signal.flash) flash(wrapRef.current, 900);
+
+      // Track completion
+      trackEvent('countdown', 'complete', st.durationMs);
+
       if (st.signal.sound) {
-        // Alarm bimmeln - multiple beeps with ADSR envelope
-        beep(300, 880);  // First beep (300ms)
-        setTimeout(() => beep(300, 880), 350);  // Second beep
-        setTimeout(() => beep(300, 880), 700);  // Third beep
-        setTimeout(() => beep(500, 660), 1050); // Final longer lower beep (500ms)
+        // ADSR Alarm
+        beep(300, 880);
+        setTimeout(() => beep(300, 880), 350);
+        setTimeout(() => beep(500, 660), 750);
       }
     }
   }, [st.remainingMs, st.running, st.signal]);
 
-  const start = useCallback(() => {
-    if (st.remainingMs <= 0) {
-      setSt(s => ({ ...s, remainingMs: s.durationMs, running: true, endAt: Date.now() + s.durationMs }));
-    } else {
-      setSt(s => ({ ...s, running: true, endAt: Date.now() + s.remainingMs }));
-    }
-  }, [st.remainingMs, st.durationMs]);
+  /* Actions */
+  const toggle = useCallback(() => {
+    setSt(s => {
+      if (s.running) {
+        return { ...s, running: false, endAt: null };
+      } else {
+        const target = s.remainingMs > 0 ? s.remainingMs : s.durationMs;
 
-  const pause = useCallback(() => setSt(s => ({ ...s, running: false, endAt: null })), []);
-  const reset = useCallback(() => setSt(s => ({ ...s, running: false, endAt: null, remainingMs: s.durationMs })), []);
+        // Track timer start
+        trackEvent('countdown', 'start');
 
-  const plus = useCallback((ms: number) => setSt(s => {
-    const base = s.running ? Math.max(0, (s.endAt ?? Date.now()) - Date.now()) : s.remainingMs;
-    const next = clamp(base + ms, 0, MAX);
-    return s.running ? { ...s, remainingMs: next, endAt: Date.now() + next } : { ...s, durationMs: next, remainingMs: next };
-  }), []);
-
-  const full = useCallback(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => { });
-    } else {
-      el.requestFullscreen?.().catch(() => { });
-    }
+        return { ...s, running: true, endAt: Date.now() + target, remainingMs: target };
+      }
+    });
   }, []);
 
-  // Use centralized keyboard shortcuts hook
-  useKeyboardShortcuts({
-    onSpace: () => st.running ? pause() : start(),
-    onReset: reset,
-    onFullscreen: full,
-  }, true);
+  const reset = useCallback(() => {
+    setSt(s => ({ ...s, running: false, endAt: null, remainingMs: s.durationMs }));
+  }, []);
 
-  // Arrow keys for time adjustment (only when paused)
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      // Don't intercept if user is typing in input fields
-      const target = e.target as HTMLElement;
-      if (
-        target instanceof HTMLInputElement ||
-        target instanceof HTMLTextAreaElement ||
-        target.isContentEditable
-      ) {
-        return;
+  const adjust = useCallback((deltaMs: number) => {
+    setSt(s => {
+      const base = s.remainingMs; // Always adjust remaining
+      const next = clamp(base + deltaMs, 0, MAX);
+      if (s.running) {
+        return { ...s, remainingMs: next, endAt: Date.now() + next, durationMs: s.durationMs + deltaMs };
       }
+      return { ...s, remainingMs: next, durationMs: next }; // If paused, duration tracks remaining (simple mode)
+    });
+  }, []);
 
-      // Arrow keys only work when timer is NOT running (paused)
-      if (e.key === "ArrowUp" && !st.running) {
-        e.preventDefault();
-        plus(10_000);
-      } else if (e.key === "ArrowDown" && !st.running) {
-        e.preventDefault();
-        plus(-10_000);
-      }
+  const setPreset = useCallback((minutes: number) => {
+    const ms = minutes * 60000;
+    setSt(s => ({ ...s, durationMs: ms, remainingMs: ms, running: false, endAt: null }));
+    setMode('player');
+  }, []);
+
+  const fullscreen = useCallback(() => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => { });
+    else document.documentElement.requestFullscreen().catch(() => { });
+  }, []);
+
+  const getCurrentConfig = useCallback(() => {
+    // Convert durationMs to hours, minutes, seconds for preset config
+    const totalSeconds = Math.floor(st.durationMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return {
+      durationMs: st.durationMs,
+      hours,
+      minutes,
+      seconds,
+      warnAtMs: st.warnAtMs
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [st.running, plus]);
+  }, [st.durationMs, st.warnAtMs]);
+
+  /* Keyboard */
+  useKeyboardShortcuts({
+    onSpace: toggle,
+    onReset: reset,
+    onFullscreen: fullscreen,
+  }, mode === 'player');
 
   return (
-    <div className="countdown-page" ref={wrapRef}>
-      {/* Header */}
-      <header className="countdown-header">
-        <h1 className="countdown-title">Countdown</h1>
-        <HomeButton />
-      </header>
-
-      {/* Timer Display */}
-      <div
-        className={`countdown-display ${st.running ? 'running' : ''} ${st.remainingMs === 0 ? 'expired' : ''}`}
-      >
-        <div ref={textRef} style={{ fontSize: `${autoFontSize}rem` }}>
-          {fmt(st.remainingMs)}
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="countdown-controls">
-        {!st.running ? (
-          <button type="button" className="countdown-btn" onClick={start}>
-            Start
-          </button>
-        ) : (
-          <button type="button" className="countdown-btn" onClick={pause}>
-            Pause
-          </button>
-        )}
-        <button type="button" className="countdown-btn secondary" onClick={reset}>
-          Reset
-        </button>
-        <button type="button" className="countdown-btn secondary" onClick={full}>
-          Fullscreen
-        </button>
-      </div>
-
-      {/* Presets */}
-      <div className="countdown-presets">
-        <button type="button" className="countdown-preset" onClick={() => plus(60_000)}>+1m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(300_000)}>+5m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(600_000)}>+10m</button>
-        <button type="button" className="countdown-preset" onClick={() => plus(-60_000)}>-1m</button>
-      </div>
-
-      {/* Settings */}
-      <div className="countdown-settings">
-        <label>
-          <input
-            type="checkbox"
-            checked={st.signal.sound}
-            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, sound: e.target.checked } }))}
-          />
-          Sound
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={st.signal.flash}
-            onChange={(e) => setSt(s => ({ ...s, signal: { ...s.signal, flash: e.target.checked } }))}
-          />
-          Flash
-        </label>
-      </div>
+    <div className="countdown-theme-wrapper">
+      {mode === 'world' ? (
+        <CountdownWorld onStart={setPreset} />
+      ) : (
+        <CountdownPlayer
+          st={st}
+          onToggle={toggle}
+          onReset={reset}
+          onAdjust={adjust}
+          onPreset={setPreset}
+          onFullscreen={fullscreen}
+          onExit={() => setMode('world')}
+          getCurrentConfig={getCurrentConfig}
+        />
+      )}
     </div>
   );
 }

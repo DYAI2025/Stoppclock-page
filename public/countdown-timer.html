@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Countdown Timer - Stoppclock | Kostenloser Online Timer bis 12 Stunden</title>
+  <meta name="description" content="Kostenloser Countdown Timer bis 12 Stunden. Ideal für Prüfungen, Präsentationen und Meetings. Vollbild-Modus, Tastatur-Shortcuts, offline-fähig. Keine Registrierung erforderlich.">
+  <meta name="keywords" content="countdown timer, online timer, prüfungstimer, präsentationstimer, kostenlos, countdown, timer deutsch, classroom timer">
+  <link rel="canonical" href="https://www.stoppclock.com/countdown-timer">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Countdown Timer - Stoppclock">
+  <meta property="og:description" content="Kostenloser Countdown Timer bis 12 Stunden für Prüfungen und Präsentationen">
+  <meta property="og:url" content="https://www.stoppclock.com/countdown-timer">
+  <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Countdown Timer - Stoppclock">
+  <meta name="twitter:description" content="Kostenloser Countdown Timer bis 12 Stunden">
+  <meta name="twitter:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Wie nutze ich den Countdown Timer?",
+    "description": "Anleitung zur Nutzung des Stoppclock Countdown Timers für Prüfungen, Präsentationen und Meetings",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Timer öffnen",
+        "text": "Klicken Sie auf 'Timer starten' um zum Countdown zu gelangen"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Zeit einstellen",
+        "text": "Geben Sie Stunden, Minuten und Sekunden ein (bis zu 12 Stunden)"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Timer starten",
+        "text": "Drücken Sie die Leertaste oder klicken Sie auf Start"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Vollbild aktivieren",
+        "text": "Drücken Sie F für Vollbild-Modus (ideal für Projektoren)"
+      }
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wie lange kann der Countdown Timer laufen?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Der Countdown Timer kann bis zu 12 Stunden (12:00:00) laufen. Das reicht für die längsten Prüfungen, Workshops und Veranstaltungen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Funktioniert der Timer offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, Stoppclock ist eine Progressive Web App (PWA). Nach dem ersten Laden funktioniert der Timer auch komplett ohne Internetverbindung."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Welche Tastatur-Shortcuts gibt es?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Leertaste = Start/Pause, R = Reset, F = Vollbild, ESC = Vollbild beenden"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ist der Timer kostenlos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, Stoppclock ist komplett kostenlos nutzbar. Keine versteckten Kosten, keine Registrierung erforderlich."
+        }
+      }
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.stoppclock.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Countdown Timer",
+        "item": "https://www.stoppclock.com/countdown-timer"
+      }
+    ]
+  }
+  </script>
+  
+  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8f9fa;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 16px;
+      margin-bottom: 60px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .hero p {
+      font-size: 1.4rem;
+      margin-bottom: 40px;
+      opacity: 0.95;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 18px 48px;
+      background: white;
+      color: #667eea;
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .section {
+      margin-bottom: 60px;
+    }
+    .section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      color: #2c3e50;
+      text-align: center;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    .feature {
+      padding: 35px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    .feature h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    .feature p {
+      color: #666;
+      line-height: 1.7;
+    }
+    .use-cases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .use-case {
+      padding: 25px;
+      background: white;
+      border-left: 4px solid #667eea;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .use-case h3 {
+      color: #2c3e50;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .use-case p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+    .how-to {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .how-to h2 {
+      text-align: left;
+      margin-bottom: 25px;
+    }
+    .how-to ol {
+      padding-left: 25px;
+    }
+    .how-to li {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    .how-to strong {
+      color: #667eea;
+    }
+    .faq {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .faq h2 {
+      text-align: left;
+      margin-bottom: 30px;
+    }
+    .faq-item {
+      margin-bottom: 30px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    .faq-item h3 {
+      color: #667eea;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .faq-item p {
+      color: #555;
+      line-height: 1.7;
+    }
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      margin-top: 60px;
+    }
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      .section h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>⏱️ Countdown Timer</h1>
+      <p>Kostenloser Online Timer bis 12 Stunden<br>Perfekt für Prüfungen, Präsentationen und Meetings</p>
+      <a href="/#/countdown" class="cta-button">Timer jetzt starten →</a>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="section">
+      <h2>Funktionen des Countdown Timers</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>🎯 Bis zu 12 Stunden</h3>
+          <p>Stellen Sie präzise Countdowns von wenigen Sekunden bis zu 12 Stunden ein. Ideal für lange Prüfungen, Workshops und Veranstaltungen.</p>
+        </div>
+        <div class="feature">
+          <h3>📺 Projektor-freundlich</h3>
+          <p>Vollbild-Modus mit hohem Kontrast. Perfekt lesbar auch aus großer Entfernung im Klassenzimmer oder Hörsaal.</p>
+        </div>
+        <div class="feature">
+          <h3>⌨️ Tastatur-Shortcuts</h3>
+          <p>Schnelle Bedienung während Präsentationen: Leertaste (Start/Pause), R (Reset), F (Vollbild).</p>
+        </div>
+        <div class="feature">
+          <h3>🔒 Datenschutz-freundlich</h3>
+          <p>Keine Registrierung erforderlich. Alle Daten bleiben lokal auf Ihrem Gerät. DSGVO-konform.</p>
+        </div>
+        <div class="feature">
+          <h3>📱 Offline-fähig</h3>
+          <p>Als Progressive Web App funktioniert der Timer auch ohne Internetverbindung. Einmal laden, überall nutzen.</p>
+        </div>
+        <div class="feature">
+          <h3>🔔 Akustische Warnung</h3>
+          <p>Optionale Ton- und Blitz-Warnung bei Ablauf. Lautstärke anpassbar für verschiedene Umgebungen.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Use Cases Section -->
+    <section class="section">
+      <h2>Perfekt für diese Situationen</h2>
+      <div class="use-cases">
+        <div class="use-case">
+          <h3>📝 Prüfungen</h3>
+          <p>90-Minuten-Klausuren, 45-Minuten-Tests oder individuelle Prüfungszeiten. Große, gut lesbare Anzeige für alle Teilnehmer.</p>
+        </div>
+        <div class="use-case">
+          <h3>🎤 Präsentationen</h3>
+          <p>Halten Sie Ihre Vortragszeit ein. Diskrete Warnung 5 Minuten vor Ende. Vollbild-Modus für Moderatoren.</p>
+        </div>
+        <div class="use-case">
+          <h3>👥 Meetings</h3>
+          <p>Timeboxing für Besprechungen. 15-Minuten-Slots für Standup-Meetings oder längere Workshop-Sessions.</p>
+        </div>
+        <div class="use-case">
+          <h3>🏫 Unterricht</h3>
+          <p>Gruppenarbeits-Phasen, Stillarbeit oder Übungszeiten. Schüler sehen die verbleibende Zeit auf dem Projektor.</p>
+        </div>
+        <div class="use-case">
+          <h3>🎯 Workshops</h3>
+          <p>Strukturieren Sie Ihre Trainings mit klaren Zeitvorgaben. Teilnehmer wissen immer, wie viel Zeit bleibt.</p>
+        </div>
+        <div class="use-case">
+          <h3>🏃 Sport & Fitness</h3>
+          <p>Intervall-Training, Tabata-Sessions oder einfache Workout-Timer. Große Anzeige auch aus der Distanz lesbar.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- How To Section -->
+    <section class="section">
+      <div class="how-to">
+        <h2>So nutzen Sie den Countdown Timer</h2>
+        <ol>
+          <li><strong>Timer öffnen:</strong> Klicken Sie oben auf "Timer jetzt starten" oder navigieren Sie zu Stoppclock.com</li>
+          <li><strong>Zeit einstellen:</strong> Geben Sie Stunden, Minuten und Sekunden in die Eingabefelder ein (max. 12:00:00)</li>
+          <li><strong>Start:</strong> Drücken Sie die Leertaste oder klicken Sie auf den Start-Button</li>
+          <li><strong>Vollbild:</strong> Drücken Sie F für Vollbild-Modus (ideal für Projektoren und große Bildschirme)</li>
+          <li><strong>Pause/Reset:</strong> Leertaste für Pause, R-Taste für Reset</li>
+        </ol>
+      </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="section">
+      <div class="faq">
+        <h2>Häufig gestellte Fragen</h2>
+        
+        <div class="faq-item">
+          <h3>Wie lange kann der Countdown Timer maximal laufen?</h3>
+          <p>Der Timer kann bis zu 12 Stunden (12:00:00) laufen. Das reicht für die längsten Prüfungen, Workshops und Veranstaltungen. Sie können Stunden, Minuten und Sekunden individuell einstellen.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Funktioniert der Timer auch offline?</h3>
+          <p>Ja! Stoppclock ist eine Progressive Web App (PWA). Nach dem ersten Laden funktioniert der Timer auch komplett ohne Internetverbindung. Perfekt für Prüfungssituationen ohne WLAN.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Welche Tastatur-Shortcuts gibt es?</h3>
+          <p>Die wichtigsten Shortcuts: <strong>Leertaste</strong> = Start/Pause, <strong>R</strong> = Reset, <strong>F</strong> = Vollbild aktivieren, <strong>ESC</strong> = Vollbild beenden. So können Sie den Timer während einer Präsentation schnell steuern.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Kann ich den Timer auf meinem Smartphone nutzen?</h3>
+          <p>Absolut! Der Timer ist vollständig responsive und funktioniert auf allen Geräten - Smartphone, Tablet, Laptop und Desktop. Sie können die App auch auf Ihrem Home-Bildschirm installieren.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Ist der Timer wirklich kostenlos?</h3>
+          <p>Ja, Stoppclock ist komplett kostenlos nutzbar. Keine versteckten Kosten, keine Registrierung erforderlich. Optional können Sie Werbung aktivieren, um das Projekt zu unterstützen.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Wie genau ist der Timer?</h3>
+          <p>Der Timer nutzt hochpräzise Zeitstempel und wird mit 60 FPS aktualisiert. Die Genauigkeit liegt im Millisekundenbereich - mehr als ausreichend für alle praktischen Anwendungen.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Kann ich mehrere Timer gleichzeitig laufen lassen?</h3>
+          <p>Ja! Öffnen Sie einfach mehrere Browser-Tabs. Jeder Tab kann einen eigenen Timer laufen lassen. Der Status wird automatisch gespeichert und bleibt auch nach dem Schließen des Browsers erhalten.</p>
+        </div>
+        
+        <div class="faq-item">
+          <h3>Gibt es eine Warnung kurz vor Ablauf?</h3>
+          <p>Ja, Sie können akustische und visuelle Warnungen konfigurieren. Standard ist eine Warnung bei 5 Minuten und 1 Minute verbleibend. Die Lautstärke können Sie individuell anpassen.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="hero" style="margin-top: 60px;">
+      <h2>Bereit loszulegen?</h2>
+      <p>Starten Sie jetzt Ihren kostenlosen Countdown Timer</p>
+      <a href="/#/countdown" class="cta-button">Timer starten →</a>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+      <p><a href="/">← Zurück zur Startseite</a> | <a href="/impressum.html">Impressum</a> | <a href="/datenschutz.html">Datenschutz</a></p>
+      <p style="margin-top: 20px;">© 2025 Stoppclock - Powered by DYAI</p>
+    </footer>
+  </div>
+</body>
+</html>

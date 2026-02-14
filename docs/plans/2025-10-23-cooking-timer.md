@@ -4,7 +4,7 @@
 
 **Goal:** Replace Cycle Timer with a multi-timer Cooking Timer page that supports up to 10 simultaneous timers with presets, colors, and smart alarm behavior.
 
-**Architecture:** React component with multiple independent countdown timers, auto-rotation color palette, localStorage persistence, dynamic sorting by remaining time, 60-second alarm with visual pulsing fallback, and preset quick-start buttons.
+**Architecture:** React component with multiple independent countdown timers, auto-rotation color palette, localStorage persistence, dynamic sorting by remaining time, 60-second alarm with visual p[...]
 
 **Tech Stack:** React 18, TypeScript, Web Audio API, localStorage, CSS variables for soft color palette
 
@@ -173,8 +173,7 @@ git mv src/pages/CycleTimer.tsx src/pages/CookingTimer.tsx
 
 **Step 2: Write the Cooking Timer component**
 
-Replace contents of `src/pages/CookingTimer.tsx`:
-
+{% raw %}
 ```typescript
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HomeButton } from '../components/HomeButton';
@@ -573,6 +572,7 @@ export default function CookingTimer() {
   );
 }
 ```
+{% endraw %}
 
 **Step 3: Verify build**
 
@@ -1000,106 +1000,4 @@ Replace with:
 - `#/cycle` → Cooking Timer (multi-timer kitchen page)
 ```
 
-**Step 2: Update timer types section**
-
-Find the line mentioning CycleTimerState (if it exists) and replace with:
-```markdown
-- `CookingTimerState` → Cooking Timer (includes multiple simultaneous timers with presets)
-```
-
-**Step 3: Commit documentation**
-
-```bash
-git add CLAUDE.md
-git commit -m "docs: update routing and types to reflect Cooking Timer"
-```
-
 ---
-
-## Task 7: Final Build and Verification
-
-**Files:**
-- None (verification only)
-
-**Step 1: Clean build**
-
-Run: `npm run build`
-Expected: Build succeeds with no warnings or errors
-
-**Step 2: Verify bundle sizes**
-
-Check console output:
-- CSS bundle should be < 65KB
-- JS bundle should be < 220KB
-
-**Step 3: Test in browser**
-
-Run: `npm run dev`
-Navigate to: `http://localhost:5173/#/cycle`
-
-**Verify:**
-1. Preset buttons create timers with correct default times
-2. Colors auto-rotate across new timers
-3. Timer countdown works when started
-4. Progress bar animates
-5. Alarm triggers at 0:00 with audio for 60s
-6. Extension buttons (+1, +2, +5) stop alarm and restart timer
-7. Stop Alarm button dismisses alarm
-8. Timers sort by remaining time (soonest first)
-9. Page refresh preserves stopped timers
-
-**Step 4: Final commit if needed**
-
-If fixes were needed:
-```bash
-git add .
-git commit -m "fix(cooking): final verification fixes"
-```
-
----
-
-## Complete Implementation Checklist
-
-- [ ] Task 1: TypeScript types defined
-- [ ] Task 2: Preset configuration created
-- [ ] Task 3: Cooking Timer page component
-- [ ] Task 4: CSS styling
-- [ ] Task 5: Routing updated
-- [ ] Task 6: Documentation updated
-- [ ] Task 7: Production build verified
-
----
-
-## Notes for Engineer
-
-**Color Auto-Rotation:**
-- `nextColorIndex` tracks which color to use next (0-9)
-- Wraps around using modulo for infinite rotation
-- User could manually override colors in future enhancement
-
-**Alarm Design:**
-- 60-second audio limit prevents annoyance
-- Visual pulsing continues indefinitely until dismissed
-- Extension immediately stops alarm and starts new countdown
-
-**Sorting Logic:**
-- Alarming timers always first (most urgent)
-- Running timers next, sorted by soonest completion
-- Stopped timers last, maintain original order
-
-**State Management:**
-- `startedAt` tracks when timer was started
-- Calculate current remaining: `remainingMs - (now - startedAt)`
-- On pause: update `remainingMs` to current remaining, clear `startedAt`
-
-**Performance:**
-- Only one requestAnimationFrame loop for all running timers
-- Audio context shared across all alarming timers
-- No excessive re-renders (useCallback, stable state updates)
-
-**Future Enhancements (Not in MVP):**
-- Custom time input for "Custom" preset
-- Color picker for manual color override
-- Timer templates/favorites
-- Sound selection
-- Notification API integration

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>25 Minuten Timer - Pomodoro Countdown | Stoppclock</title>
+  <meta name="description" content="Kostenloser 25-Minuten-Timer für die Pomodoro-Technik. Steigern Sie Ihre Produktivität mit fokussierten Arbeitsblöcken. Ideal für Studium, Arbeit und konzentriertes Lernen.">
+  <meta name="keywords" content="25 minuten timer, pomodoro timer, produktivität timer, fokus timer, arbeitsblock timer, 25 min countdown">
+  <link rel="canonical" href="https://www.stoppclock.com/25-minuten-timer">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="25 Minuten Timer - Pomodoro Countdown">
+  <meta property="og:description" content="Kostenloser 25-Minuten-Timer für die Pomodoro-Technik und produktives Arbeiten">
+  <meta property="og:url" content="https://www.stoppclock.com/25-minuten-timer">
+  <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="25 Minuten Timer - Pomodoro Countdown">
+  <meta name="twitter:description" content="Kostenloser 25-Minuten-Timer für die Pomodoro-Technik">
+  <meta name="twitter:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Pomodoro-Technik mit 25-Minuten-Timer",
+    "description": "So nutzen Sie den 25-Minuten-Timer für die Pomodoro-Technik",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Timer starten",
+        "text": "Klicken Sie auf '25-Minuten-Timer starten' für einen vorkonfigurierten Pomodoro"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Fokussiert arbeiten",
+        "text": "Arbeiten Sie 25 Minuten konzentriert an einer Aufgabe ohne Unterbrechungen"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Pause machen",
+        "text": "Nach Ablauf: 5 Minuten Pause. Nach 4 Pomodoros: 15-30 Minuten lange Pause"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Wiederholen",
+        "text": "Wiederholen Sie den Zyklus für maximale Produktivität"
+      }
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Was ist die Pomodoro-Technik?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Die Pomodoro-Technik ist eine Zeitmanagement-Methode: 25 Minuten fokussierte Arbeit, gefolgt von 5 Minuten Pause. Nach 4 Pomodoros folgt eine längere Pause von 15-30 Minuten. Diese Methode steigert Produktivität und verhindert Burnout."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Warum genau 25 Minuten?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "25 Minuten sind optimal für konzentrierte Arbeit: Lang genug für echten Fortschritt, kurz genug um Fokus zu halten. Diese Dauer wurde durch Francesco Cirillo entwickelt und hat sich in der Praxis bewährt."
+        }
+      }
+    ]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.stoppclock.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "25 Minuten Timer",
+        "item": "https://www.stoppclock.com/25-minuten-timer"
+      }
+    ]
+  }
+  </script>
+  
+  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8f9fa;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-radius: 16px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 35px;
+      opacity: 0.95;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 20px 50px;
+      background: white;
+      color: #10b981;
+      font-size: 1.4rem;
+      font-weight: 600;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .section {
+      margin-bottom: 50px;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+    .pomodoro-cycle {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .cycle-step {
+      padding: 25px;
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      border-radius: 8px;
+    }
+    .cycle-step h3 {
+      color: #10b981;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .use-cases {
+      list-style: none;
+      padding: 0;
+    }
+    .use-cases li {
+      padding: 15px 20px;
+      margin-bottom: 12px;
+      background: #f8f9fa;
+      border-left: 4px solid #10b981;
+      border-radius: 6px;
+      font-size: 1.05rem;
+    }
+    .use-cases li strong {
+      color: #10b981;
+    }
+    .faq-item {
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    .faq-item h3 {
+      color: #10b981;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .faq-item p {
+      color: #555;
+      line-height: 1.7;
+    }
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 25px 0;
+    }
+    .benefit {
+      padding: 20px;
+      background: #f0fdf4;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .benefit h3 {
+      color: #10b981;
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #666;
+      margin-top: 50px;
+    }
+    footer a {
+      color: #10b981;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>🍅 25 Minuten Timer</h1>
+      <p>Perfekt für die Pomodoro-Technik<br>Steigern Sie Ihre Produktivität mit fokussierten Arbeitsblöcken</p>
+      <a href="/#/countdown?duration=1500" class="cta-button">25-Minuten-Timer starten →</a>
+    </section>
+    
+    <!-- Pomodoro Technique Section -->
+    <section class="section">
+      <h2>Was ist die Pomodoro-Technik?</h2>
+      <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">
+        Die Pomodoro-Technik ist eine bewährte Zeitmanagement-Methode, entwickelt von Francesco Cirillo in den 1980er Jahren. 
+        Der Name stammt von der tomatenförmigen Küchenuhr (italienisch: pomodoro), die Cirillo während seines Studiums nutzte.
+      </p>
+      
+      <h3 style="color: #10b981; margin-bottom: 20px;">Der Pomodoro-Zyklus:</h3>
+      <div class="pomodoro-cycle">
+        <div class="cycle-step">
+          <h3>1️⃣ Arbeiten</h3>
+          <p>25 Minuten fokussierte Arbeit an einer Aufgabe</p>
+        </div>
+        <div class="cycle-step">
+          <h3>2️⃣ Kurze Pause</h3>
+          <p>5 Minuten Pause zur Erholung</p>
+        </div>
+        <div class="cycle-step">
+          <h3>3️⃣ Wiederholen</h3>
+          <p>3x wiederholen (insgesamt 4 Pomodoros)</p>
+        </div>
+        <div class="cycle-step">
+          <h3>4️⃣ Lange Pause</h3>
+          <p>15-30 Minuten Pause nach 4 Pomodoros</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Benefits Section -->
+    <section class="section">
+      <h2>Vorteile der Pomodoro-Technik</h2>
+      <div class="benefits">
+        <div class="benefit">
+          <h3>🎯 Besserer Fokus</h3>
+          <p>25 Minuten sind überschaubar - Sie bleiben konzentriert ohne Ablenkung</p>
+        </div>
+        <div class="benefit">
+          <h3>⚡ Höhere Produktivität</h3>
+          <p>Regelmäßige Pausen verhindern Ermüdung und halten Sie leistungsfähig</p>
+        </div>
+        <div class="benefit">
+          <h3>📊 Messbare Fortschritte</h3>
+          <p>Zählen Sie Ihre Pomodoros - sehen Sie, wie viel Sie schaffen</p>
+        </div>
+        <div class="benefit">
+          <h3>🚫 Weniger Prokrastination</h3>
+          <p>Nur 25 Minuten - der Einstieg fällt leichter</p>
+        </div>
+        <div class="benefit">
+          <h3>🧠 Bessere Work-Life-Balance</h3>
+          <p>Strukturierte Pausen schützen vor Burnout</p>
+        </div>
+        <div class="benefit">
+          <h3>⏱️ Zeitbewusstsein</h3>
+          <p>Sie entwickeln ein besseres Gefühl für Zeitaufwände</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Use Cases Section -->
+    <section class="section">
+      <h2>Perfekt für diese Situationen</h2>
+      <ul class="use-cases">
+        <li><strong>📚 Studium & Lernen:</strong> Konzentriertes Lernen für Prüfungen und Hausarbeiten</li>
+        <li><strong>💻 Programmieren:</strong> Fokussierte Coding-Sessions ohne Ablenkung</li>
+        <li><strong>✍️ Schreiben:</strong> Texte, Artikel, Berichte oder kreatives Schreiben</li>
+        <li><strong>📊 Datenanalyse:</strong> Komplexe Aufgaben in überschaubare Blöcke teilen</li>
+        <li><strong>🎨 Kreativarbeit:</strong> Design, Illustration oder andere kreative Projekte</li>
+        <li><strong>📧 E-Mails:</strong> Batch-Processing von E-Mails in festen Zeitblöcken</li>
+        <li><strong>🏠 Hausarbeit:</strong> Aufräumen, Putzen oder Organisieren in Etappen</li>
+        <li><strong>🎯 Projektarbeit:</strong> Große Projekte in kleine, machbare Schritte unterteilen</li>
+      </ul>
+    </section>
+    
+    <!-- Instructions Section -->
+    <section class="section">
+      <h2>So nutzen Sie den 25-Minuten-Timer optimal</h2>
+      <ol style="padding-left: 25px; font-size: 1.05rem; line-height: 1.8;">
+        <li><strong>Aufgabe wählen:</strong> Entscheiden Sie sich für EINE konkrete Aufgabe</li>
+        <li><strong>Timer starten:</strong> Klicken Sie auf "25-Minuten-Timer starten"</li>
+        <li><strong>Fokussiert arbeiten:</strong> Arbeiten Sie ohne Unterbrechungen an dieser Aufgabe</li>
+        <li><strong>Keine Ablenkungen:</strong> Handy stumm, E-Mails geschlossen, voller Fokus</li>
+        <li><strong>Bei Ablauf:</strong> Machen Sie 5 Minuten Pause (aufstehen, dehnen, Wasser trinken)</li>
+        <li><strong>Wiederholen:</strong> Starten Sie den nächsten Pomodoro</li>
+        <li><strong>Nach 4 Pomodoros:</strong> Machen Sie eine längere Pause (15-30 Minuten)</li>
+      </ol>
+      <p style="margin-top: 25px; padding: 20px; background: #f0fdf4; border-left: 4px solid #10b981; border-radius: 6px;">
+        <strong>💡 Pro-Tipp:</strong> Nutzen Sie unseren <a href="/pomodoro-timer.html" style="color: #10b981; font-weight: 600;">vollständigen Pomodoro-Timer</a> 
+        mit integriertem Kanban-Board für noch besseres Aufgabenmanagement!
+      </p>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="section">
+      <h2>Häufig gestellte Fragen</h2>
+      
+      <div class="faq-item">
+        <h3>Warum genau 25 Minuten?</h3>
+        <p>25 Minuten sind die optimale Balance: Lang genug für echten Fortschritt, kurz genug um Fokus zu halten. 
+        Diese Dauer wurde durch Francesco Cirillo entwickelt und hat sich in Millionen von Anwendungen bewährt. 
+        Studien zeigen, dass die menschliche Konzentrationsfähigkeit nach 20-30 Minuten nachlässt.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Was mache ich, wenn ich vor Ablauf fertig bin?</h3>
+        <p>Nutzen Sie die verbleibende Zeit für: Überprüfung Ihrer Arbeit, Dokumentation, Planung der nächsten Schritte 
+        oder Lernen. Der Pomodoro läuft immer die vollen 25 Minuten - das trainiert Ihr Zeitgefühl.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Was wenn ich unterbrochen werde?</h3>
+        <p>Bei wichtigen Unterbrechungen: Pomodoro abbrechen und neu starten. Bei unwichtigen Unterbrechungen: 
+        Notieren Sie diese kurz und machen Sie nach dem Pomodoro weiter. Ziel ist es, Unterbrechungen zu minimieren.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Wie viele Pomodoros sollte ich pro Tag schaffen?</h3>
+        <p>Das ist individuell verschieden. Anfänger schaffen oft 4-6 Pomodoros pro Tag (2-3 Stunden fokussierte Arbeit). 
+        Erfahrene Nutzer erreichen 10-12 Pomodoros (5-6 Stunden). Qualität geht vor Quantität!</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Muss ich die Pausen wirklich einhalten?</h3>
+        <p>Ja! Die Pausen sind essentiell für die Effektivität der Methode. Sie verhindern Ermüdung, fördern Kreativität 
+        und halten Sie langfristig produktiv. Nutzen Sie die Pausen für Bewegung, nicht für E-Mails oder Social Media.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Funktioniert die Pomodoro-Technik für alle Aufgaben?</h3>
+        <p>Die Technik eignet sich besonders für: Schreiben, Programmieren, Lernen, Datenanalyse und kreative Arbeit. 
+        Weniger geeignet für: Meetings, spontane Zusammenarbeit oder Aufgaben mit vielen Unterbrechungen.</p>
+      </div>
+    </section>
+    
+    <!-- Related Timers -->
+    <section class="section">
+      <h2>Weitere Timer für Produktivität</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <a href="/5-minuten-timer.html" style="padding: 15px; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #10b981; font-weight: 600; text-align: center;">5 Min Pause</a>
+        <a href="/15-minuten-timer.html" style="padding: 15px; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #10b981; font-weight: 600; text-align: center;">15 Min Pause</a>
+        <a href="/45-minuten-timer.html" style="padding: 15px; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #10b981; font-weight: 600; text-align: center;">45 Min Fokus</a>
+        <a href="/pomodoro-timer.html" style="padding: 15px; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #10b981; font-weight: 600; text-align: center;">Vollständiger Pomodoro</a>
+      </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="hero" style="margin-top: 50px;">
+      <h2>Bereit für Ihren ersten Pomodoro?</h2>
+      <p>Starten Sie jetzt und erleben Sie fokussiertes Arbeiten</p>
+      <a href="/#/countdown?duration=1500" class="cta-button">25-Minuten-Timer starten →</a>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+      <p><a href="/">← Zurück zur Startseite</a> | <a href="/pomodoro-timer.html">Vollständiger Pomodoro-Timer</a></p>
+      <p style="margin-top: 15px;"><a href="/impressum.html">Impressum</a> | <a href="/datenschutz.html">Datenschutz</a></p>
+      <p style="margin-top: 15px;">© 2025 Stoppclock - Powered by DYAI</p>
+    </footer>
+  </div>
+</body>
+</html>

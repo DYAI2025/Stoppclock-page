@@ -1,0 +1,462 @@
+/* ============================================
+ * APP HEADER - Unified Header System
+ * Consistent header across all pages
+ * ============================================ */
+
+:root {
+  --header-height: 60px;
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --header-bg-dark: rgba(26, 31, 46, 0.92);
+  --header-border: rgba(228, 229, 231, 0.8);
+  --header-border-dark: rgba(42, 49, 66, 0.8);
+  --header-text: #111218;
+  --header-text-dark: #e8eaed;
+  --header-text-muted: #6B6E76;
+  --header-text-muted-dark: #9ca0a8;
+}
+
+/* ============================================
+ * HEADER CONTAINER
+ * ============================================ */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: var(--header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--header-border);
+  transition: all 200ms ease;
+}
+
+/* Dark mode support */
+html[data-theme="dark"] .app-header {
+  background: var(--header-bg-dark);
+  border-bottom-color: var(--header-border-dark);
+}
+
+.app-header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 48px);
+  gap: 24px;
+}
+
+/* ============================================
+ * LEFT SECTION - Logo, Back, Title, Breadcrumb
+ * ============================================ */
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+/* ============================================
+ * LOGO
+ * ============================================ */
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--header-text);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  transition: opacity 200ms ease;
+  flex-shrink: 0;
+}
+
+html[data-theme="dark"] .app-logo {
+  color: var(--header-text-dark);
+}
+
+.app-logo:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--header-text);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+html[data-theme="dark"] .logo-icon {
+  background: linear-gradient(135deg, var(--aurora-cyan) 0%, var(--aurora-lavender) 100%);
+}
+
+/* Animated second hand */
+.logo-icon-hand {
+  position: absolute;
+  width: 1px;
+  height: 10px;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  animation: rotate-hand 60s linear infinite;
+}
+
+@keyframes rotate-hand {
+  from { transform: translate(-50%, -100%) rotate(0deg); }
+  to { transform: translate(-50%, -100%) rotate(360deg); }
+}
+
+.logo-text {
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--aurora-cyan) 0%, var(--aurora-lavender) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, #0EA5E9 0%, #7B2CBF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mobile: Hide text, show icon only */
+@media (max-width: 640px) {
+  .app-header-timer .logo-text {
+    display: none;
+  }
+}
+
+/* ============================================
+ * BACK BUTTON
+ * ============================================ */
+.header-back-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--header-text);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  transition: all 150ms ease;
+  flex-shrink: 0;
+}
+
+html[data-theme="dark"] .header-back-btn {
+  color: var(--header-text-dark);
+}
+
+.header-back-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="dark"] .header-back-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================
+ * TITLE
+ * ============================================ */
+.app-header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--header-text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html[data-theme="dark"] .app-header-title {
+  color: var(--header-text-dark);
+}
+
+@media (max-width: 640px) {
+  .app-header-title {
+    font-size: 16px;
+  }
+}
+
+/* ============================================
+ * BREADCRUMB
+ * ============================================ */
+.app-header-breadcrumb {
+  flex: 1;
+  min-width: 0;
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.breadcrumb-link {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--header-text-muted);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 150ms ease;
+}
+
+html[data-theme="dark"] .breadcrumb-link {
+  color: var(--header-text-muted-dark);
+}
+
+.breadcrumb-link:hover {
+  color: var(--header-text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="dark"] .breadcrumb-link:hover {
+  color: var(--header-text-dark);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.breadcrumb-current {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--header-text);
+}
+
+html[data-theme="dark"] .breadcrumb-current {
+  color: var(--header-text-dark);
+}
+
+.breadcrumb-separator {
+  color: var(--header-text-muted);
+  flex-shrink: 0;
+}
+
+html[data-theme="dark"] .breadcrumb-separator {
+  color: var(--header-text-muted-dark);
+}
+
+/* Mobile: Hide breadcrumb links, show only current */
+@media (max-width: 640px) {
+  .breadcrumb-item:not(:last-child) {
+    display: none;
+  }
+  
+  .breadcrumb-current {
+    font-size: 14px;
+  }
+}
+
+/* ============================================
+ * RIGHT SECTION - Navigation & Actions
+ * ============================================ */
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+ * LANDING PAGE NAVIGATION
+ * ============================================ */
+.app-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-header-nav .nav-link {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--header-text-muted);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+html[data-theme="dark"] .app-header-nav .nav-link {
+  color: var(--header-text-muted-dark);
+}
+
+.app-header-nav .nav-link:hover {
+  color: var(--header-text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="dark"] .app-header-nav .nav-link:hover {
+  color: var(--header-text-dark);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.app-header-nav .nav-link.active {
+  color: var(--header-text);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="dark"] .app-header-nav .nav-link.active {
+  color: var(--header-text-dark);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .app-header-nav {
+    display: none;
+  }
+}
+
+/* ============================================
+ * HEADER ACTIONS TOOLBAR
+ * ============================================ */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-action-btn,
+.header-action-wrapper .dark-mode-toggle,
+.header-action-wrapper .lang-toggle {
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--header-text-muted);
+  display: grid;
+  place-items: center;
+  transition: all 150ms ease;
+  position: relative;
+  padding: 0;
+}
+
+html[data-theme="dark"] .header-action-btn,
+html[data-theme="dark"] .header-action-wrapper .dark-mode-toggle,
+html[data-theme="dark"] .header-action-wrapper .lang-toggle {
+  color: var(--header-text-muted-dark);
+}
+
+.header-action-btn:hover,
+.header-action-wrapper .dark-mode-toggle:hover,
+.header-action-wrapper .lang-toggle:hover {
+  color: var(--header-text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+html[data-theme="dark"] .header-action-btn:hover,
+html[data-theme="dark"] .header-action-wrapper .dark-mode-toggle:hover,
+html[data-theme="dark"] .header-action-wrapper .lang-toggle:hover {
+  color: var(--header-text-dark);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Override existing styles for integrated toggles */
+.header-action-wrapper .dark-mode-toggle,
+.header-action-wrapper .lang-toggle {
+  position: static;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  background: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.header-action-wrapper .dark-mode-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Home button special styling */
+.header-home-btn {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--header-text);
+}
+
+html[data-theme="dark"] .header-home-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--header-text-dark);
+}
+
+.header-home-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="dark"] .header-home-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Action button separator */
+.header-actions::before {
+  content: '';
+  width: 1px;
+  height: 20px;
+  background: var(--header-border);
+  margin: 0 4px;
+}
+
+html[data-theme="dark"] .header-actions::before {
+  background: var(--header-border-dark);
+}
+
+/* Mobile: Reduce action button sizes */
+@media (max-width: 640px) {
+  .header-actions {
+    gap: 2px;
+  }
+  
+  .header-action-btn,
+  .header-action-wrapper .dark-mode-toggle,
+  .header-action-wrapper .lang-toggle {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .header-action-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .header-action-wrapper .lang-toggle {
+    font-size: 11px;
+  }
+}
+
+/* ============================================
+ * AUTO-HIDE ON SCROLL (optional)
+ * ============================================ */
+.app-header.header-hidden {
+  transform: translateY(-100%);
+}
+
+/* ============================================
+ * FULLSCREEN MODE
+ * ============================================ */
+:fullscreen .app-header {
+  display: none;
+}

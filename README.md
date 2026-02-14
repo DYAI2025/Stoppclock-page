@@ -1,220 +1,82 @@
 # Stoppclock 🕐
 
-<div align="center">
-  <p><strong>Projector-friendly timers & clocks for classrooms, exams, and seminars.</strong></p>
-  <p>
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-    <img src="https://img.shields.io/badge/Status-Stable-brightgreen.svg" alt="Status">
-    <img src="https://img.shields.io/badge/PWA-Ready-blue.svg" alt="PWA">
-  </p>
-</div>
+Projector-friendly timers and clocks built with React + TypeScript. The SPA ships multiple specialized timers, lightweight blog/pillar pages, and a privacy-first ad/consent setup.
 
-<p align="center">
-  <img src="https://placehold.co/800x400/0b1220/ffffff?text=Stoppclock+Preview" alt="Stoppclock Preview" style="border-radius: 8px;">
-</p>
+## What ships today
+- **Timer tools (hash routes)**: Analog countdown (`#/analog`), digital countdown (`#/countdown`), stopwatch with laps (`#/stopwatch`), pomodoro (`#/pomodoro`), cooking timer (`#/cooking`), couples timer (`#/couples`), digital clock (`#/digital`), world clock (`#/world`), alarm manager (`#/alarm`), metronome (`#/metronome`), and chess clock (`#/chess`).
+- **Content pages**: Time philosophy pillar (`#/time-philosophy`), timer guides (`#/timer-for-students`, `#/timer-for-productivity`, `#/timer-for-fitness`), blog posts (`#/blog/pomodoro-timer-online`, `#/blog/pomodoro-vs-countdown`), knowledge/about/imprint/privacy/contact routes.
+- **Controls & persistence**: Shared keyboard shortcuts (Space start/pause, R reset, F fullscreen, L laps for stopwatch), per-tool localStorage state, and fullscreen toggles.
+- **PWA shell**: Manifest + lightweight service worker that caches the app shell/manifest and keeps assets network-first.
+- **Theming & accessibility**: Dark/light toggle with preference persistence, high-contrast layout, and hash-based routing that keeps pages keyboard navigable.
 
-## 🌟 Features
-
-- **8 Specialized Timers** - Analog countdown, stopwatch, digital countdown, world clock, alarm, metronome, chess clock, and more
-- **Projector-Optimized** - High contrast, large displays perfect for classroom presentations
-- **Offline-Ready** - Fully functional as a Progressive Web App (PWA) without internet connection
-- **Privacy-First** - No tracking by default, ads only enabled with explicit user consent
-- **State Persistence** - All timers maintain their state when navigating between tools
-- **Keyboard Shortcuts** - Space (start/pause), R (reset), F (fullscreen), arrow keys for adjustment
-- **Cross-Platform** - Works on all modern browsers and devices
-
-## 🛠️ Technologies Used
-
-- **React 18** - Component-based UI with hooks
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and development server
-- **Playwright** - End-to-end testing
-- **Canvas API** - Smooth 60 FPS animations for analog timer
-- **Web Audio API** - Sound generation for alerts
-- **Service Worker** - Offline functionality
-- **localStorage** - Local state persistence
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
-```bash
-# Clone the repository
-git clone <repository-url>
-cd stoppclock
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+## Architecture
+```mermaid
+flowchart TD
+  A[index.html] --> B[src/main.tsx]
+  B --> C[App with hash-based router]
+  C --> D[Timer pages]\n(#/analog ... #/chess)
+  C --> E[Content pages]\n(#/time-philosophy ...)
+  B --> F[Contexts]\n(PinnedTimers)
+  B --> G[Shared components]\n(DarkModeToggle, Consent, Ads)
+  D --> H[Hooks & utils]
+  H --> H1[useKeyboardShortcuts]
+  H --> H2[useAutoFitText]
+  H --> H3[beep/flash]
+  B --> I[Styles]\n(design-tokens.css, styles.css)
+  B --> J[Service worker]\n(public/sw.js)
 ```
 
-### Build for Production
-```bash
-# Build the application
-npm run build
+- **Entry & routing**: `src/main.tsx` registers the service worker, sets up the PinnedTimers provider, and switches content based on `window.location.hash` without React Router.
+- **Pages**: Timer pages live in `src/pages/` and embed shared controls (Home button, keyboard shortcuts, fullscreen helpers). Content/SEO pages use the same hash router.
+- **State & persistence**: Timers store state in `localStorage` with schema keys like `sc.v1.countdown` to survive reloads; runtime updates rely on `requestAnimationFrame` loops.
+- **Styling**: Global tokens in `src/design-tokens.css` and `src/styles.css`; per-page styles live alongside components.
+- **Ads & consent**: `ConsentBanner` gates `AdSenseScript` so ad code only loads after explicit consent.
 
-# Preview production build locally
-npm run preview
-```
+## Design direction (home page)
+- **Unify timer grid + descriptions**: The next redesign aims to merge the home timer tiles with the "About the Timers" blurbs. Each tile should surface its microcopy (what it does, ideal use case, key shortcut) directly inside the card, reducing the scroll between the hero grid and the descriptive section.
+- **Progressive detail**: Default view shows icon + label + one-liner; hover/focus expands to a short checklist (e.g., "Space = Start/Pause, R = Reset") without shifting layout on touch devices.
+- **Content reuse**: Descriptions are sourced from the existing "About the Timers" content so cards and the dedicated section stay in sync while the redesign is phased in.
 
-### Run Tests
+## Key behaviors
+- **Keyboard shortcuts**: Centralized in `src/hooks/useKeyboardShortcuts.ts` (Space start/pause, `R` reset, `F` fullscreen, `L` laps on stopwatch) and auto-disabled when typing in inputs.
+- **Timer UX**: Countdown/analog timers cap durations (digital up to 12h, analog up to 4h) and emit optional beep/flash warnings. Stopwatch records laps; pomodoro persists custom durations; metronome drives audio ticks; chess clock swaps active player.
+- **PWA**: `public/manifest.webmanifest` defines install metadata; `public/sw.js` keeps a cache versioned shell and cleans old caches. Assets stay network-first so deploys stay fresh.
+
+## Routes at a glance
+| Route | Purpose |
+| --- | --- |
+| `#/` | Home grid with timer shortcuts, design toggles, footer links |
+| `#/analog` | Analog countdown with canvas dial |
+| `#/countdown` | Digital HH:MM:SS countdown with warnings |
+| `#/stopwatch` | Stopwatch with lap capture |
+| `#/pomodoro` | Work/break cycles with persistence |
+| `#/cooking` | Cooking timer presets |
+| `#/couples` | Paired/couples timer |
+| `#/digital` | Always-on digital clock |
+| `#/world` | Multi-timezone world clock |
+| `#/alarm` | Multiple alarms management |
+| `#/metronome` | Adjustable BPM metronome |
+| `#/chess` | Dual-player chess clock |
+| `#/time-philosophy` & content routes | Editorial/SEO content and legal pages |
+
+## Development
+1. Install Node.js 18+ and npm.
+2. Install dependencies: `npm install`
+3. Start the dev server: `npm run dev`
+4. Build for production: `npm run build`
+5. Preview the production build: `npm run preview`
+
+## Testing
+Playwright specs live in `tests/e2e/` and cover the main timers (analog countdown, countdown, stopwatch, digital clock, world clock, alarm, metronome, chess clock).
+
+Run all E2E tests locally:
 ```bash
-# Run end-to-end tests
 npm run test:e2e
-
-# Run tests in UI mode
-npm run test:e2e:ui
 ```
 
-## 📋 Available Scripts
+## Contributing & support
+- Please run `npm run doctor` before opening a PR to catch forbidden tokens and common issues.
+- For questions or issues, open a GitHub issue with browser/OS details and repro steps.
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run test:e2e` | Run end-to-end tests |
-| `npm run test:e2e:ui` | Run tests in UI mode |
-| `npm run doctor` | Run security/quality checks |
-
-## 📱 Tools Overview
-
-### Analog Countdown ⏱️
-- Canvas-based analog clock visualization
-- Up to 12 hours timer duration
-- Presets from 5 minutes to 12 hours
-- Warning alerts with sound and flash
-- Fullscreen mode for projection
-
-### Stopwatch 🕒
-- Start/pause/reset functionality
-- Lap time recording with differences
-- Fullscreen display
-- Keyboard controls: Space, R, L, F
-
-### Digital Countdown ⏳
-- HH:MM:SS format with input fields
-- Start/pause/reset controls
-- Warning system with configurable intervals
-- Time adjustment buttons
-
-### Digital Clock 🕐
-- Real-time clock display
-- 12/24 hour format toggle
-- Date display
-- Fullscreen mode
-
-### World Clock 🌍
-- Multiple timezones display
-- Add/remove timezone functionality
-- Real-time updates
-
-### Alarm 🔔
-- Multiple alarm management
-- Time and label configuration
-- Repeat options
-
-### Metronome 🥁
-- BPM control (40-240 range)
-- Accent on first beat
-- Visual and audio feedback
-- Beat indicators
-
-### Chess Clock ♟️
-- Dual timer for chess games
-- Player switching mechanism
-- Time controls for different game types
-
-## 🎨 Design Principles
-
-### Accessibility
-- High contrast color scheme
-- Large, readable displays
-- Keyboard navigation support
-- Screen reader compatibility
-
-### Performance
-- 60 FPS animations using requestAnimationFrame
-- Efficient state management
-- Minimal bundle size
-- Optimized canvas rendering
-
-### Privacy
-- No external tracking
-- Local-only data storage
-- Opt-in advertising with consent banner
-- GDPR compliant
-
-## 🧪 Testing
-
-Stoppclock uses Playwright for comprehensive end-to-end testing:
-
-- **44+ E2E Tests** covering all timer tools
-- **Cross-browser** compatibility (Chrome, Firefox, Safari)
-- **State persistence** verification
-- **Keyboard shortcut** functionality tests
-- **Fullscreen** mode validation
-
-## 📱 Progressive Web App
-
-Stoppclock is built as a PWA with:
-
-- **Offline functionality** via service worker
-- **Installable** on all platforms
-- **Fast loading** with app shell architecture
-- **Responsive design** for all screen sizes
-
-## 🔧 Configuration
-
-### Environment Variables
-The application uses several configuration points:
-
-- `public/sw.js` - Service worker for offline functionality
-- `public/manifest.webmanifest` - PWA configuration
-- `src/styles.css` - Global styling and dark theme
-
-### AdSense Integration
-- Disabled by default
-- Enabled through user consent banner
-- Configured in `index.html`
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Add tests if applicable
-5. Run `npm run doctor` to check for issues
-6. Commit your changes (`git commit -m 'Add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you encounter any issues or have questions:
-
-- Check the [Issues](../../issues) page for existing problems
-- Create a new issue with detailed information
-- Include your browser, OS, and steps to reproduce
-
-## 🙏 Acknowledgments
-
-- Built with React, TypeScript, and Vite
-- Inspired by the need for projector-friendly classroom tools
-- Designed with privacy and accessibility in mind
-
----
-
-<div align="center">
-  <p><strong>Stoppclock</strong> - Making time management simple and accessible</p>
-  <p>⭐ Star this repo if you find it useful!</p>
-</div>
+## License
+MIT

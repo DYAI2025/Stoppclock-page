@@ -1,0 +1,143 @@
+Fakten: Technik, Geschichte & Wissenschaft der Zeit
+Technische Innovationen & Eigenschaften
+Das Ticken der Uhr Das charakteristische "Ticken" einer mechanischen Uhr ist der Klang der "Hemmung". Dieses Bauteil ist das Herz der Uhr und wandelt die kontinuierliche Kraft eines Gewichts oder einer Feder in eine Reihe von kontrollierten, gleichmäßigen Impulsen um.
+
+
+
+
+Warum frühe Uhren nur einen Zeiger hatten Frühe mechanische Uhren waren so ungenau, dass sie eine tägliche Abweichung von bis zu 15 Minuten hatten. Aus diesem Grund besaßen sie jahrhundertelang nur einen Stundenzeiger; eine Anzeige von Minuten wäre sinnlos gewesen.
+
+
+
+
+
+Der erste "Hör-Alarm" Um 325 v. Chr. konstruierte Platon einen Wecker, bei dem ein Wassergefäß kippte, sobald es voll war. Dadurch fielen Bleikugeln geräuschvoll auf eine Kupferplatte, um seine Studenten zu rufen.
+
+
+
+
+
+Der "Nagel-Alarm" Eine einfachere Weckmethode im Mittelalter war die Kerzenuhr. Man steckte einen Nagel an einer bestimmten Stelle ins Wachs. Sobald die Kerze weit genug heruntergebrannt war, fiel der Nagel mit einem lauten Klirren auf eine darunterliegende Metallplatte.
+
+
+Die erste Digitaluhr war ein Luxusgut Die erste Digitaluhr, die Hamilton Pulsar P1 (1972), war ein futuristisches Luxusgut aus 18-karätigem Gold. Sie kostete 2.100 US-Dollar – mehr als die meisten Autos der damaligen Zeit.
+
+
+
+
+
+Der Antikythera-Mechanismus Dieser Fund (datiert auf 87 v. Chr.) gilt als der erste analoge Computer der Welt. Mit über 30 Bronze-Zahnrädern konnte er Finsternisse vorhersagen und die Termine der Olympischen Spiele berechnen.
+
+
+
+
+
+Analog vs. Digital: Landkarte vs. Koordinate Eine analoge Uhr vermittelt ein räumliches Gefühl für die Zeit – wie eine Landkarte. Man sieht, wie viel Zeit vergangen ist und wie viel noch kommt. Die Digitaluhr liefert nur eine abstrakte, isolierte "GPS-Koordinate" des genauen Moments.
+
+
+
+
+
+Quarz: Funktion & Krise
+Wie eine Quarzuhr funktioniert Das Herz einer Quarzuhr ist ein winziger Quarzkristall. Wenn man elektrische Spannung anlegt, schwingt dieser Kristall mit einer extrem konstanten Frequenz von exakt 32.768 Mal pro Sekunde (Hz) und dient so als Taktgeber.
+
+
+
+
+
+Die Ironie der Quarzkrise Die Quarzuhr wurde ironischerweise in der Schweiz zur Marktreife entwickelt (1967). Die etablierten Schweizer Hersteller ignorierten die Technologie jedoch, da sie die günstige Elektronik als "seelenlos" und als Bedrohung für ihr Luxussegment ansahen.
+
+
+
+
+
+Die Disruption durch Seiko Die japanische Firma Seiko erkannte das Potenzial und brachte 1969 mit der "Astron" die erste kommerzielle Quarzuhr auf den Markt. Dies löste die "Quarzkrise" aus, die in der Schweiz Zehntausende Arbeitsplätze kostete.
+
+
+
+
+
+Die Rettung durch die Swatch Gerettet wurde die Schweizer Industrie 1983 ausgerechnet durch eine weitere Quarzuhr. Die Swatch kombinierte die günstige Quarztechnologie genial mit kühnem Modedesign und erschloss so einen neuen Massenmarkt.
+
+
+
+
+
+Atomuhr & Globale Zeit
+Wie eine Atomuhr funktioniert Eine Atomuhr "zählt" die Schwingungen von Atomen. Seit 1967 ist die Sekunde offiziell definiert als die Dauer von exakt 9.192.631.770 Schwingungen eines Cäsium-133-Atoms.
+
+
+Unfassbare Genauigkeit Moderne Cäsium-Fontänenuhren sind so genau, dass sie eine theoretische Abweichung von höchstens einer Sekunde in über 700 Millionen Jahren haben. Neuere optische Uhren würden seit dem Urknall weniger als eine Sekunde falsch gehen.
+
+
+
+
+
+Das Problem der "Schaltsekunde" Die Erde verlangsamt ihre Rotation. Um die ultra-präzise Atomzeit (TAI) an die "langsamere" Erdrotation (Basis für UTC) anzugleichen, muss gelegentlich eine Schaltsekunde eingefügt werden . An diesem Tag hat die letzte Minute 61 Sekunden.
+
+
+
+Der Zeitunterschied Aufgrund der Schaltsekunden, die im Laufe der Jahre eingefügt wurden, läuft die rein physikalische Atomzeit (TAI) der offiziellen Weltzeit (UTC) derzeit 37 Sekunden voraus.
+
+
+Historische & Berühmte Zusammenhänge
+Der Antrieb (Klöster) Die mechanische Uhr wurde nicht von der Wissenschaft, sondern aus religiöser Notwendigkeit in Klöstern erfunden. Die Mönche brauchten einen zuverlässigen Taktgeber für ihre festen Stundengebete (das Horarium), der auch nachts und bei schlechtem Wetter funktionierte.
+
+
+
+
+
+Der Antrieb (Krieg) Die Armbanduhr galt lange als reines Damenschmuckstück . Sie setzte sich bei Männern erst im Ersten Weltkrieg durch. Offiziere erkannten, dass es unpraktisch war, im Grabenkampf nach einer Taschenuhr zu suchen.
+
+
+
+
+
+Der Antrieb (Eisenbahn) Vor dem 19. Jahrhundert hatte jeder Ort seine eigene Sonnenzeit, was zu einem logistischen Albtraum für die Eisenbahn-Fahrpläne führte . Ein Bahnhof (Pittsburgh) musste sechs verschiedene Uhren anzeigen. Dies erzwang 1884 die globale Einführung von 24 Zeitzonen.
+
+
+
+
+
+Relativitätstheorie & Wissenschaft (GPS)
+Warum GPS Einstein braucht Ohne die Berücksichtigung von Einsteins Relativitätstheorie wäre das GPS-System komplett nutzlos. Der tägliche Navigationsfehler würde mehrere Kilometer betragen.
+
+
+
+
+
+Effekt 1: Spezielle Relativitätstheorie Wegen ihrer hohen Geschwindigkeit (ca. 14.000 km/h) vergeht die Zeit für die Satellitenuhren langsamer als für uns am Boden.
+
+
+
+
+
+Effekt 2: Allgemeine Relativitätstheorie Wegen der geringeren Schwerkraft im Orbit vergeht die Zeit für die Satellitenuhren schneller als für uns.
+
+
+
+
+Der Netto-Effekt Der zweite Effekt (schneller laufen) ist stärker als der erste. Netto ticken die Uhren im Orbit jeden Tag etwa 38 Mikrosekunden schneller. Dieser Fehler muss permanent herausgerechnet werden.
+
+
+
+Uhrmacher Fachwissen
+Chronograph vs. Chronometer Diese Begriffe werden oft verwechselt. Ein Chronograph ist eine Uhr mit einer Zusatzfunktion: einer Stoppuhr. Ein Chronometer ist hingegen ein Qualitätssiegel; es ist eine Uhr, die auf extreme Ganggenauigkeit offiziell zertifiziert wurde (z.B. durch die COSC) .
+
+
+
+
+
+Das Tourbillon (Wirbelwind) Dieses Meisterwerk der Uhrmacherkunst ist ein filigraner, rotierender Käfig, in dem die Unruh (der "Herzschlag") montiert ist. Durch die Drehung (oft 1x pro Minute) wird der negative Einfluss der Schwerkraft auf die Ganggenauigkeit ausgeglichen.
+
+
+
+
+
+Der Ewige Kalender Dies ist ein mechanisches "Gedächtnis" in einer Uhr. Es kennt automatisch die unterschiedlichen Monatslängen (30 oder 31 Tage) und berücksichtigt sogar die Schaltjahre im Februar. Eine Korrektur ist oft erst im Jahr 2100 nötig.
+
+
+
+
+
+Die Minutenrepetition Eine der komplexesten Funktionen. Auf Knopfdruck schlägt ein winziges Glockenspiel im Inneren der Uhr die Zeit akustisch an . Sie gibt die Stunden, Viertelstunden und Minuten getrennt aus – ursprünglich entwickelt, um die Zeit im Dunkeln zu "hören".

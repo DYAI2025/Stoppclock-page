@@ -1,0 +1,18 @@
+# Netlify SPA Redirects
+# All routes serve index.html, client-side JS handles routing
+
+# Exclude static assets
+/assets/*    /assets/:splat    200
+/icons/*     /icons/:splat     200
+/og/*        /og/:splat        200
+/data/*      /data/:splat      200
+/content/*   /content/:splat   200
+
+# Exclude static HTML pages
+/pomodoro-timer.html   /pomodoro-timer.html   200
+/25-minuten-timer.html /25-minuten-timer.html 200
+/5-minuten-timer.html  /5-minuten-timer.html  200
+/countdown-timer.html  /countdown-timer.html  200
+
+# Serve index.html for all other routes (SPA fallback)
+/*    /index.html   200

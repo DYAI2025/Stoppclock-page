@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuissMe - User Journey Map</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0b;
+            color: #f2f3f5;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #a7abb3;
+            margin-bottom: 60px;
+            font-size: 14px;
+        }
+        
+        .journey-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .phase {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .phase-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5b46ff, #a78bfa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .phase-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .phase-desc {
+            color: #a7abb3;
+            font-size: 14px;
+            margin-left: auto;
+        }
+        
+        .screens-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        
+        .screen-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            width: 280px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .screen-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-5px);
+            border-color: #5b46ff;
+        }
+        
+        .screen-card.missing {
+            border-color: #ef4444;
+            background: rgba(239,68,68,0.05);
+        }
+        
+        .screen-card.missing:hover {
+            background: rgba(239,68,68,0.1);
+        }
+        
+        .screen-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .status-available {
+            background: rgba(34,197,94,0.15);
+            color: #22c55e;
+        }
+        
+        .status-missing {
+            background: rgba(239,68,68,0.15);
+            color: #ef4444;
+        }
+        
+        .screen-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .screen-purpose {
+            font-size: 13px;
+            color: #a7abb3;
+            line-height: 1.5;
+        }
+        
+        .arrow-down {
+            text-align: center;
+            font-size: 30px;
+            color: #5b46ff;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+        
+        .legend {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 60px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-available { background: #22c55e; }
+        .dot-missing { background: #ef4444; }
+        
+        .summary {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(91,70,255,0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(91,70,255,0.2);
+        }
+        
+        .summary h2 {
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+        
+        .summary-stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #5b46ff;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #a7abb3;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QuissMe User Journey</h1>
+    <p class="subtitle">Vom ersten Kontakt bis zur langfristigen Nutzung</p>
+    
+    <div class="journey-container">
+        
+        <!-- Phase 1: Discovery -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">1</div>
+                <div class="phase-title">Discovery & Onboarding</div>
+                <div class="phase-desc">Erster Kontakt & Story</div>
+            </div>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Splash Screen</div>
+                    <div class="screen-purpose">Brand Intro, "Tap to Start", Night-to-Dusk Animation</div>
+                </div>
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Onboarding Story</div>
+                    <div class="screen-purpose">"Die Reise der Synchronisation", Core Loop erklärt</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="arrow-down">⬇</div>
+        
+        <!-- Phase 2: Account Setup -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">2</div>
+                <div class="phase-title">Account & Astro Setup</div>
+                <div class="phase-desc">Profil erstellen</div>
+            </div>
+            <div class="screens-row">
+                <div class="screen-card missing">
+                    <span class="screen-status status-missing">❌ Fehlt</span>
+                    <div class="screen-name">Auth / Login</div>
+                    <div class="screen-purpose">Email, Google, Apple Sign-In (Night Mode)</div>
+                </div>
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Birth Input</div>
+                    <div class="screen-purpose">Datum, Uhrzeit, Ort (Google Maps Picker)</div>
+                </div>
+                <div class="screen-card missing">
+                    <span class="screen-status status-missing">❌ Fehlt</span>
+                    <div class="screen-name">Astro Calculation</div>
+                    <div class="screen-purpose">Sun/Moon/Ascendant Ergebnis, Zodiac Display</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="arrow-down">⬇</div>
+        
+        <!-- Phase 3: Pairing -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">3</div>
+                <div class="phase-title">Partner Pairing</div>
+                <div class="phase-desc">Das "Dritte Wesen" verbinden</div>
+            </div>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Partner Invite</div>
+                    <div class="screen-purpose">QR-Code, Magic Link, WhatsApp Teilen</div>
+                </div>
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Waiting Room</div>
+                    <div class="screen-purpose">"Warten auf Partner...", Zeigarnik-Effekt</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="arrow-down">⬇</div>
+        
+        <!-- Phase 4: Core Loop -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">4</div>
+                <div class="phase-title">Core Loop (Quiz Cycle)</div>
+                <div class="phase-desc">Haupt-Interaktion</div>
+            </div>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Blind-Mode Quiz</div>
+                    <div class="screen-purpose">Fragen beantworten (ohne Partner-Status zu sehen)</div>
+                </div>
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Synchronisation</div>
+                    <div class="screen-purpose">Beide fertig → Merge Animation</div>
+                </div>
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Insight Drop</div>
+                    <div class="screen-purpose">Ergebnis, 3D Trophy, Stärken/Ausgleich/Wachstum</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="arrow-down">⬇</div>
+        
+        <!-- Phase 5: Engagement -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">5</div>
+                <div class="phase-title">Engagement & Retention</div>
+                <div class="phase-desc">Langfristige Nutzung</div>
+            </div>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Couple Dashboard</div>
+                    <div class="screen-purpose">DuoEntity, Timeline, Stats (Night Mode)</div>
+                </div>
+                <div class="screen-card missing">
+                    <span class="screen-status status-missing">❌ Fehlt</span>
+                    <div class="screen-name">Buffs & Challenges</div>
+                    <div class="screen-purpose">Daily Missions, Belohnungen, Streaks</div>
+                </div>
+                <div class="screen-card missing">
+                    <span class="screen-status status-missing">❌ Fehlt</span>
+                    <div class="screen-name">Wishes Feature</div>
+                    <div class="screen-purpose">Bedürfnisse artikulieren, KI-Rewrite</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="arrow-down">⬇</div>
+        
+        <!-- Phase 6: Settings -->
+        <div class="phase">
+            <div class="phase-header">
+                <div class="phase-number">6</div>
+                <div class="phase-title">Verwaltung</div>
+                <div class="phase-desc">Einstellungen & Profil</div>
+            </div>
+            <div class="screens-row">
+                <div class="screen-card">
+                    <span class="screen-status status-available">✅ Verfügbar</span>
+                    <div class="screen-name">Profile Settings</div>
+                    <div class="screen-purpose">Name, Email, Astro-Daten, Logout</div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Summary -->
+    <div class="summary">
+        <h2>Entwicklungs-Status</h2>
+        <div class="summary-stats">
+            <div class="stat">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Screens Verfügbar</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Screens Fehlen</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">75%</div>
+                <div class="stat-label">Design-Complete</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-dot dot-available"></div>
+            <span>Design verfügbar (JPEG/Mockup)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot dot-missing"></div>
+            <span>Muss noch designed werden</span>
+        </div>
+    </div>
+    
+</body>
+</html>

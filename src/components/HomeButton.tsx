@@ -2,6 +2,8 @@ import React from 'react';
 
 interface HomeButtonProps {
   className?: string;
+  position?: string;
+  showLabel?: boolean;
 }
 
 /**
@@ -16,11 +18,11 @@ interface HomeButtonProps {
  * <HomeButton />
  * ```
  */
-export function HomeButton({ className = '' }: HomeButtonProps) {
+export function HomeButton({ className = '', position, showLabel = true }: HomeButtonProps) {
   return (
     <a href="#/" className={`btn-home ${className}`}>
       <span className="home-icon">⌂</span>
-      <span className="home-text">Home</span>
+      {showLabel && <span className="home-text">Home</span>}
     </a>
   );
 }

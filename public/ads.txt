@@ -1,3 +1,1 @@
-# ads.txt for Stoppclock.com
-# Google AdSense Publisher ID
 google.com, pub-1712273263687132, DIRECT, f08c47fec0942fa0

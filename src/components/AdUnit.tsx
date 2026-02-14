@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { loadConsent } from '../utils/consent';
+import { ADSENSE_PUBLISHER_ID } from '../config/ad-units';
 import type { AdUnit as AdUnitType } from '../types/monetization-types';
 
 interface AdUnitProps {
@@ -62,8 +63,8 @@ export function AdUnit({ adUnit, className = '' }: AdUnitProps) {
         ref={adRef}
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client={adUnit.adSlotId.split('/')[0]}
-        data-ad-slot={adUnit.adSlotId.split('/')[1]}
+        data-ad-client={ADSENSE_PUBLISHER_ID}
+        data-ad-slot={adUnit.adSlotId}
         data-ad-format={adUnit.format === 'anchor' ? 'auto' : adUnit.format}
         data-full-width-responsive="true"
       />

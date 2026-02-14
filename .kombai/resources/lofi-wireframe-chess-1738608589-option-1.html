@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Chess Clock - Wireframe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: #f5f5f5;
+      color: #333;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .wireframe-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      border: 3px solid #333;
+      padding: 30px;
+    }
+    
+    .wireframe-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      border-bottom: 2px solid #666;
+      padding-bottom: 10px;
+    }
+    
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 2px solid #999;
+      background: #f9f9f9;
+    }
+    
+    .header-left {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .header-title {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .chess-board {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .player-panel {
+      position: relative;
+      border: 4px solid #333;
+      padding: 40px;
+      background: #e8e8e8;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .player-panel-active {
+      background: #fff;
+      border-color: #000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    
+    .checkered-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(45deg, #ccc 25%, transparent 25%),
+        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ccc 75%),
+        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    
+    .player-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+    
+    .chess-piece-icon {
+      font-size: 48px;
+    }
+    
+    .time-display {
+      font-size: 64px;
+      font-weight: bold;
+      z-index: 1;
+      font-family: monospace;
+      margin: 20px 0;
+    }
+    
+    .tap-instruction {
+      font-size: 18px;
+      z-index: 1;
+      padding: 15px 30px;
+      border: 2px solid #333;
+      background: #fff;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    
+    .control-center {
+      text-align: center;
+      padding: 30px;
+      border: 2px dashed #999;
+      background: #fafafa;
+      margin: 20px 0;
+    }
+    
+    .btn {
+      padding: 15px 30px;
+      border: 3px solid #333;
+      background: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', cursive;
+      margin: 5px;
+    }
+    
+    .btn-primary {
+      background: #ddd;
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    
+    .preset-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    
+    .preset-btn {
+      padding: 12px 24px;
+      border: 2px solid #333;
+      background: #f9f9f9;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: 'Comic Sans MS', cursive;
+    }
+    
+    .preset-btn-selected {
+      background: #ddd;
+      border-width: 3px;
+    }
+    
+    .section-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 30px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #999;
+    }
+    
+    .badge {
+      position: absolute;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      z-index: 10;
+    }
+    
+    .badge-reuse {
+      background: #4CAF50;
+      color: white;
+      top: 4px;
+      right: 4px;
+    }
+    
+    .badge-new {
+      background: #FF9800;
+      color: white;
+      top: 4px;
+      right: 4px;
+    }
+    
+    .component-wrapper {
+      position: relative;
+    }
+    
+    .note {
+      font-size: 12px;
+      color: #999;
+      font-style: italic;
+      margin-top: 5px;
+    }
+    
+    .animation-note {
+      background: #fffacd;
+      border: 2px solid #ffd700;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    
+    .animation-note strong {
+      color: #996600;
+    }
+  </style>
+</head>
+<body>
+  <div class="wireframe-container">
+    <div class="wireframe-title">
+      Enhanced Chess Clock with Moderate Animations - Mid-Fidelity Wireframe
+    </div>
+    
+    <!-- PAGE HEADER -->
+    <!-- REUSABLE: HomeButton, ShareButton, SettingsModal -->
+    <div class="page-header component-wrapper">
+      <span class="badge badge-reuse" title="src/components/HomeButton.tsx">[REUSE] HomeButton</span>
+      <div class="header-left">
+        <button class="btn">🏠 Home</button>
+        <button class="btn">↗ Share</button>
+        <button class="btn">⚙ Settings</button>
+      </div>
+      <div class="header-title">♔ Chess Clock ♚</div>
+    </div>
+    
+    <!-- CHESS BOARD LAYOUT -->
+    <div class="chess-board">
+      
+      <!-- PLAYER 1 PANEL -->
+      <div class="player-panel player-panel-active component-wrapper">
+        <span class="badge badge-new" title="To be created at src/components/chess/ChessBoardPattern.tsx">[NEW] ChessBoardPattern</span>
+        
+        <!-- Checkered background pattern -->
+        <div class="checkered-pattern"></div>
+        
+        <div class="player-header component-wrapper">
+          <span class="badge badge-new" title="To be created at src/components/chess/ChessPieceIcon.tsx">[NEW] ChessPieceIcon</span>
+          <span class="chess-piece-icon">♔</span>
+          <span>PLAYER 1</span>
+          <span class="chess-piece-icon">♔</span>
+        </div>
+        
+        <div class="time-display">05:00</div>
+        
+        <div class="tap-instruction">
+          [ TAP TO START ]
+        </div>
+        
+        <div class="animation-note">
+          <strong>Animation:</strong> Hover → Soft glow + scale 1.02 | Active → Pulsing border + brighter bg | Tap → Ripple effect
+        </div>
+      </div>
+      
+      <!-- CONTROL CENTER -->
+      <div class="control-center component-wrapper">
+        <span class="badge badge-reuse" title="Reusing existing button patterns">[REUSE] Button Pattern</span>
+        <div class="btn-group">
+          <button class="btn btn-primary">⏸ PAUSE GAME</button>
+          <button class="btn">↻ RESET</button>
+          <button class="btn">⛶ FULLSCREEN</button>
+        </div>
+        <p class="note">Pause button appears when game is active</p>
+      </div>
+      
+      <!-- PLAYER 2 PANEL -->
+      <div class="player-panel component-wrapper">
+        <span class="badge badge-new" title="Reusing ChessBoardPattern">[NEW] ChessBoardPattern</span>
+        
+        <!-- Checkered background pattern -->
+        <div class="checkered-pattern"></div>
+        
+        <div class="tap-instruction">
+          [ TAP TO STOP ]
+        </div>
+        
+        <div class="time-display">05:00</div>
+        
+        <div class="player-header component-wrapper">
+          <span class="badge badge-new" title="Reusing ChessPieceIcon">[NEW] ChessPieceIcon</span>
+          <span class="chess-piece-icon">♚</span>
+          <span>PLAYER 2</span>
+          <span class="chess-piece-icon">♚</span>
+        </div>
+        
+        <div class="animation-note">
+          <strong>Animation:</strong> Inactive state → Dimmed opacity 0.6 | Low time (< 1 min) → Red pulse warning
+        </div>
+      </div>
+    </div>
+    
+    <!-- TIME CONTROLS SECTION -->
+    <div class="section-title">⚙️ TIME CONTROLS</div>
+    <div class="preset-buttons">
+      <button class="preset-btn">⚡ 3 min Blitz</button>
+      <button class="preset-btn preset-btn-selected">⏱ 5 min Rapid</button>
+      <button class="preset-btn">🕐 10 min Standard</button>
+      <button class="preset-btn">⏲ 15 min</button>
+      <button class="preset-btn">✏️ Custom...</button>
+    </div>
+    
+    <div class="animation-note">
+      <strong>Animation:</strong> Preset buttons → Hover lifts with shadow | Selected → Darker border + highlight bg
+    </div>
+    
+    <!-- GAME MODES -->
+    <div class="section-title">🎮 GAME MODES</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+      
+      <div style="border: 2px solid #999; padding: 15px; background: #f9f9f9;">
+        <div style="font-weight: bold; margin-bottom: 8px;">⚡ Bullet</div>
+        <div style="font-size: 14px; color: #666;">1-2 minutes per player</div>
+      </div>
+      
+      <div style="border: 2px solid #999; padding: 15px; background: #f9f9f9;">
+        <div style="font-weight: bold; margin-bottom: 8px;">🏃 Blitz</div>
+        <div style="font-size: 14px; color: #666;">3-5 minutes per player</div>
+      </div>
+      
+      <div style="border: 2px solid #999; padding: 15px; background: #f9f9f9;">
+        <div style="font-weight: bold; margin-bottom: 8px;">⏱ Rapid</div>
+        <div style="font-size: 14px; color: #666;">10-15 minutes per player</div>
+      </div>
+      
+      <div style="border: 2px solid #999; padding: 15px; background: #f9f9f9;">
+        <div style="font-weight: bold; margin-bottom: 8px;">🏰 Classical</div>
+        <div style="font-size: 14px; color: #666;">30+ minutes per player</div>
+      </div>
+    </div>
+    
+    <!-- INCREMENT SETTINGS -->
+    <div class="section-title">⏲ INCREMENT OPTIONS</div>
+    <div style="border: 2px dashed #999; padding: 20px; background: #fafafa; margin: 20px 0;">
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center;">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" style="width: 20px; height: 20px;">
+          <span>Enable increment (add time per move)</span>
+        </label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <span>Add:</span>
+          <select style="padding: 8px; font-family: 'Comic Sans MS', cursive; border: 2px solid #333;">
+            <option>+0 seconds</option>
+            <option>+2 seconds</option>
+            <option>+5 seconds</option>
+            <option>+10 seconds</option>
+          </select>
+          <span>per move</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- SOUND SETTINGS -->
+    <div class="section-title">🔊 SOUND & ALERTS</div>
+    <div style="border: 2px solid #999; padding: 20px; background: #f9f9f9; margin: 20px 0;">
+      <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" checked style="width: 18px; height: 18px;">
+          <span>Click sound on tap</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" checked style="width: 18px; height: 18px;">
+          <span>Warning beep (< 1 min)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" style="width: 18px; height: 18px;">
+          <span>Victory sound</span>
+        </label>
+      </div>
+      
+      <div class="animation-note" style="margin-top: 15px;">
+        <strong>Sound Effects:</strong> Tap → Satisfying "click" | Low time → Urgent beep every 10s | Game end → Optional victory fanfare
+      </div>
+    </div>
+    
+    <!-- VISUAL EFFECTS PANEL -->
+    <div style="border: 2px solid #ffd700; background: #fffef0; padding: 20px; margin: 30px 0;">
+      <div style="font-weight: bold; font-size: 18px; margin-bottom: 15px; color: #996600;">
+        ✨ MODERATE ANIMATION SPECS
+      </div>
+      
+      <div style="display: grid; gap: 10px; font-size: 13px;">
+        <div><strong>Player Panel Hover:</strong> Scale 1.02, shadow lift, glow effect (200ms ease)</div>
+        <div><strong>Active Player:</strong> Subtle border pulse, brightness +10%, piece icon gentle rotation</div>
+        <div><strong>Tap Feedback:</strong> Ripple effect from tap point, scale 0.98 momentary press</div>
+        <div><strong>Board Pattern:</strong> Opacity transition when state changes (active/inactive)</div>
+        <div><strong>Low Time Warning:</strong> Red border pulse (1s interval), time digits color shift to red</div>
+        <div><strong>Piece Icons:</strong> Subtle bounce on player switch, gentle hover tilt</div>
+        <div><strong>Preset Buttons:</strong> Lift on hover with shadow, satisfying click animation</div>
+      </div>
+    </div>
+    
+    <!-- COMPONENT LEGEND -->
+    <div style="margin-top: 40px; padding: 20px; background: #f0f0f0; border: 2px solid #999;">
+      <div style="font-weight: bold; margin-bottom: 10px;">Component Legend:</div>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px;">
+        <div><span style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold;">[REUSE]</span> Existing components from repository</div>
+        <div><span style="background: #FF9800; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold;">[NEW]</span> New components to be created</div>
+      </div>
+      
+      <div style="margin-top: 15px; font-size: 13px; color: #666;">
+        <strong>Key New Components:</strong>
+        <ul style="margin-left: 20px; margin-top: 5px;">
+          <li>ChessBoardPattern: Animated checkered background with state-based opacity</li>
+          <li>ChessPieceIcon: Interactive chess piece icons with hover/active animations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+.ritual-card {
+  padding: 32px;
+  background: transparent;
+  border: 1px solid var(--neutral-200);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.ritual-card:hover {
+  background: var(--neutral-50);
+  border-color: var(--primary-300);
+}
+
+.ritual-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--neutral-900);
+}
+
+.ritual-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--neutral-600);
+}
+
+[data-theme='dark'] .ritual-card {
+  border-color: var(--neutral-800);
+}
+
+[data-theme='dark'] .ritual-card:hover {
+  background: var(--neutral-800);
+  border-color: var(--primary-700);
+}
+
+[data-theme='dark'] .ritual-title {
+  color: var(--neutral-100);
+}
+
+[data-theme='dark'] .ritual-description {
+  color: var(--neutral-400);
+}

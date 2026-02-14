@@ -1,0 +1,48 @@
+Timer-App – Änderungswünsche & Verbesserungen
+
+1. Darstellung auf der Hauptseite
+Einige komplexe Timer sollen nicht auf der Hauptseite direkt angezeigt werden, da ihre visuelle oder logische Darstellung zu aufwendig wäre.
+Nicht auf der Hauptseite darstellen:
+- Pomodori-Timer
+- Couple-Timer
+- Chess-Clock
+
+Darstellbar bleiben:
+- World-Clock
+- Cooking-Timer
+- Custom-Sessions
+
+2. World-Clock
+Wenn gepinnt, soll es eine Auswahl für Land oder Stadt geben.
+Aktuell ist standardmäßig „Berlin“ eingestellt.
+Neu: Dropdown-Menü oder Auswahlfeld für Land/Stadt.
+Werte sollen dynamisch gespeichert werden.
+
+3. Cooking-Timer
+Derzeit nur in 1-Minuten-Schritten einstellbar.
+Neu: Anpassung in 30-Sekunden-Schritten (0.5 min).
++ Button: +30 Sekunden
+– Button: –30 Sekunden
+Sinnvoll für Eieruhren & präzise Kochzeiten.
+
+4. Custom-Sessions
+Funktionalität bleibt wie aktuell.
+Neu: Farbliche Abwechslung durch 3 verschiedene Glas-Effekte / Farben.
+Leichte Transparenz, visuell unterscheidbare Varianten (z. B. Blauglas, Roséglas, Bernsteinglas).
+
+5. Pinning-Logik
+Es sollen maximal 2 Timer gleichzeitig gepinnt werden können (Status quo beibehalten).
+Bei einigen Timern stimmt die Zeit aktuell nicht exakt → Sync-Check / Bugfix nötig.
+
+Zusatz
+„Das war’s für heute. Ich hoffe, es hat euch gefallen. Wenn ja, dann lasst ein Abo da und abonniert meinen Kanal.“
+(vermutlich Kommentar oder Teil eines Videoabschlusses — kann ignoriert werden für Spezifikation)
+
+Zusammenfassung:
+- Hauptseite: Nur einfache Timer anzeigen
+- Pomodori/Couple/Chess: Nicht darstellen
+- World-Clock: Dropdown für Stadt/Land
+- Cooking-Timer: 30-Sekunden-Schritte
+- Custom-Sessions: Farbvariationen (3 Glasfarben)
+- Pinning: max. 2 Timer
+- Zeit-Drift: Überprüfung nötig
