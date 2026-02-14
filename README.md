@@ -74,6 +74,13 @@ Run all E2E tests locally:
 npm run test:e2e
 ```
 
+## AdSense Slot IDs
+- `home-top`: 2954253435
+- `home-middle`: 2345678901
+- `setup-main`: 3456789012
+- `interstitial-complete`: 4567890123
+- `anchor-bottom`: 5678901234
+
 ## Contributing & support
 - Please run `npm run doctor` before opening a PR to catch forbidden tokens and common issues.
 - For questions or issues, open a GitHub issue with browser/OS details and repro steps.

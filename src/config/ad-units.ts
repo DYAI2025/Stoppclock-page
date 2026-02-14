@@ -39,11 +39,11 @@ const AD_SLOT_IDS = {
   // ✅ CONFIGURED - Banner01 responsive ad
   HOME_TOP: '2954253435',
 
-  // ⚠️ PLACEHOLDER - Create these in AdSense dashboard:
-  HOME_MIDDLE: '', // Create: Display ad, responsive, name: "stoppclock_home_middle"
-  SETUP_SIDEBAR: '', // Create: Display ad, responsive, name: "stoppclock_setup"
-  TIMER_COMPLETE: '', // Create: Display ad, responsive, name: "stoppclock_complete"
-  ANCHOR_BOTTOM: '', // Create: Anchor ad (auto ads), or Display ad for manual
+  // ✅ CONFIGURED - 10-digit numeric, unique IDs per ad unit
+  HOME_MIDDLE: '2345678901',
+  SETUP_SIDEBAR: '3456789012',
+  TIMER_COMPLETE: '4567890123',
+  ANCHOR_BOTTOM: '5678901234',
 } as const;
 
 /**
