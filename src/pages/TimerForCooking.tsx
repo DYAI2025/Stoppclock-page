@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdSlot } from '../components/ads/AdSlot';
 
 const TimerForCooking: React.FC = () => {
   useEffect(() => {
@@ -314,6 +315,9 @@ const TimerForCooking: React.FC = () => {
         </div>
       </section>
 
+      {/* Ad: After main content */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--top" />
+
       {/* Testimonials */}
       <section className="landing-section landing-testimonials">
         <h2>Was Hobbyköche über den Kochtimer sagen</h2>
@@ -438,6 +442,9 @@ const TimerForCooking: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Ad: Before CTA */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--bottom" />
 
       {/* CTA Section */}
       <section className="landing-section landing-cta-final">

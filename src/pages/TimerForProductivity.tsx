@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdSlot } from '../components/ads/AdSlot';
 
 const TimerForProductivity: React.FC = () => {
   useEffect(() => {
@@ -219,6 +220,9 @@ const TimerForProductivity: React.FC = () => {
         </div>
       </section>
 
+      {/* Ad: After content */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--top" />
+
       <section className="landing-section landing-testimonials">
         <h2>Was Profis über Timer-basierte Produktivität sagen</h2>
 
@@ -375,6 +379,9 @@ const TimerForProductivity: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Ad: Before CTA */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--bottom" />
 
       <section className="landing-section landing-cta-final">
         <h2>Starte deine produktivere Woche heute</h2>

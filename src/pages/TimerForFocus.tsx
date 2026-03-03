@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdSlot } from '../components/ads/AdSlot';
 
 const TimerForFocus: React.FC = () => {
   useEffect(() => {
@@ -161,6 +162,9 @@ const TimerForFocus: React.FC = () => {
         </div>
       </section>
 
+      {/* Ad: After content */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--top" />
+
       <section className="landing-section landing-testimonials">
         <h2>Was Profis über Focus Timer sagen</h2>
         <div className="testimonials-grid">
@@ -198,6 +202,9 @@ const TimerForFocus: React.FC = () => {
           </details>
         </div>
       </section>
+
+      {/* Ad: Before CTA */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--bottom" />
 
       <section className="landing-section landing-cta-final">
         <h2>Starte deinen Deep Work Tag</h2>

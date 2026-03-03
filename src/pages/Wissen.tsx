@@ -54,7 +54,7 @@ const Wissen = () => {
             <>
                  {/* Ad Slot: Top of Content */}
                  <div style={{ maxWidth: '800px', margin: '0 auto 40px auto' }}>
-                    <AdUnit adUnit={getAdUnit('home-top')!} />
+                    <AdUnit adUnit={getAdUnit('content-sidebar') ?? getAdUnit('home-top')!} />
                 </div>
                 
                 <TimerWorldLayout data={world} />

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdSlot } from '../components/ads/AdSlot';
 
 const TimerForFitness: React.FC = () => {
   useEffect(() => {
@@ -190,6 +191,9 @@ const TimerForFitness: React.FC = () => {
         </div>
       </section>
 
+      {/* Ad: After content */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--top" />
+
       <section className="landing-section landing-testimonials">
         <h2>Was Athleten über Fitness Timer sagen</h2>
 
@@ -355,6 +359,9 @@ const TimerForFitness: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Ad: Before CTA */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--bottom" />
 
       <section className="landing-section landing-cta-final">
         <h2>Starte dein strukturiertes Training jetzt</h2>

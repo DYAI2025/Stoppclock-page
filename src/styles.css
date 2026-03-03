@@ -184,10 +184,7 @@ textarea {
   text-overflow: ellipsis;
 }
 
-input[type="text"]:not([maxlength]) {
-  /* Default maxlength for inputs without explicit limit */
-  /* Note: maxlength is an HTML attribute, not a CSS property */
-}
+
 
 /* Prevent flickering on timer displays - disable transitions on digits */
 .countdown-display,
@@ -319,7 +316,7 @@ textarea:focus-visible {
 
   #root {
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+
     height: 100%;
   }
 }
@@ -716,6 +713,7 @@ body:has(.legal-page) {
     linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, rgba(199, 125, 255, 0.03) 100%),
     rgba(26, 41, 66, 0.4);
   text-align: center;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -1172,6 +1170,7 @@ h1 {
   color: var(--fg);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
 }
 
@@ -1281,6 +1280,7 @@ h1 {
   border: 2px solid var(--ocean-mid);
   border-radius: 8px;
   color: var(--fg);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1458,6 +1458,7 @@ h1 {
   border-radius: 8px;
   font-variant-numeric: tabular-nums;
   border: 1px solid var(--ocean-mid);
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   transition: all 0.2s ease;
 }
@@ -1556,6 +1557,7 @@ h1 {
     rgba(26, 41, 66, 0.3);
   border-radius: 12px;
   border: 2px solid var(--ocean-mid);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1629,6 +1631,18 @@ h1 {
   z-index: 1;
 }
 
+.alarm-ad-container {
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  width: 100%;
+}
+
+.alarm-label-input {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Current Time Display */
 .current-time-display {
   text-align: center;
@@ -1672,6 +1686,7 @@ h1 {
     rgba(26, 41, 66, 0.3);
   border-radius: 12px;
   border: 2px solid var(--ocean-mid);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1803,6 +1818,20 @@ h1 {
   flex-direction: column;
   gap: 16px;
   align-items: center;
+}
+
+.metronome-ad-container {
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  width: 100%;
+}
+
+.metronome-share-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 24px;
 }
 
@@ -1917,6 +1946,7 @@ h1 {
   display: flex;
   gap: 12px;
   border-radius: 12px;
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   /* Add blur for better visibility */
 }
@@ -2240,10 +2270,74 @@ h1 {
  * MONETIZATION - Ad Unit Wrapper
  * Spacing and responsive layout for ads
  * ============================================ */
+
+.lp-ad-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.lp-ad-container.top {
+  max-width: 970px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.lp-ad-container.middle {
+  max-width: 970px;
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
+
+/* ── Anchor Ad (Sticky Bottom) ─────────────────────────── */
+.lp-ad-anchor {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 728px;
+  min-height: 90px;
+  z-index: 1000;
+  /* pointer-events NICHT auf none setzen — Klicks müssen funktionieren! */
+}
+
+.ad-anchor-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--bg);
+  border-top: 1px solid var(--border, #e4e5e7);
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.ad-anchor-inner {
+  max-width: 728px;
+  width: 100%;
+}
+
+/* ── Ad Unit Wrapper ────────────────────────────────────── */
 .ad-unit-wrapper {
   margin: 24px auto;
   max-width: 100%;
   text-align: center;
+  position: relative;
+}
+
+/* Sichtbares "Anzeige"-Label für Nutzervertrauen */
+.ad-unit-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted, #9ca3af);
+  text-align: center;
+  margin-bottom: 4px;
+  font-family: var(--font-sans, sans-serif);
+  user-select: none;
 }
 
 .home-ad-top {
@@ -2251,11 +2345,47 @@ h1 {
   max-width: 970px;
 }
 
-/* Ensure ads don't break layout */
+/* ── AdSlot (neue Architektur) ──────────────────────────── */
+.ad-slot {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.ad-slot--loading {
+  background: transparent;
+}
+
+.ad-slot--active {
+  /* min-height via inline style gesetzt (dynamisch) */
+}
+
+.ad-slot__label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted, #9ca3af);
+  text-align: center;
+  margin: 0 0 4px 0;
+  padding: 0;
+  user-select: none;
+  font-family: var(--font-sans, sans-serif);
+}
+
+/* ── AdSense <ins> Base ─────────────────────────────────── */
+/* min-height: 90px verhindert CLS bei responsiven Anzeigen */
 .adsbygoogle {
   display: block;
-  min-height: 50px;
-  /* Prevent layout shift */
+  min-height: 90px; /* War 50px — CLS-Risk! Google empfiehlt ≥ 90px */
+}
+
+/* Pomodoro Ad-Container */
+.pomodoro-ad-top {
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  width: 100%;
+  padding: 0 20px;
 }
 
 /* ============================================
@@ -2738,6 +2868,7 @@ a:focus:not(:focus-visible) {
   padding: 20px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -3305,6 +3436,7 @@ a:focus:not(:focus-visible) {
     rgba(26, 41, 66, 0.4);
   border: 2px solid rgba(139, 92, 246, 0.3);
   border-radius: 12px;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -3514,4 +3646,40 @@ a:focus:not(:focus-visible) {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* ── Pillar / Content Page Ad Slots ────────────────────────────────────── */
+.pillar-ad {
+  margin: 32px auto;
+  max-width: 970px;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.pillar-ad--top {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.pillar-ad--bottom {
+  margin-top: 40px;
+  margin-bottom: 8px;
+}
+
+/* Ensure ad containers don't cause layout shifts (CLS prevention) */
+.pillar-ad .ad-slot,
+.pillar-ad .ad-unit-wrapper {
+  min-height: 90px;
+  display: block;
+}
+
+/* Blog In-Content Ad spacing */
+.blog-ad-header,
+.blog-ad-incontent,
+.blog-ad-footer {
+  margin: 28px auto;
+  max-width: 800px;
+  min-height: 90px;
+  text-align: center;
 }

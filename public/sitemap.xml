@@ -1,194 +1,308 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Home Page -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- HOME                                                                  -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
   <url>
     <loc>https://www.stoppclock.com/</loc>
-    <lastmod>2025-11-18</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.stoppclock.com/"/>
   </url>
-  
-  <!-- Timer Landing Pages (static) -->
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- TIMER-SEITEN (SPA Hash-Routes)                                        -->
+  <!-- Google indexiert diese über JavaScript-Rendering                      -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
   <url>
-    <loc>https://www.stoppclock.com/countdown-timer</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/countdown</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.stoppclock.com/stopwatch</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/pomodoro-timer</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/analog</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/analog-countdown</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/pomodoro</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/interval</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/cooking-timer</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/breathing</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/chess-clock</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/cooking</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/chess</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.stoppclock.com/metronome</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/world-clock</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/world</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.stoppclock.com/alarm</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Programmatic Duration Pages -->
-  <url>
-    <loc>https://www.stoppclock.com/3-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/5-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/digital</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/10-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/15-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/20-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/25-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/30-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/45-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/60-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/90-minuten-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Use Case Pages -->
-  <url>
-    <loc>https://www.stoppclock.com/pruefungs-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/praesentations-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.stoppclock.com/workout-timer</loc>
-    <lastmod>2025-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Existing Content Pages -->
-  <url>
-    <loc>https://www.stoppclock.com/time-philosophy</loc>
-    <lastmod>2025-11-04</lastmod>
+    <loc>https://www.stoppclock.com/timesince</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- Legal Pages -->
   <url>
-    <loc>https://www.stoppclock.com/impressum</loc>
-    <lastmod>2025-11-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.stoppclock.com/couples</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/datenschutz</loc>
-    <lastmod>2025-11-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.stoppclock.com/timers</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- STATISCHE SEO-LANDINGPAGES (eigene HTML-Dateien, direkt indexierbar)  -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.stoppclock.com/5-minuten-timer</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/imprint</loc>
-    <lastmod>2025-11-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.stoppclock.com/25-minuten-timer</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/privacy</loc>
-    <lastmod>2025-11-18</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.stoppclock.com/10-minuten-timer</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/about</loc>
-    <lastmod>2025-11-18</lastmod>
+    <loc>https://www.stoppclock.com/30-minuten-timer</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/60-minuten-timer</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/stoppuhr</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/online-wecker</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/workout-timer</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- USE-CASE / LANDING PAGES                                              -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.stoppclock.com/timer-for-students</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/timer-for-productivity</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/timer-for-fitness</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/timer-for-meditation</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/timer-for-focus</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/timer-for-cooking</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/time-philosophy</loc>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.stoppclock.com/contact</loc>
-    <lastmod>2025-11-18</lastmod>
+    <loc>https://www.stoppclock.com/facts</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- BLOG                                                                  -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.stoppclock.com/blog</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/pomodoro-timer-online</loc>
+    <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/pomodoro-vs-countdown</loc>
+    <lastmod>2025-12-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/stoppuhr-online-guide</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/countdown-timer-klasse</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/online-wecker-ohne-app</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/intervalltimer-hiit</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/blog/schachuhr-regeln-online</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- INFO / RECHTLICHES (noindex via robots meta, aber in Sitemap für      -->
+  <!-- Crawling-Transparenz)                                                 -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <url>
+    <loc>https://www.stoppclock.com/about</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://www.stoppclock.com/contact</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/impressum</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/datenschutz</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/imprint</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.stoppclock.com/privacy</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
 </urlset>

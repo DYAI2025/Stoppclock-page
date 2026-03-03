@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { trackEvent } from '../utils/stats';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 import '../styles/breathing-timer.css';
 
 type BreathPhase = 'inhale' | 'hold' | 'exhale' | 'hold2'; // hold (after in), hold2 (after out)
@@ -144,6 +146,12 @@ export default function BreathingTimer() {
         title="Breathing"
         actions={{ showHome: true, showFullscreen: true, showTheme: true }}
       />
+
+      {!active && (
+         <div style={{ maxWidth: '800px', margin: '0 auto 20px auto', width: '100%', padding: '0 20px' }}>
+            <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+         </div>
+      )}
       
       <div className="breathing-container">
         <div 
@@ -159,7 +167,11 @@ export default function BreathingTimer() {
       </div>
 
       <div className="breath-instruction">
-        {pattern.label}
+        {active ? (
+            <span className="breath-phase-name">{getInstruction()}</span>
+        ) : (
+            pattern.label
+        )}
       </div>
 
       <div className="breath-controls">
@@ -167,7 +179,7 @@ export default function BreathingTimer() {
           className="breath-btn primary"
           onClick={() => {
              setActive(!active);
-             if (!active) trackEvent('breathing_timer', 'start', pattern.name);
+             if (!active) trackEvent('breathing', 'start', undefined, { pattern: pattern.name });
           }}
         >
           {active ? 'Pause' : 'Start'}

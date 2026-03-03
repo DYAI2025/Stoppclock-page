@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-04T01:03:30.122Z",
+  "generatedAt": "2026-03-03T16:59:06.593Z",
   "worlds": {
     "breathing": {
       "id": "breathing",
@@ -62,7 +62,7 @@
           "content": "Developed by Dr. Andrew Weil, the 4-7-8 pattern (Inhale 4, Hold 7, Exhale 8) is described as a \"natural tranquilizer for the nervous system\"."
         }
       ],
-      "updatedAt": "2026-02-04T01:03:30.128Z"
+      "updatedAt": "2026-03-03T16:59:06.598Z"
     },
     "chess": {
       "id": "chess",
@@ -121,7 +121,7 @@
           "source": "https://www.thechesswebsite.com"
         }
       ],
-      "updatedAt": "2026-02-04T01:03:30.129Z"
+      "updatedAt": "2026-03-03T16:59:06.598Z"
     },
     "countdown": {
       "id": "countdown",
@@ -186,7 +186,7 @@
           "source": "https://www.nasa.gov"
         }
       ],
-      "updatedAt": "2026-02-04T01:03:30.130Z"
+      "updatedAt": "2026-03-03T16:59:06.598Z"
     },
     "interval": {
       "id": "interval",
@@ -248,7 +248,7 @@
           "content": "The technique of \"time-boxing\" is the intellectual cousin of interval training. Breaking complex projects into fixed time intervals is a standard productivity hack."
         }
       ],
-      "updatedAt": "2026-02-04T01:03:30.130Z"
+      "updatedAt": "2026-03-03T16:59:06.599Z"
     },
     "pomodoro": {
       "id": "pomodoro",
@@ -310,7 +310,7 @@
           "content": "A common misconception is that breaks \"break\" flow. Actually, micro-breaks help maintain high-level focus over several hours without crashing."
         }
       ],
-      "updatedAt": "2026-02-04T01:03:30.130Z"
+      "updatedAt": "2026-03-03T16:59:06.599Z"
     },
     "stopwatch": {
       "id": "stopwatch",
@@ -375,7 +375,7 @@
           "source": "https://www.speedrun.com"
         }
       ],
-      "updatedAt": "2026-02-04T01:03:30.130Z"
+      "updatedAt": "2026-03-03T16:59:06.599Z"
     }
   }
 }

@@ -39,4 +39,9 @@
 - Keep changes minimal and localized; match existing patterns.
 - Do not rename/move files unless required by the task.
 - Respect this AGENTS.md for all paths you modify.
+- **SEO**: Always update `src/config/seo.ts` AND `public/sitemap.xml` when adding routes.
+- **AdSense**: Never render `ins.adsbygoogle` outside `AdUnit.tsx`/`AdSlot.tsx`. Always check `isSlotConfigured()`.
+- **Blog**: When adding a blog post, update `blog-content/index.ts`, `blog-registry.ts`, `seo.ts`, `sitemap.xml` AND `tests/e2e/13-blog-posts.spec.ts`.
+- **Standards**: Read `STANDARDS.md` before making architectural changes.
+- **Testing**: Run `npm run test:e2e` after significant changes (requires `npm run preview` first).
 

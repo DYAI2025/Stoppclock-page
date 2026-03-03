@@ -8,6 +8,8 @@ import { ShareButton } from '../components/ShareButton';
 import { SavePresetButton } from '../components/SavePresetButton';
 import { POMODORO_PRESETS } from '../domain/pomodoro/types';
 import { getPresetFromUrl } from '../utils/share';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 import '../styles/pomodoro.css';
 
 export default function PomodoroPage() {
@@ -56,6 +58,10 @@ export default function PomodoroPage() {
     <div className="pomodoro-page">
       <div className="pomodoro-home-btn">
         <HomeButton />
+      </div>
+
+      <div className="pomodoro-ad-top">
+        <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
       </div>
 
       <div className="pomodoro-container">

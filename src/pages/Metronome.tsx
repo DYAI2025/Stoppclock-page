@@ -4,6 +4,8 @@ import { ShareButton } from "../components/ShareButton";
 import { SavePresetButton } from "../components/SavePresetButton";
 import { trackEvent } from "../utils/stats";
 import { getPresetFromUrl } from "../utils/share";
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const LS_KEY = "sc.v1.metronome";
 const MIN_BPM = 40;
@@ -194,6 +196,10 @@ export default function Metronome() {
     <div className="metronome-wrap" ref={wrapRef}>
       <HomeButton />
       <h2>Metronome</h2>
+      
+      <div className="metronome-ad-container">
+        <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+      </div>
 
       <div className="bpm-display">{st.bpm} BPM</div>
 
@@ -223,13 +229,14 @@ export default function Metronome() {
             type="checkbox"
             checked={st.accentFirst}
             onChange={e => setSt(s => ({ ...s, accentFirst: e.target.checked }))}
+            aria-label="Toggle accent on first beat"
           />
           <span>Accent first beat</span>
         </label>
       </div>
 
       {/* Share & Save Buttons */}
-      <div style={{ marginTop: '20px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <div className="metronome-share-buttons">
         <SavePresetButton
           timerType="metronome"
           getCurrentConfig={getCurrentConfig}
@@ -247,6 +254,7 @@ export default function Metronome() {
           max={MAX_BPM}
           value={st.bpm}
           onChange={e => setSt(s => ({ ...s, bpm: Number(e.target.value) }))}
+          aria-label="Metronome BPM"
         />
       </div>
     </div>

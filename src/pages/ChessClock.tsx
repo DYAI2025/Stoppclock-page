@@ -9,6 +9,8 @@ import { Play, Clock, Info, ChevronRight, Shield, Award, Users } from "lucide-re
 import { trackEvent } from "../utils/stats";
 import { getPresetFromUrl } from "../utils/share";
 import "../styles/chess-swiss.css";
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const LS_KEY = "sc.v1.chessclock";
 const DEFAULT_TIME = 5 * 60 * 1000; // 5 minutes
@@ -492,6 +494,11 @@ export default function ChessClock() {
       
       <main className="chess-world">
         <ChessHero onStart={() => setMode('player')} onFullscreen={() => setMode('player')} />
+        
+        <div style={{ maxWidth: '800px', margin: '40px auto' }}>
+          <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+        </div>
+
         <ChessCharacter />
         <ChessRituals />
         <ChessEffects />

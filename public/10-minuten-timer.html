@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10 Minuten Timer — Kostenloser Online-Timer | Stoppclock</title>
+  <meta name="description" content="Kostenloser 10-Minuten-Timer direkt im Browser. Ideal für kurze Pausen, Kochzeiten, Lerneinheiten und Meetings. Kein Download, kein Login.">
+  <meta name="keywords" content="10 minuten timer, zehn minuten timer, 10 min countdown, kurzer timer online">
+  <link rel="canonical" href="https://www.stoppclock.com/10-minuten-timer">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="10 Minuten Timer — Kostenloser Online-Timer">
+  <meta property="og:description" content="10-Minuten-Countdown direkt im Browser. Kostenlos, kein Download.">
+  <meta property="og:url" content="https://www.stoppclock.com/10-minuten-timer">
+  <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="10 Minuten Timer — Stoppclock">
+  <meta name="twitter:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  <meta name="google-adsense-account" content="ca-pub-1712273263687132">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "10 Minuten Timer — Stoppclock",
+        "url": "https://www.stoppclock.com/10-minuten-timer",
+        "description": "Kostenloser 10-Minuten Countdown-Timer im Browser",
+        "applicationCategory": "Utility",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wofür ist ein 10-Minuten-Timer geeignet?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ein 10-Minuten-Timer eignet sich perfekt für: kurze Pausen (Pomodoro-Kurzpausen), Kochzeiten (Pasta, Eier), Meditationseinheiten, Kurz-Meetings und Sport (kurze HIIT-Runden). 10 Minuten sind die ideale Länge für eine erholsame Pause ohne zu lange Unterbrechung."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kann ich den 10-Minuten-Timer offline nutzen?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja! Stoppclock ist eine Progressive Web App (PWA). Einmal geladen, funktioniert der Timer vollständig offline. Du kannst ihn auch auf deinem Homescreen installieren."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Gibt es einen Alarm-Sound wenn die Zeit abläuft?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja, der Timer gibt einen Alarm-Sound aus wenn die 10 Minuten abgelaufen sind. Stelle sicher, dass dein Gerät nicht stummgeschaltet ist."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stoppclock.com/" },
+          { "@type": "ListItem", "position": 2, "name": "10 Minuten Timer", "item": "https://www.stoppclock.com/10-minuten-timer" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blue: #3B82F6; --blue-dark: #2563EB; --gray: #6B7280; --bg: #F9FAFB; --fg: #111827; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .hero { text-align: center; padding: 48px 20px 32px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; margin-bottom: 12px; }
+    .hero p { font-size: 18px; color: var(--gray); max-width: 600px; margin: 0 auto 32px; }
+    .timer-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--blue); color: white; text-decoration: none; padding: 16px 32px; border-radius: 12px; font-size: 20px; font-weight: 700; transition: background 0.2s; margin: 8px; }
+    .timer-cta:hover { background: var(--blue-dark); }
+    .timer-cta.secondary { background: white; color: var(--blue); border: 2px solid var(--blue); }
+    .timer-cta.secondary:hover { background: #EFF6FF; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; }
+    .feature { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .feature-icon { font-size: 32px; margin-bottom: 10px; }
+    .feature h3 { font-size: 16px; margin-bottom: 6px; }
+    .feature p { font-size: 14px; color: var(--gray); }
+    .content { background: white; border-radius: 12px; padding: 32px; margin: 20px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .content h2 { font-size: 24px; margin: 0 0 16px; }
+    .content h3 { font-size: 18px; margin: 24px 0 10px; }
+    .content p { color: var(--gray); margin-bottom: 12px; }
+    .content ul { color: var(--gray); padding-left: 20px; margin-bottom: 12px; }
+    .content li { margin-bottom: 6px; }
+    .faq { margin: 40px 0; }
+    .faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .faq-item { background: white; border-radius: 12px; padding: 20px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .faq-item h3 { font-size: 16px; margin-bottom: 8px; }
+    .faq-item p { font-size: 14px; color: var(--gray); }
+    footer { text-align: center; padding: 32px; border-top: 1px solid #E5E7EB; margin-top: 48px; }
+    footer a { color: var(--blue); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>⏱️ 10 Minuten Timer</h1>
+      <p>Kostenloser 10-Minuten-Countdown direkt im Browser. Kein Download, kein Login, sofort startklar.</p>
+      <a href="/?t=600#/countdown" class="timer-cta">▶ 10-Minuten-Timer starten</a>
+      <a href="/#/countdown" class="timer-cta secondary">Anderen Timer einstellen</a>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔔</div>
+        <h3>Alarm-Sound</h3>
+        <p>Deutlicher Sound wenn die Zeit abläuft</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <h3>Alle Geräte</h3>
+        <p>Smartphone, Tablet, Laptop, Beamer</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📶</div>
+        <h3>Offline-fähig</h3>
+        <p>Funktioniert ohne Internet als PWA</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🆓</div>
+        <h3>Kostenlos</h3>
+        <p>Keine Anmeldung, keine Gebühren</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Wofür ist ein 10-Minuten-Timer geeignet?</h2>
+      <p>10 Minuten sind eine vielseitige Zeitspanne — kurz genug für eine echte Pause, lang genug um etwas zu erledigen. Hier sind die besten Verwendungszwecke:</p>
+
+      <h3>🍳 Kochen & Küche</h3>
+      <ul>
+        <li>Pasta: 8-12 Minuten je nach Sorte</li>
+        <li>Eier hart kochen: 10 Minuten</li>
+        <li>Teeziehen: Genauer Aufguss-Timer</li>
+        <li>Brot aufbacken: 10-15 Minuten bei 180°C</li>
+      </ul>
+
+      <h3>📚 Lernen & Produktivität</h3>
+      <ul>
+        <li>Kurze Lerneinheiten für Kinder (Konzentrationsspanne)</li>
+        <li>Warmup-Phase vor intensivem Lernen</li>
+        <li>Quick-Review vor Prüfungen</li>
+        <li>10-Minuten-Schreib-Sprint (Brainstorming)</li>
+      </ul>
+
+      <h3>🧘 Pausen & Erholung</h3>
+      <ul>
+        <li>Power-Nap Alternative (kurze Augen-Pause)</li>
+        <li>Atemübungen und Meditation</li>
+        <li>Kurze Bewegungspause am Schreibtisch</li>
+      </ul>
+
+      <h3>💼 Meetings & Präsentationen</h3>
+      <ul>
+        <li>Strikte Redezeit bei Meetings</li>
+        <li>Elevator-Pitch Timer</li>
+        <li>Stand-Up Meeting Zeitkontrolle</li>
+      </ul>
+
+      <h2>10-Minuten-Timer vs. Stoppuhr — was ist besser?</h2>
+      <p>Wenn du weißt, dass du genau 10 Minuten haben willst und danach einen Alarm brauchst → <strong>Countdown-Timer</strong>. Wenn du messen willst wie lange etwas dauert → <a href="/#/stopwatch">Stoppuhr</a>.</p>
+
+      <h2>Mehr Timerlängen</h2>
+      <p>Andere Zeitspannen: <a href="/5-minuten-timer">5 Minuten</a> · <a href="/25-minuten-timer">25 Minuten (Pomodoro)</a> · <a href="/30-minuten-timer">30 Minuten</a> · <a href="/60-minuten-timer">60 Minuten</a></p>
+    </div>
+
+    <div class="faq">
+      <h2>Häufige Fragen</h2>
+      <div class="faq-item">
+        <h3>Wofür ist ein 10-Minuten-Timer geeignet?</h3>
+        <p>Ideal für: kurze Pausen, Kochzeiten (Pasta, Eier), kurze Meditation, Besprechungs-Timebox, Kinder-Lerneinheiten. 10 Minuten sind die perfekte "kurze Pause" Länge.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Gibt es einen Alarm wenn die Zeit abläuft?</h3>
+        <p>Ja! Der Timer gibt einen deutlichen Ton aus wenn 10 Minuten vergangen sind. Stelle sicher, dass dein Gerät nicht stummgeschaltet ist.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Funktioniert der Timer ohne Internet?</h3>
+        <p>Ja. Stoppclock ist eine Progressive Web App (PWA). Nach dem ersten Laden funktioniert alles offline.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Kann ich den Timer anpassen?</h3>
+        <p>Ja! Im <a href="/#/countdown">Countdown-Timer</a> kannst du beliebige Zeiten einstellen — von 1 Minute bis 12 Stunden.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Teil von <strong>Stoppclock</strong> — Kostenlose Online-Timer</p>
+    <nav>
+      <a href="/">Home</a> <a href="/#/countdown">Countdown</a> <a href="/#/pomodoro">Pomodoro</a>
+      <a href="/#/stopwatch">Stoppuhr</a> <a href="/privacy">Datenschutz</a>
+    </nav>
+  </footer>
+</body>
+</html>

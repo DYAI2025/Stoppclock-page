@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 Minuten Timer — Kostenloser Online-Countdown | Stoppclock</title>
+  <meta name="description" content="30-Minuten-Timer kostenlos im Browser. Ideal für Mittagspause, Sport, Lernen und Meetings. Alarm-Sound, offline-fähig, kein Download.">
+  <meta name="keywords" content="30 minuten timer, dreißig minuten timer, 30 min countdown, halbstunden timer online">
+  <link rel="canonical" href="https://www.stoppclock.com/30-minuten-timer">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="30 Minuten Timer — Stoppclock">
+  <meta property="og:description" content="30-Minuten-Countdown im Browser. Kostenlos, sofort startbereit.">
+  <meta property="og:url" content="https://www.stoppclock.com/30-minuten-timer">
+  <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  <meta name="google-adsense-account" content="ca-pub-1712273263687132">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "30 Minuten Timer — Stoppclock",
+        "url": "https://www.stoppclock.com/30-minuten-timer",
+        "description": "Kostenloser 30-Minuten Countdown-Timer im Browser",
+        "applicationCategory": "Utility",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wofür ist ein 30-Minuten-Timer gut?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "30 Minuten sind ideal für: Mittagspause-Timer, Sport-Sessions (30 Min Laufen, Yoga), Lernblöcke (alternative Pomodoro-Variante), Business-Meetings (Standard-Meeting), Kochen (Schmorgerichte, Aufläufe)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ist der 30-Minuten-Timer kostenlos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja, 100% kostenlos. Keine Anmeldung, kein Download, keine Gebühren. Stoppclock ist werbefinanziert."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stoppclock.com/" },
+          { "@type": "ListItem", "position": 2, "name": "30 Minuten Timer", "item": "https://www.stoppclock.com/30-minuten-timer" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blue: #3B82F6; --blue-dark: #2563EB; --gray: #6B7280; --bg: #F9FAFB; --fg: #111827; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .hero { text-align: center; padding: 48px 20px 32px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; margin-bottom: 12px; }
+    .hero p { font-size: 18px; color: var(--gray); max-width: 600px; margin: 0 auto 32px; }
+    .timer-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--blue); color: white; text-decoration: none; padding: 16px 32px; border-radius: 12px; font-size: 20px; font-weight: 700; transition: background 0.2s; margin: 8px; }
+    .timer-cta:hover { background: var(--blue-dark); }
+    .timer-cta.secondary { background: white; color: var(--blue); border: 2px solid var(--blue); }
+    .timer-cta.secondary:hover { background: #EFF6FF; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 40px 0; }
+    .feature { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .feature-icon { font-size: 32px; margin-bottom: 10px; }
+    .feature h3 { font-size: 16px; margin-bottom: 6px; }
+    .feature p { font-size: 14px; color: var(--gray); }
+    .content { background: white; border-radius: 12px; padding: 32px; margin: 20px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .content h2 { font-size: 24px; margin: 0 0 16px; }
+    .content h3 { font-size: 18px; margin: 24px 0 10px; }
+    .content p { color: var(--gray); margin-bottom: 12px; }
+    .content ul { color: var(--gray); padding-left: 20px; margin-bottom: 12px; }
+    .content li { margin-bottom: 6px; }
+    .faq { margin: 40px 0; }
+    .faq h2 { font-size: 24px; margin-bottom: 20px; }
+    .faq-item { background: white; border-radius: 12px; padding: 20px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .faq-item h3 { font-size: 16px; margin-bottom: 8px; }
+    .faq-item p { font-size: 14px; color: var(--gray); }
+    footer { text-align: center; padding: 32px; border-top: 1px solid #E5E7EB; margin-top: 48px; }
+    footer a { color: var(--blue); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>⏳ 30 Minuten Timer</h1>
+      <p>Halbstunden-Countdown direkt im Browser — kostenlos, ohne Anmeldung, sofort startklar.</p>
+      <a href="/?t=1800#/countdown" class="timer-cta">▶ 30-Minuten-Timer starten</a>
+      <a href="/#/pomodoro" class="timer-cta secondary">🍅 Pomodoro-Variante (25 Min)</a>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔔</div>
+        <h3>Alarm-Sound</h3>
+        <p>Deutlicher Sound nach 30 Minuten</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🖥️</div>
+        <h3>Vollbild-Modus</h3>
+        <p>Taste F für Beamer-freundlichen Vollbild</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📶</div>
+        <h3>Offline-fähig</h3>
+        <p>PWA — funktioniert ohne Internet</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🆓</div>
+        <h3>Kostenlos</h3>
+        <p>Keine Anmeldung, keine Gebühren</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Wofür ist ein 30-Minuten-Timer ideal?</h2>
+
+      <h3>🍽️ Mittagspause</h3>
+      <p>Die klassische 30-Minuten-Mittagspause: Stelle den Timer und entspanne ohne auf die Uhr zu schauen. Der Alarm sagt dir zuverlässig wann du zurück musst.</p>
+
+      <h3>🏃 Sport & Fitness</h3>
+      <ul>
+        <li>30 Minuten Joggen/Walking</li>
+        <li>Yoga-Session (Standard-Länge)</li>
+        <li>Fahrradfahren (Cardio-Block)</li>
+        <li>HIIT-Gesamttraining (inkl. Warm-Up)</li>
+      </ul>
+
+      <h3>📚 Lernen & Fokus</h3>
+      <p>30 Minuten sind eine beliebte Alternative zur 25-Minuten-Pomodoro-Einheit. Manche Menschen arbeiten besser mit etwas längeren Fokusphasen. Probiere: <strong>30 Minuten Fokus + 10 Minuten Pause</strong>.</p>
+
+      <h3>💼 Meetings</h3>
+      <p>Das Standard-Meeting dauert 30 Minuten. Mit einem sichtbaren Timer bleiben alle im Zeitplan und endlose Meetings werden vermieden.</p>
+
+      <h3>🍲 Kochen</h3>
+      <ul>
+        <li>Schmorgerichte & Aufläufe</li>
+        <li>Brot backen (erste Gehzeit)</li>
+        <li>Sous-Vide bei niedrigen Temperaturen</li>
+      </ul>
+
+      <h2>30-Minuten vs. 25-Minuten-Timer (Pomodoro)</h2>
+      <p>Die klassische <a href="/#/pomodoro">Pomodoro-Technik</a> nutzt 25 Minuten. Wissenschaftlich ist 25 Min optimal für die meisten Menschen. Manche bevorzugen aber 30-Minuten-Blöcke — besonders für kreative Arbeit oder tiefes Programmieren.</p>
+
+      <p><strong>Empfehlung:</strong> Probiere beide! Starte mit 25 Minuten Pomodoro, und wenn du merkst dass du dich nach 25 Minuten noch im Flow befindest, teste 30 Minuten.</p>
+
+      <h2>Weitere Timerlängen</h2>
+      <p><a href="/5-minuten-timer">5 Minuten</a> · <a href="/10-minuten-timer">10 Minuten</a> · <a href="/25-minuten-timer">25 Minuten (Pomodoro)</a> · <a href="/60-minuten-timer">60 Minuten</a></p>
+    </div>
+
+    <div class="faq">
+      <h2>Häufige Fragen</h2>
+      <div class="faq-item">
+        <h3>Kann ich den Timer pausieren?</h3>
+        <p>Ja. Drücke die Leertaste oder klicke auf den Timer um zu pausieren und fortzufahren. Ideal wenn du kurz unterbrochen wirst.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Gibt es einen visuellen Alarm wenn ich nicht auf den Bildschirm schaue?</h3>
+        <p>Der Tab blinkt (Browser-Notification) wenn der Alarm ausgeht. Stelle auch sicher, dass dein Lautsprecher nicht stumm ist.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Funktioniert der Timer im Hintergrund?</h3>
+        <p>Ja! Du kannst andere Browser-Tabs öffnen und arbeiten. Solange Stoppclock als Tab geöffnet bleibt, läuft der Timer weiter und gibt beim Ablauf einen Alarm aus.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Teil von <strong>Stoppclock</strong> — Kostenlose Online-Timer</p>
+    <nav>
+      <a href="/">Home</a> <a href="/#/countdown">Countdown</a> <a href="/#/pomodoro">Pomodoro</a>
+      <a href="/#/stopwatch">Stoppuhr</a> <a href="/#/interval">Intervalltimer</a>
+    </nav>
+  </footer>
+</body>
+</html>

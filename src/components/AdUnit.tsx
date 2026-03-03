@@ -1,64 +1,81 @@
 import { useEffect, useRef, useState } from 'react';
 import { loadConsent } from '../utils/consent';
-import { ADSENSE_PUBLISHER_ID } from '../config/ad-units';
+import { ADSENSE_PUBLISHER_ID, isSlotConfigured } from '../config/ad-units';
 import type { AdUnit as AdUnitType } from '../types/monetization-types';
 
 interface AdUnitProps {
   adUnit: AdUnitType;
   className?: string;
+  /** Zeigt "Anzeige"-Label über dem Ad an (Standard: true) */
+  showLabel?: boolean;
 }
 
 /**
- * Google AdSense Ad Unit Component
- *
- * Renders a responsive AdSense ad unit with automatic consent checking.
+ * AdUnit — Google AdSense Ad-Unit Component
  *
  * Features:
- * - Only shows ads if user has consented
- * - Automatically initializes adsbygoogle
- * - Handles responsive sizing
- * - Cleans up on unmount
+ * - Rendert NICHT wenn kein Consent vorhanden (DSGVO)
+ * - Rendert NICHT wenn Slot-ID nicht konfiguriert (verhindert invalid requests)
+ * - Zeigt diskretes "Anzeige"-Label für Nutzervertrauen
+ * - CLS-Prevention durch min-height auf Container
+ * - Cleanup bei Unmount
  *
  * Usage:
  * ```tsx
  * import { getAdUnit } from '../config/ad-units';
  * const adUnit = getAdUnit('home-top');
- * <AdUnit adUnit={adUnit} />
+ * if (adUnit) <AdUnit adUnit={adUnit} />
  * ```
  */
-export function AdUnit({ adUnit, className = '' }: AdUnitProps) {
+export function AdUnit({ adUnit, className = '', showLabel = true }: AdUnitProps) {
   const [hasConsent, setHasConsent] = useState(false);
   const adRef = useRef<HTMLModElement>(null);
   const initializedRef = useRef(false);
 
-  // Check consent on mount
+  // Consent beim Mount prüfen
   useEffect(() => {
     const consent = loadConsent();
     setHasConsent(consent.adsEnabled);
   }, []);
 
-  // Initialize adsbygoogle when element is mounted and consent is given
+  // adsbygoogle initialisieren wenn Consent und Element vorhanden
   useEffect(() => {
     if (!hasConsent) return;
     if (initializedRef.current) return;
     if (!adRef.current) return;
 
+    // Slot muss konfiguriert sein (verhindert leere ad-requests)
+    if (!isSlotConfigured(adUnit.adSlotId)) {
+      if (import.meta.env.DEV) {
+        console.warn(`[AdUnit] Slot "${adUnit.unitId}" ist nicht konfiguriert. Slot-ID im AdSense Dashboard erstellen.`);
+      }
+      return;
+    }
+
     try {
-      // Push ad to adsbygoogle queue
       ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
       initializedRef.current = true;
     } catch (error) {
       console.error('[AdUnit] Failed to initialize ad:', error);
     }
-  }, [hasConsent]);
+  }, [hasConsent, adUnit.adSlotId, adUnit.unitId]);
 
-  // Don't render if no consent
-  if (!hasConsent) {
-    return null;
-  }
+  // Kein Consent → nichts rendern
+  if (!hasConsent) return null;
+
+  // Slot nicht konfiguriert → nichts rendern (kein invalid request)
+  if (!isSlotConfigured(adUnit.adSlotId)) return null;
 
   return (
-    <div className={`ad-unit-wrapper ${className}`} data-unit-id={adUnit.unitId}>
+    <div
+      className={`ad-unit-wrapper ${className}`}
+      data-unit-id={adUnit.unitId}
+      role="complementary"
+      aria-label="Werbung"
+    >
+      {showLabel && (
+        <span className="ad-unit-label" aria-hidden="true">Anzeige</span>
+      )}
       <ins
         ref={adRef}
         className="adsbygoogle"

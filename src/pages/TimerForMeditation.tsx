@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdSlot } from '../components/ads/AdSlot';
 
 const TimerForMeditation: React.FC = () => {
   useEffect(() => {
@@ -104,6 +105,9 @@ const TimerForMeditation: React.FC = () => {
         </div>
       </section>
 
+      {/* Ad: After intro content */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--top" />
+
       <section className="landing-section">
         <h2>Meditations-Anfänger Guide</h2>
         <div className="steps-container">
@@ -164,6 +168,9 @@ const TimerForMeditation: React.FC = () => {
           </details>
         </div>
       </section>
+
+      {/* Ad: Before CTA */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--bottom" />
 
       <section className="landing-section landing-cta-final">
         <h2>Starte deine tägliche Meditation</h2>

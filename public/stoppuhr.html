@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoppuhr Online — Kostenlos mit Rundenzeiten | Stoppclock</title>
+  <meta name="description" content="Kostenlose Online-Stoppuhr mit Laps (Rundenzeiten). Perfekt für Sport, Präsentationen, Lernen. Präzise Wall-Clock-Messung, offline-fähig, kein Download.">
+  <meta name="keywords" content="stoppuhr online, digitale stoppuhr, stoppuhr kostenlos, online stoppuhr mit laps, rundenzeiten">
+  <link rel="canonical" href="https://www.stoppclock.com/stoppuhr">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Stoppuhr Online — Mit Rundenzeiten | Stoppclock">
+  <meta property="og:description" content="Kostenlose Online-Stoppuhr mit Laps. Präzise, offline-fähig, kein Download.">
+  <meta property="og:url" content="https://www.stoppclock.com/stoppuhr">
+  <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  <meta name="google-adsense-account" content="ca-pub-1712273263687132">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Stoppuhr Online — Stoppclock",
+        "url": "https://www.stoppclock.com/stoppuhr",
+        "description": "Kostenlose Online-Stoppuhr mit Rundenzeiten (Laps)",
+        "applicationCategory": "Utility",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0" },
+        "featureList": ["Rundenzeiten (Laps)", "Wall-Clock-Genauigkeit", "Offline-PWA", "Alle Browser"]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Was ist der Unterschied zwischen Stoppuhr und Countdown-Timer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Eine Stoppuhr zählt aufwärts (misst abgelaufene Zeit), ein Countdown-Timer zählt rückwärts von einer eingestellten Zeit auf null. Stoppuhr: Wie lange hat es gedauert? Countdown: Wie lange noch?"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Wie genau ist die Online-Stoppuhr?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unsere Stoppuhr nutzt Wall-Clock-Deltas (Date.now()) statt Browser-Timer. Das bedeutet: Auch wenn der Browser-Tab gedrosselt wird, ist die Messung korrekt. Genauigkeit: < 10ms für normale Zwecke."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Wie viele Laps (Rundenzeiten) kann ich speichern?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Theoretisch unbegrenzt — gespeichert lokal im Browser. Praktisch empfehlen wir max. 50-100 Laps für gute Übersicht. Laps bleiben gespeichert wenn du die Seite neu lädst."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stoppclock.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Stoppuhr Online", "item": "https://www.stoppclock.com/stoppuhr" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blue: #0EA5E9; --blue-dark: #0284C7; --gray: #6B7280; --bg: #F9FAFB; --fg: #111827; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .hero { text-align: center; padding: 48px 20px 32px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; margin-bottom: 12px; }
+    .hero p { font-size: 18px; color: var(--gray); max-width: 600px; margin: 0 auto 32px; }
+    .timer-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--blue); color: white; text-decoration: none; padding: 16px 32px; border-radius: 12px; font-size: 20px; font-weight: 700; transition: background 0.2s; margin: 8px; }
+    .timer-cta:hover { background: var(--blue-dark); }
+    .timer-cta.secondary { background: white; color: var(--blue); border: 2px solid var(--blue); }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 40px 0; }
+    .feature { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .feature-icon { font-size: 32px; margin-bottom: 10px; }
+    .feature h3 { font-size: 15px; margin-bottom: 6px; }
+    .feature p { font-size: 13px; color: var(--gray); }
+    .content { background: white; border-radius: 12px; padding: 32px; margin: 20px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .content h2 { font-size: 22px; margin: 0 0 16px; }
+    .content h3 { font-size: 17px; margin: 20px 0 8px; }
+    .content p, .content li { color: var(--gray); font-size: 15px; }
+    .content ul { padding-left: 20px; margin-bottom: 12px; }
+    .content li { margin-bottom: 5px; }
+    .faq { margin: 40px 0; }
+    .faq h2 { font-size: 22px; margin-bottom: 20px; }
+    .faq-item { background: white; border-radius: 12px; padding: 20px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .faq-item h3 { font-size: 15px; margin-bottom: 8px; }
+    .faq-item p { font-size: 14px; color: var(--gray); }
+    footer { text-align: center; padding: 32px; border-top: 1px solid #E5E7EB; margin-top: 48px; }
+    footer a { color: var(--blue); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>⏱️ Stoppuhr Online</h1>
+      <p>Präzise digitale Stoppuhr mit Rundenzeiten (Laps) — kostenlos, direkt im Browser, offline-fähig.</p>
+      <a href="/#/stopwatch" class="timer-cta">▶ Stoppuhr starten</a>
+      <a href="/#/countdown" class="timer-cta secondary">Timer (Countdown)</a>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🏁</div>
+        <h3>Rundenzeiten (Laps)</h3>
+        <p>Zwischenzeiten speichern ohne Stopp</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Hochpräzise</h3>
+        <p>Wall-Clock-Genauigkeit < 10ms</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📶</div>
+        <h3>Offline-fähig</h3>
+        <p>Funktioniert als PWA ohne Netz</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🆓</div>
+        <h3>100% kostenlos</h3>
+        <p>Keine Anmeldung, keine Gebühren</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Wofür eignet sich eine Online-Stoppuhr?</h2>
+
+      <h3>🏃 Sport & Fitness</h3>
+      <ul>
+        <li>Joggen: Kilometer-Splits per Lap messen</li>
+        <li>Schwimmen: Bahnzeiten aufzeichnen</li>
+        <li>Kraft-Training: Pausen zwischen Sätzen messen</li>
+        <li>Radfahren: Segment-Zeiten tracken</li>
+      </ul>
+
+      <h3>🎤 Präsentationen üben</h3>
+      <p>Drücke bei jeder Folie/jedem Abschnitt Lap. Danach siehst du welche Teile zu lang oder zu kurz waren.</p>
+
+      <h3>📚 Lernen & Zeitprotokoll</h3>
+      <p>Messe wie viel Zeit du wirklich für Aufgaben brauchst. Oft überraschend anders als geschätzt.</p>
+
+      <h3>👩‍🍳 Kochen</h3>
+      <p>Verschiedene Zubereitungsschritte messen ohne Timer zu starten/stoppen.</p>
+
+      <h2>Stoppuhr vs. Countdown — Entscheidungshilfe</h2>
+      <p><strong>Stoppuhr wählen wenn:</strong> Du messen willst wie lange etwas dauert, du Zwischenzeiten brauchst, oder du nicht weißt wie lang etwas dauern wird.</p>
+      <p><strong>Countdown wählen wenn:</strong> Du ein Zeitlimit setzen willst, du einen Alarm nach X Minuten brauchst, oder du dich unter Zeitdruck setzen möchtest.</p>
+
+      <h2>Laps (Rundenzeiten) richtig nutzen</h2>
+      <p>Drücke den <strong>Lap-Button</strong> (oder <kbd>L</kbd>) um eine Rundenzeit zu speichern. Die Stoppuhr läuft weiter. Am Ende siehst du alle Zeiten und kannst sie vergleichen — ideal für Sport, Lernen und Präsentationen.</p>
+
+      <h2>Verwandte Timer</h2>
+      <p><a href="/#/countdown">Countdown-Timer</a> · <a href="/#/interval">Intervalltimer (HIIT)</a> · <a href="/25-minuten-timer">25-Minuten-Timer (Pomodoro)</a> · <a href="/#/pomodoro">Pomodoro-Timer</a></p>
+    </div>
+
+    <div class="faq">
+      <h2>Häufige Fragen zur Stoppuhr</h2>
+      <div class="faq-item">
+        <h3>Wie genau ist die Online-Stoppuhr?</h3>
+        <p>Sehr genau. Unsere Stoppuhr nutzt Wall-Clock-Deltas statt Browser-Timer. Auch wenn der Tab im Hintergrund läuft, ist die Messung korrekt. Genauigkeit: unter 10 Millisekunden — für Sport und Alltag vollkommen ausreichend.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Werden meine Lap-Zeiten gespeichert?</h3>
+        <p>Ja, lokal in deinem Browser (localStorage). Du kannst den Tab schließen und wieder öffnen — die Laps bleiben. Sie werden nur gelöscht wenn du den Browser-Cache leerst oder "Reset" drückst.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Kann ich die Stoppuhr auf meinem Smartphone nutzen?</h3>
+        <p>Ja, vollständig mobiloptimiert. Installiere sie als PWA auf deinem Homescreen für sofortigen Zugriff ohne Browser-URL-Leiste.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Läuft die Stoppuhr wenn ich den Tab wechsle?</h3>
+        <p>Ja! Durch Wall-Clock-Delta-Messung wird die Zeit korrekt weitergemessen auch wenn der Tab gedrosselt wird. Du kannst andere Tabs öffnen und weiterarbeiten.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Teil von <strong>Stoppclock</strong> — Kostenlose Online-Timer</p>
+    <nav>
+      <a href="/">Home</a> <a href="/#/countdown">Countdown</a> <a href="/#/interval">Intervalltimer</a>
+      <a href="/#/pomodoro">Pomodoro</a> <a href="/blog/stoppuhr-online-guide">Stoppuhr-Guide</a>
+    </nav>
+  </footer>
+</body>
+</html>

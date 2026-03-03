@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { beep, flash } from "../utils";
 import { HomeButton } from "../components/HomeButton";
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const LS_KEY = "sc.v1.alarm";
 
@@ -150,6 +152,10 @@ export default function Alarm() {
       <HomeButton />
       <h1 className="timer-title">Alarm</h1>
 
+      <div className="alarm-ad-container">
+        <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+      </div>
+
       {/* Current Local Time Display */}
       <div className="current-time-display">
         <div className="current-time-label">Current Time</div>
@@ -180,6 +186,7 @@ export default function Alarm() {
               type="checkbox"
               checked={alarm.enabled}
               onChange={() => toggleAlarm(alarm.id)}
+              aria-label={`Toggle alarm for ${alarm.time}`}
             />
             <div className="alarm-info">
               <div className="alarm-time">{alarm.time}</div>
@@ -202,6 +209,7 @@ export default function Alarm() {
             type="time"
             value={newTime}
             onChange={e => setNewTime(e.target.value)}
+            aria-label="Set alarm time"
           />
           <input
             type="text"
@@ -209,11 +217,8 @@ export default function Alarm() {
             value={newLabel}
             onChange={e => setNewLabel(e.target.value)}
             maxLength={40}
-            style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap'
-            }}
+            className="alarm-label-input"
+            aria-label="Alarm label"
           />
           <button className="btn primary" onClick={addAlarm}>Save</button>
           <button className="btn" onClick={() => setShowAdd(false)}>Cancel</button>

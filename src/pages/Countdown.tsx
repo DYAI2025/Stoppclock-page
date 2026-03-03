@@ -11,6 +11,8 @@ import { trackEvent } from "../utils/stats";
 import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
 // import { CountdownGuide } from '../components/CountdownGuide'; // Removing old guide
 import '../styles/countdown-focus.css';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const LS_KEY = "sc.v1.countdown";
 const MAX = 12 * 3600_000; // 12 hours max
@@ -106,6 +108,10 @@ const CountdownWorld = ({ onStart }: { onStart: (minutes: number) => void }) => 
           </p>
         </div>
       </header>
+
+      <div style={{ maxWidth: '800px', margin: '0 auto 40px auto' }}>
+        <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+      </div>
 
       <div className="focus-rituals-grid">
         <div className="focus-ritual-card" onClick={() => onStart(10)}>

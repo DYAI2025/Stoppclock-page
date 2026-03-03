@@ -1,63 +1,64 @@
 /**
- * Google AdSense Ad Unit Configuration
+ * Google AdSense Ad Unit Configuration — Single Source of Truth
  *
- * HOW TO CONFIGURE:
- * 1. Go to Google AdSense Dashboard (https://www.google.com/adsense)
- * 2. Navigate to: Ads > By ad unit > Display ads
- * 3. Create a new ad unit for each placement below
- * 4. Copy the Slot ID (10-digit number) and replace the placeholder
+ * ============================================================
+ * HOW TO ADD A NEW AD SLOT:
+ * 1. Go to: https://www.google.com/adsense → Ads > By ad unit > Display ads
+ * 2. Create ad unit with naming convention: stoppclock_<placement>_<position>
+ * 3. Copy the 10-digit Slot ID
+ * 4. Add to AD_SLOT_IDS below and create an entry in AD_UNITS
+ * ============================================================
  *
- * SLOT NAMING CONVENTION in AdSense:
- * - stoppclock_home_top
- * - stoppclock_home_middle
- * - stoppclock_setup_sidebar
- * - stoppclock_timer_complete
- * - stoppclock_anchor_bottom
+ * NAMING CONVENTION for AdSense Dashboard:
+ *   stoppclock_home_top          → HOME_TOP
+ *   stoppclock_blog_incontent    → BLOG_INCONTENT
+ *   stoppclock_timer_page        → TIMER_PAGE
+ *   stoppclock_content_sidebar   → CONTENT_SIDEBAR
+ *   stoppclock_anchor_bottom     → ANCHOR_BOTTOM
  */
 
 import type { AdUnit } from '../types/monetization-types';
 
 // =============================================================================
-// ADSENSE CONFIGURATION - EDIT THESE VALUES
+// PUBLISHER CONFIGURATION
 // =============================================================================
 
-/**
- * Google AdSense Publisher ID
- * Found in AdSense: Account > Account information > Publisher ID
- */
+/** Publisher ID — AdSense > Account > Account information */
 export const ADSENSE_PUBLISHER_ID = 'ca-pub-1712273263687132';
 
-/**
- * Ad Slot IDs - Replace with your actual AdSense slot IDs
- *
- * To get a slot ID:
- * 1. Create an ad unit in AdSense dashboard
- * 2. Get the code, look for: data-ad-slot="XXXXXXXXXX"
- * 3. Copy that 10-digit number here
- */
+// =============================================================================
+// SLOT IDs — Hier echte IDs aus dem AdSense Dashboard eintragen
+// Format: 10-stellige Zahl als String
+// Status: ✅ LIVE | ⚠️ TODO (im AdSense Dashboard erstellen)
+// =============================================================================
 const AD_SLOT_IDS = {
-  // ✅ CONFIGURED - Banner01 responsive ad
+  // ✅ LIVE — Home Banner Top (responsive, 970px max-width)
   HOME_TOP: '2954253435',
 
-  // ✅ CONFIGURED - 10-digit numeric, unique IDs per ad unit
-  HOME_MIDDLE: '2345678901',
-  SETUP_SIDEBAR: '3456789012',
-  TIMER_COMPLETE: '4567890123',
-  ANCHOR_BOTTOM: '5678901234',
+  // ✅ LIVE — stoppckl_1 — Home Middle / Timer Pages (responsive)
+  HOME_MIDDLE: '8335102509',
+
+  // ✅ LIVE — stoppckl_1 — Timer-Seiten (Countdown, Stopwatch, Alarm etc.)
+  TIMER_PAGE: '8335102509',
+
+  // ✅ LIVE — stoppckl_2 — Blog In-Content (zwischen Abschnitten)
+  BLOG_INCONTENT: '7410013586',
+
+  // ✅ LIVE — stoppckl_2 — Content / Pillar Pages (Sidebar/Bottom)
+  CONTENT_SIDEBAR: '7410013586',
+
+  // ⚠️ TODO — Im AdSense Dashboard erstellen: stoppclock_anchor_bottom
+  // Typ: Anchor Ad (Sticky Banner) — benötigt separate Genehmigung
+  ANCHOR_BOTTOM: '',
 } as const;
 
-/**
- * Export individual slot IDs for direct usage
- * (Used by ResponsiveAd component)
- */
-export const HOME_TOP_SLOT_ID = AD_SLOT_IDS.HOME_TOP;
-
 // =============================================================================
-// AD UNIT DEFINITIONS - DO NOT EDIT BELOW UNLESS ADDING NEW PLACEMENTS
+// AD UNIT DEFINITIONS
+// Änderungen hier immer mit isSlotConfigured() absichern!
 // =============================================================================
 
 export const AD_UNITS: AdUnit[] = [
-  // Home page - top responsive ad (between hero and timer grid)
+  // ── HOME PAGE ────────────────────────────────────────────────────────────
   {
     unitId: 'home-top',
     adSlotId: AD_SLOT_IDS.HOME_TOP,
@@ -66,11 +67,9 @@ export const AD_UNITS: AdUnit[] = [
     visibilityRules: {
       showWhenRunning: true,
       showInFullscreen: false,
-      showOnMobile: true
-    }
+      showOnMobile: true,
+    },
   },
-
-  // Home page - middle responsive ad (after timer grid)
   {
     unitId: 'home-middle',
     adSlotId: AD_SLOT_IDS.HOME_MIDDLE,
@@ -79,80 +78,133 @@ export const AD_UNITS: AdUnit[] = [
     visibilityRules: {
       showWhenRunning: true,
       showInFullscreen: false,
-      showOnMobile: true
-    }
+      showOnMobile: true,
+    },
   },
 
-  // Timer setup screens - sidebar/bottom ad
+  // ── TIMER PAGES ──────────────────────────────────────────────────────────
+  // Alle spezifischen Timer-Seiten (Countdown, Stopwatch, Alarm, ...)
   {
-    unitId: 'setup-main',
-    adSlotId: AD_SLOT_IDS.SETUP_SIDEBAR,
+    unitId: 'timer-page',
+    adSlotId: AD_SLOT_IDS.TIMER_PAGE,
     placement: 'setup',
     format: 'responsive',
     visibilityRules: {
-      showWhenRunning: false, // Hide when timer is active
+      showWhenRunning: false, // Nicht während aktiver Timer-Session
       showInFullscreen: false,
-      showOnMobile: true
-    }
+      showOnMobile: true,
+    },
   },
 
-  // Timer completion - shown after timer finishes
+  // ── BLOG / CONTENT PAGES ─────────────────────────────────────────────────
   {
-    unitId: 'interstitial-complete',
-    adSlotId: AD_SLOT_IDS.TIMER_COMPLETE,
-    placement: 'interstitial',
+    unitId: 'blog-incontent',
+    adSlotId: AD_SLOT_IDS.BLOG_INCONTENT,
+    placement: 'setup',
     format: 'responsive',
     visibilityRules: {
-      showWhenRunning: false,
+      showWhenRunning: true,
       showInFullscreen: false,
-      showOnMobile: true
-    }
+      showOnMobile: true,
+    },
+  },
+  {
+    unitId: 'content-sidebar',
+    adSlotId: AD_SLOT_IDS.CONTENT_SIDEBAR,
+    placement: 'setup',
+    format: 'responsive',
+    visibilityRules: {
+      showWhenRunning: true,
+      showInFullscreen: false,
+      showOnMobile: false, // Sidebar auf Mobile nicht sinnvoll
+    },
   },
 
-  // Anchor ad - bottom sticky (non-intrusive)
+  // ── ANCHOR (STICKY BOTTOM) ────────────────────────────────────────────────
   {
     unitId: 'anchor-bottom',
     adSlotId: AD_SLOT_IDS.ANCHOR_BOTTOM,
     placement: 'anchor',
     format: 'anchor',
     visibilityRules: {
-      showWhenRunning: false, // Never show during active timer
-      showInFullscreen: false, // Never show in fullscreen
-      showOnMobile: true
-    }
-  }
+      showWhenRunning: false, // Niemals während aktivem Timer
+      showInFullscreen: false,
+      showOnMobile: true,
+    },
+  },
+
+  // BACKWARD-COMPAT: 'setup-main' alias für bestehende Verwendungen
+  {
+    unitId: 'setup-main',
+    adSlotId: AD_SLOT_IDS.CONTENT_SIDEBAR,
+    placement: 'setup',
+    format: 'responsive',
+    visibilityRules: {
+      showWhenRunning: false,
+      showInFullscreen: false,
+      showOnMobile: true,
+    },
+  },
+
+  // BACKWARD-COMPAT: 'home-bottom' alias
+  {
+    unitId: 'home-bottom',
+    adSlotId: AD_SLOT_IDS.HOME_MIDDLE,
+    placement: 'home',
+    format: 'responsive',
+    visibilityRules: {
+      showWhenRunning: true,
+      showInFullscreen: false,
+      showOnMobile: true,
+    },
+  },
 ];
 
+// =============================================================================
+// HELPER FUNCTIONS
+// =============================================================================
+
 /**
- * Check if an ad slot is properly configured (has a real ID)
+ * Prüft ob ein Slot korrekt konfiguriert ist (nicht leer, 10 Ziffern)
+ * Immer prüfen bevor ein Ad gerendert wird!
  */
 export function isSlotConfigured(slotId: string): boolean {
   return slotId !== '' && slotId.length >= 10 && /^\d+$/.test(slotId);
 }
 
-/**
- * Get only configured ad units (skip placeholders)
- */
+/** Gibt alle konfigurierten (live) Ad-Units zurück */
 export function getConfiguredAdUnits(): AdUnit[] {
   return AD_UNITS.filter(unit => isSlotConfigured(unit.adSlotId));
 }
 
-/**
- * Get ad unit by ID
- */
+/** Gibt Ad-Unit by ID zurück (undefined wenn nicht gefunden) */
 export function getAdUnit(unitId: string): AdUnit | undefined {
   return AD_UNITS.find(unit => unit.unitId === unitId);
 }
 
-/**
- * Get ad units by placement
- */
+/** Gibt alle Units für eine bestimmte Placement zurück */
 export function getAdUnitsByPlacement(placement: AdUnit['placement']): AdUnit[] {
   return AD_UNITS.filter(unit => unit.placement === placement);
 }
 
 /**
- * Check if ad should be visible based on current state
+ * Gibt den besten verfügbaren Unit für eine Seite zurück.
+ * Priorisiert: page-spezifischer Slot → home-top als Fallback
+ */
+export function getBestAdUnitForPage(preferredUnitId: string): AdUnit | undefined {
+  const preferred = getAdUnit(preferredUnitId);
+  if (preferred && isSlotConfigured(preferred.adSlotId)) return preferred;
+
+  // Fallback auf home-top (immer konfiguriert)
+  const fallback = getAdUnit('home-top');
+  if (fallback && isSlotConfigured(fallback.adSlotId)) return fallback;
+
+  return undefined;
+}
+
+/**
+ * Entscheidet ob ein Ad angezeigt werden soll.
+ * Alle Regeln werden hier zentralisiert geprüft.
  */
 export function shouldShowAd(
   adUnit: AdUnit,
@@ -163,23 +215,35 @@ export function shouldShowAd(
     hasConsent: boolean;
   }
 ): boolean {
-  // No consent = no ads
+  // 1. Kein Consent → keine Ads (DSGVO)
   if (!state.hasConsent) return false;
 
-  // Check fullscreen
-  if (state.isFullscreen && !adUnit.visibilityRules.showInFullscreen) {
-    return false;
-  }
+  // 2. Slot nicht konfiguriert → nicht rendern
+  if (!isSlotConfigured(adUnit.adSlotId)) return false;
 
-  // Check timer running
-  if (state.timerRunning && !adUnit.visibilityRules.showWhenRunning) {
-    return false;
-  }
+  // 3. Fullscreen-Regel
+  if (state.isFullscreen && !adUnit.visibilityRules.showInFullscreen) return false;
 
-  // Check mobile
-  if (state.isMobile && !adUnit.visibilityRules.showOnMobile) {
-    return false;
-  }
+  // 4. Timer-Running-Regel
+  if (state.timerRunning && !adUnit.visibilityRules.showWhenRunning) return false;
+
+  // 5. Mobile-Regel
+  if (state.isMobile && !adUnit.visibilityRules.showOnMobile) return false;
 
   return true;
+}
+
+/**
+ * Debug-Info für Entwicklung
+ */
+export function getAdUnitDebugInfo(): { configured: number; total: number; unconfigured: string[] } {
+  const unconfigured = AD_UNITS
+    .filter(u => !isSlotConfigured(u.adSlotId))
+    .map(u => u.unitId);
+
+  return {
+    configured: AD_UNITS.length - unconfigured.length,
+    total: AD_UNITS.length,
+    unconfigured,
+  };
 }

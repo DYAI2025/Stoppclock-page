@@ -7,6 +7,8 @@ import { usePinnedTimers, PinnedTimer } from "../contexts/PinnedTimersContext";
 import { trackEvent } from "../utils/stats";
 import { getPresetFromUrl } from "../utils/share";
 import { DidYouKnowSnippet } from "../components/DidYouKnowSnippet";
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const LS_KEY = "sc.v1.stopwatch";
 
@@ -89,10 +91,8 @@ export default function Stopwatch() {
 
   // Get current config for sharing/saving (stopwatch has minimal config)
   const getCurrentConfig = useCallback(() => {
-    return {
-      elapsedMs: currentTime
-    };
-  }, [currentTime]);
+    return {} as any; // Stopwatch has no config to save
+  }, []);
 
   // URL Preset Loading (minimal for stopwatch)
   useEffect(() => {
@@ -213,6 +213,10 @@ export default function Stopwatch() {
         <h1 className="stopwatch-title">Stopwatch</h1>
         <HomeButton />
       </header>
+
+      <div style={{ maxWidth: '800px', margin: '0 auto 20px auto', width: '100%' }}>
+        <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+      </div>
 
       {/* Timer Display (inverted colors) */}
       <div className={`stopwatch-display ${st.running ? 'running' : ''}`}>

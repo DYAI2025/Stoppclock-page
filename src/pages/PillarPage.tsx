@@ -83,7 +83,7 @@ export default function PillarPage() {
 
       {/* Ad Slot: Below Hero */}
       <div className="pillar-ad-slot hero-below">
-        <AdUnit adUnit={getAdUnit('home-top')!} />
+        <AdUnit adUnit={getAdUnit('content-sidebar') ?? getAdUnit('home-top')!} />
       </div>
 
       {/* Main Container */}

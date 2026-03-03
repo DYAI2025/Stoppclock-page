@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>60 Minuten Timer — 1 Stunde Countdown kostenlos | Stoppclock</title>
+  <meta name="description" content="60-Minuten-Timer (1 Stunde) kostenlos im Browser. Für Sport, Kochen, Lernen, Meetings. Alarm-Sound, offline-fähig, kein Download nötig.">
+  <meta name="keywords" content="60 minuten timer, 1 stunde timer, stunden timer online, 60 min countdown kostenlos">
+  <link rel="canonical" href="https://www.stoppclock.com/60-minuten-timer">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="60 Minuten Timer (1 Stunde) — Stoppclock">
+  <meta property="og:description" content="60-Minuten-Countdown kostenlos im Browser. Alarm-Sound, kein Download.">
+  <meta property="og:url" content="https://www.stoppclock.com/60-minuten-timer">
+  <meta property="og:image" content="https://www.stoppclock.com/og/cover-1200x630.png">
+  <meta name="google-adsense-account" content="ca-pub-1712273263687132">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "60 Minuten Timer — Stoppclock",
+        "url": "https://www.stoppclock.com/60-minuten-timer",
+        "description": "Kostenloser 60-Minuten (1 Stunde) Countdown-Timer im Browser",
+        "applicationCategory": "Utility",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wofür nutzt man einen 60-Minuten-Timer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "60-Minuten-Timer sind ideal für: Sportstunden (Yoga, Pilates, Training), Lernblöcke (Deep Work Sessions), Schulstunden, Kochen (Schmorgerichte, Brot), Meetings (längere Besprechungen), Entspannung (1 Stunde Auszeit)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kann ich den analogen Timer auf dem Beamer projizieren?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ja! Unser Analog-Countdown zeigt eine klassische Zeigeuhr-Anzeige und ist ideal für Beamer. Drücke F für Vollbild. Sehr gut lesbar auch aus großer Entfernung."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stoppclock.com/" },
+          { "@type": "ListItem", "position": 2, "name": "60 Minuten Timer", "item": "https://www.stoppclock.com/60-minuten-timer" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="/icons/icon-192.png" sizes="192x192">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --blue: #3B82F6; --blue-dark: #2563EB; --gray: #6B7280; --bg: #F9FAFB; --fg: #111827; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .hero { text-align: center; padding: 48px 20px 32px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; margin-bottom: 12px; }
+    .hero p { font-size: 18px; color: var(--gray); max-width: 600px; margin: 0 auto 32px; }
+    .cta-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .timer-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--blue); color: white; text-decoration: none; padding: 16px 28px; border-radius: 12px; font-size: 18px; font-weight: 700; transition: background 0.2s; }
+    .timer-cta:hover { background: var(--blue-dark); }
+    .timer-cta.secondary { background: white; color: var(--blue); border: 2px solid var(--blue); }
+    .timer-cta.secondary:hover { background: #EFF6FF; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 40px 0; }
+    .feature { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .feature-icon { font-size: 32px; margin-bottom: 10px; }
+    .feature h3 { font-size: 15px; margin-bottom: 6px; }
+    .feature p { font-size: 13px; color: var(--gray); }
+    .content { background: white; border-radius: 12px; padding: 32px; margin: 20px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .content h2 { font-size: 22px; margin: 0 0 16px; }
+    .content h3 { font-size: 17px; margin: 20px 0 8px; }
+    .content p { color: var(--gray); margin-bottom: 12px; font-size: 15px; }
+    .content ul { color: var(--gray); padding-left: 20px; margin-bottom: 12px; font-size: 15px; }
+    .content li { margin-bottom: 5px; }
+    .faq { margin: 40px 0; }
+    .faq h2 { font-size: 22px; margin-bottom: 20px; }
+    .faq-item { background: white; border-radius: 12px; padding: 20px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .faq-item h3 { font-size: 15px; margin-bottom: 8px; }
+    .faq-item p { font-size: 14px; color: var(--gray); }
+    footer { text-align: center; padding: 32px; border-top: 1px solid #E5E7EB; margin-top: 48px; }
+    footer a { color: var(--blue); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>🕐 60 Minuten Timer</h1>
+      <p>Genau 1 Stunde Countdown direkt im Browser — kostenlos, ohne Anmeldung, mit Alarm-Sound.</p>
+      <div class="cta-group">
+        <a href="/?t=3600#/countdown" class="timer-cta">▶ 60-Min-Timer starten</a>
+        <a href="/?t=3600#/analog" class="timer-cta secondary">🕐 Analog (Beamer)</a>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔔</div>
+        <h3>Alarm nach 60 Min</h3>
+        <p>Deutlicher Sound beim Ablauf</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📺</div>
+        <h3>Beamer-Modus</h3>
+        <p>Analog-Anzeige für Projektionen</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📶</div>
+        <h3>Offline-fähig</h3>
+        <p>PWA — ohne Netz nutzbar</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⏸️</div>
+        <h3>Pause/Fortsetzen</h3>
+        <p>Jederzeit pausierbar</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <h2>Typische Anwendungen für 60-Minuten-Timer</h2>
+
+      <h3>🏋️ Sport & Fitness</h3>
+      <ul>
+        <li>Yoga-Stunde (Standard 60 Min)</li>
+        <li>Pilates-Einheit</li>
+        <li>Fitnessstudio-Session</li>
+        <li>Schwimmbahn-Training</li>
+        <li>Laufen (längere Distanz)</li>
+      </ul>
+
+      <h3>🎓 Unterricht & Schule</h3>
+      <p>Die klassische Schulstunde hat 45-60 Minuten. Mit dem 60-Minuten-Timer auf dem Beamer projiziert wissen alle Schüler immer genau wo sie zeitlich stehen. Der <strong>Analog-Countdown</strong> ist besonders intuitiv lesbar.</p>
+
+      <h3>📖 Deep Work & Lernen</h3>
+      <p>Für intensive Lernphasen oder Deep-Work-Sessions ist 60 Minuten eine gute Einheit — besonders wenn du Pomodoro für zu kurz befindest. Starte einen 60-Minuten-Timer und tauche vollständig in eine Aufgabe ein.</p>
+
+      <h3>🍖 Kochen</h3>
+      <ul>
+        <li>Braten im Ofen (Chicken, Lammkeule)</li>
+        <li>Brot backen (Hauptbackzeit)</li>
+        <li>Schmorgerichte (Gulasch, Ragù)</li>
+        <li>Einkochen & Sterilisieren</li>
+      </ul>
+
+      <h2>Analog oder Digital für 60-Minuten?</h2>
+      <p>Für Beamer-Projektion empfehlen wir den <a href="/?t=3600#/analog">Analog-Countdown</a>. Die Zeigerdarstellung zeigt sofort wie viel "Tortenstück" der Zeit noch übrig ist — intuitiver als eine Ziffernanzeige. Für persönliche Nutzung ist der <a href="/?t=3600#/countdown">digitale Countdown</a> präziser.</p>
+
+      <h2>Weitere Timerlängen</h2>
+      <p><a href="/5-minuten-timer">5 Min</a> · <a href="/10-minuten-timer">10 Min</a> · <a href="/25-minuten-timer">25 Min (Pomodoro)</a> · <a href="/30-minuten-timer">30 Min</a> · Weitere im <a href="/#/countdown">Countdown-Timer</a></p>
+    </div>
+
+    <div class="faq">
+      <h2>Häufige Fragen</h2>
+      <div class="faq-item">
+        <h3>Wie stelle ich genau 60 Minuten ein?</h3>
+        <p>Mit dem obigen Button "60-Min-Timer starten" ist der Timer voreingestellt. Alternativ: <a href="/#/countdown">Countdown-Timer</a> öffnen → Zeit auf 1:00:00 stellen → Start.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Was passiert wenn 60 Minuten um sind?</h3>
+        <p>Ein deutlicher Alarm-Sound ertönt und der Timer zeigt 00:00 an. Der Tab-Titel wechselt ebenfalls um anzuzeigen dass die Zeit abgelaufen ist.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Kann ich während des Countdowns andere Seiten öffnen?</h3>
+        <p>Ja. Der Timer läuft im Hintergrund weiter solange der Stoppclock-Tab offen ist. Du kannst andere Tabs öffnen, der Alarm wird trotzdem ausgelöst.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Gibt es auch einen 90-Minuten-Timer?</h3>
+        <p>Im Countdown-Timer kannst du beliebige Zeiten einstellen, also auch 90 Minuten (1:30:00). Direkt: <a href="/?t=5400#/countdown">90-Minuten-Timer starten</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Teil von <strong>Stoppclock</strong> — Kostenlose Online-Timer</p>
+    <nav>
+      <a href="/">Home</a> <a href="/#/countdown">Countdown</a> <a href="/#/analog">Analog-Timer</a>
+      <a href="/#/pomodoro">Pomodoro</a> <a href="/#/interval">Intervalltimer</a>
+    </nav>
+  </footer>
+</body>
+</html>

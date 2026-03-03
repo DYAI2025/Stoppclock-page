@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 const LS_KEY = "sc.v1.digitalclock";
 
@@ -91,6 +93,11 @@ export default function DigitalClock() {
   return (
     <div className="clock-wrap" ref={wrapRef}>
       <a href="#/" className="btn-home">Home</a>
+      
+      <div style={{ maxWidth: '800px', margin: '0 auto 20px auto', width: '100%' }}>
+        <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+      </div>
+
       <div className="clock-time">{timeStr}</div>
       <div className="clock-date">{dateStr}</div>
 

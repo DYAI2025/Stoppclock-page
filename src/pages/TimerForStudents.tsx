@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdSlot } from '../components/ads/AdSlot';
 
 const TimerForStudents: React.FC = () => {
   useEffect(() => {
@@ -221,6 +222,9 @@ const TimerForStudents: React.FC = () => {
       </section>
 
       {/* Student Success Stories */}
+      {/* Ad: After first content block */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--top" />
+
       <section className="landing-section landing-testimonials">
         <h2>Was Studenten über Timer-basiertes Lernen sagen</h2>
 
@@ -388,6 +392,9 @@ const TimerForStudents: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Ad: Before CTA */}
+      <AdSlot placement="content-sidebar" minHeight={90} className="pillar-ad pillar-ad--bottom" />
 
       {/* CTA Section */}
       <section className="landing-section landing-cta-final">

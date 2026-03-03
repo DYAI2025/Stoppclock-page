@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { AppHeader } from '../components/AppHeader';
 import { beep } from '../utils';
 import { trackEvent } from '../utils/stats';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 import '../styles/interval-timer.css';
 
 type IntervalPhase = 'work' | 'rest' | 'warmup' | 'cooldown' | 'done';
@@ -91,7 +93,7 @@ export default function IntervalTimer() {
     beep(300, 600);
     setTimeout(() => beep(300, 800), 200);
     setTimeout(() => beep(500, 1000), 400);
-    trackEvent('interval_timer', 'complete', `${config.rounds} rounds`);
+    trackEvent('interval', 'complete', undefined, { rounds: config.rounds });
   };
 
   const start = () => {
@@ -102,7 +104,7 @@ export default function IntervalTimer() {
        else enterPhase('work');
     }
     setActive(true);
-    trackEvent('interval_timer', 'start');
+    trackEvent('interval', 'start');
   };
 
   const pause = () => setActive(false);
@@ -125,6 +127,12 @@ export default function IntervalTimer() {
       <AppHeader title="Interval Timer" actions={{ showHome: true, showFullscreen: true, showTheme: true }} />
       
       <div className="interval-main">
+        {!active && phase !== 'done' && (
+             <div className="interval-ad-container">
+                <AdUnit adUnit={getAdUnit('timer-page') ?? getAdUnit('home-top')!} />
+             </div>
+        )}
+
         <div className="interval-display">
           <span className={`iv-phase-label ${phase}`}>
              {msg === "Workout Complete" ? "Done" : (phase === 'done' ? "Ready" : phase)}
@@ -140,10 +148,9 @@ export default function IntervalTimer() {
         {/* Simple Progress Bar (for current Interval) */}
         <div className="iv-progress-container">
            <div 
-             className="iv-progress-bar" 
+             className={`iv-progress-bar ${phase}`}
              style={{ 
-               width: `${(remaining / (phase === 'work' ? config.work : (phase === 'rest' ? config.rest : config.warmup))) * 100}%`,
-               backgroundColor: phase === 'work' ? 'var(--iv-work)' : (phase === 'rest' ? 'var(--iv-rest)' : '#888')
+               width: `${(remaining / (phase === 'work' ? config.work : (phase === 'rest' ? config.rest : config.warmup))) * 100}%`
              }}
            />
         </div>
@@ -157,21 +164,36 @@ export default function IntervalTimer() {
            <button className="iv-btn iv-btn-secondary" onClick={reset}>Reset</button>
         </div>
 
-        <div className="iv-settings">
-           <div className="iv-setting-row">
-             <label>Work (sec)</label>
-             <input type="number" className="iv-input" value={config.work} onChange={e => updateConfig('work', +e.target.value)} />
-           </div>
-           <div className="iv-setting-row">
-             <label>Rest (sec)</label>
-             <input type="number" className="iv-input" value={config.rest} onChange={e => updateConfig('rest', +e.target.value)} />
-           </div>
-           <div className="iv-setting-row">
-             <label>Rounds</label>
-             <input type="number" className="iv-input" value={config.rounds} onChange={e => updateConfig('rounds', +e.target.value)} />
-           </div>
         </div>
-      </div>
+
+        {/* Settings only visible when not running and not done */ }
+        {!active && phase !== 'done' && (
+            <div className="iv-settings-card">
+              <h3>Configuration</h3>
+              <div className="iv-settings-grid">
+                <div className="iv-setting-item">
+                    <label>Work (s)</label>
+                    <input type="number" className="iv-input" value={config.work} onChange={e => updateConfig('work', +e.target.value)} aria-label="Work duration in seconds" />
+                </div>
+                <div className="iv-setting-item">
+                    <label>Rest (s)</label>
+                    <input type="number" className="iv-input" value={config.rest} onChange={e => updateConfig('rest', +e.target.value)} aria-label="Rest duration in seconds" />
+                </div>
+                <div className="iv-setting-item">
+                    <label>Rounds</label>
+                    <input type="number" className="iv-input" value={config.rounds} onChange={e => updateConfig('rounds', +e.target.value)} aria-label="Number of rounds" />
+                </div>
+                <div className="iv-setting-item">
+                    <label>Warmup (s)</label>
+                    <input type="number" className="iv-input" value={config.warmup} onChange={e => updateConfig('warmup', +e.target.value)} aria-label="Warmup duration in seconds" />
+                </div>
+                <div className="iv-setting-item">
+                    <label>Cooldown (s)</label>
+                    <input type="number" className="iv-input" value={config.cooldown} onChange={e => updateConfig('cooldown', +e.target.value)} aria-label="Cooldown duration in seconds" />
+                </div>
+              </div>
+            </div>
+        )}
     </div>
   );
 }
