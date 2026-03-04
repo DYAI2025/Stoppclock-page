@@ -26,13 +26,21 @@ const AD_ROUTES = [
 ];
 
 test.describe('AdSense Policy: Kein Ad ohne Consent', () => {
-  // Sicherstellen dass kein Consent im LocalStorage ist
+  // Sicherstellen dass kein Consent im LocalStorage ist — BEVOR die Seite lädt
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    await page.evaluate(() => {
-      localStorage.removeItem('sc.consent');
-      localStorage.removeItem('sc.adsConsent');
+    // 1. localStorage via addInitScript löschen (läuft VOR jeglichem JS)
+    await page.addInitScript(() => {
+      try {
+        localStorage.removeItem('sc.consent');
+        localStorage.removeItem('sc.adsConsent');
+      } catch { /* ignore */ }
     });
+
+    // 2. Externe AdSense/Analytics-Scripts blockieren für saubere Isolation
+    await page.route('**/*pagead2.googlesyndication*', route => route.abort());
+    await page.route('**/*fundingchoicesmessages.google*', route => route.abort());
+    await page.route('**/*googletagmanager*', route => route.abort());
+    await page.route('**/*google-analytics*', route => route.abort());
   });
 
   for (const route of AD_ROUTES) {

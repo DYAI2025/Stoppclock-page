@@ -142,12 +142,12 @@ export const schachuhrRegelnOnline: BlogPostContent = {
       type: 'comparison-table',
       props: {
         heading: 'Zeitkontrollen im Überblick',
-        columns: ['Format', 'Zeit pro Spieler', 'Typische Partie', 'Für wen?'],
+        headers: ['Zeit pro Spieler', 'Typische Partie', 'Für wen?'],
         rows: [
-          ['Bullet', '< 3 Minuten', '< 6 Min', 'Erfahrene Spieler'],
-          ['Blitz', '3-5 Minuten', '< 12 Min', 'Alle ab Mittelstufe'],
-          ['Rapid', '10-25 Minuten', '20-60 Min', 'Freizeitschach, Turniere'],
-          ['Classical', '90+ Minuten', '3-6 Stunden', 'Ernst-Turniere, Vereine'],
+          { aspect: 'Bullet', values: ['< 3 Minuten', '< 6 Min', 'Erfahrene Spieler'] },
+          { aspect: 'Blitz', values: ['3-5 Minuten', '< 12 Min', 'Alle ab Mittelstufe'] },
+          { aspect: 'Rapid', values: ['10-25 Minuten', '20-60 Min', 'Freizeitschach, Turniere'] },
+          { aspect: 'Classical', values: ['90+ Minuten', '3-6 Stunden', 'Ernst-Turniere, Vereine'] },
         ],
       },
     },

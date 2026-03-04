@@ -121,9 +121,9 @@ export const countdownTimerKlasse: BlogPostContent = {
       props: {
         heading: 'Timer im Unterricht — was Studien sagen',
         stats: [
-          { value: '23%', label: 'weniger Zeitfragen wenn Timer projiziert wird', source: 'Bildungsforschung Münster 2022' },
-          { value: '3x', label: 'mehr Schüler wissen um die Restzeitangaben', source: 'Praxisstudie' },
-          { value: '15%', label: 'bessere Aufgabenerfüllung mit Zeitdruck-Sichtbarkeit', source: 'Stanford Education' },
+          { value: '23%', label: 'weniger Zeitfragen', description: 'wenn Timer projiziert wird (Bildungsforschung Münster 2022)' },
+          { value: '3x', label: 'mehr Schüler kennen die Restzeit', description: 'bei sichtbarem Timer (Praxisstudie)' },
+          { value: '15%', label: 'bessere Aufgabenerfüllung', description: 'mit Zeitdruck-Sichtbarkeit (Stanford Education)' },
         ],
       },
     },

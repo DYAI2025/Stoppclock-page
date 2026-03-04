@@ -80,7 +80,7 @@ test.describe('SEO: Meta-Tags pro Route', () => {
     test(`SEO korrekt: ${expected.route}`, async ({ page }) => {
       await page.goto(expected.route);
       await page.waitForLoadState('networkidle');
-      await page.waitForTimeout(400); // JS SEO-Hook Zeit lassen
+      await page.waitForTimeout(700); // JS SEO-Hook + React Effects Zeit lassen
 
       // ── Title ───────────────────────────────────────────────────────────
       const title = await page.title();
@@ -124,12 +124,22 @@ test.describe('SEO: Meta-Tags pro Route', () => {
 
       // ── JSON-LD Schema für Blog-Posts ────────────────────────────────────
       if (expected.hasSchema) {
-        const schemaScript = page.locator('script[type="application/ld+json"]').last();
-        const schemaText = await schemaScript.textContent();
-        expect(schemaText, 'JSON-LD Script fehlt').toBeTruthy();
+        // Mehr Zeit für React useEffect (BlogPosting wird dynamisch injiziert)
+        await page.waitForTimeout(800);
 
-        const schema = JSON.parse(schemaText!);
-        const hasBlogPosting = JSON.stringify(schema).includes('BlogPosting');
+        // Alle JSON-LD Scripts prüfen (nicht nur .last())
+        const allScripts = page.locator('script[type="application/ld+json"]');
+        const scriptCount = await allScripts.count();
+        expect(scriptCount, 'Kein JSON-LD Script vorhanden').toBeGreaterThan(0);
+
+        let hasBlogPosting = false;
+        for (let i = 0; i < scriptCount; i++) {
+          const text = await allScripts.nth(i).textContent();
+          if (text && text.includes('BlogPosting')) {
+            hasBlogPosting = true;
+            break;
+          }
+        }
         expect(hasBlogPosting, `BlogPosting Schema fehlt auf ${expected.route}`).toBe(true);
       }
     });
