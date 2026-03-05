@@ -1,4 +1,6 @@
 import React from "react";
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 
 export default function About() {
   return (
@@ -84,6 +86,11 @@ export default function About() {
       <p className="legal-lang-switch">
         <a href="#/impressum">German Imprint (Impressum)</a>
       </p>
+
+      {/* hori2 — Horizontal Banner am Seitenende */}
+      <div className="hori2-banner hori2-banner--bottom">
+        <AdUnit adUnit={getAdUnit('hori2')!} showLabel={true} />
+      </div>
     </div>
   );
 }

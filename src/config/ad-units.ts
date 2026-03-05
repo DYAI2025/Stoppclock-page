@@ -47,6 +47,10 @@ const AD_SLOT_IDS = {
   // ✅ LIVE — stoppckl_2 — Content / Pillar Pages (Sidebar/Bottom)
   CONTENT_SIDEBAR: '7410013586',
 
+  // ✅ LIVE — hori2 — Horizontales Banner (responsive, volle Breite)
+  // Einsatz: Unter Blog-Liste, Unter Timer-Worlds, Unter Facts, Unter About
+  HORI2: '7752892424',
+
   // ⚠️ TODO — Im AdSense Dashboard erstellen: stoppclock_anchor_bottom
   // Typ: Anchor Ad (Sticky Banner) — benötigt separate Genehmigung
   ANCHOR_BOTTOM: '',
@@ -117,6 +121,20 @@ export const AD_UNITS: AdUnit[] = [
       showWhenRunning: true,
       showInFullscreen: false,
       showOnMobile: false, // Sidebar auf Mobile nicht sinnvoll
+    },
+  },
+
+  // ── HORIZONTAL BANNER (hori2) ────────────────────────────────────────────
+  // Einsatz: Unter Blog-Liste, Unter Timer-Worlds, Unter Facts, Unter About
+  {
+    unitId: 'hori2',
+    adSlotId: AD_SLOT_IDS.HORI2,
+    placement: 'home',
+    format: 'responsive',
+    visibilityRules: {
+      showWhenRunning: true,
+      showInFullscreen: false,
+      showOnMobile: true,
     },
   },
 

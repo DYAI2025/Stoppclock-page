@@ -3683,3 +3683,28 @@ a:focus:not(:focus-visible) {
   min-height: 90px;
   text-align: center;
 }
+
+/* ── hori2 — Horizontales Responsive Banner ────────────────────────────── */
+.hori2-banner {
+  width: 100%;
+  max-width: 970px;
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  /* CLS-Prevention: Mindesthöhe reserviert Platz bevor Ad lädt */
+  min-height: 90px;
+}
+
+.hori2-banner--top {
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.hori2-banner--bottom {
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+.hori2-banner .ad-unit-wrapper {
+  min-height: 90px;
+}

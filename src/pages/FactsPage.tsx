@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { HomeButton } from '../components/HomeButton';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
 import type { TimerFact, FactCategory } from '../types/facts-types';
 import '../styles/facts.css';
 
@@ -205,6 +207,11 @@ export default function FactsPage() {
             </div>
           </>
         )}
+      </div>
+
+      {/* hori2 — Horizontal Banner vor Footer */}
+      <div className="hori2-banner hori2-banner--bottom">
+        <AdUnit adUnit={getAdUnit('hori2')!} showLabel={true} />
       </div>
 
       {/* Footer SEO Content */}

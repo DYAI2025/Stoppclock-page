@@ -45,7 +45,7 @@ export default function TimerWorldsIndex() {
 
       {/* Ad Slot: Top */}
       <div className="ad-container-top">
-        <AdUnit adUnit={getAdUnit('home-top')!} />
+        <AdUnit adUnit={getAdUnit('hori2')!} />
       </div>
 
       <div className="worlds-grid">
@@ -90,7 +90,7 @@ export default function TimerWorldsIndex() {
 
       {/* Ad Slot: Bottom */}
       <div className="ad-container-bottom">
-        <AdUnit adUnit={getAdUnit('home-bottom')!} />
+        <AdUnit adUnit={getAdUnit('hori2')!} />
       </div>
     </div>
   );
