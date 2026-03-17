@@ -6,6 +6,7 @@ import DynamicBlogRouter from "./pages/DynamicBlogRouter";
 
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
+import { AnchorAdSlot } from "./components/ads/AdSlot";
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import { SEOHead } from "./hooks/useSEO";
 import LandingPage from "./pages/LandingPage";
@@ -148,6 +149,9 @@ function App() {
           <div className="page"><h1>Not Found</h1></div>
         )}
       </Suspense>
+
+      {/* Global Anchor Ad */}
+      <AnchorAdSlot />
     </>
   );
 }

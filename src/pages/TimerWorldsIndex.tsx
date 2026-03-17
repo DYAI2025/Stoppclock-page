@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { HomeButton } from '../components/HomeButton';
 import { AdUnit } from '../components/AdUnit';
 import { getAdUnit } from '../config/ad-units';
-import '../styles/timer-worlds.css'; // We'll need to create this or use existing styles
+import { AdSlot } from '../components/ads/AdSlot'; // Import AdSlot
 
 interface World {
   id: string;
@@ -43,9 +41,9 @@ export default function TimerWorldsIndex() {
         <p className="subtitle">Discover the philosophy behind time.</p>
       </header>
 
-      {/* Ad Slot: Top */}
+      {/* AdSlot: Top */}
       <div className="ad-container-top">
-        <AdUnit adUnit={getAdUnit('hori2')!} />
+        <AdSlot placement="hori2" />
       </div>
 
       <div className="worlds-grid">
@@ -88,9 +86,9 @@ export default function TimerWorldsIndex() {
         </div>
       </section>
 
-      {/* Ad Slot: Bottom */}
+      {/* AdSlot: Bottom */}
       <div className="ad-container-bottom">
-        <AdUnit adUnit={getAdUnit('hori2')!} />
+        <AdSlot placement="hori2" />
       </div>
     </div>
   );

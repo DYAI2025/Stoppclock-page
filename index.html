@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://www.google-analytics.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://www.google-analytics.com; connect-src 'self' https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://googleads.g.doubleclick.net https://fundingchoicesmessages.google.com https://pagead2.googlesyndication.com; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,18 +49,34 @@
     <link rel="apple-touch-icon" href="/icons/icon-180.png" />
 
     <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K409QD2YSJ"></script>
+    <script async src="https://googletagmanager.com/gtag/js?id=G-K409QD2YSJ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'analytics_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied'
-      });
-      gtag('config', 'G-K409QD2YSJ', { send_page_view: false });
+
+      // Load initial consent from localStorage
+      (function() {
+        var consent = { ads: false, analytics: false };
+        try {
+          var stored = localStorage.getItem('sc.consent');
+          if (stored) {
+            var parsed = JSON.parse(stored);
+            consent.ads = !!parsed.adsEnabled;
+            consent.analytics = !!parsed.analyticsEnabled;
+          }
+        } catch (e) {}
+
+        gtag('consent', 'default', {
+          'ad_storage': consent.ads ? 'granted' : 'denied',
+          'analytics_storage': consent.analytics ? 'granted' : 'denied',
+          'ad_user_data': consent.ads ? 'granted' : 'denied',
+          'ad_personalization': consent.ads ? 'granted' : 'denied',
+          'wait_for_update': 500
+        });
+      })();
+
+      gtag('config', 'G-K409QD2YSJ', { send_page_view: true });
     </script>
 
     <!-- Google Certified CMP (Funding Choices / GDPR) -->

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getSEOForRoute, getCanonicalUrl, getOgImageUrl, isNoindexRoute } from "../config/seo";
+import { trackPageView } from "../utils/analytics";
 
 // Hook für Hash-basiertes Routing
 function useHashLocation() {
@@ -112,6 +113,9 @@ export function useSEO() {
     setMeta('meta[name="twitter:title"]', "content", seo.title);
     setMeta('meta[name="twitter:description"]', "content", seo.description);
     setMeta('meta[name="twitter:image"]', "content", ogImageUrl);
+
+    // ── Analytics ──────────────────────────────────────────────────────────
+    trackPageView(route);
 
   }, [route]);
 }

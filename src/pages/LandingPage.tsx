@@ -19,6 +19,9 @@ import { RandomFactWidget } from '../components/RandomFactWidget';
 import { AppHeader } from '../components/AppHeader';
 import SettingsModal from '../components/SettingsModal';
 import { AnalogClockHero } from '../components/AnalogClockHero';
+import { AdUnit } from '../components/AdUnit';
+import { getAdUnit } from '../config/ad-units';
+import { AnchorAdSlot } from '../components/ads/AdSlot';
 
 // ============================================
 // TIMER DEFINITIONS
@@ -1365,6 +1368,11 @@ export default function LandingPage() {
             <TopNavigation />
             <PinnedTimerBar />
 
+            {/* AdUnit: home-top — Sichtbar beim Einstieg */}
+            <div className="home-ad-top">
+                <AdUnit adUnit={getAdUnit('home-top')!} />
+            </div>
+
             <main className="lp-main" role="main">
                 <div className="lp-hero">
                     <h1 className="lp-hero-title">Time, held lightly.</h1>
@@ -1374,6 +1382,9 @@ export default function LandingPage() {
                 </div>
 
                 <AnalogClockHero />
+
+                {/* AdUnit: home-middle — Zwischen Hero und Presets */}
+                <AdUnit adUnit={getAdUnit('home-middle')!} />
 
                 <PresetsSection />
 
@@ -1401,6 +1412,11 @@ export default function LandingPage() {
                     </div>
                     <ChevronRight size={20} />
                 </a>
+
+                {/* AdUnit: hori2 — Horizontal Banner vor dem Footer */}
+                <div className="hori2-banner">
+                    <AdUnit adUnit={getAdUnit('hori2')!} showLabel={true} />
+                </div>
             </main>
 
             <Footer />
