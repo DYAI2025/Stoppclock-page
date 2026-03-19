@@ -2376,8 +2376,18 @@ h1 {
 }
 
 .home-ad-top {
-  margin: 32px auto 24px auto;
   max-width: 970px;
+  margin: 0 auto;
+}
+
+.home-ad-top:not(:empty) {
+  margin: 32px auto 24px auto;
+}
+
+/* Collapse wrapper when AdUnit returns null */
+.home-ad-top:empty,
+.hori2-banner:empty {
+  display: none;
 }
 
 /* ── AdSlot (neue Architektur) ──────────────────────────── */
@@ -3702,10 +3712,9 @@ a:focus:not(:focus-visible) {
   margin-bottom: 8px;
 }
 
-/* Ensure ad containers don't cause layout shifts (CLS prevention) */
+/* Ad containers — height set by AdSense when ad fills */
 .pillar-ad .ad-slot,
 .pillar-ad .ad-unit-wrapper {
-  min-height: 90px;
   display: block;
 }
 
@@ -3726,8 +3735,6 @@ a:focus:not(:focus-visible) {
   margin: 0 auto;
   padding: 0 16px;
   box-sizing: border-box;
-  /* CLS-Prevention: Mindesthöhe reserviert Platz bevor Ad lädt */
-  min-height: 90px;
 }
 
 .hori2-banner--top {
@@ -3741,5 +3748,5 @@ a:focus:not(:focus-visible) {
 }
 
 .hori2-banner .ad-unit-wrapper {
-  min-height: 90px;
+  /* Height determined by AdSense fill — no reserved space when empty */
 }

@@ -72,7 +72,6 @@ export function AdUnit({ adUnit, className = '', showLabel = true }: AdUnitProps
       data-unit-id={adUnit.unitId}
       role="complementary"
       aria-label="Werbung"
-      style={{ minHeight: '100px' }}
     >
       {showLabel && (
         <span className="ad-unit-label" aria-hidden="true">Anzeige</span>
@@ -80,7 +79,7 @@ export function AdUnit({ adUnit, className = '', showLabel = true }: AdUnitProps
       <ins
         ref={adRef}
         className="adsbygoogle"
-        style={{ display: 'block', minHeight: '90px' }}
+        style={{ display: 'block' }}
         data-ad-client={ADSENSE_PUBLISHER_ID}
         data-ad-slot={adUnit.adSlotId}
         data-ad-format={adUnit.format === 'anchor' ? 'auto' : adUnit.format}
