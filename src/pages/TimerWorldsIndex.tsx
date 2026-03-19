@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
+import { HomeButton } from '../components/HomeButton';
 import { AdUnit } from '../components/AdUnit';
 import { getAdUnit } from '../config/ad-units';
-import { AdSlot } from '../components/ads/AdSlot'; // Import AdSlot
+import { AdSlot } from '../components/ads/AdSlot';
 
 interface World {
   id: string;
