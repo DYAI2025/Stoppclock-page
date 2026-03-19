@@ -75,10 +75,10 @@ const TimerForCooking: React.FC = () => {
             Präzise Kochzeiten für perfekte Ergebnisse. Eierkochen, Pasta, Steak, Backen – alles easy. Kostenlos, ohne Anmeldung.
           </p>
           <div className="landing-cta-buttons">
-            <a href="/#/countdown" className="btn btn-primary btn-large">
+            <a href="#/countdown" className="btn btn-primary btn-large">
               ⏱️ Kochtimer Starten
             </a>
-            <a href="/#/cooking" className="btn btn-secondary btn-large">
+            <a href="#/cooking" className="btn btn-secondary btn-large">
               🍳 Multi-Timer für komplexe Gerichte
             </a>
           </div>
@@ -133,7 +133,7 @@ const TimerForCooking: React.FC = () => {
               <li>Pasta: exakte Packungszeit</li>
               <li><strong>Effekt:</strong> Perfekte Konsistenz, jedes Mal</li>
             </ul>
-            <a href="/#/countdown" className="btn btn-small">Timer starten →</a>
+            <a href="#/countdown" className="btn btn-small">Timer starten →</a>
           </div>
 
           <div className="feature-block">
@@ -145,7 +145,7 @@ const TimerForCooking: React.FC = () => {
               <li>Automatische Übergänge</li>
               <li><strong>Effekt:</strong> Alles fertig zur gleichen Zeit</li>
             </ul>
-            <a href="/#/cooking" className="btn btn-small">Multi-Timer →</a>
+            <a href="#/cooking" className="btn btn-small">Multi-Timer →</a>
           </div>
 
           <div className="feature-block">
@@ -157,7 +157,7 @@ const TimerForCooking: React.FC = () => {
               <li>Browser-Tab zeigt Notification</li>
               <li><strong>Effekt:</strong> Nie wieder vergessenes Essen</li>
             </ul>
-            <a href="/#/alarm" className="btn btn-small">Alarm nutzen →</a>
+            <a href="#/alarm" className="btn btn-small">Alarm nutzen →</a>
           </div>
         </div>
       </section>
@@ -182,77 +182,77 @@ const TimerForCooking: React.FC = () => {
               <tr>
                 <td>🥚 Weiches Ei (Wolkenei)</td>
                 <td>3 Minuten</td>
-                <td><a href="/#/countdown?preset=3">3 Min Timer</a></td>
+                <td><a href="#/countdown?preset=3">3 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥚 Mittelhartes Ei</td>
                 <td>6 Minuten</td>
-                <td><a href="/#/countdown?preset=6">6 Min Timer</a></td>
+                <td><a href="#/countdown?preset=6">6 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥚 Hartes Ei</td>
                 <td>10 Minuten</td>
-                <td><a href="/#/countdown?preset=10">10 Min Timer</a></td>
+                <td><a href="#/countdown?preset=10">10 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🍝 Pasta (al dente)</td>
                 <td>Packung + 1 min</td>
-                <td><a href="/#/countdown">Custom Timer</a></td>
+                <td><a href="#/countdown">Custom Timer</a></td>
               </tr>
               <tr>
                 <td>🍚 Reis (weiß)</td>
                 <td>15-18 Minuten</td>
-                <td><a href="/#/countdown">18 Min Timer</a></td>
+                <td><a href="#/countdown">18 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥔 Kartoffeln (gekocht)</td>
                 <td>20-25 Minuten</td>
-                <td><a href="/#/countdown">22 Min Timer</a></td>
+                <td><a href="#/countdown">22 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥩 Steak (Medium)</td>
                 <td>3-4 min pro Seite</td>
-                <td><a href="/#/countdown">4 Min Timer</a></td>
+                <td><a href="#/countdown">4 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🍗 Hähnchen (gebraten)</td>
                 <td>6-8 min pro Seite</td>
-                <td><a href="/#/countdown">8 Min Timer</a></td>
+                <td><a href="#/countdown">8 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🐟 Fisch (Filet)</td>
                 <td>4-5 Minuten</td>
-                <td><a href="/#/countdown">5 Min Timer</a></td>
+                <td><a href="#/countdown">5 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥦 Brokkoli (gedämpft)</td>
                 <td>5-7 Minuten</td>
-                <td><a href="/#/countdown">6 Min Timer</a></td>
+                <td><a href="#/countdown">6 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🍳 Spiegelei</td>
                 <td>3-4 Minuten</td>
-                <td><a href="/#/countdown">3 Min Timer</a></td>
+                <td><a href="#/countdown">3 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥣 Haferflocken</td>
                 <td>3-5 Minuten</td>
-                <td><a href="/#/countdown">4 Min Timer</a></td>
+                <td><a href="#/countdown">4 Min Timer</a></td>
               </tr>
               <tr>
                 <td>☕ Kaffee (French Press)</td>
                 <td>4 Minuten</td>
-                <td><a href="/#/countdown">4 Min Timer</a></td>
+                <td><a href="#/countdown">4 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🍵 Tee (schwarz)</td>
                 <td>3-5 Minuten</td>
-                <td><a href="/#/countdown">4 Min Timer</a></td>
+                <td><a href="#/countdown">4 Min Timer</a></td>
               </tr>
               <tr>
                 <td>🥫 Suppe (aufwärmen)</td>
                 <td>5-10 Minuten</td>
-                <td><a href="/#/countdown">8 Min Timer</a></td>
+                <td><a href="#/countdown">8 Min Timer</a></td>
               </tr>
             </tbody>
           </table>
@@ -278,7 +278,7 @@ const TimerForCooking: React.FC = () => {
               <li>Timer 2: Soße (15 min)</li>
               <li>→ Starte Soße 3 min früher</li>
             </ul>
-            <a href="/#/cooking" className="btn btn-small">Multi-Timer →</a>
+            <a href="#/cooking" className="btn btn-small">Multi-Timer →</a>
           </div>
 
           <div className="scenario-card">
@@ -288,7 +288,7 @@ const TimerForCooking: React.FC = () => {
               <li>Timer 2: Kartoffeln (20 min)</li>
               <li>→ Starte Kartoffeln zuerst</li>
             </ul>
-            <a href="/#/cooking" className="btn btn-small">Multi-Timer →</a>
+            <a href="#/cooking" className="btn btn-small">Multi-Timer →</a>
           </div>
 
           <div className="scenario-card">
@@ -299,7 +299,7 @@ const TimerForCooking: React.FC = () => {
               <li>Timer 3: Protein (10 min)</li>
               <li>→ Alles fertig für Portionierung</li>
             </ul>
-            <a href="/#/cooking" className="btn btn-small">Multi-Timer →</a>
+            <a href="#/cooking" className="btn btn-small">Multi-Timer →</a>
           </div>
 
           <div className="scenario-card">
@@ -310,7 +310,7 @@ const TimerForCooking: React.FC = () => {
               <li>Timer 3: Bohnen (8 min)</li>
               <li>Timer 4: Toast (3 min)</li>
             </ul>
-            <a href="/#/cooking" className="btn btn-small">Multi-Timer →</a>
+            <a href="#/cooking" className="btn btn-small">Multi-Timer →</a>
           </div>
         </div>
       </section>
@@ -374,7 +374,7 @@ const TimerForCooking: React.FC = () => {
             <summary>Kann ich mehrere Timer gleichzeitig laufen lassen?</summary>
             <div className="faq-content">
               <p>
-                Ja! Unser <a href="/#/cooking">Multi-Timer (Cooking Timer)</a> kann bis zu 5 parallele Timer verwalten. Perfekt für komplexe Gerichte.
+                Ja! Unser <a href="#/cooking">Multi-Timer (Cooking Timer)</a> kann bis zu 5 parallele Timer verwalten. Perfekt für komplexe Gerichte.
               </p>
             </div>
           </details>
@@ -454,13 +454,13 @@ const TimerForCooking: React.FC = () => {
         </p>
 
         <div className="landing-cta-buttons final">
-          <a href="/#/countdown" className="btn btn-primary btn-large">
+          <a href="#/countdown" className="btn btn-primary btn-large">
             ⏱️ Countdown Timer
           </a>
-          <a href="/#/cooking" className="btn btn-secondary btn-large">
+          <a href="#/cooking" className="btn btn-secondary btn-large">
             🍳 Multi-Timer
           </a>
-          <a href="/#/alarm" className="btn btn-outline btn-large">
+          <a href="#/alarm" className="btn btn-outline btn-large">
             🔔 Alarm
           </a>
         </div>

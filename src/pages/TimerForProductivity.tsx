@@ -83,10 +83,10 @@ const TimerForProductivity: React.FC = () => {
             Arbeite fokussierter, schaffe mehr in weniger Zeit. Mit wissenschaftlich bewährten Timer-Techniken für Remote Work & Freelancing.
           </p>
           <div className="landing-cta-buttons">
-            <a href="/#/pomodoro" className="btn btn-primary btn-large">
+            <a href="#/pomodoro" className="btn btn-primary btn-large">
               🍅 Pomodoro für Deep Work
             </a>
-            <a href="/#/countdown" className="btn btn-secondary btn-large">
+            <a href="#/countdown" className="btn btn-secondary btn-large">
               ⏱️ Countdown für Projekte
             </a>
           </div>
@@ -143,7 +143,7 @@ const TimerForProductivity: React.FC = () => {
               <li>Nach 4 Runden: 30 Min längere Pause</li>
               <li><strong>Effekt:</strong> Flow-Zustände häufiger, höhere Output-Qualität</li>
             </ul>
-            <a href="/#/pomodoro" className="btn btn-small">Starten →</a>
+            <a href="#/pomodoro" className="btn btn-small">Starten →</a>
           </div>
 
           <div className="feature-block">
@@ -155,7 +155,7 @@ const TimerForProductivity: React.FC = () => {
               <li>Verhindert "Scope Creep"</li>
               <li><strong>Effekt:</strong> Besseres Zeitmanagement, mehr abgeschlossene Projekte</li>
             </ul>
-            <a href="/#/countdown" className="btn btn-small">Starten →</a>
+            <a href="#/countdown" className="btn btn-small">Starten →</a>
           </div>
 
           <div className="feature-block">
@@ -167,7 +167,7 @@ const TimerForProductivity: React.FC = () => {
               <li>Erkenne deine "Zeitfresser"</li>
               <li><strong>Effekt:</strong> Schneller profitabel, bessere Planung</li>
             </ul>
-            <a href="/#/stopwatch" className="btn btn-small">Starten →</a>
+            <a href="#/stopwatch" className="btn btn-small">Starten →</a>
           </div>
         </div>
       </section>
@@ -390,13 +390,13 @@ const TimerForProductivity: React.FC = () => {
         </p>
 
         <div className="landing-cta-buttons final">
-          <a href="/#/pomodoro" className="btn btn-primary btn-large">
+          <a href="#/pomodoro" className="btn btn-primary btn-large">
             🍅 Erste Pomodoro Starten
           </a>
-          <a href="/#/countdown" className="btn btn-secondary btn-large">
+          <a href="#/countdown" className="btn btn-secondary btn-large">
             ⏱️ Countdown für Projekt
           </a>
-          <a href="/#/blog/pomodoro-timer-online" className="btn btn-outline btn-large">
+          <a href="#/blog/pomodoro-timer-online" className="btn btn-outline btn-large">
             📖 Lese unseren Produktivitäts-Guide
           </a>
         </div>

@@ -200,7 +200,7 @@ const PomodoroVsCountdown: React.FC = () => {
 
         <div className="blog-cta-inline" style={{ backgroundColor: '#fff5f5', padding: '16px', borderRadius: '8px', margin: '20px 0' }}>
           <p>💪 <strong>Für Fitness lieber:</strong></p>
-          <a href="/#/timer-for-fitness" className="btn btn-secondary">🏋️ Timer für Fitness</a>
+          <a href="#/timer-for-fitness" className="btn btn-secondary">🏋️ Timer für Fitness</a>
         </div>
 
         <h2>Countdown Timer – Wann du ihn verwenden solltest</h2>
@@ -353,7 +353,7 @@ const PomodoroVsCountdown: React.FC = () => {
         </ul>
 
         <p>
-          Unser <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a> erlaubt dir, jede Dauer zu wählen!
+          Unser <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a> erlaubt dir, jede Dauer zu wählen!
         </p>
 
         <h3>F: Welcher Timer ist am einfachsten zu nutzen?</h3>
@@ -374,19 +374,19 @@ const PomodoroVsCountdown: React.FC = () => {
         </ul>
 
         <p>
-          Beide Timer sind auf <a href="/#/">Stoppclock</a> kostenlos verfügbar. Es gibt keinen Grund, dich auf einen zu beschränken!
+          Beide Timer sind auf <a href="#/">Stoppclock</a> kostenlos verfügbar. Es gibt keinen Grund, dich auf einen zu beschränken!
         </p>
 
         <div className="blog-cta">
           <h3>🚀 Jetzt beide Timer ausprobieren!</h3>
           <p>
-            <a href="/#/pomodoro" className="btn btn-primary btn-large" style={{ marginRight: '10px' }}>
+            <a href="#/pomodoro" className="btn btn-primary btn-large" style={{ marginRight: '10px' }}>
               🍅 Pomodoro Timer
             </a>
-            <a href="/#/countdown" className="btn btn-primary btn-large" style={{ marginRight: '10px' }}>
+            <a href="#/countdown" className="btn btn-primary btn-large" style={{ marginRight: '10px' }}>
               ⏱️ Countdown Timer
             </a>
-            <a href="/#/cooking" className="btn btn-primary btn-large">
+            <a href="#/cooking" className="btn btn-primary btn-large">
               🍳 Cooking Timer
             </a>
           </p>
@@ -396,9 +396,9 @@ const PomodoroVsCountdown: React.FC = () => {
         <h2>Weitere Artikel zum Timer</h2>
 
         <ul>
-          <li><a href="/#/blog/pomodoro-timer-online">Pomodoro Timer Online – Kostenlos, Effektiv, Ohne Anmeldung</a></li>
-          <li><a href="/#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
-          <li><a href="/#/timer-for-fitness">Fitness Timer – Für HIIT und Intervall-Training</a></li>
+          <li><a href="#/blog/pomodoro-timer-online">Pomodoro Timer Online – Kostenlos, Effektiv, Ohne Anmeldung</a></li>
+          <li><a href="#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
+          <li><a href="#/timer-for-fitness">Fitness Timer – Für HIIT und Intervall-Training</a></li>
         </ul>
       </div>
 

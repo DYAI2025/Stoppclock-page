@@ -87,10 +87,10 @@ const TimerForStudents: React.FC = () => {
             Lerne effizient mit wissenschaftlich bewährten Timer-Techniken. Kostenlos, ohne Anmeldung, offline.
           </p>
           <div className="landing-cta-buttons">
-            <a href="/#/pomodoro" className="btn btn-primary btn-large">
+            <a href="#/pomodoro" className="btn btn-primary btn-large">
               🍅 Pomodoro Timer Starten (25 min)
             </a>
-            <a href="/#/countdown" className="btn btn-secondary btn-large">
+            <a href="#/countdown" className="btn btn-secondary btn-large">
               ⏱️ Countdown Timer (flexibel)
             </a>
           </div>
@@ -145,7 +145,7 @@ const TimerForStudents: React.FC = () => {
               <li>Nach 4 Zyklen: 15-30 min längere Pause</li>
               <li><strong>Effekt:</strong> +40% mehr Lerneffizienz</li>
             </ul>
-            <a href="/#/pomodoro" className="btn btn-small">Pomodoro starten →</a>
+            <a href="#/pomodoro" className="btn btn-small">Pomodoro starten →</a>
           </div>
 
           <div className="feature-block">
@@ -157,7 +157,7 @@ const TimerForStudents: React.FC = () => {
               <li>Trainiere dein Zeitmanagement</li>
               <li><strong>Effekt:</strong> Weniger Prüfungsangst</li>
             </ul>
-            <a href="/#/countdown" className="btn btn-small">Countdown starten →</a>
+            <a href="#/countdown" className="btn btn-small">Countdown starten →</a>
           </div>
 
           <div className="feature-block">
@@ -169,7 +169,7 @@ const TimerForStudents: React.FC = () => {
               <li>Verstehe dein Lerntempo</li>
               <li><strong>Effekt:</strong> Bessere Selbstkenntnis</li>
             </ul>
-            <a href="/#/stopwatch" className="btn btn-small">Stopwatch starten →</a>
+            <a href="#/stopwatch" className="btn btn-small">Stopwatch starten →</a>
           </div>
         </div>
       </section>
@@ -404,13 +404,13 @@ const TimerForStudents: React.FC = () => {
         </p>
 
         <div className="landing-cta-buttons final">
-          <a href="/#/pomodoro" className="btn btn-primary btn-large">
+          <a href="#/pomodoro" className="btn btn-primary btn-large">
             🍅 Pomodoro Timer für Studieren
           </a>
-          <a href="/#/countdown" className="btn btn-secondary btn-large">
+          <a href="#/countdown" className="btn btn-secondary btn-large">
             ⏱️ Countdown für Prüfungen
           </a>
-          <a href="/#/blog/pomodoro-timer-online" className="btn btn-outline btn-large">
+          <a href="#/blog/pomodoro-timer-online" className="btn btn-outline btn-large">
             📖 Lese unseren Guide
           </a>
         </div>

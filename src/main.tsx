@@ -7,6 +7,7 @@ import DynamicBlogRouter from "./pages/DynamicBlogRouter";
 import { AdSenseScript } from "./components/AdSenseScript";
 import { ConsentBanner } from "./components/ConsentBanner";
 import { AnchorAdSlot } from "./components/ads/AdSlot";
+import { GlobalFooter } from './components/GlobalFooter';
 import { PinnedTimersProvider } from "./contexts/PinnedTimersContext";
 import { SEOHead } from "./hooks/useSEO";
 import LandingPage from "./pages/LandingPage";
@@ -25,6 +26,7 @@ const DigitalClock = lazy(() => import("./pages/DigitalClock"));
 const Pomodoro = lazy(() => import("./pages/Pomodoro"));
 const TimeSince = lazy(() => import("./pages/TimeSince"));
 const TimeLab = lazy(() => import("./pages/TimeLab"));
+const CycleTimer = lazy(() => import("./pages/CycleTimer"));
 
 // Code-split: Content pages
 const Wissen = lazy(() => import("./pages/Wissen"));
@@ -38,8 +40,6 @@ const PillarPage = lazy(() => import("./pages/PillarPage"));
 const TimePhilosophy = lazy(() => import("./pages/TimePhilosophy"));
 
 // Code-split: Blog pages
-const PomodoroTimerOnline = lazy(() => import("./pages/blog/PomodoroTimerOnline"));
-const PomodoroVsCountdown = lazy(() => import("./pages/blog/PomodoroVsCountdown"));
 const BlogIndex = lazy(() => import("./pages/BlogIndex"));
 
 // Code-split: DFY Landing pages
@@ -117,6 +117,7 @@ function App() {
         {route === "/chess" && <ChessClock />}
         {route === "/breathing" && <BreathingTimer />}
         {route === "/interval" && <IntervalTimer />}
+        {route === "/cycle" && <CycleTimer />}
         {route === "/widget-demo" && <WidgetDemo />}
 
         {route === "/facts" && <FactsPage />}
@@ -145,10 +146,13 @@ function App() {
         {route === "/contact" && <Contact />}
         {route === "/pillar" && <PillarPage />}
         {route === "/time-philosophy" && <TimePhilosophy />}
-        {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/breathing", "/interval", "/widget-demo", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
+        {!["", "/", "/analog", "/countdown", "/stopwatch", "/pomodoro", "/cooking", "/couples", "/digital", "/world", "/alarm", "/metronome", "/chess", "/breathing", "/interval", "/cycle", "/widget-demo", "/imprint", "/privacy", "/impressum", "/datenschutz", "/about", "/contact", "/pillar", "/time-philosophy", "/blog/pomodoro-timer-online", "/timer-for-students", "/timer-for-productivity", "/timer-for-fitness", "/timer-for-cooking", "/timer-for-meditation", "/timer-for-focus", "/timesince", "/timelab", "/timers", "/blog", "/facts"].includes(route) && !isAbout && !isWissen && !isBlog && !isCustomSessions && (
           <div className="page"><h1>Not Found</h1></div>
         )}
       </Suspense>
+
+      {/* Global footer with cross-navigation (hidden on LandingPage) */}
+      <GlobalFooter />
 
       {/* Global Anchor Ad */}
       <AnchorAdSlot />

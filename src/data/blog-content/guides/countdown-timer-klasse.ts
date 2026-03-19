@@ -41,7 +41,7 @@ export const countdownTimerKlasse: BlogPostContent = {
           <h2>Die 4 häufigsten Timer-Einsatzbereiche in der Schule</h2>
 
           <h3>1. Klassenarbeiten & Prüfungen</h3>
-          <p>Für Prüfungen empfehlen wir den <a href="/#/analog">Analog-Countdown</a>. Die analoge Zeigerdarstellung ist:</p>
+          <p>Für Prüfungen empfehlen wir den <a href="#/analog">Analog-Countdown</a>. Die analoge Zeigerdarstellung ist:</p>
           <ul>
             <li>Auf große Distanz (Beamer) besser lesbar als Ziffern</li>
             <li>Intuitiver: Die verbleibende "Tortengröße" zeigt sofort, wie viel Zeit bleibt</li>
@@ -50,15 +50,15 @@ export const countdownTimerKlasse: BlogPostContent = {
 
           <p>Einrichtung in 3 Schritten:</p>
           <ol>
-            <li>Öffne <a href="/#/analog">stoppclock.com → Analog Countdown</a></li>
+            <li>Öffne <a href="#/analog">stoppclock.com → Analog Countdown</a></li>
             <li>Stelle die Prüfungszeit ein (z.B. 90 Minuten)</li>
             <li>Drücke <kbd>F</kbd> für Vollbild → auf Beamer projizieren</li>
           </ol>
 
           <h3>2. Gruppenarbeit & Stationsarbeit</h3>
-          <p>Für Gruppenarbeiten eignet sich der <a href="/#/countdown">digitale Countdown</a> am besten. Stelle die Zeit für jede Phase ein, starte, und alle Gruppen wissen wann sie fertig sein müssen.</p>
+          <p>Für Gruppenarbeiten eignet sich der <a href="#/countdown">digitale Countdown</a> am besten. Stelle die Zeit für jede Phase ein, starte, und alle Gruppen wissen wann sie fertig sein müssen.</p>
 
-          <p><strong>Tipp für Stationsarbeit:</strong> Verwende den <a href="/#/interval">Intervalltimer</a> — er wechselt automatisch zwischen Stationen und macht einen Ton beim Wechsel.</p>
+          <p><strong>Tipp für Stationsarbeit:</strong> Verwende den <a href="#/interval">Intervalltimer</a> — er wechselt automatisch zwischen Stationen und macht einen Ton beim Wechsel.</p>
 
           <h3>3. Diskussionen & Wortbeiträge</h3>
           <p>Faire Redezeiten sind in lebhaften Klassen oft schwer durchzusetzen. Lösung: Stelle für jeden Redebeitrag 2-3 Minuten ein. Wenn der Timer klingelt, ist die Redezeit vorbei — keine Diskussion nötig, denn alle sehen es.</p>

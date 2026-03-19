@@ -193,7 +193,7 @@ export const pomodoroVsCountdown: BlogPostContent = {
             <li><strong>Pomodoro Timer:</strong> Für Studium, Remote Work, fokussierte Projekte</li>
             <li><strong>Countdown Timer:</strong> Für Fitness, Cooking, flexible Aufgaben</li>
           </ul>
-          <p>Beide Timer sind auf <a href="/#/">Stoppclock</a> kostenlos verfügbar. Es gibt keinen Grund, dich auf einen zu beschränken!</p>
+          <p>Beide Timer sind auf <a href="#/">Stoppclock</a> kostenlos verfügbar. Es gibt keinen Grund, dich auf einen zu beschränken!</p>
         `,
       },
     },
@@ -215,9 +215,9 @@ export const pomodoroVsCountdown: BlogPostContent = {
         html: `
           <h2>Weitere Artikel zum Timer</h2>
           <ul>
-            <li><a href="/#/blog/pomodoro-timer-online">Pomodoro Timer Online – Kostenlos, Effektiv, Ohne Anmeldung</a></li>
-            <li><a href="/#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
-            <li><a href="/#/timer-for-fitness">Fitness Timer – Für HIIT und Intervall-Training</a></li>
+            <li><a href="#/blog/pomodoro-timer-online">Pomodoro Timer Online – Kostenlos, Effektiv, Ohne Anmeldung</a></li>
+            <li><a href="#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
+            <li><a href="#/timer-for-fitness">Fitness Timer – Für HIIT und Intervall-Training</a></li>
           </ul>
         `,
       },

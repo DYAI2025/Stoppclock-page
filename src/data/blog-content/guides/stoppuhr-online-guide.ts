@@ -36,7 +36,7 @@ export const stoppuhrOnlineGuide: BlogPostContent = {
           <h2>Was ist eine digitale Stoppuhr?</h2>
           <p>Eine digitale Stoppuhr misst die <strong>abgelaufene Zeit</strong> von einem Startpunkt an — sie zählt aufwärts. Im Gegensatz zum Countdown-Timer, der von einem voreingestellten Wert auf null zählt, zeigt dir die Stoppuhr: "Wie lange hat es gedauert?"</p>
 
-          <p>Unser <a href="/#/stopwatch">kostenloser Online-Stoppuhr</a> funktioniert direkt im Browser — ohne Installation, ohne Anmeldung.</p>
+          <p>Unser <a href="#/stopwatch">kostenloser Online-Stoppuhr</a> funktioniert direkt im Browser — ohne Installation, ohne Anmeldung.</p>
 
           <h2>Wann ist eine Stoppuhr besser als ein Countdown?</h2>
 
@@ -82,7 +82,7 @@ Habe ich ein festes Zeitlimit?
           <p>Starte die Stoppuhr beim Loslaufen, drücke bei jeder Runde "Lap". Am Ende siehst du alle Rundenzeiten in der Übersicht — so erkennst du genau, wann du langsamer geworden bist.</p>
 
           <h3>Beim HIIT-Training:</h3>
-          <p>Für HIIT ist der <a href="/#/interval">Intervalltimer</a> besser geeignet — er macht automatisch Work/Rest-Zyklen. Die Stoppuhr eignet sich für freies Training ohne festes Schema.</p>
+          <p>Für HIIT ist der <a href="#/interval">Intervalltimer</a> besser geeignet — er macht automatisch Work/Rest-Zyklen. Die Stoppuhr eignet sich für freies Training ohne festes Schema.</p>
 
           <h3>Beim Krafttraining:</h3>
           <p>Messe mit der Stoppuhr deine Pausenzeiten zwischen Sätzen. Drücke Lap nach jedem Satz — so siehst du ob deine Pausen zu lang oder zu kurz sind.</p>
@@ -93,7 +93,7 @@ Habe ich ein festes Zeitlimit?
           <h3>Zeitprotokoll führen:</h3>
           <p>Starte die Stoppuhr am Anfang deiner Lerneinheit. Drücke Lap für jeden Wechsel des Themas oder der Aktivität. Nach einer Woche siehst du genau, womit du deine Zeit verbringst.</p>
 
-          <blockquote>Tipp: Kombiniere Stoppuhr und Pomodoro. Starte den <a href="/#/pomodoro">Pomodoro Timer</a> für die Struktur und nutze die Stoppuhr, um zu verstehen wie du deine Pomodoro-Zyklen wirklich verbringst.</blockquote>
+          <blockquote>Tipp: Kombiniere Stoppuhr und Pomodoro. Starte den <a href="#/pomodoro">Pomodoro Timer</a> für die Struktur und nutze die Stoppuhr, um zu verstehen wie du deine Pomodoro-Zyklen wirklich verbringst.</blockquote>
 
           <h2>Stoppuhr für Präsentationen</h2>
           <p>Nutze die Stoppuhr beim Proben deiner Präsentation. Drücke bei jedem Folienwechsel "Lap". Nach dem Üben siehst du:</p>

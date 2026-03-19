@@ -42,10 +42,10 @@ const TimerForFitness: React.FC = () => {
             HIIT, Tabata, Strength Training – mit professionellen Online Timern. Kostenlos, offline, ohne Anmeldung.
           </p>
           <div className="landing-cta-buttons">
-            <a href="/#/cooking" className="btn btn-primary btn-large">
+            <a href="#/cooking" className="btn btn-primary btn-large">
               ⏱️ Multi-Timer für Workouts
             </a>
-            <a href="/#/countdown" className="btn btn-secondary btn-large">
+            <a href="#/countdown" className="btn btn-secondary btn-large">
               ⏰ Countdown für Sessions
             </a>
           </div>
@@ -102,7 +102,7 @@ const TimerForFitness: React.FC = () => {
               <li>Zirkeltraining-Sessions</li>
               <li><strong>Effekt:</strong> Strukturiertes Training, messbarer Progress</li>
             </ul>
-            <a href="/#/countdown" className="btn btn-small">Starten →</a>
+            <a href="#/countdown" className="btn btn-small">Starten →</a>
           </div>
 
           <div className="feature-block">
@@ -114,7 +114,7 @@ const TimerForFitness: React.FC = () => {
               <li>Automatische Übergänge</li>
               <li><strong>Effekt:</strong> Konzentriere dich auf Training, nicht auf Zeit</li>
             </ul>
-            <a href="/#/cooking" className="btn btn-small">Starten →</a>
+            <a href="#/cooking" className="btn btn-small">Starten →</a>
           </div>
 
           <div className="feature-block">
@@ -126,7 +126,7 @@ const TimerForFitness: React.FC = () => {
               <li>PRs (Personal Records) tracken</li>
               <li><strong>Effekt:</strong> Objektiver Beweis deines Fortschritts</li>
             </ul>
-            <a href="/#/stopwatch" className="btn btn-small">Starten →</a>
+            <a href="#/stopwatch" className="btn btn-small">Starten →</a>
           </div>
         </div>
       </section>
@@ -370,13 +370,13 @@ const TimerForFitness: React.FC = () => {
         </p>
 
         <div className="landing-cta-buttons final">
-          <a href="/#/cooking" className="btn btn-primary btn-large">
+          <a href="#/cooking" className="btn btn-primary btn-large">
             ⏱️ Multi-Timer für Workouts
           </a>
-          <a href="/#/countdown" className="btn btn-secondary btn-large">
+          <a href="#/countdown" className="btn btn-secondary btn-large">
             ⏰ Countdown für Cardio
           </a>
-          <a href="/#/stopwatch" className="btn btn-outline btn-large">
+          <a href="#/stopwatch" className="btn btn-outline btn-large">
             📊 Stopwatch für Tracking
           </a>
         </div>

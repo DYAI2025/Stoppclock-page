@@ -96,7 +96,7 @@ export const onlineWeckerOhneApp: BlogPostContent = {
           <h2>So nutzt du den Browser-Wecker richtig</h2>
 
           <h3>Schritt 1: Alarm stellen</h3>
-          <p>Öffne <a href="/#/alarm">stoppclock.com → Alarm</a>. Wähle die Uhrzeit für deinen Alarm und gib optional einen Namen ein (z.B. "Mittagspause Ende").</p>
+          <p>Öffne <a href="#/alarm">stoppclock.com → Alarm</a>. Wähle die Uhrzeit für deinen Alarm und gib optional einen Namen ein (z.B. "Mittagspause Ende").</p>
 
           <h3>Schritt 2: Browser-Ton erlauben</h3>
           <p>Der Browser fragt eventuell nach Erlaubnis für Sound-Notifications. Erlaubt diese Anfrage — sonst hörst du keinen Ton wenn der Alarm ausgeht.</p>
@@ -133,7 +133,7 @@ export const onlineWeckerOhneApp: BlogPostContent = {
             <strong>Alarm (Uhrzeit-basiert):</strong> "Weck mich um 15:30 Uhr" — du stellst eine Uhrzeit ein.<br>
             <strong>Countdown (Dauer-basiert):</strong> "Weck mich in 45 Minuten" — du stellst eine Dauer ein.
           </p>
-          <p>Für "Weck mich in X Minuten" ist der <a href="/#/countdown">Countdown Timer</a> oft einfacher zu bedienen. Für feste Uhrzeiten ist der <a href="/#/alarm">Alarm</a> besser.</p>
+          <p>Für "Weck mich in X Minuten" ist der <a href="#/countdown">Countdown Timer</a> oft einfacher zu bedienen. Für feste Uhrzeiten ist der <a href="#/alarm">Alarm</a> besser.</p>
         `,
       },
     },

@@ -177,6 +177,16 @@ const TIMERS = [
         color: '#F43F5E',
         lsKey: 'sc.v1.interval'
     },
+    {
+        id: 'timelab',
+        route: '#/timelab',
+        label: 'Time Lab',
+        tagline: 'Since & until markers',
+        icon: Clock4,
+        gradient: 'linear-gradient(135deg, #6366F1 0%, #818CF8 100%)',
+        color: '#6366F1',
+        lsKey: 'sc.v1.timelab'
+    },
 ] as const;
 
 type TimerDef = typeof TIMERS[number];
@@ -1348,9 +1358,11 @@ function Footer() {
                     <kbd>Space</kbd> pause / resume · <kbd>F</kbd> fullscreen
                 </span>
                 <div className="lp-footer-links">
+                    <a href="#/impressum" className="lp-footer-link">Impressum</a>
+                    <a href="#/datenschutz" className="lp-footer-link">Datenschutz</a>
+                    <a href="#/about" className="lp-footer-link">About</a>
                     <a href="#/privacy" className="lp-footer-link">Privacy</a>
                     <a href="#/imprint" className="lp-footer-link">Imprint</a>
-                    <a href="#/about" className="lp-footer-link">About</a>
                 </div>
             </div>
         </footer>

@@ -170,7 +170,7 @@ const PomodoroTimerOnline: React.FC = () => {
 
         <div className="blog-cta-inline">
           <p>🚀 <strong>Probier's jetzt aus:</strong></p>
-          <a href="/#/pomodoro" className="btn btn-primary">🍅 Pomodoro Timer starten</a>
+          <a href="#/pomodoro" className="btn btn-primary">🍅 Pomodoro Timer starten</a>
         </div>
 
         <h2>5 Schritte zum erfolgreichen Pomodoro-Arbeiten</h2>
@@ -184,7 +184,7 @@ const PomodoroTimerOnline: React.FC = () => {
         <h3>Schritt 2: Starte den Timer</h3>
 
         <p>
-          Nutze unseren <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a>. Setz dich hin, entferne Ablenkungen (Handy, Social Media, etc.) und fokussiere dich vollständig auf die Aufgabe.
+          Nutze unseren <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a>. Setz dich hin, entferne Ablenkungen (Handy, Social Media, etc.) und fokussiere dich vollständig auf die Aufgabe.
         </p>
 
         <h3>Schritt 3: Arbeite konzentriert</h3>
@@ -218,11 +218,11 @@ const PomodoroTimerOnline: React.FC = () => {
         </p>
 
         <p>
-          <strong>Unser Tipp:</strong> Für konzentrierte Lernphasen: <strong>Pomodoro</strong>. Für flexible Aufgaben: <a href="/#/countdown">Countdown Timer</a>.
+          <strong>Unser Tipp:</strong> Für konzentrierte Lernphasen: <strong>Pomodoro</strong>. Für flexible Aufgaben: <a href="#/countdown">Countdown Timer</a>.
         </p>
 
         <blockquote>
-          Du kannst <a href="/#/countdown">Countdown Timer und Pomodoro Timer kombinieren</a> – Starte einen 90-Minuten Countdown und unterteile ihn selbst in 3x 25 Minuten Pomodoros!
+          Du kannst <a href="#/countdown">Countdown Timer und Pomodoro Timer kombinieren</a> – Starte einen 90-Minuten Countdown und unterteile ihn selbst in 3x 25 Minuten Pomodoros!
         </blockquote>
 
         <h2>Häufige Anfängerfehler bei Pomodoro</h2>
@@ -256,7 +256,7 @@ const PomodoroTimerOnline: React.FC = () => {
         <h3>Tipp 1: Nutze die Pomodoro-App/Timer richtig</h3>
 
         <p>
-          Starte den Timer, nicht dein Smartphone. Unser <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a> lädt auch offline und hat keine Ablenkungen.
+          Starte den Timer, nicht dein Smartphone. Unser <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a> lädt auch offline und hat keine Ablenkungen.
         </p>
 
         <h3>Tipp 2: Dokumentiere deine Pomodoros</h3>
@@ -344,7 +344,7 @@ const PomodoroTimerOnline: React.FC = () => {
 
         <div className="blog-cta-inline student-variant">
           <p>📚 <strong>Passender Timer für Studenten:</strong></p>
-          <a href="/#/timer-for-students" className="btn btn-secondary">🎓 Timer für Studenten</a>
+          <a href="#/timer-for-students" className="btn btn-secondary">🎓 Timer für Studenten</a>
         </div>
 
         <h3>Zeitplan für Klausurenvorbereitung:</h3>
@@ -358,7 +358,7 @@ const PomodoroTimerOnline: React.FC = () => {
         </pre>
 
         <p>
-          <strong>Pro-Tipp:</strong> Nutze unseren <a href="/#/countdown">Countdown Timer für längere Lernblöcke</a>. Wenn du für eine 2-Stunden-Prüfung trainieren möchtest, starte einen 120-Minuten Countdown und unterteile ihn selbst.
+          <strong>Pro-Tipp:</strong> Nutze unseren <a href="#/countdown">Countdown Timer für längere Lernblöcke</a>. Wenn du für eine 2-Stunden-Prüfung trainieren möchtest, starte einen 120-Minuten Countdown und unterteile ihn selbst.
         </p>
 
         <h2>Häufige Fragen zum Pomodoro Timer</h2>
@@ -382,7 +382,7 @@ const PomodoroTimerOnline: React.FC = () => {
         </ul>
 
         <p>
-          <strong>Lösung:</strong> Kombiniere! Nutze einen <a href="/#/countdown">flexiblen Countdown Timer</a> und stelle die Dauer selbst ein (30, 50, oder 90 Minuten).
+          <strong>Lösung:</strong> Kombiniere! Nutze einen <a href="#/countdown">flexiblen Countdown Timer</a> und stelle die Dauer selbst ein (30, 50, oder 90 Minuten).
         </p>
 
         <h3>F: Was sollte ich während der Pausen machen?</h3>
@@ -410,7 +410,7 @@ const PomodoroTimerOnline: React.FC = () => {
           <li><strong>50 Minuten:</strong> Für Deep Work oder Flow-basierte Arbeit</li>
         </ul>
 
-        <p>Nutze unseren <a href="/#/pomodoro">Timer</a> – du kannst jede Dauer einstellen!</p>
+        <p>Nutze unseren <a href="#/pomodoro">Timer</a> – du kannst jede Dauer einstellen!</p>
 
         <h3>F: Was ist, wenn ich meine Aufgabe nicht in 25 Min fertig werde?</h3>
 
@@ -421,7 +421,7 @@ const PomodoroTimerOnline: React.FC = () => {
         <h3>F: Funktioniert Pomodoro auch für physische Arbeit (Fitness, Haushalt)?</h3>
 
         <p>
-          <strong>A:</strong> Ja, aber nutze dann einen <a href="/#/countdown">einfachen Countdown Timer</a> statt des speziellen Pomodoro Timers. Die Struktur (Arbeit + Pause) hilft überall:
+          <strong>A:</strong> Ja, aber nutze dann einen <a href="#/countdown">einfachen Countdown Timer</a> statt des speziellen Pomodoro Timers. Die Struktur (Arbeit + Pause) hilft überall:
         </p>
 
         <ul>
@@ -490,7 +490,7 @@ const PomodoroTimerOnline: React.FC = () => {
 
         <ul>
           <li><strong>Einfach:</strong> Strichliste auf Papier (5 Striche = 5 Pomodoros)</li>
-          <li><strong>Digital:</strong> Unser <a href="/#/pomodoro">Pomodoro Timer</a> zeigt automatisch die Anzahl an</li>
+          <li><strong>Digital:</strong> Unser <a href="#/pomodoro">Pomodoro Timer</a> zeigt automatisch die Anzahl an</li>
           <li><strong>Advanced:</strong> Apps wie Toggl oder Forest für Langzeit-Statistiken</li>
         </ul>
 
@@ -527,7 +527,7 @@ const PomodoroTimerOnline: React.FC = () => {
         <h2>Kostenlose Tools zum Pomodoro-Tracking</h2>
 
         <ul>
-          <li><strong>Unser Timer:</strong> <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a> – einfach, effektiv, offline</li>
+          <li><strong>Unser Timer:</strong> <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a> – einfach, effektiv, offline</li>
           <li><strong>Externe Tools:</strong> Toggl, RescueTime, Clockify (für detailliertes Tracking)</li>
           <li><strong>Low-Tech:</strong> Notizbuch & Strichliste (am einfachsten!)</li>
         </ul>
@@ -547,7 +547,7 @@ const PomodoroTimerOnline: React.FC = () => {
         <div className="blog-cta">
           <h3>Jetzt starten!</h3>
           <p>
-            <a href="/#/pomodoro" className="btn btn-primary btn-large">
+            <a href="#/pomodoro" className="btn btn-primary btn-large">
               🍅 Öffne unseren Pomodoro Timer
             </a>
           </p>
@@ -557,9 +557,9 @@ const PomodoroTimerOnline: React.FC = () => {
         <h2>Weitere Artikel die dich interessieren könnten</h2>
 
         <ul>
-          <li><a href="/#/blog/countdown-timer-guide">Countdown Timer Anleitung – So nutzt du ihn richtig</a></li>
-          <li><a href="/#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
-          <li><a href="/#/blog/pomodoro-vs-countdown">Pomodoro vs Countdown – Der Unterschied erklärt</a></li>
+          <li><a href="#/blog/countdown-timer-guide">Countdown Timer Anleitung – So nutzt du ihn richtig</a></li>
+          <li><a href="#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
+          <li><a href="#/blog/pomodoro-vs-countdown">Pomodoro vs Countdown – Der Unterschied erklärt</a></li>
         </ul>
       </div>
 

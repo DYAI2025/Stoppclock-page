@@ -46,32 +46,32 @@ export const intervaltimerHiit: BlogPostContent = {
             <tbody>
               <tr>
                 <td><strong>HIIT</strong></td>
-                <td><a href="/#/interval">Intervalltimer</a></td>
+                <td><a href="#/interval">Intervalltimer</a></td>
                 <td>30s Work / 15s Rest / 8-12 Runden</td>
               </tr>
               <tr>
                 <td><strong>Tabata</strong></td>
-                <td><a href="/#/interval">Intervalltimer</a></td>
+                <td><a href="#/interval">Intervalltimer</a></td>
                 <td>20s Work / 10s Rest / 8 Runden</td>
               </tr>
               <tr>
                 <td><strong>Krafttraining (Sätze)</strong></td>
-                <td><a href="/#/countdown">Countdown</a></td>
+                <td><a href="#/countdown">Countdown</a></td>
                 <td>60-120s pro Pause zwischen Sätzen</td>
               </tr>
               <tr>
                 <td><strong>Ausdauerläufe</strong></td>
-                <td><a href="/#/stopwatch">Stoppuhr</a></td>
+                <td><a href="#/stopwatch">Stoppuhr</a></td>
                 <td>Laps für Kilometer-Split-Zeiten</td>
               </tr>
               <tr>
                 <td><strong>Stretching</strong></td>
-                <td><a href="/#/countdown">Countdown</a></td>
+                <td><a href="#/countdown">Countdown</a></td>
                 <td>30-60s pro Dehnung</td>
               </tr>
               <tr>
                 <td><strong>Atemübungen</strong></td>
-                <td><a href="/#/breathing">Atemtimer</a></td>
+                <td><a href="#/breathing">Atemtimer</a></td>
                 <td>4-7-8 oder Box Breathing</td>
               </tr>
             </tbody>
@@ -88,7 +88,7 @@ export const intervaltimerHiit: BlogPostContent = {
 
           <h3>Tabata im Intervalltimer einrichten:</h3>
           <ol>
-            <li>Öffne <a href="/#/interval">Intervalltimer</a></li>
+            <li>Öffne <a href="#/interval">Intervalltimer</a></li>
             <li>Work: 20 Sekunden</li>
             <li>Rest: 10 Sekunden</li>
             <li>Runden: 8</li>
@@ -107,7 +107,7 @@ export const intervaltimerHiit: BlogPostContent = {
           <p>50 Sekunden Arbeit, 10 Sekunden Pause. 8-10 Runden. Für sehr Fortgeschrittene. Ähnlich wie Tabata, aber weniger intensiv pro Einheit.</p>
 
           <h3>EMOM (Every Minute On the Minute)</h3>
-          <p>Mache X Wiederholungen einer Übung, die restliche Zeit der Minute ist Pause. Benutze für EMOM einen <a href="/#/countdown">1-Minuten-Countdown</a> oder den <a href="/#/interval">Intervalltimer</a> mit 60s Work / 0s Rest (du steuerst die Pause selbst).</p>
+          <p>Mache X Wiederholungen einer Übung, die restliche Zeit der Minute ist Pause. Benutze für EMOM einen <a href="#/countdown">1-Minuten-Countdown</a> oder den <a href="#/interval">Intervalltimer</a> mit 60s Work / 0s Rest (du steuerst die Pause selbst).</p>
 
           <h2>Warum Timing im Training so wichtig ist</h2>
 

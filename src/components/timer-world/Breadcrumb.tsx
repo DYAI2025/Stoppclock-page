@@ -14,7 +14,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ timerName }) => {
         </li>
         <li className="breadcrumb-separator" aria-hidden="true">/</li>
         <li className="breadcrumb-item">
-          <a href="#/wissen" className="breadcrumb-link">Wissen</a>
+          <a href="#/timers" className="breadcrumb-link">Timer Worlds</a>
         </li>
         <li className="breadcrumb-separator" aria-hidden="true">/</li>
         <li className="breadcrumb-item breadcrumb-current" aria-current="page">

@@ -89,7 +89,7 @@ export const schachuhrRegelnOnline: BlogPostContent = {
           </ul>
 
           <h2>Unsere Online-Schachuhr nutzen</h2>
-          <p>Öffne <a href="/#/chess">stoppclock.com → Schachuhr</a>.</p>
+          <p>Öffne <a href="#/chess">stoppclock.com → Schachuhr</a>.</p>
 
           <h3>Einrichtung:</h3>
           <ol>

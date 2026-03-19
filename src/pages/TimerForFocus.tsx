@@ -55,10 +55,10 @@ const TimerForFocus: React.FC = () => {
             50-Minuten Flow-Blöcke für konzentriertes Arbeiten. Programmieren, Schreiben, kreative Projekte. Ablenkungsfrei. Kostenlos.
           </p>
           <div className="landing-cta-buttons">
-            <a href="/#/countdown" className="btn btn-primary btn-large">
+            <a href="#/countdown" className="btn btn-primary btn-large">
               🎯 50 Min Focus Block
             </a>
-            <a href="/#/countdown" className="btn btn-secondary btn-large">
+            <a href="#/countdown" className="btn btn-secondary btn-large">
               ⏱️ Custom Focus Timer
             </a>
           </div>
@@ -210,8 +210,8 @@ const TimerForFocus: React.FC = () => {
         <h2>Starte deinen Deep Work Tag</h2>
         <p>50-Minuten Fokus-Blöcke für echte Ergebnisse. Keine Ablenkungen. Nur du und deine Arbeit.</p>
         <div className="landing-cta-buttons final">
-          <a href="/#/countdown" className="btn btn-primary btn-large">🎯 50 Min Focus Block</a>
-          <a href="/#/countdown" className="btn btn-secondary btn-large">⏱️ Custom Timer</a>
+          <a href="#/countdown" className="btn btn-primary btn-large">🎯 50 Min Focus Block</a>
+          <a href="#/countdown" className="btn btn-secondary btn-large">⏱️ Custom Timer</a>
         </div>
       </section>
 

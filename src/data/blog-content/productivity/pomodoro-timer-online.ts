@@ -115,7 +115,7 @@ export const pomodoroTimerOnline: BlogPostContent = {
           <p>Definiere klar, was du in den nächsten 25 Minuten erreichen möchtest. Nicht "das ganze Projekt fertigstellen", sondern konkret: "Kapitel 3 zusammenfassen" oder "Code-Abschnitt debuggen".</p>
 
           <h3>Schritt 2: Starte den Timer</h3>
-          <p>Nutze unseren <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a>. Setz dich hin, entferne Ablenkungen (Handy, Social Media, etc.) und fokussiere dich vollständig auf die Aufgabe.</p>
+          <p>Nutze unseren <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a>. Setz dich hin, entferne Ablenkungen (Handy, Social Media, etc.) und fokussiere dich vollständig auf die Aufgabe.</p>
 
           <h3>Schritt 3: Arbeite konzentriert</h3>
           <p>Arbeite ohne Unterbrechung bis der Timer klingelt. Falls eine Idee kommt, die nicht zur Aufgabe gehört – schreib sie auf und vergiss sie für die nächsten 20 Minuten.</p>
@@ -131,9 +131,9 @@ export const pomodoroTimerOnline: BlogPostContent = {
           <h3>Pomodoro vs. Countdown Timer</h3>
           <p><strong>Pomodoro Timer:</strong> Feste 25-Minuten-Blöcke mit integrierten Pausen. Für fokussierte Arbeit optimiert. Motivation durch Struktur.</p>
           <p><strong>Countdown Timer:</strong> Flexible Dauer (1 min bis 12 Stunden). Nur zum Zeitnehmen. Für jede beliebige Aktivität.</p>
-          <p><strong>Unser Tipp:</strong> Für konzentrierte Lernphasen: <strong>Pomodoro</strong>. Für flexible Aufgaben: <a href="/#/countdown">Countdown Timer</a>.</p>
+          <p><strong>Unser Tipp:</strong> Für konzentrierte Lernphasen: <strong>Pomodoro</strong>. Für flexible Aufgaben: <a href="#/countdown">Countdown Timer</a>.</p>
 
-          <blockquote>Du kannst <a href="/#/countdown">Countdown Timer und Pomodoro Timer kombinieren</a> – Starte einen 90-Minuten Countdown und unterteile ihn selbst in 3x 25 Minuten Pomodoros!</blockquote>
+          <blockquote>Du kannst <a href="#/countdown">Countdown Timer und Pomodoro Timer kombinieren</a> – Starte einen 90-Minuten Countdown und unterteile ihn selbst in 3x 25 Minuten Pomodoros!</blockquote>
 
           <h2>Häufige Anfängerfehler bei Pomodoro</h2>
 
@@ -152,7 +152,7 @@ export const pomodoroTimerOnline: BlogPostContent = {
           <h2>Tipps für maximale Produktivität mit Pomodoro</h2>
 
           <h3>Tipp 1: Nutze die Pomodoro-App/Timer richtig</h3>
-          <p>Starte den Timer, nicht dein Smartphone. Unser <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a> lädt auch offline und hat keine Ablenkungen.</p>
+          <p>Starte den Timer, nicht dein Smartphone. Unser <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a> lädt auch offline und hat keine Ablenkungen.</p>
 
           <h3>Tipp 2: Dokumentiere deine Pomodoros</h3>
           <p>Zähle ab, wie viele Pomodoros du pro Tag brauchst:</p>
@@ -240,7 +240,7 @@ Mittwoch: 6 Pomodoros (150 min = 2h 30min) [leichter Tag]
 ...
 Klausurtag: Nur 4 Pomodoros zum "Warm-up"
           </pre>
-          <p><strong>Pro-Tipp:</strong> Nutze unseren <a href="/#/countdown">Countdown Timer für längere Lernblöcke</a>. Wenn du für eine 2-Stunden-Prüfung trainieren möchtest, starte einen 120-Minuten Countdown und unterteile ihn selbst.</p>
+          <p><strong>Pro-Tipp:</strong> Nutze unseren <a href="#/countdown">Countdown Timer für längere Lernblöcke</a>. Wenn du für eine 2-Stunden-Prüfung trainieren möchtest, starte einen 120-Minuten Countdown und unterteile ihn selbst.</p>
         `,
       },
     },
@@ -255,7 +255,7 @@ Klausurtag: Nur 4 Pomodoros zum "Warm-up"
           },
           {
             question: 'Wer sollte NICHT Pomodoro benutzen?',
-            answer: 'Pomodoro ist nicht ideal für: <strong>Kreative Flow-Arbeit</strong> (manchmal braucht man 60+ Minuten für echten Flow), <strong>Tiefe Problem-Lösung</strong> (Mathematik, komplexe Coding-Algorithmen brauchen oft 90+ Minuten), <strong>Sitzungsbasierte Therapie</strong>. Lösung: Kombiniere! Nutze einen <a href="/#/countdown">flexiblen Countdown Timer</a> und stelle die Dauer selbst ein.',
+            answer: 'Pomodoro ist nicht ideal für: <strong>Kreative Flow-Arbeit</strong> (manchmal braucht man 60+ Minuten für echten Flow), <strong>Tiefe Problem-Lösung</strong> (Mathematik, komplexe Coding-Algorithmen brauchen oft 90+ Minuten), <strong>Sitzungsbasierte Therapie</strong>. Lösung: Kombiniere! Nutze einen <a href="#/countdown">flexiblen Countdown Timer</a> und stelle die Dauer selbst ein.',
           },
           {
             question: 'Was sollte ich während der Pausen machen?',
@@ -290,7 +290,7 @@ Klausurtag: Nur 4 Pomodoros zum "Warm-up"
         html: `
           <h2>Kostenlose Tools zum Pomodoro-Tracking</h2>
           <ul>
-            <li><strong>Unser Timer:</strong> <a href="/#/pomodoro">Pomodoro Timer auf Stoppclock</a> – einfach, effektiv, offline</li>
+            <li><strong>Unser Timer:</strong> <a href="#/pomodoro">Pomodoro Timer auf Stoppclock</a> – einfach, effektiv, offline</li>
             <li><strong>Externe Tools:</strong> Toggl, RescueTime, Clockify (für detailliertes Tracking)</li>
             <li><strong>Low-Tech:</strong> Notizbuch & Strichliste (am einfachsten!)</li>
           </ul>
@@ -323,9 +323,9 @@ Klausurtag: Nur 4 Pomodoros zum "Warm-up"
         html: `
           <h2>Weitere Artikel die dich interessieren könnten</h2>
           <ul>
-            <li><a href="/#/blog/countdown-timer-guide">Countdown Timer Anleitung – So nutzt du ihn richtig</a></li>
-            <li><a href="/#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
-            <li><a href="/#/blog/pomodoro-vs-countdown">Pomodoro vs Countdown – Der Unterschied erklärt</a></li>
+            <li><a href="#/blog/countdown-timer-guide">Countdown Timer Anleitung – So nutzt du ihn richtig</a></li>
+            <li><a href="#/timer-for-students">Timer für Studenten – Effizient lernen</a></li>
+            <li><a href="#/blog/pomodoro-vs-countdown">Pomodoro vs Countdown – Der Unterschied erklärt</a></li>
           </ul>
         `,
       },

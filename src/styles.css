@@ -290,6 +290,41 @@ textarea:focus-visible {
   min-height: 100vh;
 }
 
+.global-footer {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  font-size: 0.8rem;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.global-footer:hover {
+  opacity: 0.8;
+}
+
+.global-footer-nav,
+.global-footer-legal {
+  display: inline;
+}
+
+.global-footer-legal {
+  display: block;
+  margin-top: 0.3rem;
+}
+
+.global-footer a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.global-footer a:hover {
+  text-decoration: underline;
+}
+
+.global-footer-sep {
+  margin: 0 0.4rem;
+}
+
 /* Mobile performance optimizations */
 @media (max-width: 768px) {
   * {

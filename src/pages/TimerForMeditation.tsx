@@ -55,10 +55,10 @@ const TimerForMeditation: React.FC = () => {
             5-30 Minuten tägliche Meditation für mehr Ruhe, Fokus und Wohlbefinden. Mit Gong-Sound und可视化进度. Kostenlos.
           </p>
           <div className="landing-cta-buttons">
-            <a href="/#/countdown" className="btn btn-primary btn-large">
+            <a href="#/countdown" className="btn btn-primary btn-large">
               🧘 5 Min Timer
             </a>
-            <a href="/#/countdown" className="btn btn-secondary btn-large">
+            <a href="#/countdown" className="btn btn-secondary btn-large">
               🔔 10 Min Timer
             </a>
           </div>
@@ -176,8 +176,8 @@ const TimerForMeditation: React.FC = () => {
         <h2>Starte deine tägliche Meditation</h2>
         <p>5 Minuten am Tag für mehr Ruhe und Fokus. Kostenlos. Jetzt.</p>
         <div className="landing-cta-buttons final">
-          <a href="/#/countdown" className="btn btn-primary btn-large">🧘 5 Min Timer</a>
-          <a href="/#/countdown" className="btn btn-secondary btn-large">🔔 10 Min Timer</a>
+          <a href="#/countdown" className="btn btn-primary btn-large">🧘 5 Min Timer</a>
+          <a href="#/countdown" className="btn btn-secondary btn-large">🔔 10 Min Timer</a>
         </div>
       </section>
 

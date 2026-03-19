@@ -149,14 +149,16 @@ body:has(.home-page)::after {
     right: 12px;
     padding: 6px 10px;
     font-size: 0.8rem;
+    min-height: 44px;
+    min-width: 44px;
   }
 
   .dark-mode-toggle {
     top: 12px;
     right: 60px;
     padding: 6px 8px;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
 
   .dark-mode-toggle svg {

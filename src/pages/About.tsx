@@ -83,6 +83,21 @@ export default function About() {
         </p>
       </section>
 
+      <section style={{ marginTop: '48px', borderTop: '1px solid var(--subtle-border)', paddingTop: '32px' }}>
+        <h2>Mehr entdecken</h2>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <li style={{ marginBottom: '12px' }}>
+            <a href="#/time-philosophy" style={{ color: 'var(--accent-primary)' }}>Raum für Zeit</a> — Philosophische Gedanken über Zeit
+          </li>
+          <li style={{ marginBottom: '12px' }}>
+            <a href="#/pillar" style={{ color: 'var(--accent-primary)' }}>Stoppclock Pillar</a> — Technische Übersicht und Features
+          </li>
+          <li style={{ marginBottom: '12px' }}>
+            <a href="#/timelab" style={{ color: 'var(--accent-primary)' }}>Time Lab</a> — Historische Zeitmarker und Countdowns
+          </li>
+        </ul>
+      </section>
+
       <p className="legal-lang-switch">
         <a href="#/impressum">German Imprint (Impressum)</a>
       </p>
