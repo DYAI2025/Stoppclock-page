@@ -29,7 +29,9 @@ interface AdUnitProps {
  */
 export function AdUnit({ adUnit, className = '', showLabel = true }: AdUnitProps) {
   const [hasConsent, setHasConsent] = useState(false);
+  const [adFilled, setAdFilled] = useState(false);
   const adRef = useRef<HTMLModElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const initializedRef = useRef(false);
 
   // Consent beim Mount prüfen
@@ -60,6 +62,32 @@ export function AdUnit({ adUnit, className = '', showLabel = true }: AdUnitProps
     }
   }, [hasConsent, adUnit.adSlotId, adUnit.unitId]);
 
+  // Detect if Google actually filled the ad with visible content
+  useEffect(() => {
+    if (!hasConsent || !adRef.current) return;
+
+    const checkFill = () => {
+      const ins = adRef.current;
+      if (!ins) return;
+      // Google injects an iframe when an ad fills successfully
+      const iframe = ins.querySelector('iframe');
+      const filled = iframe !== null && iframe.getBoundingClientRect().height > 0;
+      setAdFilled(filled);
+    };
+
+    // Check after AdSense has time to process (typically 1-3 seconds)
+    const timer = setTimeout(checkFill, 2000);
+
+    // Also observe DOM changes in case ad loads later
+    const observer = new MutationObserver(checkFill);
+    observer.observe(adRef.current, { childList: true, subtree: true });
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [hasConsent]);
+
   // Kein Consent → nichts rendern
   if (!hasConsent) return null;
 
@@ -68,12 +96,14 @@ export function AdUnit({ adUnit, className = '', showLabel = true }: AdUnitProps
 
   return (
     <div
+      ref={wrapperRef}
       className={`ad-unit-wrapper ${className}`}
       data-unit-id={adUnit.unitId}
       role="complementary"
       aria-label="Werbung"
+      style={adFilled ? undefined : { overflow: 'hidden', height: 0, margin: 0 }}
     >
-      {showLabel && (
+      {showLabel && adFilled && (
         <span className="ad-unit-label" aria-hidden="true">Anzeige</span>
       )}
       <ins
