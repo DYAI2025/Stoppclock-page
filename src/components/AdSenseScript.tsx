@@ -1,6 +1,4 @@
 import { useEffect } from 'react';
-import { loadConsent } from '../utils/consent';
-import { ADSENSE_PUBLISHER_ID } from '../config/ad-units';
 
 /**
  * AdSenseScript — Consent-Bridge für Google AdSense
@@ -13,31 +11,10 @@ import { ADSENSE_PUBLISHER_ID } from '../config/ad-units';
  */
 export function AdSenseScript() {
   useEffect(() => {
-    const consent = loadConsent();
-    if (!consent.adsEnabled) return;
-
-    // 1. Prüfen ob Script bereits geladen wurde
-    const existingScript = document.querySelector(
-      `script[src*="pagead2.googlesyndication.com"]`
-    );
-    if (existingScript) {
-      (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-      return;
-    }
-
-    // 2. Script dynamisch injizieren
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`;
-    script.crossOrigin = 'anonymous';
-    
-    script.onerror = () => {
-      console.error('[AdSense] Failed to load AdSense script');
-    };
-
-    document.head.appendChild(script);
-
-    // 3. Initialisiere adsbygoogle Array
+    // AdSense script is loaded in index.html <head> for crawler visibility.
+    // Consent Mode v2 (also in index.html) defaults to 'denied',
+    // so no personalized ads until user grants consent.
+    // We only need to initialize the adsbygoogle array here.
     (window as any).adsbygoogle = (window as any).adsbygoogle || [];
   }, []);
 
