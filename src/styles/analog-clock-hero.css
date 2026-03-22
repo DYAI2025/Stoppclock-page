@@ -33,21 +33,11 @@
   z-index: 1;
 }
 
-/* Hands — rotate around exact center via transform-origin */
-.clock-hand-hour,
-.clock-hand-minute {
+/* Hands — transform-origin set per-hand via inline style */
+.clock-hand {
   z-index: 2;
-  transform-origin: center center;
   will-change: transform;
-}
-
-.clock-hand-hour {
   transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44);
-}
-
-.clock-hand-minute {
-  transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44);
-  z-index: 3;
 }
 
 /* Reduced motion: no smooth transitions */
