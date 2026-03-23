@@ -2,13 +2,8 @@
  * Analog Clock Hero Styles
  *
  * Clock face: square SVG (1500x1500).
- * Hands: landscape PNGs (1366x768) with the "nail" at 50% x, 93% y.
- *
- * Positioning: The hand image fills the container width.
- * Its natural height = width × (768/1366) ≈ 56.2% of container.
- * The nail is at 93% of that height = 52.3% of container width.
- * We place top: 50% then pull up by the nail distance so the
- * nail sits exactly at the clock center.
+ * Hands: square PNGs (800x800), centered, base at 93% Y.
+ * Both hands share the same transform-origin (50% 93%) = the "nail".
  */
 
 .analog-clock-hero-container {
@@ -22,41 +17,24 @@
   position: relative;
   width: clamp(220px, 40vw, 360px);
   aspect-ratio: 1;
-  /* Clip hands that extend beyond the clock face */
-  overflow: hidden;
-  border-radius: 50%;
 }
 
-/* Shared layer positioning */
 .clock-layer {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   user-select: none;
 }
 
-/* Clock face — fills the container */
 .clock-face-img {
-  inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: 1;
 }
 
-/* Hands positioning:
- * - width: 100% makes hand image = container width
- * - height: auto preserves aspect ratio (768/1366 = 56.2%)
- * - top: 50% puts top edge at clock center
- * - margin-top pulls up so the nail (93% down the hand) aligns with center
- *   nail_y = 93% × 56.2% = 52.3% → margin-top: -52.3%
- * - left: 0, width: 100% keeps hand centered horizontally
- * - transform-origin at the nail point for correct rotation
- */
+/* Both hands: same size, same pivot, same position.
+ * Like two hands pinned through one nail at the clock center. */
 .clock-hand {
-  width: 100%;
-  height: auto;
-  left: 0;
-  top: 50%;
-  margin-top: -52.3%;
   z-index: 2;
   transform-origin: 50% 93%;
   will-change: transform;
