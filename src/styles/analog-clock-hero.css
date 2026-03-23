@@ -36,7 +36,7 @@
  * Like two hands pinned through one nail at the clock center. */
 .clock-hand {
   z-index: 2;
-  transform-origin: 50% 93%;
+  transform-origin: 50% 50%;
   will-change: transform;
   transition: transform 0.3s cubic-bezier(0.4, 2.08, 0.55, 0.44);
 }
